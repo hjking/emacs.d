@@ -1,0 +1,37 @@
+* Special Dates
+** Birthdays
+** Anniversaries
+** Holidays
+
+* Finances
+
+* Health and Recreation
+  :PROPERTIES:
+  :CATEGORY: Health
+  :END:
+  ...
+
+* House Maintenance
+  :PROPERTIES:
+  :CATEGORY: House
+  :END:
+
+* Lawn and Garden Maintenance
+
+* Notes
+
+* Tasks
+
+* Vehicle Maintenance
+
+* Passwords
+
+* Org Mode
+** Personal Links
+	- Linking
+	  - http://orgmode.org
+	  - http://google.com
+	- Markup
+	  - /italic/
+	  - *bold*
+	  - _underline_
