@@ -95,3 +95,41 @@ drwxr-xr-x    4 Administ Administ        0 Nov  8 13:24 vm
 drwxr-xr-x   15 Administ Administ        0 Nov  8 13:24 wl
 -rw-r--r--    1 Administ Administ    16268 Nov  8 13:24 word-count.el
 drwxr-xr-x    4 Administ Administ        0 Nov  8 13:24 xcscope
+
+
+submodule:
+git submodule add https://github.com/bbatsov/zenburn-emacs.git plugin/color-theme-zenburn
+git submodule add https://github.com/crafterm/twilight-emacs.git plugin/color-theme-twilight
+git submodule add https://github.com/lvillani/el-monokai-theme.git plugin/color-theme-monokai
+git submodule add https://github.com/sellout/emacs-color-theme-solarized.git plugin/color-theme-solarized
+git submodule add https://github.com/magit/magit.git plugin/magit
+git submodule add https://github.com/tsgates/git-emacs.git plugin/git-emacs
+git submodule add https://github.com/capitaomorte/yasnippet.git plugin/yasnippet
+git submodule add https://github.com/nonsequitur/smex.git plugin/smex
+git submodule add https://github.com/jlr/rainbow-delimiters.git plugin/rainbow-delimiters
+git submodule add https://github.com/vapniks/one-key.git plugin/one-key
+git submodule add https://github.com/austin-----/weibo.emacs.git plugin/weibo
+git submodule add https://github.com/tlh/workgroups.el.git plugin/workgroup
+git submodule add https://github.com/jonathanchu/emacs-powerline.git plugin/powerline
+git submodule add https://github.com/jwiegley/use-package.git plugin/use-package
+git submodule add https://github.com/Idorobots/mode-line-stats.git plugin/mode-line-stats
+git submodule add https://github.com/tsdh/iedit.git plugin/iedit
+git submodule add https://github.com/rejeep/drag-stuff.git plugin/drag-stuff
+git submodule add https://github.com/dimitri/switch-window.git plugin/switch-window
+git submodule add https://github.com/aspiers/smooth-scrolling.git plugin/smooth-scrolling
+git submodule add https://github.com/browse-kill-ring/browse-kill-ring.git plugin/browse-kill-ring
+git submodule add https://github.com/winterTTr/ace-jump-mode.git plugin/ace-jump-mode
+git submodule add https://github.com/ergoemacs/ergoemacs-mode plugin/ergoemacs-mode
+git submodule add https://github.com/magit/git-modes.git plugin/git-modes
+git submodule add https://github.com/jordonbiondo/ample-theme.git plugin/color-theme-ample
+git submodule add https://github.com/scottjad/ido-hacks.git plugin/ido-hacks
+git submodule add https://github.com/magnars/multiple-cursors.el plugin/multiple-cursors
+git submodule add http://www.dr-qubit.org/git/undo-tree.git plugin/undo-tree
+git submodule add https://github.com/technomancy/find-file-in-project.git plugin/find-file-in-project
+git submodule add https://github.com/Fuco1/smartparens.git plugin/smartparens
+git submodule add https://github.com/magnars/dash.el.git plugin/dash
+git submodule add https://github.com/DarwinAwardWinner/ido-ubiquitous.git plugin/ido-ubiquitous
+git submodule add https://github.com/vic/ido-better-flex.git plugin/ido-better-flex
+git submodule add https://github.com/jrockway/ibuffer-git.git plugin/ibuffer-git
+git submodule add https://github.com/auto-complete/auto-complete.git plugin/auto-complete
+
