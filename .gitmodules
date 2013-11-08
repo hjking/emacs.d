@@ -1,0 +1,4 @@
+[submodule "plugin/color-theme-zenburn"]
+	path = plugin/color-theme-zenburn
+	url = https://github.com/bbatsov/zenburn-emacs.git
+	ignore = dirty
