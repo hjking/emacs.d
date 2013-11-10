@@ -2,3 +2,131 @@
 	path = plugin/color-theme-zenburn
 	url = https://github.com/bbatsov/zenburn-emacs.git
 	ignore = dirty
+[submodule "plugin/color-theme-twilight"]
+	path = plugin/color-theme-twilight
+	url = https://github.com/crafterm/twilight-emacs.git
+	ignore = dirty
+[submodule "plugin/color-theme-monokai"]
+	path = plugin/color-theme-monokai
+	url = https://github.com/lvillani/el-monokai-theme.git
+	ignore = dirty
+[submodule "plugin/color-theme-solarized"]
+	path = plugin/color-theme-solarized
+	url = https://github.com/sellout/emacs-color-theme-solarized.git
+	ignore = dirty
+[submodule "plugin/magit"]
+	path = plugin/magit
+	url = https://github.com/magit/magit.git
+	ignore = dirty
+[submodule "plugin/git-emacs"]
+	path = plugin/git-emacs
+	url = https://github.com/tsgates/git-emacs.git
+	ignore = dirty
+[submodule "plugin/yasnippet"]
+	path = plugin/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
+	ignore = dirty
+[submodule "plugin/smex"]
+	path = plugin/smex
+	url = https://github.com/nonsequitur/smex.git
+	ignore = dirty
+[submodule "plugin/rainbow-delimiters"]
+	path = plugin/rainbow-delimiters
+	url = https://github.com/jlr/rainbow-delimiters.git
+	ignore = dirty
+[submodule "plugin/one-key"]
+	path = plugin/one-key
+	url = https://github.com/vapniks/one-key.git
+	ignore = dirty
+[submodule "plugin/weibo"]
+	path = plugin/weibo
+	url = https://github.com/austin-----/weibo.emacs.git
+	ignore = dirty
+[submodule "plugin/workgroup"]
+	path = plugin/workgroup
+	url = https://github.com/tlh/workgroups.el.git
+	ignore = dirty
+[submodule "plugin/powerline"]
+	path = plugin/powerline
+	url = https://github.com/jonathanchu/emacs-powerline.git
+	ignore = dirty
+[submodule "plugin/use-package"]
+	path = plugin/use-package
+	url = https://github.com/jwiegley/use-package.git
+	ignore = dirty
+[submodule "plugin/mode-line-stats"]
+	path = plugin/mode-line-stats
+	url = https://github.com/Idorobots/mode-line-stats.git
+	ignore = dirty
+[submodule "plugin/iedit"]
+	path = plugin/iedit
+	url = https://github.com/tsdh/iedit.git
+	ignore = dirty
+[submodule "plugin/drag-stuff"]
+	path = plugin/drag-stuff
+	url = https://github.com/rejeep/drag-stuff.git
+	ignore = dirty
+[submodule "plugin/switch-window"]
+	path = plugin/switch-window
+	url = https://github.com/dimitri/switch-window.git
+	ignore = dirty
+[submodule "plugin/smooth-scrolling"]
+	path = plugin/smooth-scrolling
+	url = https://github.com/aspiers/smooth-scrolling.git
+	ignore = dirty
+[submodule "plugin/browse-kill-ring"]
+	path = plugin/browse-kill-ring
+	url = https://github.com/browse-kill-ring/browse-kill-ring.git
+	ignore = dirty
+[submodule "plugin/ace-jump-mode"]
+	path = plugin/ace-jump-mode
+	url = https://github.com/winterTTr/ace-jump-mode.git
+	ignore = dirty
+[submodule "plugin/ergoemacs-mode"]
+	path = plugin/ergoemacs-mode
+	url = https://github.com/ergoemacs/ergoemacs-mode
+	ignore = dirty
+[submodule "plugin/git-modes"]
+	path = plugin/git-modes
+	url = https://github.com/magit/git-modes.git
+	ignore = dirty
+[submodule "plugin/color-theme-ample"]
+	path = plugin/color-theme-ample
+	url = https://github.com/jordonbiondo/ample-theme.git
+	ignore = dirty
+[submodule "plugin/ido-hacks"]
+	path = plugin/ido-hacks
+	url = https://github.com/scottjad/ido-hacks.git
+	ignore = dirty
+[submodule "plugin/multiple-cursors"]
+	path = plugin/multiple-cursors
+	url = https://github.com/magnars/multiple-cursors.el
+	ignore = dirty
+[submodule "plugin/find-file-in-project"]
+	path = plugin/find-file-in-project
+	url = https://github.com/technomancy/find-file-in-project.git
+	ignore = dirty
+[submodule "plugin/smartparens"]
+	path = plugin/smartparens
+	url = https://github.com/Fuco1/smartparens.git
+	ignore = dirty
+[submodule "plugin/dash"]
+	path = plugin/dash
+	url = https://github.com/magnars/dash.el.git
+	ignore = dirty
+[submodule "plugin/ido-ubiquitous"]
+	path = plugin/ido-ubiquitous
+	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
+	ignore = dirty
+[submodule "plugin/ido-better-flex"]
+	path = plugin/ido-better-flex
+	url = https://github.com/vic/ido-better-flex.git
+	ignore = dirty
+[submodule "plugin/ibuffer-git"]
+	path = plugin/ibuffer-git
+	url = https://github.com/jrockway/ibuffer-git.git
+	ignore = dirty
+[submodule "plugin/auto-complete"]
+	path = plugin/auto-complete
+	url = https://github.com/auto-complete/auto-complete.git
+	ignore = dirty
