@@ -130,3 +130,6 @@
 	path = plugin/auto-complete
 	url = https://github.com/auto-complete/auto-complete.git
 	ignore = dirty
+[submodule "plugin/undo-tree"]
+	path = plugin/undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git

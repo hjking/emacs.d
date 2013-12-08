@@ -190,7 +190,7 @@
     (setq step_no (1+ step_no))
     (when win32p
         (message "We are in Windows Platform")
-        (setq my-home "F:/Kuaipan/Workspace/src/mydotfiles")
+        (setq my-home "F:/Kuaipan/Workspace/src")
         (setenv "HOME" my-home)
         (setenv "PATH" (concat my-home ";" (getenv "PATH")))
     )
