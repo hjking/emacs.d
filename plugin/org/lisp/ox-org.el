@@ -1,9 +1,11 @@
 ;;; ox-org.el --- Org Back-End for Org Export Engine
 
-;; Copyright (C) 2013  Free Software Foundation, Inc.
+;; Copyright (C) 2013 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou@gmail.com>
 ;; Keywords: org, wp
+
+;; This file is part of GNU Emacs.
 
 ;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -130,6 +132,8 @@ CONTENTS is its contents, as a string or nil.  INFO is ignored."
     (org-element-put-property headline :tags nil))
   (unless (plist-get info :with-priority)
     (org-element-put-property headline :priority nil))
+  (org-element-put-property headline :level
+			    (org-export-get-relative-level headline info))
   (org-element-headline-interpreter headline contents))
 
 (defun org-org-keyword (keyword contents info)
@@ -226,6 +230,8 @@ Return output file name."
 	   (work-buffer (or visitingp (find-file filename)))
 	   newbuf)
       (font-lock-fontify-buffer)
+      (show-all)
+      (org-show-block-all)
       (setq newbuf (htmlize-buffer))
       (with-current-buffer newbuf
 	(when org-org-htmlized-css-url

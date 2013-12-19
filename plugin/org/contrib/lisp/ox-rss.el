@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2013  Bastien Guerry
 
-;; Author: Bastien Guerry <bzg at gnu dot org>
+;; Author: Bastien Guerry <bzg@gnu.org>
 ;; Keywords: org, wp, blog, feed, rss
 
 ;; This file is not yet part of GNU Emacs.
@@ -236,7 +236,7 @@ communication channel."
 	   (pubdate
 	    (let ((system-time-locale "C"))
 	      (format-time-string
-	       "%a, %d %h %Y %H:%M:%S %z"
+	       "%a, %d %b %Y %H:%M:%S %z"
 	       (org-time-string-to-time
 		(or (org-element-property :PUBDATE headline)
 		    (error "Missing PUBDATE property"))))))
@@ -308,7 +308,7 @@ as a communication channel."
 	 (author (and (plist-get info :with-author)
 		      (let ((auth (plist-get info :author)))
 			(and auth (org-export-data auth info)))))
-	 (date (format-time-string "%a, %d %h %Y %H:%M:%S %z")) ;; RFC 882
+	 (date (format-time-string "%a, %d %b %Y %H:%M:%S %z")) ;; RFC 882
 	 (description (org-export-data (plist-get info :description) info))
 	 (lang (plist-get info :language))
 	 (keywords (plist-get info :keywords))

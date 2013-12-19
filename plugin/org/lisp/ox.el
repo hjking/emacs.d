@@ -1,9 +1,11 @@
 ;;; ox.el --- Generic Export Engine for Org Mode
 
-;; Copyright (C) 2012, 2013  Free Software Foundation, Inc.
+;; Copyright (C) 2012-2013 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou at gmail dot com>
 ;; Keywords: outlines, hypermedia, calendar, wp
+
+;; This file is part of GNU Emacs.
 
 ;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -624,11 +626,20 @@ e.g. \"stat:nil\""
 (defcustom org-export-with-sub-superscripts t
   "Non-nil means interpret \"_\" and \"^\" for export.
 
+If you want to control how Org displays those characters, see
+`org-use-sub-superscripts'.  `org-export-with-sub-superscripts'
+used to be an alias for `org-use-sub-superscripts' in Org <8.0,
+it is not anymore.
+
 When this option is turned on, you can use TeX-like syntax for
-sub- and superscripts.  Several characters after \"_\" or \"^\"
-will be considered as a single item - so grouping with {} is
-normally not needed.  For example, the following things will be
-parsed as single sub- or superscripts.
+sub- and superscripts and see them exported correctly.
+
+You can also set the option with #+OPTIONS: ^:t
+
+Several characters after \"_\" or \"^\" will be considered as a
+single item - so grouping with {} is normally not needed.  For
+example, the following things will be parsed as single sub- or
+superscripts:
 
  10^24   or   10^tau     several digits will be considered 1 item.
  10^-12  or   10^-tau    a leading sign with digits or a word
@@ -636,15 +647,14 @@ parsed as single sub- or superscripts.
 			 terminated by almost any nonword/nondigit char.
  x_{i^2} or   x^(2-i)    braces or parenthesis do grouping.
 
-Still, ambiguity is possible - so when in doubt use {} to enclose
-the sub/superscript.  If you set this variable to the symbol
-`{}', the braces are *required* in order to trigger
-interpretations as sub/superscript.  This can be helpful in
-documents that need \"_\" frequently in plain text.
-
-This option can also be set with the OPTIONS keyword,
-e.g. \"^:nil\"."
+Still, ambiguity is possible.  So when in doubt, use {} to enclose
+the sub/superscript.  If you set this variable to the symbol `{}',
+the braces are *required* in order to trigger interpretations as
+sub/superscript.  This can be helpful in documents that need \"_\"
+frequently in plain text."
   :group 'org-export-general
+  :version "24.4"
+  :package-version '(Org . "8.0")
   :type '(choice
 	  (const :tag "Interpret them" t)
 	  (const :tag "Curly brackets only" {})
@@ -2860,7 +2870,7 @@ The copy will preserve local variables, visibility, contents and
 narrowing of the original buffer.  If a region was active in
 BUFFER, contents will be narrowed to that region instead.
 
-The resulting function can be evaled at a later time, from
+The resulting function can be evaluated at a later time, from
 another buffer, effectively cloning the original buffer there.
 
 The function assumes BUFFER's major mode is `org-mode'."
@@ -3163,8 +3173,7 @@ locally for the subtree through node properties."
     (when options
       (let ((items
 	     (mapcar
-	      (lambda (opt)
-		(format "%s:%s" (car opt) (format "%s" (cdr opt))))
+	      #'(lambda (opt) (format "%s:%S" (car opt) (cdr opt)))
 	      (sort options (lambda (k1 k2) (string< (car k1) (car k2)))))))
 	(if subtreep
 	    (org-entry-put
@@ -3450,10 +3459,16 @@ the communication channel used for export, as a plist."
   (org-export-barf-if-invalid-backend backend)
   (let ((type (org-element-type data)))
     (if (memq type '(nil org-data)) (error "No foreign transcoder available")
-      (let ((transcoder
-	     (cdr (assq type (org-export-get-all-transcoders backend)))))
-	(if (functionp transcoder) (funcall transcoder data contents info)
-	  (error "No foreign transcoder available"))))))
+      (let* ((all-transcoders (org-export-get-all-transcoders backend))
+	     (transcoder (cdr (assq type all-transcoders))))
+	(if (not (functionp transcoder))
+	    (error "No foreign transcoder available")
+	  (funcall
+	   transcoder data contents
+	   (org-combine-plists
+	    info (list :back-end backend
+		       :translate-alist all-transcoders
+		       :exported-data (make-hash-table :test 'eq :size 401)))))))))
 
 
 ;;;; For Export Snippets
@@ -4667,7 +4682,7 @@ INFO is a plist used as a communication channel."
   "Return TABLE-ROW number.
 INFO is a plist used as a communication channel.  Return value is
 zero-based and ignores separators.  The function returns nil for
-special colums and separators."
+special columns and separators."
   (when (and (eq (org-element-property :type table-row) 'standard)
 	     (not (org-export-table-row-is-special-p table-row info)))
     (let ((number 0))
@@ -5146,14 +5161,11 @@ all of them."
 	 ;; to a secondary string.  We check the latter option
 	 ;; first.
 	 (let ((parent (org-export-get-parent blob)))
-	   (or (and (not (memq (org-element-type blob)
-			       org-element-all-elements))
-		    (let ((sec-value
-			   (org-element-property
-			    (cdr (assq (org-element-type parent)
-				       org-element-secondary-value-alist))
-			    parent)))
-		      (and (memq blob sec-value) sec-value)))
+	   (or (let ((sec-value (org-element-property
+				 (cdr (assq (org-element-type parent)
+					    org-element-secondary-value-alist))
+				 parent)))
+		 (and (memq blob sec-value) sec-value))
 	       (org-element-contents parent))))
 	prev)
     (catch 'exit
@@ -5181,14 +5193,11 @@ them."
 	 ;; An object can belong to the contents of its parent or to
 	 ;; a secondary string.  We check the latter option first.
 	 (let ((parent (org-export-get-parent blob)))
-	   (or (and (not (memq (org-element-type blob)
-			       org-element-all-objects))
-		    (let ((sec-value
-			   (org-element-property
-			    (cdr (assq (org-element-type parent)
-				       org-element-secondary-value-alist))
-			    parent)))
-		      (cdr (memq blob sec-value))))
+	   (or (let ((sec-value (org-element-property
+				 (cdr (assq (org-element-type parent)
+					    org-element-secondary-value-alist))
+				 parent)))
+		 (cdr (memq blob sec-value)))
 	       (cdr (memq blob (org-element-contents parent))))))
 	next)
     (catch 'exit
@@ -5865,7 +5874,7 @@ files or buffers, only the display.
   "Export dispatcher for Org mode.
 
 It provides an access to common export related tasks in a buffer.
-Its interface comes in two flavours: standard and expert.
+Its interface comes in two flavors: standard and expert.
 
 While both share the same set of bindings, only the former
 displays the valid keys associations in a dedicated buffer.
@@ -5873,7 +5882,7 @@ Scrolling (resp. line-wise motion) in this buffer is done with
 SPC and DEL (resp. C-n and C-p) keys.
 
 Set variable `org-export-dispatch-use-expert-ui' to switch to one
-flavour or the other.
+flavor or the other.
 
 When ARG is \\[universal-argument], repeat the last export action, with the same set
 of options used back then, on the current buffer.

@@ -892,10 +892,11 @@ in another process."
   (interactive "P")
   (if async
       (org-export-async-start 'ignore
-	`(when ',force (org-publish-remove-all-timestamps))
-	`(let ((org-publish-use-timestamps-flag
-		(if ',force nil ,org-publish-use-timestamps-flag)))
-	   (org-publish-projects ',org-publish-project-alist)))
+	`(progn
+	   (when ',force (org-publish-remove-all-timestamps))
+	   (let ((org-publish-use-timestamps-flag
+		  (if ',force nil ,org-publish-use-timestamps-flag)))
+	     (org-publish-projects ',org-publish-project-alist))))
     (when force (org-publish-remove-all-timestamps))
     (save-window-excursion
       (let ((org-publish-use-timestamps-flag
@@ -1224,8 +1225,9 @@ Returns value on success, else nil."
   (let ((attr (file-attributes
 	       (expand-file-name (or (file-symlink-p file) file)
 				 (file-name-directory file)))))
-    (+ (lsh (car (nth 5 attr)) 16)
-       (cadr (nth 5 attr)))))
+    (if (not attr) (error "No such file: \"%s\"" file)
+      (+ (lsh (car (nth 5 attr)) 16)
+	 (cadr (nth 5 attr))))))
 
 
 (provide 'ox-publish)
