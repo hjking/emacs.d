@@ -1,7 +1,9 @@
+#+TAGS: URGENT(u) @PHONE(p) @ERRANDS(e)
+
 * Special Dates
 ** Birthdays
 ** Anniversaries
-** Holidays
+** Holidays							   :@ERRANDS:
 
 * Finances
 
@@ -35,3 +37,13 @@
 	  - /italic/
 	  - *bold*
 	  - _underline_
+
+
+* Personal 							   :PERSONAL:
+** TODO Buy milk                               :@ERRANDS:
+** TODO Call Mom 						     :@PHONE:
+** TODO Send letters :@ERRANDS:
+* Work								:URGENT:WORK:
+** TODO Call John about report                 :@PHONE:JOHN:
+** TODO Prepare for presentation on Monday
+** TODO Call Mary about the presentation       :@PHONE:URGENT:MARY:

@@ -1,7 +1,7 @@
-#+STARTUP: overview 
-#+TAGS:  { 工作(x)  娱乐(y)  }  
-#+SEQ_TODO: TODO(T) WAIT(W) | DONE(D!) CANCELED(C@) 
-#+COLUMNS: %10ITEM  %10PRIORITY %15TODO %65TAGS    
+#+STARTUP: overview
+#+TAGS:  { 工作(x)  娱乐(y)  }
+#+SEQ_TODO: TODO(T) WAIT(W) | DONE(D!) CANCELED(C@)
+#+COLUMNS: %10ITEM  %10PRIORITY %15TODO %65TAGS
 
 * <2008-10-21 二>
 ** DONE <2008-10-21 二 11:38>						    :工作:
@@ -22,9 +22,11 @@
 ** DONE <2008-10-22 三 11:38>						    :工作:
    CLOSED: [2008-10-21 二 11:44]
    do …………
-** WAIT <2008-10-22 三 12:30>						    :工作:
+** DONE <2008-10-22 三 12:30>						 :工作:
+   - State "DONE"       from "WAIT"       [2013-12-20 周五 14:25]
    do …………
-** TODO <2008-10-22 三 13:50>						    :工作:
+** DONE <2008-10-22 三 13:50>						 :工作:
+   - State "DONE"       from "TODO"       [2013-12-20 周五 14:25]
    do …………
 ** TODO <2008-10-22 三 20:43>						    :娱乐:
-   do …………    
+   do …………

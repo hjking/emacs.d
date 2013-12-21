@@ -1,0 +1,16 @@
+
+* Introduction
+** one
+** two
+** three
+* Review of related literature
+** 2.1
+** 2.2 <<TODO>>
+* Description of study
+** [] checklist1
+** [X] checklist
+* Methodology
+* Results and analysis
+* Conclusions
+** [[TODO]]
+* Recommandations

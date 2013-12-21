@@ -1,0 +1,72 @@
+#TITLE: Schedule for 2013–14 UEFA Champions League
+#TAGS: champions2013
+
+* 2013-2014赛季欧洲冠军杯赛程
+
+** 16强
+*** 曼城 VS 巴萨
+    SCHEDULED: <2014-2-19 03:45>
+
+*** 勒沃库森 VS 巴黎圣日耳曼
+    SCHEDULED: <2014-2-19 03:45>
+
+*** AC米兰 VS 马竞
+    SCHEDULED: <2014-2-20 03:45>
+
+*** 阿森纳 VS 拜仁
+    SCHEDULED: <2014-2-20 03:45>
+
+*** 泽尼特 VS 多特蒙德
+    SCHEDULED: 2014-2-26 01:00
+
+*** 奥林匹亚 VS 曼联
+    SCHEDULED: 2014-2-26 03:45
+
+*** 加拉塔萨雷 VS 切尔西
+    SCHEDULED: 2014-2-27 03:45
+
+*** 沙尔克04 VS 皇马
+    SCHEDULED: 2014-2-27 03:45
+
+*** 马竞 VS AC米兰
+    SCHEDULED: 2014-3-12 03:45
+
+*** 拜仁 VS 阿森纳
+    SCHEDULED: 2014-3-12 03:45
+
+*** 巴萨 VS 曼城
+    SCHEDULED: 2014-3-13 03:45
+
+*** 圣日耳曼 VS 勒沃库森
+    SCHEDULED: 2014-3-13 03:45
+
+*** 皇马 VS 沙尔克04
+    SCHEDULED: 2014-3-19 03:45
+
+*** 切尔西 VS 加拉塔萨雷
+    SCHEDULED: 2014-3-19 03:45
+
+*** 曼联 VS 奥林匹亚
+    SCHEDULED: 2014-3-20 03:45
+
+*** 多特蒙德 VS 泽尼特
+    SCHEDULED: 2014-3-20 03:45
+
+** Quarter-finals
+*** Draw
+    21 March 2014
+*** First legs
+    1 and 2 April
+*** Second legs
+    8 and 9 April 2014.
+
+** Semi-finals
+*** Draw
+    11 April 2014
+*** First legs
+    22 and 23 April
+*** Second legs
+    29 and 30 April 2014.
+
+** Final
+   24 May 2014

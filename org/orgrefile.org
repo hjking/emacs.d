@@ -1,0 +1,5 @@
+* TODO presentation of CCS
+[2013-12-19 周四 18:28]
+* TODO meeting about DCS
+[2013-12-19 周四 18:29]
+[[file:~/.emacs.d/orgrefile.org::*]]

@@ -1,0 +1,21 @@
+* Tasks
+** DONE Start a new org file
+   CLOSED: [2013-12-19 周四 15:16]
+** DONE Outline Document
+   CLOSED: [2013-12-19 周四 15:21]
+** DONE Write introduction
+   CLOSED: [2013-12-19 周四 15:22]
+** TODO Finish Document
+   SCHEDULED: <2013-12-20 周五>
+** TODO
+** TODO
+
+* Introduction
+** Obtaining org-mode
+   [[link][description]]
+   [[file:blog.org][blog.org]]
+** Installation
+** Configuration
+* The Basic
+** Creating a new file
+** Simple task list

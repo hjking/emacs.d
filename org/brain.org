@@ -1,26 +1,34 @@
-#+STARTUP: overview 
-#+TAGS:  { 工作(w)  娱乐(p) 学习(s) }  
-#+TAGS:  { 当前(1) 近期(2) 远期(3) } { 容易(e) 麻烦(t) 困难(d) } 
-#+TAGS:  
+#+STARTUP: overview
+#+TAGS:  { 工作(w)  娱乐(p) 学习(s) }
+#+TAGS:  { 当前(1) 近期(2) 远期(3) } { 容易(e) 麻烦(t) 困难(d) }
+#+TAGS:
 #+SEQ_TODO: 待办(T) 等待(W) | 完成(D) 取消(C) 委托(A)
-#+COLUMNS: %10ITEM  %10PRIORITY %15TODO %65TAGS    
+#+COLUMNS: %25ITEM  %10PRIORITY %15TODO %20SCHEDULED %10DEADLINE %20TAGS
+#+PUBLISH
 
 * 待办 介绍Org								 :工作:当前:
 ** 完成 说明								    :容易:
    CLOSED: [2008-10-21 二 12:04]
-** 完成 截图								    :麻烦:
+** 完成 截图								 :容易:
    CLOSED: [2008-10-21 二 12:04]
 ** 等待 举例								    :困难:
 
-* 学习									 :学习:近期:
+* 学习 								      :学习:近期:
 ** 完成 DocBook								    :麻烦:
    CLOSED: [2008-10-21 二 12:05]
 ** 取消 LaTex								    :麻烦:
    CLOSED: [2008-10-21 二 12:05]
 
 * 健身
+  :PROPERTIES:
+  :COLUMNS:  %25ITEM %15PRIORITY %15TODO %15TAGS
+  :END:
 ** 等待 运动
    SCHEDULED: <2008-10-26 日>
+*** 跑步
+    SCHEDULED: <2013-12-19>
+*** 踢球
+    SCHEDULED: <2013-12-20>
 ** 取消 节食
    CLOSED: [2008-10-21 二 12:07]
 
@@ -36,4 +44,16 @@
    要配上图片并举例
 ** 委托 Docbook介绍						      :工作:当前:容易:
    CLOSED: [2008-10-21 二 12:12]
-   有一点改动    
+   有一点改动
+
+   #+BEGIN_SRC c
+     if(a){
+       a=0
+     }
+     else
+       a=1
+   #+END_SRC
+
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE

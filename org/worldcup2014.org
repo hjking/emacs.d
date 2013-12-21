@@ -1,0 +1,191 @@
+#TITLE: Schedule for World Cup 2014
+#TAGS: worldcup2014
+
+* Schedule for the 2014 World Cup
+ - source: http://en.wikipedia.org/wiki/2014_FIFA_World_Cup
+ - All times listed below are in Brasília official time (UTC−3). This is the time zone of ten of the twelve venues; the other two, Cuiabá and Manaus, are in the Amazon time zone (UTC−4), therefore for matches hosted at these two venues the local kickoff times are one hour earlier than the times listed below.
+
+
+** Group A
+# Brazil, Croatia, Mexico,  Cameroon
+*** Brazil      Match 1      Croatia
+    12 June 2014 17:00 Arena de São Paulo, São Paulo
+
+*** Mexico      Match 2      Cameroon
+    13 June 2014 13:00 Arena das Dunas, Natal
+
+*** Brazil      Match 17     Mexico
+    17 June 2014 16:00 Estádio Castelão, Fortaleza
+
+*** Cameroon    Match 18     Croatia
+    18 June 2014 19:00 Arena Amazônia, Manaus
+*** Cameroon    Match 33     Brazil
+    23 June 2014 17:00 Estádio Nacional Mané Garrincha, Brasília
+*** Croatia     Match 34     Mexico
+    23 June 2014 17:00 Arena Pernambuco, Recife
+
+** Group B
+# Spain,  Netherlands Chile  Australia
+*** Spain   Match 3      Netherlands
+    13 June 2014 16:00 Arena Fonte Nova, Salvador
+*** Chile   Match 4      Australia
+    13 June 2014 19:00 Arena Pantanal, Cuiabá
+*** Australia   Match 20     Netherlands
+    18 June 2014 13:00 Estádio Beira-Rio, Porto Alegre
+*** Spain   Match 19     Chile
+    18 June 2014 16:00 Estádio do Maracanã, Rio de Janeiro
+*** Australia   Match 35     Spain
+    23 June 2014 13:00 Arena da Baixada, Curitiba
+*** Netherlands     Match 36     Chile
+    23 June 2014 13:00 Arena de São Paulo, São Paulo
+
+** Group C
+# Colombia   Greece     Ivory Coast Japan
+*** Colombia    Match 5      Greece
+    14 June 2014 13:00 Estádio Mineirão, Belo Horizonte
+*** Ivory Coast     Match 6      Japan
+    14 June 2014 22:00 Arena Pernambuco, Recife
+*** Colombia    Match 21     Ivory Coast
+    19 June 2014 13:00 Estádio Nacional Mané Garrincha, Brasília
+*** Japan   Match 22     Greece
+    19 June 2014 19:00 Arena das Dunas, Natal
+*** Japan   Match 37     Colombia
+    24 June 2014 17:00 Arena Pantanal, Cuiabá
+*** Greece      Match 38     Ivory Coast
+    24 June 2014 17:00 Estádio Castelão, Fortaleza
+
+** Group D
+# Uruguay    Costa Rica England    Italy
+*** Uruguay     Match 7      Costa Rica
+    14 June 2014 16:00 Estádio Castelão, Fortaleza
+*** England     Match 8      Italy
+    14 June 2014 19:00 Arena Amazônia, Manaus
+*** Uruguay     Match 23     England
+    19 June 2014 16:00 Arena de São Paulo, São Paulo
+*** Italy   Match 24     Costa Rica
+    20 June 2014 13:00 Arena Pernambuco, Recife
+*** Italy   Match 39     Uruguay
+    24 June 2014 13:00 Arena das Dunas, Natal
+*** Costa Rica      Match 40     England
+    24 June 2014 13:00 Estádio Mineirão, Belo Horizonte
+
+** Group E
+# Switzerland Ecuador    France     Honduras
+*** Switzerland     Match 9      Ecuador
+    15 June 2014 13:00 Estádio Nacional Mané Garrincha, Brasília
+*** France      Match 10     Honduras
+    15 June 2014 16:00 Estádio Beira-Rio, Porto Alegre
+*** Switzerland     Match 25     France
+    20 June 2014 16:00 Arena Fonte Nova, Salvador
+*** Honduras    Match 26     Ecuador
+    20 June 2014 19:00 Arena da Baixada, Curitiba
+*** Honduras    Match 41      Switzerland
+    25 June 2014 17:00 Arena Amazônia, Manaus
+*** Ecuador     Match 42     France
+    25 June 2014 17:00 Estádio do Maracanã, Rio de Janeiro
+
+** Group F
+# Argentina, Bosnia and Herzegovina, Iran, Nigeria
+*** Argentina   Match 11     Bosnia and Herzegovina
+    15 June 2014 19:00 Estádio do Maracanã, Rio de Janeiro
+*** Iran    Match 12     Nigeria
+    16 June 2014 16:00 Arena da Baixada, Curitiba
+*** Argentina   Match 27     Iran
+    21 June 2014 13:00 Estádio Mineirão, Belo Horizonte
+*** Nigeria     Match 28     Bosnia and Herzegovina
+    21 June 2014 19:00 Arena Pantanal, Cuiabá
+*** Nigeria     Match 43     Argentina
+    25 June 2014 13:00 Estádio Beira-Rio, Porto Alegre
+*** Bosnia and Herzegovina      Match 44     Iran
+    25 June 2014 13:00 Arena Fonte Nova, Salvador
+
+** Group G
+# Germany, Portugal, Ghana, United States
+*** Germany     Match 13     Portugal
+    16 June 2014 13:00 Arena Fonte Nova, Salvador
+*** Ghana   Match 14     United States
+    16 June 2014 19:00 Arena das Dunas, Natal
+*** Germany     Match 29     Ghana
+    21 June 2014 16:00 Estádio Castelão, Fortaleza
+*** United States   Match 30     Portugal
+    22 June 2014 19:00 Arena Amazônia, Manaus
+*** United States   Match 45     Germany
+    26 June 2014 13:00 Arena Pernambuco, Recife
+*** Portugal    Match 46     Ghana
+    26 June 2014 13:00 Estádio Nacional Mané Garrincha, Brasília
+
+** Group H
+# Belgium    Algeria    Russia     South Korea
+*** Belgium     Match 15     Algeria
+    17 June 2014 13:00 Estádio Mineirão, Belo Horizonte
+*** Russia      Match 16     South Korea
+    17 June 2014 19:00 Arena Pantanal, Cuiabá
+*** Belgium     Match 31     Russia
+    22 June 2014 13:00 Estádio do Maracanã, Rio de Janeiro
+*** South Korea     Match 32     Algeria
+    22 June 2014 16:00 Estádio Beira-Rio, Porto Alegre
+*** South Korea     Match 47     Belgium
+    26 June 2014 17:00 Arena de São Paulo, São Paulo
+*** Algeria     Match 48     Russia
+    26 June 2014 17:00 Arena da Baixada, Curitiba
+
+
+** Round of 16
+*** Winner Group A  Match 49    Runner-up Group B
+    28 June 2014 13:00 Estádio Mineirão, Belo Horizonte
+*** Winner Group C  Match 50    Runner-up Group D
+    28 June 2014 17:00 Estádio do Maracanã, Rio de Janeiro
+*** Winner Group B  Match 51    Runner-up Group A
+    29 June 2014 13:00 Estádio Castelão, Fortaleza
+*** Winner Group D  Match 52    Runner-up Group C
+    29 June 2014 17:00 Arena Pernambuco, Recife
+*** Winner Group E  Match 53    Runner-up Group F
+    30 June 2014 13:00 Estádio Nacional Mané Garrincha, Brasília
+*** Winner Group G  Match 54    Runner-up Group H
+    30 June 2014 17:00 Estádio Beira-Rio, Porto Alegre
+*** Winner Group F  Match 55    Runner-up Group E
+    1 July 2014 13:00 Arena de São Paulo, São Paulo
+*** Winner Group H  Match 56    Runner-up Group G
+    1 July 2014 17:00 Arena Fonte Nova, Salvador
+
+** Quarter-finals
+*** Winner Match 53     Match 58    Winner Match 54
+    4 July 2014 13:00 Estádio do Maracanã, Rio de Janeiro
+*** Winner Match 49     Match 57    Winner Match 50
+    4 July 2014 17:00 Estádio Castelão, Fortaleza
+*** Winner Match 55     Match 60    Winner Match 56
+    5 July 2014 13:00 Estádio Nacional Mané Garrincha, Brasília
+*** Winner Match 51     Match 59    Winner Match 52
+    5 July 2014 17:00 Arena Fonte Nova, Salvador
+
+** Semi-finals
+*** Match 61: Winner Match 57  VS  Winner Match 58
+    8 July 2014 17:00 Estádio Mineirão, Belo Horizonte
+*** Match 62: Winner Match 59  VS  Winner Match 60
+    9 July 2014 17:00 Arena de São Paulo, São Paulo
+
+** Third place match
+*** Match 63: Loser Match 61  VS  Loser Match 62
+    12 July 2014 17:00 Estádio Nacional Mané Garrincha, Brasília
+
+** Final
+*** Match 64: Winner of Match 61  VS  Winner of Match 62
+    13 July 2014 16:00 Estádio do Maracanã, Rio de Janeiro
+
+
+
+** Final							       :Final:
+*** Winner SemiFinals 1 - Winner SemiFinals 2
+    <2012-07-01 20:45>
+
+#+begin_src emacs-lisp
+(defun update-org-hours (n)
+  "Change all org-mode timestamps in the current buffer by N hours."
+  (interactive "nChange hours: ")
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "[[<]" nil t)
+      (when (org-at-timestamp-p t)
+        (org-timestamp-change n 'hour)))))
+#+end_src
+
