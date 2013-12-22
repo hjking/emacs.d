@@ -20,8 +20,8 @@
 
 (setq org-publish-project-alist
       '(("note-org"
-         :base-directory "~/.emacs.d/org"
-         :publishing-directory "~/.emacs.d/org/publish"
+         :base-directory "~/emacs.d/org"
+         :publishing-directory "~/emacs.d/org/publish"
          :base-extension "org"
          :recursive t
          :publishing-function org-publish-org-to-html
@@ -32,14 +32,14 @@
          :section-numbers nil
          :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>")
         ("note-static"
-         :base-directory "~/.emacs.d/org"
-         :publishing-directory "~/.emacs.d/org/publish"
+         :base-directory "~/emacs.d/org"
+         :publishing-directory "~/emacs.d/org/publish"
          :recursive t
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el"
          :publishing-function org-publish-attachment)
         ("note"
          :components ("note-org" "note-static")
-         :author "hong_jin@founder.com"
+         :author "hon9jin@gmail.com"
          )))
 
 (setq org-todo-keywords
@@ -91,6 +91,7 @@
 (setq org-fast-tag-selection-single-key (quote expert))
 
 ;; Org Agenda
+(setq org-agenda-files (file-expand-wildcards "~/emacs.d/org/*.org"))
 (setq org-agenda-ndays (* 6 7))
 (setq org-agenda-show-all-dates nil)
 (setq org-deadline-warning-days 14)
@@ -143,11 +144,11 @@
 (setq org-refile-use-outline-path nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-refile-targets
-      '(("~/.emacs.d/org/contacts.org" . (:maxlevel . 2))
-        ("~/.emacs.d/org/decisions.org" . (:maxlevel . 3))
-        ("~/.emacs.d/org/business.org" . (:maxlevel . 4))
-        ("~/.emacs.d/org/organizer.org" . (:maxlevel . 4))
-        ("~/.emacs.d/org/outline.org" . (:maxlevel . 3))))
+      '(("~/emacs.d/org/contacts.org" . (:maxlevel . 2))
+        ("~/emacs.d/org/decisions.org" . (:maxlevel . 3))
+        ("~/emacs.d/org/business.org" . (:maxlevel . 4))
+        ("~/emacs.d/org/organizer.org" . (:maxlevel . 4))
+        ("~/emacs.d/org/outline.org" . (:maxlevel . 3))))
 (setq org-blank-before-new-entry nil)
 (defun my/verify-refile-target ()
   "Exclude todo keywords with a DONE state from refile targets"
@@ -176,10 +177,10 @@
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
 
-(global-set-key "\C-c l" 'org-store-link)
-(global-set-key "\C-c a" 'org-agenda)
-(global-set-key "\C-c b" 'org-iswitchb)
-(define-key global-map "\C-c c" 'org-capture)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c c") 'org-capture)
 
 (global-set-key (kbd "C-c t") 'goto-org-mode-todo-file)
 (defun goto-org-mode-todo-file ()
@@ -266,3 +267,13 @@
 
 ; Attachments
 (setq org-attach-store-link-p t)
+
+;; speed up agenda overview
+;; Blocked tasks are dimmed by default in the agenda
+(setq org-agenda-dim-blocked-tasks nil)
+(setq org-startup-folded t)
+(setq org-agenda-inhibit-startup t)
+;; inherited tags in todo/search/timeline/agenda
+(setq org-agenda-use-tag-inheritance nil)
+;; tags in todo agendas only
+(setq org-agenda-use-tag-inheritance '(search timeline agenda))

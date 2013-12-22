@@ -4,7 +4,7 @@
 
 ;;; === define prefix binding key ===
 (define-prefix-command 'ctrl-cc-map)
-(global-set-key (kbd "C-c c") 'ctrl-cc-map)
+;; (global-set-key (kbd "C-c c") 'ctrl-cc-map)
 
 (define-prefix-command 'ctrl-z-map)
 (global-set-key (kbd "C-z") 'ctrl-z-map)

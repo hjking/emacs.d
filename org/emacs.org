@@ -1,0 +1,9 @@
+* Tasks
+** DONE Starts new org file for tutorial
+   CLOSED: [2013-12-21 Sat 22:49]
+** DONE Outline document
+   CLOSED: [2013-12-21 Sat 22:50]
+** DONE Write introduction
+   CLOSED: [2013-12-21 Sat 22:51]
+** TODO Finish Document
+   SCHEDULED: <2013-12-29 Sun>
