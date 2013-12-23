@@ -1,5 +1,5 @@
 #+STARTUP: showall
-#+TAGS: OFFICE(o) COMPUTER(c) HOME(h) PROJECT(p) READING(r) DVD(d) 
+#+TAGS: OFFICE(o) COMPUTER(c) HOME(h) PROJECT(p) READING(r) DVD(d)
 #+STARTUP: hidestars
 
 * IPTM 9 Testing  (Beta Release)                :PROJECT:
@@ -27,8 +27,8 @@
 *** Learn org-mode properly                     :COMPUTER:
 *** Write and publish tutorial on org-mode      :COMPUTER:
 ** DVDs to watch
-*** Howl's moving castle DEADLINE: <2006-09-07 Thu> :DVD:
-*** Fantasia DEADLINE: <2006-09-15 Fri>         :DVD:
+*** DONE Howl's moving castle DEADLINE: <2006-09-07 Thu>		:DVD:
+*** DONE Fantasia DEADLINE: <2006-09-15 Fri>				:DVD:
 
 * Someday/Maybe
 ** Reading
@@ -73,5 +73,3 @@
 **** Listen to the 2 different recordings I have
 ** Cartooning
 *** John Byrne Book - work through              :HOME:
-
-

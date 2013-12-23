@@ -6,7 +6,7 @@
 ** DONE Write introduction
    CLOSED: [2013-12-19 周四 15:22]
 ** TODO Finish Document
-   SCHEDULED: <2013-12-24 Tue>
+   SCHEDULED: <2013-12-20 周五>
 ** TODO
 ** TODO
 

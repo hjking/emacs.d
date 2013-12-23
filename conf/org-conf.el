@@ -3,69 +3,55 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-20 16:23:28
+;; Last Updated: 2013-12-23 13:00:50
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
 
-(require 'org-install)
-(require 'org-faces)
-(require 'cus-edit)
-(require 'org-publish)
-(require 'org-agenda)
-(require 'org-element)
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
 (require 'org)
+;; (require 'org-install)
+;; (require 'org-faces)
+;; (require 'cus-edit)
+;; (require 'org-publish)
+;; (require 'org-agenda)
+;; (require 'org-element)
+
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cl" 'org-store-link)
+
+;; (setq org-directory "~/.emacs.d/org")
+(setq org-directory (concat my-emacs-dir "org"))
+(setq org-default-notes-file (concat org-directory "/todo.org"))
 
 (setq org-hide-leading-star t)
 (setq org-startup-folded nil)  ;; open org in unfolded view
-(setq org-directory "~/.emacs.d/org")
-(setq org-default-notes-file (concat org-directory "/refile.org"))
-(setq org-agenda-files (quote ("~/.emacs.d/org")))
 
-(setq org-publish-project-alist
-      '(("note-org"
-         :base-directory "~/emacs.d/org"
-         :publishing-directory "~/emacs.d/org/publish"
-         :base-extension "org"
-         :recursive t
-         :publishing-function org-publish-org-to-html
-         :auto-index nil
-         :index-filename "index.org"
-         :index-title "index"
-         :link-home "index.html"
-         :section-numbers nil
-         :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>")
-        ("note-static"
-
-         :base-directory "~/emacs.d/org"
-         :publishing-directory "~/emacs.d/org/publish"
-         :recursive t
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el"
-         :publishing-function org-publish-attachment)
-        ("note"
-         :components ("note-org" "note-static")
-
-         :author "hon9jin@gmail.com"
-         )))
-
+;; TODO Keywords
 (setq org-todo-keywords
-
-    (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(x)")
-            (sequence "REVIEW" "CANCELLED(c@)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "POSTPONED(p)")
-            (sequence "TOBLOG(b)" "ARCHIVED" "Action")
-            (sequence "REPORT" "BUG" "KNOWNCAUSE" "|" "FIXED")
+    (quote ((sequence "TODO(t)" "NEXT(n)" "ACTION" "STARTED(s)" "|" "DONE(x)")
+            (sequence "CANCELLED(c@/!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "POSTPONED(p)")
+            (sequence "ToBLOG(b)" "ARCHIVED" "PHONE" "MEETING" "MEAL" "|" "COMPLETED")
+            (sequence "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C!)")
            )))
+
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
-              ("TOBLOG" :foreground "red" :weight bold)
-              ("NEXT" :foreground "blue" :weight bold)
-              ("STARTED" :foreground "blue" :weight bold)
+              ("ToBLOG" :foreground "red" :weight bold)
+              ("NEXT" :foreground "orange" :weight bold)
+              ("STARTED" :foreground "magenta" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
               ("WAITING" :foreground "orange" :weight bold)
+              ("HOLD" :foreground "magenta" :weight bold)
               ("SOMEDAY" :foreground "magenta" :weight bold)
               ("CANCELLED" :foreground "forest green" :weight bold)
-              ("OPEN" :foreground "blue" :weight bold)
+              ("MEETING" :foreground "forest green" :weight bold)
+              ("PHONE" :foreground "forest green" :weight bold)
+              ("OPEN" :foreground "red" :weight bold)
               ("CLOSED" :foreground "forest green" :weight bold)
               ("ARCHIVED" . "blue")
               ("PHONE" :foreground "forest green" :weight bold))))
@@ -75,20 +61,24 @@
 (setq org-use-fast-todo-selection t)
 
 ;; Tag tasks
-(setq org-tag-alist '(("@work" . ?w)
-                      ("@home" . ?h)
-                      ("@errand" . ?e)
-                      ("@coding" . ?c)
-                      ("@phone" . ?p)
-                      ("@reading" . ?r)
-                      ("@office" . ?o)
-                      ("@laptop" . ?l)
+(setq org-tag-alist '(("@WORK" . ?w)
+                      ("@HOME" . ?h)
+                      ("@ERRAND" . ?e)
+                      ("@CODING" . ?c)
+                      ("@PHONE" . ?p)
+                      ("@READING" . ?r)
+                      ("@OFFICE" . ?o)
+                      ("@LAPTOP" . ?l)
+                      ("URGENT" . ?u)
                       ("quantified" . ?q)))
+
 ; Allow setting single tags without the menu
 (setq org-fast-tag-selection-single-key (quote expert))
 
 ;; Org Agenda
-(setq org-agenda-files (file-expand-wildcards "~/emacs.d/org/*.org"))
+;; (setq org-agenda-files (file-expand-wildcards "~/emacs.d/org/*.org"))
+(setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
+;; (setq org-agenda-files (quote ("~/emacs.d/org")))
 (setq org-agenda-ndays (* 6 7))
 (setq org-agenda-show-all-dates nil)
 (setq org-deadline-warning-days 14)
@@ -104,10 +94,15 @@
 (setq org-columns-default-format "%50ITEM %12SCHEDULED %TODO %3PRIORITY %Effort{:} %TAGS")
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
-(define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
+;; Do not dim blocked tasks
+(setq org-agenda-dim-blocked-tasks nil)
+;; Compact the block agenda view
+(setq org-agenda-compact-blocks t)
+;; (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
 
 ;; clock
 (setq org-log-done 'time) ;; mark DONE item with time
+;; (setq org-log-done 'note) ;; leave some notes to DONE item
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
 
@@ -115,12 +110,13 @@
 (setq org-todo-state-tags-triggers
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING" . t) ("HOLD" . t))
               ("SOMEDAY" ("WAITING" . t))
               (done ("WAITING"))
-              ("TODO" ("WAITING") ("CANCELLED"))
-              ("NEXT" ("WAITING"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("STARTED" ("WAITING"))
-              ("DONE" ("WAITING") ("CANCELLED")))))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 ;; Let org-mode use ido
 (setq org-completion-use-ido t)
@@ -130,22 +126,18 @@
       ("Journal" ?j "* %U %?\n\n %i\n %a" org-default-notes-file)))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 
-(setq org-directory (concat my-emacs-dir "org"))
-(setq org-default-notes-file (concat my-emacs-dir "org/todo.org"))
-
 (setq org-list-indent-offset 2)
-
 
 ;; refilling
 (setq org-reverse-note-order t)
 (setq org-refile-use-outline-path nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-refile-targets
-      '(("~/emacs.d/org/contacts.org" . (:maxlevel . 2))
-        ("~/emacs.d/org/decisions.org" . (:maxlevel . 3))
-        ("~/emacs.d/org/business.org" . (:maxlevel . 4))
-        ("~/emacs.d/org/organizer.org" . (:maxlevel . 4))
-        ("~/emacs.d/org/outline.org" . (:maxlevel . 3))))
+      '(((concat org-directory "/contacts.org") . (:maxlevel . 2))
+        ((concat org-directory "/decisions.org") . (:maxlevel . 3))
+        ((concat org-directory "/business.org") . (:maxlevel . 4))
+        ((concat org-directory "/organizer.org") . (:maxlevel . 4))
+        ((concat org-directory "/outline.org") . (:maxlevel . 3))))
 (setq org-blank-before-new-entry nil)
 (defun my/verify-refile-target ()
   "Exclude todo keywords with a DONE state from refile targets"
@@ -156,12 +148,16 @@
 ;; Strike through DONE headlines
 (setq org-fontify-done-headline t)
 (custom-set-faces
- '(org-done ((t (:foreground "PaleGreen"
+  '(org-done ((t (:foreground "PaleGreen"
                  :weight normal
                  :strike-through t))))
  '(org-headline-done
             ((((class color) (min-colors 16) (background dark))
                (:foreground "LightSalmon" :strike-through t)))))
+
+;; To explicitly set only the strike-through attribute mentioned
+(set-face-attribute 'org-done nil :strike-through t)
+(set-face-attribute 'org-headline-done nil :strike-through t)
 
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
 
@@ -173,6 +169,48 @@
 ;; Publishing
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
+
+(setq org-publish-project-alist
+      '(("note-org"
+         :base-directory org-directory
+         :publishing-directory (concat org-directory "/publish")
+         :base-extension "org"
+         :recursive t
+         :publishing-function org-publish-org-to-html
+         :auto-index nil
+         :index-filename "index.org"
+         :index-title "index"
+         :link-home "index.html"
+         :section-numbers nil
+         :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>")
+        ("note-static"
+         :base-directory org-directory
+         :publishing-directory (concat org-directory "/publish")
+         :recursive t
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el"
+         :publishing-function org-publish-attachment)
+        ("note"
+         :components ("note-org" "note-static")
+         :author "hon9jin@gmail.com"
+         )))
+
+;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"
+(defun wicked/org-publish-files-maybe ()
+  "Publish this file if it contains the #+PUBLISH: keyword"
+  (save-excursion
+   (save-restriction
+    (widen)
+    (goto-char (point-min))
+    (when (re-search-forward
+           "^#?[ \t]*\\+\\(PUBLISH\\)"
+           nil t)
+     (org-html-export-to-html)
+     nil))))
+
+(add-hook 'org-mode-hook  ;; (1)
+ (lambda ()
+  (add-hook (make-local-variable 'after-save-hook) ;; (2)
+            'wicked/org-publish-files-maybe)))
 
 
 (global-set-key (kbd "C-c t") 'goto-org-mode-todo-file)
@@ -192,14 +230,11 @@
          (car org-agenda-files)
        (cadr org-agenda-files)))))
 
-;;  (add-hook 'org-mode-hook 'turn-on-font-lock)  ; Org buffers only
 ;; Wrap long lines
-(add-hook 'org-mode-hook 'toggle-truncate-lines)
+;; (add-hook 'org-mode-hook 'toggle-truncate-lines)
 
 ;; flyspell mode for spell checking everything
-(add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
 ;; Make TAB the yas trigger key in the org-mode-hook and turn on flyspell mode
 ;;    (add-hook 'org-mode-hook
@@ -218,13 +253,6 @@
 ;;      (interactive)
 ;;      (org-mark-subtree)
 ;;      (org-mime-subtree))
-
-(defun sacha/yank-more ()
-  (interactive)
-  (insert "[[")
-  (yank)
-  (insert "][more]]"))
-(global-set-key (kbd "<f6>") 'sacha/yank-more)
 
 ; Structure templates
 (setq org-structure-template-alist
@@ -264,19 +292,56 @@
 ;; Capture
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
-      (quote (("t" "todo" entry (file (concat org-directory "refile.org"))
-                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+      (quote (
+              ("a" "Appointment" entry (file+headline (concat org-directory "taskdiary.org") "Calendar")
+                   "* APPT %^{Description} %^g %?  Added: %U")
+              ("d" "Diary" entry (file+datetree (concat org-directory "diary.org"))
+                   "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file (concat org-directory "refile.org"))
+                   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+              ("j" "Journal" entry (file+datetree (concat org-directory "journal.org"))
+                   "* %^{Heading}\n%U\n" :clock-in t :clock-resume t)
+              ("l" "Log Time" entry (file+datetree (concat org-directory "log.org") )
+                   "** %U - %^{Activity}  :TIME:")
+              ("m" "Meeting" entry (file (concat org-directory "meeting.org"))
+                   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+              ("n" "note" entry (file (concat org-directory "notes.org"))
+                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("p" "Phone call" entry (file (concat org-directory "call.org"))
+                   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
               ("r" "respond" entry (file (concat org-directory "refile.org"))
                    "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("n" "note" entry (file (concat org-directory "refile.org"))
-                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("j" "Journal" entry (file+datetree (concat org-directory "diary.org"))
-                   "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("t" "todo" entry (file (concat org-directory "refile.org"))
+                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
               ("w" "org-protocol" entry (file (concat org-directory "refile.org"))
                    "* TODO Review %c\n%U\n" :immediate-finish t)
-              ("m" "Meeting" entry (file (concat org-directory "refile.org"))
-                   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-              ("p" "Phone call" entry (file (concat org-directory "refile.org"))
-                   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file (concat org-directory "refile.org"))
-                   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+                                             )))
+
+;; Remove empty LOGBOOK drawers on clock out
+(defun bh/remove-empty-drawer-on-clock-out ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line 0)
+    (org-remove-empty-drawer-at "LOGBOOK" (point))))
+
+(add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+
+;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"
+(defun wicked/org-publish-files-maybe ()
+  "Publish this file if it contains the #+PUBLISH: keyword"
+  (save-excursion
+   (save-restriction
+    (widen)
+    (goto-char (point-min))
+    (when (re-search-forward
+           "^#?[ \t]*\\+\\(PUBLISH\\)"
+           nil t)
+     (org-html-export-to-html)
+     nil))))
+
+(add-hook 'org-mode-hook  ;; (1)
+ (lambda ()
+  (add-hook (make-local-variable 'after-save-hook) ;; (2)
+            'wicked/org-publish-files-maybe)))
+
+;;

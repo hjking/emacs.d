@@ -208,7 +208,7 @@
     ;; My Emacs home directory
     ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
     ;         "The Root directory of my .emacs.d")
-	(defvar my-emacs-init-file (or load-file-name buffer-file-name))
+    (defvar my-emacs-init-file (or load-file-name buffer-file-name))
     (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
       "The Root directory of my .emacs.d")
     ;; My site-lisp directory
@@ -238,14 +238,14 @@
     (message ">>>>> Loading Path ... Done")
 
     ;; Load all elisp files in ./init.d
-	; (if (file-exists-p my-site-lisp-conf-dir)
+    ; (if (file-exists-p my-site-lisp-conf-dir)
     ;     (dolist (file (directory-files my-site-lisp-conf-dir t "\\.el$"))
- 	;        (load file)))
+    ;        (load file)))
 
-	; Add external projects to load path
-	; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
- 	;  		(when (file-directory-p project)
- 	;    		(add-to-list 'load-path project)))
+    ; Add external projects to load path
+    ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
+    ;     (when (file-directory-p project)
+    ;       (add-to-list 'load-path project)))
 )
 ;; --[ Load Path ]-----------------------------------------------------[ End ]--
 
@@ -1831,7 +1831,7 @@
          ("\\.vhost$"                     . conf-mode)
          ("\\.hgrc$"                      . conf-mode)
          ("\\.rc$"                        . conf-mode)
-         ("\\.*rc$" 					  . conf-unix-mode)
+         ("\\.*rc$"                        . conf-unix-mode)
          ("\\.cnf$"                       . conf-mode)
          ("\\.gitconfig$"                 . conf-mode)
          ("\\.gitmodules$"                . conf-mode)
