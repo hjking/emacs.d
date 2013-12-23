@@ -1568,14 +1568,14 @@
   (add-site-lisp-load-path "org/lisp/")
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")
-    (load "org-conf"))
+  (load "org-conf"))
 ;; [ org ]-------------------------------------------------------------[ End ]--
 
 
 ;; [ etask ]--------------------------------------------------------------------
 (when section-etask
-    (add-site-lisp-load-path "etask/")
-    (load "etask-conf"))
+  (add-site-lisp-load-path "etask/")
+  (load "etask-conf"))
 ;; [ etask ]-----------------------------------------------------------[ End ]--
 
 

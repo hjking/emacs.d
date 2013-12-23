@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2012-06-11 15:21:46
+;; Last Updated: 2013-12-20 16:23:28
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -14,9 +14,13 @@
 (require 'org-publish)
 (require 'org-agenda)
 (require 'org-element)
+(require 'org)
 
 (setq org-hide-leading-star t)
-(setq org-startup-folded nil )  ;; open org in unfolded view
+(setq org-startup-folded nil)  ;; open org in unfolded view
+(setq org-directory "~/.emacs.d/org")
+(setq org-default-notes-file (concat org-directory "/refile.org"))
+(setq org-agenda-files (quote ("~/.emacs.d/org")))
 
 (setq org-publish-project-alist
       '(("note-org"
@@ -32,6 +36,7 @@
          :section-numbers nil
          :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>")
         ("note-static"
+
          :base-directory "~/emacs.d/org"
          :publishing-directory "~/emacs.d/org/publish"
          :recursive t
@@ -39,27 +44,18 @@
          :publishing-function org-publish-attachment)
         ("note"
          :components ("note-org" "note-static")
+
          :author "hon9jin@gmail.com"
          )))
 
 (setq org-todo-keywords
-           '((sequence
-              "TODO(t)"
-              "TOBLOG(b)"
-              "NEXT(n)"
-              "STARTED(s)"
-              "|"
-              "DONE(x)"
-              "REVIEW"
-              "CANCELLED(c@)"
-              "SOMEDAY(s@/!)"
-              "WAITING"
-              "POSTPONED(p)"
-              "ARCHIVED"
-              "Action")
-             (sequence "REPORT" "BUG" "KNOWNCAUSE" "|" "FIXED")
-             (sequence "OPEN(O!)" "|" "CLOSED(C!)")
-             ))
+
+    (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(x)")
+            (sequence "REVIEW" "CANCELLED(c@)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "POSTPONED(p)")
+            (sequence "TOBLOG(b)" "ARCHIVED" "Action")
+            (sequence "REPORT" "BUG" "KNOWNCAUSE" "|" "FIXED")
+            (sequence "OPEN(O!)" "|" "CLOSED(C!)")
+           )))
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
               ("TOBLOG" :foreground "red" :weight bold)
@@ -75,6 +71,7 @@
               ("PHONE" :foreground "forest green" :weight bold))))
 
 ;; Fast todo selection allows changing from any task todo state to any other state
+;; Changing a task state is done with C-c C-t KEY
 (setq org-use-fast-todo-selection t)
 
 ;; Tag tasks
@@ -177,10 +174,6 @@
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
 
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
-(global-set-key (kbd "C-c c") 'org-capture)
 
 (global-set-key (kbd "C-c t") 'goto-org-mode-todo-file)
 (defun goto-org-mode-todo-file ()
@@ -268,12 +261,22 @@
 ; Attachments
 (setq org-attach-store-link-p t)
 
-;; speed up agenda overview
-;; Blocked tasks are dimmed by default in the agenda
-(setq org-agenda-dim-blocked-tasks nil)
-(setq org-startup-folded t)
-(setq org-agenda-inhibit-startup t)
-;; inherited tags in todo/search/timeline/agenda
-(setq org-agenda-use-tag-inheritance nil)
-;; tags in todo agendas only
-(setq org-agenda-use-tag-inheritance '(search timeline agenda))
+;; Capture
+;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file (concat org-directory "refile.org"))
+                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("r" "respond" entry (file (concat org-directory "refile.org"))
+                   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+              ("n" "note" entry (file (concat org-directory "refile.org"))
+                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree (concat org-directory "diary.org"))
+                   "* %?\n%U\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file (concat org-directory "refile.org"))
+                   "* TODO Review %c\n%U\n" :immediate-finish t)
+              ("m" "Meeting" entry (file (concat org-directory "refile.org"))
+                   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+              ("p" "Phone call" entry (file (concat org-directory "refile.org"))
+                   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file (concat org-directory "refile.org"))
+                   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
