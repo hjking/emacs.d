@@ -1,0 +1,12 @@
+#+SEQ_TODO: TODO DONE NEXT
+#+TAGS: laptop office
+#+TAGS: DAILY WEEKLY MONTHLY
+
+* Daily Route                                    :DAILY:
+** TODO Life weight
+
+* Weekly Route                                 :WEEKLY:
+** TODO Update Vim submodules
+   SCHEDULED: <2013-12-23 Mon +1w>
+** TODO Update mydotfiles submodules
+   SCHEDULED: <2013-12-23 Mon +1w>
