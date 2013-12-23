@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-23 13:00:50
+;; Last Updated: 2013-12-23 17:15:25
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -35,7 +35,7 @@
     (quote ((sequence "TODO(t)" "NEXT(n)" "ACTION" "STARTED(s)" "|" "DONE(x)")
             (sequence "CANCELLED(c@/!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "POSTPONED(p)")
             (sequence "ToBLOG(b)" "ARCHIVED" "PHONE" "MEETING" "MEAL" "|" "COMPLETED")
-            (sequence "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "|" "FIXED")
+            (sequence "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C!)")
            )))
 
@@ -60,16 +60,16 @@
 ;; Changing a task state is done with C-c C-t KEY
 (setq org-use-fast-todo-selection t)
 
-;; Tag tasks
-(setq org-tag-alist '(("@WORK" . ?w)
-                      ("@HOME" . ?h)
-                      ("@ERRAND" . ?e)
-                      ("@CODING" . ?c)
-                      ("@PHONE" . ?p)
-                      ("@READING" . ?r)
-                      ("@OFFICE" . ?o)
-                      ("@LAPTOP" . ?l)
-                      ("URGENT" . ?u)
+;; Tags
+(setq org-tag-alist '(("@work" . ?w)
+                      ("@home" . ?h)
+                      ("@errand" . ?e)
+                      ("@coding" . ?c)
+                      ("@phone" . ?p)
+                      ("@reading" . ?r)
+                      ("@office" . ?o)
+                      ("@laptop" . ?l)
+                      ("urgent" . ?u)
                       ("quantified" . ?q)))
 
 ; Allow setting single tags without the menu
@@ -79,10 +79,14 @@
 ;; (setq org-agenda-files (file-expand-wildcards "~/emacs.d/org/*.org"))
 (setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
 ;; (setq org-agenda-files (quote ("~/emacs.d/org")))
+;; How many days should the default agenda show?
 (setq org-agenda-ndays (* 6 7))
 (setq org-agenda-show-all-dates nil)
 (setq org-deadline-warning-days 14)
+;; the agenda start on Monday, or better today?
 (setq org-agenda-start-on-weekday nil)
+;; Should the agenda also show entries from the Emacs diary?
+(setq org-agenda-include-diary t)
 (setq org-agenda-span 2)
 (setq org-agenda-show-log t)
 (setq org-agenda-skip-scheduled-if-done t)
@@ -99,6 +103,66 @@
 ;; Compact the block agenda view
 (setq org-agenda-compact-blocks t)
 ;; (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
+(setq org-agenda-repeating-timestamp-show-all t)
+;;
+(setq org-agenda-custom-commands
+           '(
+             ("c" "Desk Work" tags-todo "computer|laptop|phone"
+                ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
+                ("~/org/computer.html")) ;; export to
+             ("x" agenda)
+             ("y" agenda*)
+             ("w" todo "WAITING") ; global search for TODO entries with ‘WAITING’ as the TODO keyword
+             ("W" todo-tree "WAITING") ; global search for TODO entries with ‘WAITING’ as the TODO keyword only in current buffer and displaying the result as a sparse tree
+             ("u" tags "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:'
+             ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:', limiting the search to headlines that are also TODO items
+             ("U" tags-tree "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:', but only in the current buffer and displaying the result as a sparse tree
+             ("f" occur-tree "\\<FIXME\\>") ; to create a sparse tree (again: current buffer only) with all entries containing the word ‘FIXME’
+             ("g" . "GTD contexts")
+             ("go" "Office" tags-todo "office")
+             ("gc" "Computer" tags-todo "computer")
+             ("gp" "Phone" tags-todo "phone")
+             ("gh" "Home" tags-todo "home")
+             ("ge" "Errands" tags-todo "errands")
+             ;; Priority
+             ("p" . "Priorities")
+             ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
+             ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
+             ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
+             ;; block agenda views
+             ("h" . "HOME+Name tags searches") ; description for "h" prefix
+             ("ha" "Agenda and Home-related tasks"
+              ((agenda "")
+               (tags-todo "home")
+               (tags "garden")))
+             ("hl" tags "+home+Lisa")
+             ("hp" tags "+home+Peter")
+             ("hk" tags "+home+Kim")
+             ("o" "Agenda and Office-related tasks"
+              ((agenda "")
+               (tags-todo "work")
+               (tags-todo "computer")
+               (tags-todo "phone")
+               (tags-todo "home")
+               (tags-todo "errands")
+               (tags "office"))
+              ("~/org/next-actions.html"))
+             ("Q" . "Custom queries of Archives and Publishments") ;; gives label to "Q"
+             ("Qa" "Archive search" search ""
+               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+             ("Qp" "Publish search" search ""
+               ((org-agenda-files (file-expand-wildcards (concat org-directory "/publish/*.org")))))
+             ("Qb" "Projects and Archive" search ""
+               ((org-agenda-text-search-extra-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+                     ;; searches both projects and archive directories
+             ("QA" "Archive tags search" org-tags-view ""
+               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+             ("d" "Upcoming deadlines" agenda ""
+                ((org-agenda-time-grid nil)
+                 (org-deadline-warning-days 365)        ;; [1]
+                 (org-agenda-entry-types '(:deadline))  ;; [2]
+                 ))
+             ))
 
 ;; clock
 (setq org-log-done 'time) ;; mark DONE item with time
@@ -128,7 +192,8 @@
 
 (setq org-list-indent-offset 2)
 
-;; refilling
+;; Refiling means moving entries around
+;; For example from a capturing location to the correct project
 (setq org-reverse-note-order t)
 (setq org-refile-use-outline-path nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
@@ -343,5 +408,8 @@
  (lambda ()
   (add-hook (make-local-variable 'after-save-hook) ;; (2)
             'wicked/org-publish-files-maybe)))
+
+;; archive place
+(setq org-archive-location (concat org-directory "/archive/%s_archive::"))
 
 ;;
