@@ -1,10 +1,3 @@
-(setq org-agenda-custom-commands
-      '(("c" "Desk Work" tags-todo "computer" ;; (1) (2) (3) (4)
-         ((org-agenda-files '("~/org/widgets.org" "~/org/clients.org")) ;; (5)
-          (org-agenda-sorting-strategy '(priority-up effort-down))) ;; (5) cont.
-         ("~/computer.html")) ;; (6)
-        ;; ...other commands here
-        ))
 
 ;; The first line in this custom command contains:
 
@@ -14,12 +7,6 @@
 ;; 4. the tag to search for ("computer")
 ;; 5. set local options for this agenda command only. Any options you set here will not interfere with your global agenda settings. In this particular command, the files widgets.org and clients.org will be searched and the agenda display will sort the todos first by priority (highest priority last), then by estimated effort (highest effort first)—regardless or your global org-agenda-sorting-strategy.
 ;; 6. specifies that this agenda view should be exported as HTML to "~/computer.html" when the agenda export function is called (C-c a e).
-
-(setq org-agenda-custom-commands
-      '(("w" todo "STARTED") ;; (1) (3) (4)
-        ;; ...other commands here
-        ))
-;; This will produce a list of all tasks with the todo keyword STARTED.
 
 
 (setq org-agenda-custom-commands

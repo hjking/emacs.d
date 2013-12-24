@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-24 09:40:48
+;; Last Updated: 2013-12-24 17:18:51
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -29,8 +29,7 @@
 
 ;; TODO Keywords
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t)" "NEXT(n)" "ACTION" "STARTED(s)" "|" "DONE(x)")
-            (sequence "CANCELLED(c@/!)" "SOMEDAY(s@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "POSTPONED(p)")
+    (quote ((sequence "TODO(t)" "NEXT(n)" "ACTION" "STARTED(s)" "|" "SOMEDAY(s@/!)" "MAYBE" "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONE(x)" "CANCELLED(c@/!)" "POSTPONED(p)")
             (sequence "ToBLOG(b)" "ARCHIVED" "PHONE" "MEETING" "MEAL" "|" "COMPLETED")
             (sequence "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C!)")
@@ -92,7 +91,7 @@
       '((daily today require-timed)
        "----------------"
        (800 1000 1200 1400 1600 1800)))
-(setq org-columns-default-format "%50ITEM %12SCHEDULED %TODO %3PRIORITY %Effort{:} %TAGS")
+(setq org-columns-default-format "%30ITEM %15SCHEDULED %5TODO %5PRIORITY %Effort{:} %TAGS")
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 ;; Do not dim blocked tasks
@@ -101,49 +100,45 @@
 (setq org-agenda-compact-blocks t)
 ;; (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
 (setq org-agenda-repeating-timestamp-show-all t)
-;;
+;; org agenda custom commands
 (setq org-agenda-custom-commands
            '(
              ("c" "Desk Work" tags-todo "computer|laptop|phone"
                 ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
                 ("~/org/computer.html")) ;; export to
-             ("x" agenda)
-             ("y" agenda*)
-             ("w" todo "WAITING") ; global search for TODO entries with ‘WAITING’ as the TODO keyword
-             ("W" todo-tree "WAITING") ; global search for TODO entries with ‘WAITING’ as the TODO keyword only in current buffer and displaying the result as a sparse tree
-             ("u" tags "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:'
-             ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:', limiting the search to headlines that are also TODO items
-             ("U" tags-tree "+boss-urgent") ; global tags search for headlines marked ‘:boss:’ but not ‘:urgent:', but only in the current buffer and displaying the result as a sparse tree
-             ("f" occur-tree "\\<FIXME\\>") ; to create a sparse tree (again: current buffer only) with all entries containing the word ‘FIXME’
+             ("d" "Upcoming deadlines" agenda ""
+               ((org-agenda-time-grid nil)
+                (org-deadline-warning-days 365)        ;; [1]
+                (org-agenda-entry-types '(:deadline))  ;; [2]
+               ))
+             ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
              ("g" . "GTD contexts")
-             ("go" "Office" tags-todo "office")
              ("gc" "Computer" tags-todo "computer")
-             ("gp" "Phone" tags-todo "phone")
-             ("gh" "Home" tags-todo "home")
              ("ge" "Errands" tags-todo "errands")
+             ("gh" "Home" tags-todo "home")
+             ("go" "Office" tags-todo "office")
+             ("gp" "Phone" tags-todo "phone")
+             ;; a list of all tasks with the todo keyword STARTED
+             ("gw" todo "STARTED")
+             ;; block agenda views
+             ("h" . "HOME+Name tags searches") ; "h" prefix
+             ("ha" "Agenda and Home-related tasks"
+               ((agenda "")
+                 (tags-todo "home")
+                 (tags "garden")))
+             ("hl" tags "+home+love")
+             ("hp" tags "+home+parents")
+             ("hk" tags "+home+kimi")
+             ("o" "Agenda and Office-related tasks"
+               ((agenda "")
+                 (tags-todo "work|errands")
+                 (tags-todo "computer|office|phone"))
+               ("~/org/next-actions.html"))
              ;; Priority
              ("p" . "Priorities")
              ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
              ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
              ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
-             ;; block agenda views
-             ("h" . "HOME+Name tags searches") ; description for "h" prefix
-             ("ha" "Agenda and Home-related tasks"
-              ((agenda "")
-               (tags-todo "home")
-               (tags "garden")))
-             ("hl" tags "+home+Lisa")
-             ("hp" tags "+home+Peter")
-             ("hk" tags "+home+Kim")
-             ("o" "Agenda and Office-related tasks"
-              ((agenda "")
-               (tags-todo "work")
-               (tags-todo "computer")
-               (tags-todo "phone")
-               (tags-todo "home")
-               (tags-todo "errands")
-               (tags "office"))
-              ("~/org/next-actions.html"))
              ("Q" . "Custom queries of Archives and Publishments") ;; gives label to "Q"
              ("Qa" "Archive search" search ""
                ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
@@ -154,11 +149,13 @@
                      ;; searches both projects and archive directories
              ("QA" "Archive tags search" org-tags-view ""
                ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-             ("d" "Upcoming deadlines" agenda ""
-                ((org-agenda-time-grid nil)
-                 (org-deadline-warning-days 365)        ;; [1]
-                 (org-agenda-entry-types '(:deadline))  ;; [2]
-                 ))
+             ("x" agenda)
+             ("y" agenda*)
+             ("w" todo "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword
+             ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
+             ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
+             ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:', limiting the search to headlines that are also TODO items
+             ("U" tags-tree "+boss-urgent") ; global tags search for headlines marked :boss: but not :urgent:', but only in the current buffer and displaying the result as a sparse tree
              ))
 
 ;; clock
@@ -355,29 +352,31 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (
-              ("a" "Appointment" entry (file+headline (concat org-directory "taskdiary.org") "Calendar")
+              ("a" "Appointment" entry (file+headline (concat org-directory "/taskdiary.org") "Calendar")
                    "* APPT %^{Description} %^g %?  Added: %U")
-              ("d" "Diary" entry (file+datetree (concat org-directory "diary.org"))
-                   "* %?\n%U\n" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file (concat org-directory "refile.org"))
-                   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
-              ("j" "Journal" entry (file+datetree (concat org-directory "journal.org"))
-                   "* %^{Heading}\n%U\n" :clock-in t :clock-resume t)
-              ("l" "Log Time" entry (file+datetree (concat org-directory "log.org") )
+              ("d" "Diary" entry (file+datetree (concat org-directory "/diary.org"))
+                   "* %?\n  %U\n" :clock-in t :clock-resume t)
+              ("h" "Habit" entry (file (concat org-directory "/habit.org"))
+                   "** TODO %?\n  %U\n  %a\n  SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n")
+              ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+                   "* %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
+              ("l" "Log Time" entry (file+datetree (concat org-directory "/log.org") )
                    "** %U - %^{Activity}  :TIME:")
-              ("m" "Meeting" entry (file (concat org-directory "meeting.org"))
-                   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-              ("n" "note" entry (file (concat org-directory "notes.org"))
-                   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("p" "Phone call" entry (file (concat org-directory "call.org"))
-                   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file (concat org-directory "refile.org"))
-                   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("t" "todo" entry (file (concat org-directory "refile.org"))
-                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file (concat org-directory "refile.org"))
-                   "* TODO Review %c\n%U\n" :immediate-finish t)
-                                             )))
+              ("m" "Meeting" entry (file (concat org-directory "/meeting.org"))
+                   "* MEETING with %? :MEETING:\n  %U" :clock-in t :clock-resume t)
+              ("n" "note" entry (file (concat org-directory "/notes.org"))
+                   "* %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
+              ("p" "Phone call" entry (file (concat org-directory "/call.org"))
+                   "* Phone Call: %? :PHONE:\n  %U" :clock-in t :clock-resume t)
+              ("r" "respond" entry (file (concat org-directory "/todo.org"))
+                   "* NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
+              ("s" "Reference" entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
+                   "* %?\n  %i\n  %a")
+              ("t" "todo" entry (file (concat org-directory "/todo.org"))
+                   "* TODO %?\n  %U\n  %a\n" :clock-in t :clock-resume t)
+              ("w" "org-protocol" entry (file (concat org-directory "/refile.org"))
+                   "* TODO Review %c\n  %U\n" :immediate-finish t)
+            )))
 
 ;; Remove empty LOGBOOK drawers on clock out
 (defun bh/remove-empty-drawer-on-clock-out ()
@@ -408,5 +407,101 @@
 
 ;; archive place
 (setq org-archive-location (concat org-directory "/archive/%s_archive::"))
+
+
+;; get from http://almostobsolete.net/daypage.html
+;; manage seperate day pages
+;; {{{
+(setq daypage-path (concat org-directory "/days/"))
+
+(defun find-daypage (&optional date)
+  "Go to the day page for the specified date,
+   or toady's if none is specified."
+  (interactive (list
+                (org-read-date "" 'totime nil nil
+                               (current-time) "")))
+  (setq date (or date (current-time)))
+  (find-file
+       (expand-file-name
+        (concat daypage-path
+        (format-time-string "%Y-%m-%d" date) ".org"))))
+
+(defun daypage-date ()
+  "Return the date for the daypage visited by the current buffer
+or nil if the current buffer isn't visiting a dayage"
+  (let ((file (buffer-file-name))
+        (root-path (expand-file-name daypage-path)))
+    (if (and file
+               (string= root-path (substring file 0 (length root-path)))
+               (string-match "\\([0-9]\\{4\\}\\)-\\([0-9]\\{2\\}\\)-\\([0-9]\\{2\\}\\).org$" file))
+        (flet ((d (i) (string-to-number (match-string i file))))
+          (encode-time 0 0 0 (d 3) (d 2) (d 1)))
+      nil)))
+
+(defun daypage-next ()
+  (interactive)
+  (find-daypage
+   (seconds-to-time (+ (time-to-seconds (daypage-date))
+                       86400)))
+  (run-hooks 'daypage-movement-hook))
+
+(defun daypage-prev ()
+  (interactive)
+  (find-daypage
+   (seconds-to-time (- (time-to-seconds (daypage-date))
+                       86400)))
+  (run-hooks 'daypage-movement-hook))
+
+(defun daypage-next-week ()
+  (interactive)
+  (find-daypage
+   (seconds-to-time (+ (time-to-seconds (daypage-date))
+                       (* 86400 7))))
+  (run-hooks 'daypage-movement-hook))
+
+(defun daypage-prev-week ()
+  (interactive)
+  (find-daypage
+   (seconds-to-time (- (time-to-seconds (daypage-date))
+                       (* 86400 7))))
+  (run-hooks 'daypage-movement-hook))
+
+(defun todays-daypage ()
+  "Go straight to todays day page without prompting for a date."
+  (interactive)
+  (find-daypage)
+  (run-hooks 'daypage-movement-hook))
+
+(defun todays-daypage ()
+  "Go straight to today's day page without prompting for a date."
+  (interactive)
+  (find-daypage))
+
+(defun yesterdays-daypage ()
+  "Go straight to todays day page without prompting for a date."
+  (interactive)
+  (find-daypage
+   (seconds-to-time (- (time-to-seconds (current-time))
+                      86400)))
+  (run-hooks 'daypage-movement-hook))
+
+(defun daypage-new-item ()
+  "Switches to the current daypage and inserts a top level heading and a timestamp"
+  (interactive)
+  (todays-daypage)
+  (end-of-buffer)
+  (if (not (bolp))
+      (insert "\n"))
+  (insert "* <" (format-time-string "%Y-%m-%d %a" (daypage-date)) "> "))
+
+;; show them in agenda view
+(setq org-agenda-files
+  (append
+    org-agenda-files
+    (list (expand-file-name daypage-path))))
+
+(global-set-key "\C-con" 'todays-daypage)
+(global-set-key "\C-coN" 'find-daypage)
+;; }}}
 
 ;;
