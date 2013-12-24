@@ -1565,6 +1565,8 @@
 
 ;; [ org ]----------------------------------------------------------------------
 (when section-org
+  (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
+  (setq step_no (1+ step_no))
   (add-site-lisp-load-path "org/lisp/")
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")

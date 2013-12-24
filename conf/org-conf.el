@@ -3,10 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-23 17:15:25
-
-(message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
-(setq step_no (1+ step_no))
+;; Last Updated: 2013-12-24 09:40:48
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
