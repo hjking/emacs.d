@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-24 17:18:51
+;; Last Updated: 2013-12-25 15:02:18
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -72,17 +72,31 @@
 (setq org-fast-tag-selection-single-key (quote expert))
 
 ;; Org Agenda
-;; (setq org-agenda-files (file-expand-wildcards "~/emacs.d/org/*.org"))
-(setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
+;; (setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
 ;; (setq org-agenda-files (quote ("~/emacs.d/org")))
+;; (setq org-agenda-files '("~/org/widgets.org" "~/org/clients.org"))
+;; (setq org-agenda-files (append org-agenda-files
+;;      (list (expand-file-name (concat org-directory "/days")))))
+(setq org-agenda-files (list (concat org-directory "/gtd.org")
+                             (concat org-directory "/habit.org")
+                             (concat org-directory "/personal.org")
+                             (concat org-directory "/work.org")
+                             (concat org-directory "/mygtd.org")
+                             (concat org-directory "/contacts.org")
+                             (concat org-directory "/blog.org")
+                             (concat org-directory "/books.org")
+                             (concat org-directory "/call.org")
+                             (concat org-directory "/misc.org")))
 ;; How many days should the default agenda show?
-(setq org-agenda-ndays (* 6 7))
+;; (setq org-agenda-ndays (* 6 7))  ;; six weeks
+(setq org-agenda-ndays 'month)  ; a month
 (setq org-agenda-show-all-dates nil)
 (setq org-deadline-warning-days 14)
 ;; the agenda start on Monday, or better today?
 (setq org-agenda-start-on-weekday nil)
-;; Should the agenda also show entries from the Emacs diary?
+;; show entries from the Emacs diary
 (setq org-agenda-include-diary t)
+(setq org-agenda-diary-file (concat org-directory "/diary.org"))
 (setq org-agenda-span 2)
 (setq org-agenda-show-log t)
 (setq org-agenda-skip-scheduled-if-done t)
@@ -103,13 +117,14 @@
 ;; org agenda custom commands
 (setq org-agenda-custom-commands
            '(
-             ("c" "Desk Work" tags-todo "computer|laptop|phone"
+             ("c" "Desk Work" tags-todo "computer|laptop"
                 ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
-                ("~/org/computer.html")) ;; export to
+                ((concat org-directory "/computer.html"))) ;; export to file
+             ;; overview of deadlines due within the next 60 days
              ("d" "Upcoming deadlines" agenda ""
                ((org-agenda-time-grid nil)
-                (org-deadline-warning-days 365)        ;; [1]
-                (org-agenda-entry-types '(:deadline))  ;; [2]
+                (org-deadline-warning-days 60)        ;; [1] shows all deadlines that fall due within the upcoming year
+                (org-agenda-entry-types '(:deadline))  ;; [2] looking for deadlines and nothing else so quite efficiently
                ))
              ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
              ("g" . "GTD contexts")
@@ -120,20 +135,26 @@
              ("gp" "Phone" tags-todo "phone")
              ;; a list of all tasks with the todo keyword STARTED
              ("gw" todo "STARTED")
+             ("G" "GTD Block Agenda"
+               ((tags-todo "office|work")
+                (tags-todo "computer")
+                (tags-todo "phone")
+                (tags-todo "home")
+                (tags-todo "errands"))
+               nil                      ;; i.e., no local settings
+               ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
              ;; block agenda views
              ("h" . "HOME+Name tags searches") ; "h" prefix
              ("ha" "Agenda and Home-related tasks"
                ((agenda "")
-                 (tags-todo "home")
-                 (tags "garden")))
+                (tags-todo "home")
+                (tags "garden")))
+             ("hc" tags "+home+child")
              ("hl" tags "+home+love")
              ("hp" tags "+home+parents")
-             ("hk" tags "+home+kimi")
-             ("o" "Agenda and Office-related tasks"
-               ((agenda "")
-                 (tags-todo "work|errands")
-                 (tags-todo "computer|office|phone"))
-               ("~/org/next-actions.html"))
+             ;; display next 10 entries with a 'NEXT' TODO keyword.
+             ("n" todo "NEXT"
+               ((org-agenda-max-entries 10)))
              ;; Priority
              ("p" . "Priorities")
              ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
@@ -149,9 +170,18 @@
                      ;; searches both projects and archive directories
              ("QA" "Archive tags search" org-tags-view ""
                ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+             ;; run a tags/property search on files other than the agenda files
+             ("r" "Reference material" tags ""
+               ((org-agenda-files (file-expand-wildcards (concat org-directory "/ref/*.org")))))
              ("x" agenda)
              ("y" agenda*)
-             ("w" todo "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword
+             ("w" "Weekly Review"
+                ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
+                                                ;; type "l" in the agenda to review logged items
+                (stuck "") ;; review stuck projects as designated by org-stuck-projects
+                (todo "MAYBE") ;; review maybe items
+                (todo "SOMEDAY") ;; review someday items
+                (todo "WAITING"))) ;; review waiting items
              ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
              ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
              ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:', limiting the search to headlines that are also TODO items
@@ -495,10 +525,9 @@ or nil if the current buffer isn't visiting a dayage"
   (insert "* <" (format-time-string "%Y-%m-%d %a" (daypage-date)) "> "))
 
 ;; show them in agenda view
-(setq org-agenda-files
-  (append
-    org-agenda-files
-    (list (expand-file-name daypage-path))))
+(add-to-list 'org-agenda-custom-commands
+             '("Qe" "Notes of everyday" agenda ""
+               ((org-agenda-files (list (expand-file-name daypage-path))))))
 
 (global-set-key "\C-con" 'todays-daypage)
 (global-set-key "\C-coN" 'find-daypage)

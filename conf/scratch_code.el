@@ -31,18 +31,6 @@
 ;; 6. any items that have the todo keyword "WAITING"
 
 
-;; create block views for the weekly review
-(setq org-agenda-custom-commands
-      '(("W" "Weekly Review"
-         ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
-                                           ;; type "l" in the agenda to review logged items
-          (stuck "") ;; review stuck projects as designated by org-stuck-projects
-          (todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
-          (todo "MAYBE") ;; review someday/maybe items
-          (todo "WAITING"))) ;; review waiting items
-         ;; ...other commands here
-        ))
-
 ;; "~/org/" for your project files
 ;; "~/website/" for your published files
 ;; "~/archive/" for old projects and notes
@@ -97,44 +85,6 @@
 ;; if you want to exclude all agenda entry types, just set org-agenda-entry-types to nil
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; an overview of all deadlines due within the next 365 days
-(setq org-agenda-custom-commands
-      '(("d" "Upcoming deadlines" agenda ""
-                ((org-agenda-time-grid nil)
-                 (org-deadline-warning-days 365)        ;; [1] shows all deadlines that fall due within the upcoming year
-                 (org-agenda-entry-types '(:deadline))  ;; [2] looking for deadlines and nothing else so quite efficiently
-                 ))
-      ;; other commands go here
-       ))
-
-;; Keyboard shortcuts to search by GTD contexts.
-(setq org-agenda-custom-commands
-      '(("g" . "GTD contexts")
-        ("go" "Office" tags-todo "office")
-        ("gc" "Computer" tags-todo "computer")
-        ("gp" "Phone" tags-todo "phone")
-        ("gh" "Home" tags-todo "home")
-        ("ge" "Errands" tags-todo "errands")
-        ("G" "GTD Block Agenda"
-         ((tags-todo "office")
-          (tags-todo "computer")
-          (tags-todo "phone")
-          (tags-todo "home")
-          (tags-todo "errands"))
-         nil                      ;; i.e., no local settings
-         ("~/next-actions.html")) ;; exports block to this file with C-c a e
-       ;; ..other commands here
-        ))
-
-;; Shortcuts to display tasks by priority level:
-(setq org-agenda-custom-commands
-      '(("p" . "Priorities")
-        ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
-        ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
-        ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
-        ;; ...other commands here
-        ))
 
 ;; see a weekly planner containing only appointments—that is, with deadlines and scheduled items omitted
 (setq org-agenda-custom-commands
@@ -143,18 +93,6 @@
           (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
           (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
         ;; limits agenda view to timestamped items
-        ;; ...other commands here
-        ))
-
-;;  deadlines due within the next 60 days
-(setq org-agenda-custom-commands
-      '(("d" "Upcoming deadlines" agenda ""
-         ((org-agenda-entry-types '(:deadline))
-          ;; a slower way to do the same thing
-          ;; (org-agenda-skip-function '(org-agenda-skip-entry-if 'notdeadline))
-          (org-agenda-ndays 1)
-          (org-deadline-warning-days 60)
-          (org-agenda-time-grid nil)))
         ;; ...other commands here
         ))
 
@@ -187,32 +125,5 @@
          ("~/agenda.ps"))
         ;; other commands go here
         ))
-
-;;
-(setq org-agenda-custom-commands
-      '(("a" "My custom agenda"
-	 ((org-agenda-list nil nil 1)
-	  (tags "PROJECT-WAITING")
-	  (tags-todo "WAITING")
-	  (tags-todo "-MAYBE")))))
-
-
-;; display the next five entries with a 'NEXT' TODO keyword.
-(setq org-agenda-custom-commands
-      '(("n" todo "NEXT"
-         ((org-agenda-max-entries 5)))))
-
-;;
-(add-to-list 'org-agenda-custom-commands
-             '("B" "Big books (fast)" search "{:BIB_PAGES:\\s-+[0-9]\\{4\\}}"))
-
-;; perform the "urgent wedding tasks" search
-(add-to-list 'org-agenda-custom-commands
-             '("w" "Getting married next week!" search "!+wedding +{:\\(urgent\\|important\\):}"))
-
-;; run a tags/property search on files other than the agenda files
-(add-to-list 'org-agenda-custom-commands
-             '("r" "Reference material" tags ""
-               ((org-agenda-files (file-expand-wildcards "~/ref/*.org")))))
 
 ;;
