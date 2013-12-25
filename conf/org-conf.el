@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-25 15:02:18
+;; Last Updated: 2013-12-25 17:19:39
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -383,29 +383,31 @@
 (setq org-capture-templates
       (quote (
               ("a" "Appointment" entry (file+headline (concat org-directory "/taskdiary.org") "Calendar")
-                   "* APPT %^{Description} %^g %?  Added: %U")
+                   "** APPT: %^{Description} %^g %?  Added: %U")
+              ("b" "Books to Read" entry (file+headline (concat org-directory "/books.org") "Books")
+                   "** NEXT Read: %?\n   %i\n   %a")
               ("d" "Diary" entry (file+datetree (concat org-directory "/diary.org"))
-                   "* %?\n  %U\n" :clock-in t :clock-resume t)
+                   "** %?\n  %U\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file (concat org-directory "/habit.org"))
-                   "** TODO %?\n  %U\n  %a\n  SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n")
+                   "** TODO %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :REPEAT_TO_STATE: NEXT\n   :END:\n")
               ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
-                   "* %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
+                   "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
               ("l" "Log Time" entry (file+datetree (concat org-directory "/log.org") )
                    "** %U - %^{Activity}  :TIME:")
               ("m" "Meeting" entry (file (concat org-directory "/meeting.org"))
-                   "* MEETING with %? :MEETING:\n  %U" :clock-in t :clock-resume t)
+                   "** MEETING with %? :MEETING:\n  %U" :clock-in t :clock-resume t)
               ("n" "note" entry (file (concat org-directory "/notes.org"))
-                   "* %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
+                   "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
               ("p" "Phone call" entry (file (concat org-directory "/call.org"))
-                   "* Phone Call: %? :PHONE:\n  %U" :clock-in t :clock-resume t)
+                   "** NEXT Phone Call: %x %? :PHONE:\n   %U" :clock-in t :clock-resume t)
               ("r" "respond" entry (file (concat org-directory "/todo.org"))
-                   "* NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
+                   "** NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("s" "Reference" entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
-                   "* %?\n  %i\n  %a")
+                   "** %?\n  %i\n  %a")
               ("t" "todo" entry (file (concat org-directory "/todo.org"))
-                   "* TODO %?\n  %U\n  %a\n" :clock-in t :clock-resume t)
+                   "** TODO %?\n   %U\n   %a\n" :clock-in t :clock-resume t)
               ("w" "org-protocol" entry (file (concat org-directory "/refile.org"))
-                   "* TODO Review %c\n  %U\n" :immediate-finish t)
+                   "** TODO Review %c\n   %U\n" :immediate-finish t)
             )))
 
 ;; Remove empty LOGBOOK drawers on clock out
