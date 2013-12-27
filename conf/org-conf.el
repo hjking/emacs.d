@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-26 11:45:03
+;; Last Updated: 2013-12-27 16:25:48
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -57,7 +57,13 @@
 (setq org-use-fast-todo-selection t)
 
 ;; Tags
-(setq org-tag-alist '(("@work" . ?w)
+;;  (@XXX) tags are mutually exclusive
+;;    selecting one removes a similar tag already on the task
+;;    These are the context tags
+;;  other tags are not mutually exclusive and multiple tags
+;;    can appear on a single task
+;; Tags with fast selection keys
+(setq org-tag-alist '((:startgroup)
                       ("@home" . ?h)
                       ("@errand" . ?e)
                       ("@coding" . ?c)
@@ -65,6 +71,14 @@
                       ("@reading" . ?r)
                       ("@office" . ?o)
                       ("@laptop" . ?l)
+                      (:endgroup)
+                      ("WAITING" . ?w)
+                      ("HOLD" . ?H)
+                      ("PERSONAL" . ?P)
+                      ("WORK" . ?W)
+                      ("NOTE" . ?n)
+                      ("CANCELLED" . ?c)
+                      ("FLAGGED" . ??)
                       ("urgent" . ?u)
                       ("quantified" . ?q)))
 
@@ -78,33 +92,44 @@
 ;; (setq org-agenda-files (append org-agenda-files
 ;;      (list (expand-file-name (concat org-directory "/days")))))
 (setq org-agenda-files (list (concat org-directory "/gtd.org")
+                             (concat org-directory "/mygtd.org")
+                             (concat org-directory "/todo.org")
                              (concat org-directory "/habit.org")
                              (concat org-directory "/personal.org")
                              (concat org-directory "/work.org")
-                             (concat org-directory "/mygtd.org")
-                             (concat org-directory "/contacts.org")
+                             (concat org-directory "/meeting.org")
                              (concat org-directory "/blog.org")
                              (concat org-directory "/books.org")
                              (concat org-directory "/call.org")
                              (concat org-directory "/misc.org")))
+;; Use sticky agenda's so they persist
+(setq org-agenda-sticky t)
 ;; How many days should the default agenda show?
 ;; (setq org-agenda-ndays (* 6 7))  ;; six weeks
 (setq org-agenda-ndays 'month)  ; a month
-(setq org-agenda-show-all-dates nil)
+;; Show all agenda dates - even if they are empty
+(setq org-agenda-show-all-dates t)
 (setq org-deadline-warning-days 14)
 ;; the agenda start on Monday, or better today?
 (setq org-agenda-start-on-weekday nil)
 ;; show entries from the Emacs diary
 (setq org-agenda-include-diary t)
 (setq org-agenda-diary-file (concat org-directory "/diary.org"))
+;; any time strings in the heading are shown in the agenda
+(setq org-agenda-insert-diary-extract-time t)
 (setq org-agenda-span 2)
 (setq org-agenda-show-log t)
-(setq org-agenda-skip-scheduled-if-done t)
-(setq org-agenda-skip-deadline-if-done t)
-(setq org-agenda-time-grid
-      '((daily today require-timed)
-       "----------------"
-       (800 1000 1200 1400 1600 1800)))
+;; (setq org-agenda-time-grid
+;;       '((daily today require-timed)
+;;        "----------------"
+;;        (800 1000 1200 1400 1600 1800)))
+;; Enable display of the time grid so we can see the marker for the current time
+(setq org-agenda-time-grid (quote ((daily today remove-match)
+                                   #("----------------" 0 16 (org-heading t))
+                                   (0900 1100 1300 1500 1700))))
+;; Display tags farther right
+(setq org-agenda-tags-column -102)
+
 (setq org-columns-default-format "%30ITEM %15SCHEDULED %5TODO %5PRIORITY %Effort{:} %TAGS")
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -113,7 +138,35 @@
 ;; Compact the block agenda view
 (setq org-agenda-compact-blocks t)
 ;; (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
+;; Show all future entries for repeating tasks
 (setq org-agenda-repeating-timestamp-show-all t)
+;; Agenda log mode items to display (closed and state changes by default)
+(setq org-agenda-log-mode-items (quote (closed state)))
+
+;; Keep tasks with dates on the global todo lists
+(setq org-agenda-todo-ignore-with-date nil)
+
+;; Keep tasks with deadlines on the global todo lists
+(setq org-agenda-todo-ignore-deadlines nil)
+
+;; Keep tasks with scheduled dates on the global todo lists
+(setq org-agenda-todo-ignore-scheduled nil)
+
+;; Keep tasks with timestamps on the global todo lists
+(setq org-agenda-todo-ignore-timestamp nil)
+
+;; Remove completed deadline tasks from the agenda view
+(setq org-agenda-skip-deadline-if-done t)
+
+;; Remove completed scheduled tasks from the agenda view
+(setq org-agenda-skip-scheduled-if-done t)
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+;; Include agenda archive files when searching for things
+(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+
 ;; org agenda custom commands
 (setq org-agenda-custom-commands
            '(
@@ -189,10 +242,9 @@
              ))
 
 ;; clock
-(setq org-log-done 'time) ;; mark DONE item with time
-;; (setq org-log-done 'note) ;; leave some notes to DONE item
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
+(setq org-clock-into-drawer 1)
 
 ;; automatically assign tags to tasks based on state changes
 (setq org-todo-state-tags-triggers
@@ -256,11 +308,25 @@
 
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
 
-;; Enable filtering by effort estimates
+; global Effort estimate values
+; global STYLE property values for completion
 (setq org-global-properties
-      '(("Effort_ALL". "0:05 0:15 0:30 1:00 2:00 3:00 4:00")))
+    (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+            ("STYLE_ALL" . "habit"))))
 
-
+;; To make org show leading stars use
+(setq org-hide-leading-stars nil)
+;; org-indent mode on by default at startup with the following setting:
+(setq org-startup-indented t)
+;; hides blank lines between headings which keeps folded view nice and compact.
+(setq org-cycle-separator-lines 0)
+;; prevents creating blank lines before headings but allows list items to adapt to existing blank lines around the items:
+(setq org-blank-before-new-entry (quote ((heading)
+                                         (plain-list-item . auto))))
+;; Adding new tasks quickly without disturbing the current task content
+(setq org-insert-heading-respect-content nil)
+;; see deadlines in the agenda 15 days before the due date
+(setq org-deadline-warning-days 15)
 ;; Publishing
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
@@ -371,9 +437,12 @@
     ("gmap" . "http://maps.google.com/maps?q=%s")
     ("blog" . "http://hjking.github.io")))
 
-; Clocking
+; Log
+(setq org-log-done 'time) ;; mark DONE item with time
+;; (setq org-log-done 'note) ;; leave some notes to DONE item
+(setq org-log-into-drawer t)
 (setq org-log-into-drawer "LOGBOOK")
-(setq org-clock-into-drawer 1)
+(setq org-log-state-notes-insert-after-drawers nil)
 
 ; Speed commands
 (setq org-use-effective-time t)
@@ -395,10 +464,10 @@
               ("d" "Diary" entry (file+datetree (concat org-directory "/diary.org"))
                    "** %?\n  %U\n" :clock-in t :clock-resume t)
               ("h" "Habit" entry (file (concat org-directory "/habit.org"))
-                   "** TODO %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :REPEAT_TO_STATE: NEXT\n   :END:\n")
+                   "** TODO %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
               ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
                    "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
-              ("l" "Log Time" entry (file+datetree (concat org-directory "/log.org") )
+              ("l" "Log Time" entry (file+datetree (concat org-directory "/archive/log.org") )
                    ;; "** %U - %^{Activity}  :TIME:")
                    "** %U - %a  :TIME:")
               ("m" "Meeting" entry (file (concat org-directory "/meeting.org"))
@@ -445,8 +514,8 @@
             'wicked/org-publish-files-maybe)))
 
 ;; archive place
-(setq org-archive-location (concat org-directory "/archive/%s_archive::"))
-
+(setq org-archive-location (concat org-directory "/archive/%s_archive::* Archived Tasks"))
+(setq org-archive-mark-done nil)
 
 ;; get from http://almostobsolete.net/daypage.html
 ;; manage seperate day pages
@@ -541,5 +610,7 @@ or nil if the current buffer isn't visiting a dayage"
 (global-set-key "\C-con" 'todays-daypage)
 (global-set-key "\C-coN" 'find-daypage)
 ;; }}}
+
+(require 'org-checklist)
 
 ;;

@@ -383,7 +383,6 @@
 
 ;; highlight current line
 (require 'hl-line)
-;;(hl-line-mode 1)
 (global-hl-line-mode 1)
 
 ;; Not open new frame when WoMan
@@ -757,7 +756,7 @@
 (mouse-avoidance-mode 'animate)
 ;; keep point at the end of the line
 (setq track-eol t)
-;; use mouse wheel
+;; Support Mouse Wheel Scrolling
 (mouse-wheel-mode t)
 ;; default setting
 ;;(global-set-key (kbd "<mouse-1>") 'mouse-set-point)
