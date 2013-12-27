@@ -195,6 +195,14 @@ See also `with-temp-buffer'."
   (copy-region-as-kill beg end))
 )
 
+(defun ew-copy-line (arg)
+      "Copy lines (as many as prefix argument) in the kill ring"
+      (interactive "p")
+      (kill-ring-save (line-beginning-position)
+                      (line-beginning-position (+ 1 arg)))
+      (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+
+
 ;;; === copy word ===
 (defun my-copy-word (&optional arg)
   "Copy word at point"

@@ -1257,7 +1257,6 @@
 (add-site-lisp-load-path "browse-kill-ring/")
 (require 'browse-kill-ring)
 ;; (require 'browse-kill-ring+)
-(use-package browse-kill-ring+)
 ;; string separating entries in the `separated' style
 (setq browse-kill-ring-separator
       "\n--separator------------------------------")
@@ -1269,7 +1268,10 @@
 (setq browse-kill-ring-quit-action 'save-and-restore)
 ;; use `M-y' to invoke `browse-kill-ring'
 (browse-kill-ring-default-keybindings)
-(global-set-key (kbd "C-c k") 'browse-kill-ring)
+;; map `browse-kill-ring' to another key combination
+;; (global-set-key (kbd "C-c y") 'browse-kill-ring)
+;; (global-set-key "\C-cy" 'browse-kill-ring)
+(use-package browse-kill-ring+)
 ;; [ browse-kill-ring ]------------------------------------------------[ End ]--
 
 

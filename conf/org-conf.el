@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-25 17:19:39
+;; Last Updated: 2013-12-26 11:45:03
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -200,7 +200,7 @@
               ("WAITING" ("WAITING" . t))
               ("HOLD" ("WAITING" . t) ("HOLD" . t))
               ("SOMEDAY" ("WAITING" . t))
-              (done ("WAITING"))
+              (done ("WAITING") ("HOLD"))
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
               ("STARTED" ("WAITING"))
@@ -219,15 +219,21 @@
 ;; Refiling means moving entries around
 ;; For example from a capturing location to the correct project
 (setq org-reverse-note-order t)
+; Use full outline paths for refile targets
 (setq org-refile-use-outline-path nil)
+; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes 'confirm)
-(setq org-refile-targets
-      '(((concat org-directory "/contacts.org") . (:maxlevel . 2))
-        ((concat org-directory "/decisions.org") . (:maxlevel . 3))
-        ((concat org-directory "/business.org") . (:maxlevel . 4))
-        ((concat org-directory "/organizer.org") . (:maxlevel . 4))
-        ((concat org-directory "/outline.org") . (:maxlevel . 3))))
+; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+;; (setq org-refile-targets
+;;       '(((concat org-directory "/contacts.org") . (:maxlevel . 2))
+;;         ((concat org-directory "/decisions.org") . (:maxlevel . 3))
+;;         ((concat org-directory "/business.org") . (:maxlevel . 4))
+;;         ((concat org-directory "/organizer.org") . (:maxlevel . 4))
+;;         ((concat org-directory "/outline.org") . (:maxlevel . 3))))
 (setq org-blank-before-new-entry nil)
+; Exclude DONE state tasks from refile targets
 (defun my/verify-refile-target ()
   "Exclude todo keywords with a DONE state from refile targets"
   (or (not (member (nth 2 (org-heading-components)) org-done-keywords)))
@@ -382,8 +388,8 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (
-              ("a" "Appointment" entry (file+headline (concat org-directory "/taskdiary.org") "Calendar")
-                   "** APPT: %^{Description} %^g %?  Added: %U")
+              ("a" "Appointment" entry (file+headline (concat org-directory "/meeting.org") "Calendar")
+                   "** APPT: %^{Description} %^g %?  Added: %U\n   SCHEDULED: %t")
               ("b" "Books to Read" entry (file+headline (concat org-directory "/books.org") "Books")
                    "** NEXT Read: %?\n   %i\n   %a")
               ("d" "Diary" entry (file+datetree (concat org-directory "/diary.org"))
@@ -393,15 +399,16 @@
               ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
                    "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
               ("l" "Log Time" entry (file+datetree (concat org-directory "/log.org") )
-                   "** %U - %^{Activity}  :TIME:")
+                   ;; "** %U - %^{Activity}  :TIME:")
+                   "** %U - %a  :TIME:")
               ("m" "Meeting" entry (file (concat org-directory "/meeting.org"))
-                   "** MEETING with %? :MEETING:\n  %U" :clock-in t :clock-resume t)
+                   "** MEETING with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
               ("n" "note" entry (file (concat org-directory "/notes.org"))
                    "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
               ("p" "Phone call" entry (file (concat org-directory "/call.org"))
-                   "** NEXT Phone Call: %x %? :PHONE:\n   %U" :clock-in t :clock-resume t)
-              ("r" "respond" entry (file (concat org-directory "/todo.org"))
-                   "** NEXT Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
+                   "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :PHONE:\n   SCHEDULED: %t\n   %U" :clock-in t :clock-resume t)
+              ("r" "Email Respond" entry (file (concat org-directory "/todo.org"))
+                   "** NEXT Email Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
               ("s" "Reference" entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
                    "** %?\n  %i\n  %a")
               ("t" "todo" entry (file (concat org-directory "/todo.org"))
