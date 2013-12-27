@@ -210,26 +210,26 @@
     ;         "The Root directory of my .emacs.d")
     (defvar my-emacs-init-file (or load-file-name buffer-file-name))
     (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
-      "The Root directory of my .emacs.d")
+        "The Root directory of my .emacs.d")
     ;; My site-lisp directory
     (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
-            "This directory keeps Emacs Lisp packages")
-    (defvar my-emacs-site-lisp-dir (concat (getenv "EMACS_DIR") "/site-lisp/"))
+        "This directory keeps Emacs Lisp packages")
     ;; My configuration files directory
     (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
-            "This directory keeps my Emacs Lisp for packages")
+        "This directory keeps my Emacs Lisp for packages")
     ;; Personal configuration files
     (defvar my-personal-dir (concat my-emacs-dir "personal/")
-            "This directory keeps my personal configuration")
+        "This directory keeps my personal configuration")
     (defvar my-cache-dir (concat my-emacs-dir "cache/")
-            "This directory keeps cache files")
+        "This directory keeps cache files")
+    (unless (file-exists-p my-cache-dir)
+        (make-directory my-cache-dir))
     (defmacro add-load-path (path)
         `(setq load-path (append (list, path) load-path)))
     (defmacro add-site-lisp-load-path (path)
         `(setq load-path (append (list (concat my-site-lisp-dir, path)) load-path)))
     (defmacro add-site-lisp-info-path (path)
         `(setq Info-default-directory-list (append (list (concat my-site-lisp-dir, path)) Info-default-directory-list)))
-
     (add-load-path my-emacs-dir)
     (add-load-path my-site-lisp-dir)
     (add-load-path my-site-lisp-conf-dir)
@@ -242,7 +242,7 @@
     ;     (dolist (file (directory-files my-site-lisp-conf-dir t "\\.el$"))
     ;        (load file)))
 
-    ; Add external projects to load path
+    ;; Add external projects to load path
     ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
     ;     (when (file-directory-p project)
     ;       (add-to-list 'load-path project)))
@@ -1216,7 +1216,7 @@
 (when section-ido
     (add-site-lisp-load-path "ido-hacks/")
     (add-site-lisp-load-path "ido-ubiquitous/")
-    (add-site-lisp-load-path "ido-better-flex/")
+    (add-site-lisp-load-path "flx-ido/")
     (add-site-lisp-load-path "/")
     (load "ido-conf")
 

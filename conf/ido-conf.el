@@ -5,13 +5,13 @@
 (setq step_no (1+ step_no))
 (require 'ido)
 (ido-mode 1)
+(ido-everywhere 1)
 ;; (setq ido-save-directory-list-file "~/.emacs.d/_ido_last")
 (setq ido-save-directory-list-file (concat my-cache-dir "ido_last"))
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-create-new-buffer 'always)
 (setq ido-enable-regexp t)
 (setq ido-completion-buffer-all-completions t)
-(setq ido-everywhere t)
 (setq ido-enable-flex-matching t)
 (setq ido-record-commands t)
 (setq ido-max-directory-size 100000)
@@ -31,17 +31,22 @@
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-prefix nil)
 
+;;
 (require 'ido-hacks)
 (ido-hacks-mode +1)
 
+;;
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode +1)
 (defvar ido-cur-item nil)
 (defvar ido-default-item nil)
 (defvar ido-cur-list nil)
 
-(require 'ido-better-flex)
-(ido-better-flex/enable)
+;;
+(require 'flx-ido)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
 
 ;; Bind `~` to go to homedir when in ido-find-file; http://whattheemacsd.com/setup-ido.el-02.html
 (add-hook 'ido-setup-hook

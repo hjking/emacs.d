@@ -118,10 +118,6 @@
 	path = plugin/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
 	ignore = dirty
-[submodule "plugin/ido-better-flex"]
-	path = plugin/ido-better-flex
-	url = https://github.com/vic/ido-better-flex.git
-	ignore = dirty
 [submodule "plugin/ibuffer-git"]
 	path = plugin/ibuffer-git
 	url = https://github.com/jrockway/ibuffer-git.git
@@ -133,3 +129,8 @@
 [submodule "plugin/undo-tree"]
 	path = plugin/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+	ignore = dirty
+[submodule "plugin/flx-ido"]
+	path = plugin/flx-ido
+	url = https://github.com/lewang/flx.git
+	ignore = dirty
