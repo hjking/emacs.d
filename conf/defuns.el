@@ -1627,3 +1627,45 @@ If REPOSITORY is specified, use that."
            (while (> (line-number-at-pos) min)
              (join-line))))
         (t (call-interactively 'join-line))))
+
+;;; Google
+(defun google ()
+  "Google the selected region if any, display a query prompt otherwise."
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    (url-hexify-string (if mark-active
+         (buffer-substring (region-beginning) (region-end))
+       (read-string "Search Google: "))))))
+
+;;; Percentage-buffer
+(defun goto-percent (pct)
+  "Go to place in a buffer expressed in percentage."
+  (interactive "nPercent: ")
+  (goto-char (/ (* (point-max) pct) 100)))
+
+;; Count total number of words in current buffer
+(defun count-words-buffer ()
+  "Count total number of words in current buffer."
+  (interactive)
+  (let ((count 0))
+    (save-excursion
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+  (forward-word 1)
+  (setq count (1+ count)))
+      (if (zerop count)
+    (message "buffer has no words.")
+  (message "buffer approximately has %d %s." count
+     (pluralize "word" count))))))
+
+;;; Highlight-annotations
+(defun font-lock-comment-annotations ()
+  "Highlight a bunch of well known comment annotations.
+This functions should be added to the hooks of major modes for
+programming."
+  (font-lock-add-keywords
+   nil '(("\<\(FIX\(ME\)?\|TODO\|OPTIMIZE\|HACK\|REFACTOR\):"
+          1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook 'font-lock-comment-annotations)

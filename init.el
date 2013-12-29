@@ -59,12 +59,12 @@
 (setq step_no 1)
 ;;;; Debugging
 (setq
- eval-expression-debug-on-error t       ; debugger on errors in eval-expression
- stack-trace-on-error nil               ; backtrace of error on debug
- debug-on-error nil                     ; debugger on errors
- debug-on-quit nil                      ; debug when C-g is hit
- debug-on-signal nil)                   ; debug any/every error
-;; (setq debug-on-error t)
+  eval-expression-debug-on-error t       ; debugger on errors in eval-expression
+  stack-trace-on-error nil               ; backtrace of error on debug
+  ;; debug-on-error t
+  debug-on-error nil                     ; debugger on errors
+  debug-on-quit nil                      ; debug when C-g is hit
+  debug-on-signal nil)                   ; debug any/every error
 
 ;; uptimes
 (setq emacs-load-start-time (current-time))
@@ -158,7 +158,7 @@
 (defvar section-powerline t)
 
 ;;;###autoload
-(defmacro define-kbd     (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
+(defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
 ;;;###autoload
 (defmacro local-set-kbd  (key command)    `(local-set-key (kbd ,key) ,command))
 ;;;###autoload
@@ -1185,15 +1185,11 @@
 ;; [ Auto-Fill ]----------------------------------------------------------------
 (message "%d: >>>>> Loading [ Auto-Fill Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
+;; turn on word wrap
 (auto-fill-mode 1)
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
 (setq default-fill-column 80)
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ Doremi ]-------------------------------------------------------------------
-;;  (when (try-require 'doremi-frm))
 ;; --------------------------------------------------------------------[ End ]--
 
 

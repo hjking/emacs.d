@@ -17,6 +17,7 @@
 ; (column-number-mode 1)
 (setq display-line-number-format "%3d ")
 (setq line-number-display-limit 100000)
+;; Show buffer size in mode-line
 (size-indication-mode 1)
 
 ;; use inactive face for mode-line in non-selected windows
