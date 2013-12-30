@@ -134,3 +134,6 @@
 	path = plugin/flx-ido
 	url = https://github.com/lewang/flx.git
 	ignore = dirty
+[submodule "plugin/company-mode"]
+	path = plugin/company-mode
+	url = https://github.com/company-mode/company-mode.git
