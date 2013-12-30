@@ -3,10 +3,12 @@
 ;; Description: Setting for hippie-exp.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2010-12-14 14:25:37
+;; Last Updated: 2013-12-30 09:03:17
 ;;
 (message "%d: >>>>> Loading [ hippie-exp ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
+;; skipping space
+(setq hippie-expand-dabbrev-skip-space t)
 ;; list of expansion functions tried (in order) by `hippie-expand'
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev   ; from current buffer
