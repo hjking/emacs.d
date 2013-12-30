@@ -22,12 +22,6 @@
     (setq ls-lisp-use-localized-time-format t)
 )
 
-(message ">>>>> Loading [ Dir-isearch ] Customizations ....")
-(setq my-dir-isearch-dir (concat my-site-lisp-dir "dired-isearch/"))
-(add-to-list 'load-path my-dir-isearch-dir)
-(when (try-require 'dired-isearch)
-   (require 'dired-isearch-autoloads)
-)
 
 ;;; dired setting
 ;; Dired copy folders recursively without confirmation
@@ -46,6 +40,7 @@
        (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
        (define-key dired-mode-map [return] 'dired-find-file-other-window)
        (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)
+       (define-key dired-mode-map [mouse-2] 'dired-find-file)
     )
 )
 ;; sort ( s s : sort by size ; s x : sort by extension; s t : sort by time; s b : sort by name )
@@ -90,6 +85,13 @@
 (add-hook 'dired-after-readin-hook 'my-dired-sort)
 (add-hook 'dired-lood-hook 'my-dired-sort)
 
+;; dir-isearch
+(message ">>>>> Loading [ Dir-isearch ] Customizations ....")
+(setq my-dir-isearch-dir (concat my-site-lisp-dir "dired-isearch/"))
+(add-to-list 'load-path my-dir-isearch-dir)
+(when (try-require 'dired-isearch)
+   (require 'dired-isearch-autoloads)
+)
 
 ;; *** --- wdired: rename filename
 ;; ‘C-x C-q’ runs the command ‘wdired-change-to-wdired-mode’ to make a dired buffer editable

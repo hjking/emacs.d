@@ -46,3 +46,8 @@
           (setq isearch-initial-string (buffer-substring begin end))
           (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
           (isearch-forward regexp-p no-recursive-edit)))))
+
+(global-anzu-mode t)
+(diminish 'anzu-mode)
+(global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+(global-set-key [remap query-replace] 'anzu-query-replace)
