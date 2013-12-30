@@ -16,6 +16,9 @@
       (cygwin-mount-activate)
       (setq w32shell-cygwin-bin my-cygwin-dir))
 
+    (setq cygwin-mount-cygwin-bin-directory "d:/cygwin/bin")
+    (setq cygwin-root-directory "D:/cygwin/")
+    (require 'setup-cygwin)
 
 ;;      (setenv "PATH" (concat "d:/cygwin/bin" (getenv "PATH")))
 ;;      (require 'cygwin-mount)

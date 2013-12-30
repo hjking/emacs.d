@@ -545,12 +545,15 @@ See also `with-temp-buffer'."
   )
 )
 
-(defun delete-current-file ()
+;;----------------------------------------------------------------------------
+;; Delete the current file
+;;----------------------------------------------------------------------------
+(defun delete-this-file ()
   "Delete the file associated with the current buffer."
   (interactive)
   (let (currentFile)
     (setq currentFile (buffer-file-name))
-    (when (yes-or-no-p (concat "Delete File: " currentFile))
+    (when (yes-or-no-p (concat "Really Delete File: " currentFile))
       (kill-buffer (currentFile))
       (delete-file currentFile)
       (message (concat "Delete File: " currentFile))
@@ -1241,6 +1244,9 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       (set-foreground-color "Gray")
       (set-cursor-color "Gray")))
 
+;;----------------------------------------------------------------------------
+;; Rename the current file
+;;----------------------------------------------------------------------------
 (defun my-rename-file-and-buffer(new-name)
   "Renames both current buffer and file it's visiting to new-name."
   (interactive "sNew name: ")
@@ -1256,21 +1262,6 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
               (set-visited-file-name new-name)
               (set-buffer-modified-p nil))))))
 
-(defun rename-this-file-and-buffer (new-name)
-  "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (unless filename
-      (error "Buffer '%s' is not visiting a file!" name))
-    (if (get-buffer new-name)
-        (message "A buffer named '%s' already exists!" new-name)
-      (progn
-        (rename-file name new-name 1)
-        (rename-buffer new-name)
-        (set-visited-file-name new-name)
-        (set-buffer-modified-p nil)))))
-
 (defun rename-current-buffer-file ()
     "Renames current buffer and file it is visiting."
     (interactive)
@@ -1278,7 +1269,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
             (filename (buffer-file-name)))
          (if (not (and filename (file-exists-p filename)))
              (error "Buffer '%s' is not visiting a file!" name)
-             (let ((new-name (read-file-name "New name: " filename)))
+             (let ((new-name (read-file-name "New Filename: " filename)))
                   (if (get-buffer new-name)
                       (error "A buffer named '%s' already exists!" new-name)
                       (rename-file filename new-name 1)
@@ -1669,3 +1660,16 @@ programming."
    nil '(("\<\(FIX\(ME\)?\|TODO\|OPTIMIZE\|HACK\|REFACTOR\):"
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
+
+;;----------------------------------------------------------------------------
+;; Provide a version of Emacs 24's 'string-prefix-p in older emacsen
+;;----------------------------------------------------------------------------
+(when (eval-when-compile (< emacs-major-version 24))
+  (defun string-prefix-p (str1 str2 &optional ignore-case)
+    "Return non-nil if STR1 is a prefix of STR2.
+If IGNORE-CASE is non-nil, the comparison is done without paying attention
+to case differences."
+    (eq t (compare-strings str1 nil nil
+                           str2 0 (length str1) ignore-case))))
+
+

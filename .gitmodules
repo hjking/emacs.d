@@ -18,10 +18,6 @@
 	path = plugin/magit
 	url = https://github.com/magit/magit.git
 	ignore = dirty
-[submodule "plugin/git-emacs"]
-	path = plugin/git-emacs
-	url = https://github.com/tsgates/git-emacs.git
-	ignore = dirty
 [submodule "plugin/yasnippet"]
 	path = plugin/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git

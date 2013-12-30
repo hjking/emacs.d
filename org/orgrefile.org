@@ -1,7 +1,0 @@
-* DONE presentation of CCS
-  CLOSED: [2013-12-23 周一 09:58]
-[2013-12-19 周四 18:28]
-* DONE meeting about DCS
-  CLOSED: [2013-12-23 周一 09:58]
-[2013-12-19 周四 18:29]
-[[file:~/.emacs.d/orgrefile.org::*]]

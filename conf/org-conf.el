@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-27 16:25:48
+;; Last Updated: 2013-12-30 16:52:48
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -23,6 +23,7 @@
 ;; (setq org-directory "~/.emacs.d/org")
 (setq org-directory (concat my-emacs-dir "org"))
 (setq org-default-notes-file (concat org-directory "/todo.org"))
+(setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
 
 (setq org-hide-leading-star t)
 (setq org-startup-folded nil)  ;; open org in unfolded view
@@ -612,5 +613,27 @@ or nil if the current buffer isn't visiting a dayage"
 ;; }}}
 
 (require 'org-checklist)
+
+; Enable habit tracking (and a bunch of other modules)
+(setq org-modules (quote (org-bbdb
+                          org-bibtex
+                          org-crypt
+                          org-gnus
+                          org-id
+                          org-info
+                          org-jsinfo
+                          org-habit
+                          org-inlinetask
+                          org-irc
+                          org-mew
+                          org-mhe
+                          org-protocol
+                          org-rmail
+                          org-vm
+                          org-wl
+                          org-w3m)))
+
+; position the habit graph on the agenda to the right of the default
+(setq org-habit-graph-column 50)
 
 ;;

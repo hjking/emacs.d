@@ -3,7 +3,7 @@
 ;; Description: Setting for auto-complete.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2012-04-18 19:52:05
+;; Last Updated: 2013-12-30 16:24:43
 ;; available for Emacs 22/23
 
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
@@ -11,6 +11,10 @@
 ; (require 'auto-complete)
 ;;(require 'auto-complete-c)
 (require 'auto-complete-config)
+(global-auto-complete-mode t)
+(setq-default ac-expand-on-auto-complete nil)
+(setq-default ac-auto-start nil)
+(setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
 ;;(require 'auto-complete-etags)
 ;;(require 'auto-complete-extension)
 ;;(require 'auto-complete-octave)
@@ -18,11 +22,11 @@
 ;(require 'auto-complete-yasnippet)
 
 (ac-config-default)
-
-(setq ac-auto-start nil)                ;automatically start (disabled)
-(setq ac-dwim t)                        ;Do what i mean
-
-(global-auto-complete-mode t)
+;;----------------------------------------------------------------------------
+;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
+;;----------------------------------------------------------------------------
+(setq tab-always-indent 'complete)  ;; use 't when auto-complete is disabled
+(add-to-list 'completion-styles 'initials t)
 
 ;; menu height
 (setq ac-menu-height 20)
@@ -46,7 +50,6 @@
 
 (setq ac-use-menu-map t)
 
-(setq ac-dwim t)  ;; do what i mean mode
 (setq ac-candidate-menu-height 20)
 (setq ac-candidate-max ac-candidate-menu-height)
 ;; delay time of show menu

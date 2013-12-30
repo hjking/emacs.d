@@ -33,16 +33,17 @@
 
 ;;
 (require 'ido-hacks)
-(ido-hacks-mode +1)
+(ido-hacks-mode 1)
 
-;;
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode +1)
+;; Use ido everywhere
+;; get rid of compile warning
 (defvar ido-cur-item nil)
 (defvar ido-default-item nil)
 (defvar ido-cur-list nil)
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
 
-;;
+;; Try out flx-ido for better flex matching between words
 (require 'flx-ido)
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.

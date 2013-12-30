@@ -83,7 +83,7 @@
 (defvar section-killing t)
 (defvar section-yanking t)
 (defvar section-rectangles t)
-(defvar section-cua-bindings t)
+(defvar section-cua-bindings nil)
 (defvar section-registers nil)  ; no
 (defvar section-display nil)  ; no
 (defvar section-search nil)
@@ -119,7 +119,7 @@
 (defvar section-psvn nil)
 (defvar section-emms t)
 (defvar section-vm nil)
-(defvar section-ac t)
+(defvar section-ac nil)
 (defvar section-helm nil)
 (defvar section-icicles nil)
 (defvar section-scratch t)
@@ -188,12 +188,12 @@
 (when section-loading-libraries
   (message "%d: >>>>> Loading [ Default Path ] ...." step_no)
     (setq step_no (1+ step_no))
-    (when win32p
-        (message "We are in Windows Platform")
-        (setq my-home "F:/Kuaipan/Workspace/src")
-        (setenv "HOME" my-home)
-        (setenv "PATH" (concat my-home ";" (getenv "PATH")))
-    )
+    ; (when win32p
+    ;     (message "We are in Windows Platform")
+    ;     (setq my-home "F:/Kuaipan/Workspace/src")
+    ;     (setenv "HOME" my-home)
+    ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
+    ; )
     (when linuxp
         (message "We are in Linux Platform")
         (setq my-home "/home/jinhong")
@@ -260,7 +260,7 @@
 ;; --[ cygwin setting ]---------------------------------------------------------
 (when section-cygwin
     (when win32p
-      (defconst my-cygwin-dir "G:/DEV_ENV/cygwin/" "Cygwin root path.")
+      (defconst my-cygwin-dir "d:/cygwin/" "Cygwin root path.")
       (if (file-directory-p my-cygwin-dir)
         (progn
           (defvar my-cygwin-bin-dir (concat my-cygwin-dir "bin/") "Cygwin bin folder")
@@ -1341,7 +1341,8 @@
 (add-site-lisp-load-path "git-emacs/")
 (add-site-lisp-info-path "git-emacs/docs/")
 
-(load "git-conf")
+(when linuxp
+  (load "git-conf"))
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
 
@@ -1453,6 +1454,12 @@
     (add-to-list 'ac-dictionary-directories my-ac-dict-dir)
 )
 ;; [ auto-complete ]---------------------------------------------------[ End ]--
+
+
+;; --[ Company ]----------------------------------------------------------------
+(add-site-lisp-load-path "company-mode/")
+(load "company-conf")
+;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Abbrevs ]----------------------------------------------------------------
@@ -2108,13 +2115,6 @@
     (load "emms-conf")
 )
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
-
-
-;; --[ Company ]----------------------------------------------------------------
-(setq my-company-path (concat my-site-lisp-dir "company/"))
-(add-site-lisp-load-path "company/")
-(load "company-conf")
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ tree ]-------------------------------------------------------------------
