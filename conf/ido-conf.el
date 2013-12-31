@@ -16,6 +16,7 @@
 (setq ido-record-commands t)
 (setq ido-max-directory-size 100000)
 (setq org-completion-us-ido t)
+(setq ido-auto-merge-work-directories-length 0)
 ;; Show previously opened buffers in ido-switch-buffer
 (setq ido-use-virtual-buffers t)
 (setq ido-case-fold t)
@@ -52,7 +53,8 @@
 ;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
 
-;; Bind `~` to go to homedir when in ido-find-file; http://whattheemacsd.com/setup-ido.el-02.html
+;; Bind `~` to go to homedir when in ido-find-file;
+;; http://whattheemacsd.com/setup-ido.el-02.html
 (add-hook 'ido-setup-hook
  (lambda ()
    ;; Go straight home

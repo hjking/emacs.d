@@ -92,7 +92,6 @@
 (defvar section-ibuffer t)
 (defvar section-ido t)
 (defvar section-windows t)
-(defvar section-switch-window t)
 (defvar section-ui t)
 (defvar section-coding t)
 (defvar section-indentation t)
@@ -120,8 +119,8 @@
 (defvar section-psvn nil)
 (defvar section-emms t)
 (defvar section-vm nil)
-(defvar section-ac nil)
-(defvar section-helm nil)
+(defvar section-ac t)
+(defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -987,43 +986,10 @@
 ;; --[ Window ]-----------------------------------------------------------------
 ;; use "C-c <--" back to previous window layout
 (when section-windows
-    (message "%d: >>>>> Loading [ Windows Customization ] ...." step_no)
-    (setq step_no (1+ step_no))
-    ;; (when (fboundp 'winner-mode)
-    ;;   (winner-mode 1))
-    (use-package winner
-      :config (winner-mode 1))
-
-    ;; [ windmove ]-------------------------------------------------------------
-    (message "    >>>>> Loading [ windmove ] Customizations ....")
-    (use-package windmove
-      :bind
-      (("C-<f2> <right>" . windmove-right)
-       ("C-<f2> <left>" . windmove-left)
-       ("C-<f2> <up>" . windmove-up)
-       ("C-<f2> <down>" . windmove-down)))
-    ;; use Meta key as prefix key
-    ;;  (windmove-default-keybindings 'meta)
-    ;; [ windmove ]----------------------------------------------------[ End ]--
-
-    ;; Swap buffers without typing C-x b on each window
-    ;; (require 'buffer-move)
-    ;; (global-set-key (kbd "<C-S-up>")     'buf-move-up)
-    ;; (global-set-key (kbd "<C-S-down>")   'buf-move-down)
-    ;; (global-set-key (kbd "<C-S-left>")   'buf-move-left)
-    ;; (global-set-key (kbd "<C-S-right>")  'buf-move-right)
+    (load "window-conf")
 )
 ;; --------------------------------------------------------------------[ End ]--
 
-
-;; --[ Switch Window ]----------------------------------------------------------
-(when section-switch-window
-    (message "%d: >>>>> Loading [ Switch Window Customization ] ...." step_no)
-    (setq step_no (1+ step_no))
-    (add-site-lisp-load-path "switch-window/")
-    (require 'switch-window)
-)
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Indentation ]------------------------------------------------------------
@@ -1212,7 +1178,7 @@
 ;; [ ibuffer ]------------------------------------------------------------------
 ;; buffer switch
 (when section-ibuffer
-  (add-site-lisp-load-path "ibuffer-git/")
+  (add-site-lisp-load-path "ibuffer-vc/")
   (load "ibuffer-conf"))
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
@@ -1401,25 +1367,7 @@
 
 
 ;; [ recent files ]-------------------------------------------------------------
-(message ">>>>> Loading [ recentf ] Customizations ....")
-;; recentf is a minor mode that builds a list of recently opened files
-;; keep a list of recently opened files
-;; this list is automatically saved across Emacs sessions
-;; open recently opened files under menubar
-(require 'recentf)
-;; toggle `recentf' mode
-(recentf-mode 1)
-;; file to save the recent list into
-(setq recentf-save-file (concat my-cache-dir "recentf"))
-(setq recentf-max-saved-items 500)
-;; maximum number of items in the recentf menu
-(setq recentf-max-menu-items 30)
-;; to protect from TRAMP -- FIXME not correctly supported (yet) under Win32
-(setq recentf-auto-cleanup 'never)
-;; save file names relative to my current home directory
-(setq recentf-filename-handlers '(abbreviate-file-name))
-;; add key binding
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
+(load "recentf-conf")
 ;; [ recent files ]---------------------------------------------------[ End ]---
 
 
@@ -1445,12 +1393,9 @@
 ;; [ auto-complete ]------------------------------------------------------------
 ;; available for Emacs 22/23
 (when section-ac
-;    (require 'auto-complete-verilog)
-    (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete/"))
-    (add-site-lisp-load-path "auto-complete/")
-    (add-site-lisp-load-path "auto-complete/lib/popup")
-    (add-site-lisp-load-path "auto-complete/lib/fuzzy")
-    (add-site-lisp-info-path "auto-complete/doc/")
+    (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete-1.3.1/"))
+    (add-site-lisp-load-path "auto-complete-1.3.1/")
+    (add-site-lisp-info-path "auto-complete-1.3.1/doc/")
     (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
     (load "auto-complete-conf")
     (add-to-list 'ac-dictionary-directories my-ac-dict-dir)
@@ -1467,6 +1412,7 @@
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (when section-abbrevs
     (load "abbrevs-conf")
+    (load "hippie-exp-conf")
 )
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
@@ -2360,8 +2306,6 @@ spaces across the current buffer."
 (when section-sessions
     (message "%d: >>>>> Loading [ session ] Customizations ...." step_no)
     (setq step_no (1+ step_no))
-    ;; (setq my-session-load-path (concat my-site-lisp-dir "session/lisp/"))
-    ;; (add-to-list 'load-path my-session-load-path)
     (add-site-lisp-load-path "session/lisp/")
     (load "session-conf")
 )
@@ -2372,7 +2316,6 @@ spaces across the current buffer."
 (when section-desktop
     (message "%d: >>>>> Loading [ desktop ] Customizations ...." step_no)
     (setq step_no (1+ step_no))
-
     (load "desktop-conf")
 )
 ;; --------------------------------------------------------------------[ End ]--

@@ -3,57 +3,65 @@
 ;; Description: Setting for ibuffer.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-09-23 20:03:06
+;; Last Updated: 2013-12-31 15:33:39
 ;;
 (message "%d: >>>>> Loading [ ibuffer ] Customizations File ...." step_no)
 (setq step_no (1+ step_no))
+
 (require 'ibuffer)
-(require 'ibuf-ext nil t)
+(require 'ibuffer-vc)
+
 (setq ibuffer-delete-window-on-quit t)
 ;; replaces the functionality of list-buffers command
 (defalias 'list-buffers 'ibuffer)
-(global-set-key (kbd "C-x C-b")   'ibuffer)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
-(when (featurep 'ibuffer)
-  (define-key ibuffer-mode-map "r"  'ywb-ibuffer-rename-buffer)
-  ;; (define-key ibuffer-mode-map (kbd "C-x C-f")  'ywb-ibuffer-find-file)
-  (define-key ibuffer-mode-map " "  'scroll-up)
+
+(define-key ibuffer-mode-map "r"  'ywb-ibuffer-rename-buffer)
+;; (define-key ibuffer-mode-map (kbd "C-x C-f")  'ywb-ibuffer-find-file)
+(define-key ibuffer-mode-map " "  'scroll-up)
+
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-display-summary nil)
+(setq ibuffer-elide-long-columns t)
+(setq ibuffer-eliding-string "&")
+(setq ibuffer-filter-group-name-face 'font-lock-doc-face)
 
 
-  (setq ibuffer-saved-filters
-      '(("t" ((or (mode . latex-mode)
-                  (mode . plain-tex-mode))))
-        ("c" ((or (mode . c-mode)
-                  (mode . c++-mode))))
-        ("p" ((mode . cperl-mode)))
-        ("e" ((or (mode . emacs-lisp-mode)
-                  (mode . lisp-interaction-mode))))
-        ("d" ((mode . dired-mode)))
-        ("s" ((mode . shell-mode)))
-        ("i" ((mode . image-mode)))
-        ("h" ((mode . html-mode)))
-        ("emacs" (or
-             (name . "^\\*scratch\\*$")
-             (name . "^\\*Messages\\*$")))
-        ("gnus" ((or (mode . message-mode)
-                     (mode . mail-mode)
-                     (mode . gnus-group-mode)
-                     (mode . gnus-summary-mode)
-                     (mode . gnus-article-mode))))
-        ("pr" ((or (mode . emacs-lisp-mode)
-                   (mode . cperl-mode)
-                   (mode . c-mode)
-                   (mode . c++-mode)
-                   (mode . php-mode)
-                   (mode . java-mode)
-                   (mode . idl-mode)
-                   (mode . lisp-interaction-mode))))
-        ("m" ((mode . muse-mode)))
-        ("w" ((or (mode . emacs-wiki-mode)
-                  (mode . muse-mode))))
-        ("*" ((name . "*")))
-        ))
-  )
+(setq ibuffer-saved-filters
+    '(("t" ((or (mode . latex-mode)
+                (mode . plain-tex-mode))))
+      ("c" ((or (mode . c-mode)
+                (mode . c++-mode))))
+      ("p" ((mode . cperl-mode)))
+      ("e" ((or (mode . emacs-lisp-mode)
+                (mode . lisp-interaction-mode))))
+      ("d" ((mode . dired-mode)))
+      ("s" ((mode . shell-mode)))
+      ("i" ((mode . image-mode)))
+      ("h" ((mode . html-mode)))
+      ("emacs" (or
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$")))
+      ("gnus" ((or (mode . message-mode)
+                   (mode . mail-mode)
+                   (mode . gnus-group-mode)
+                   (mode . gnus-summary-mode)
+                   (mode . gnus-article-mode))))
+      ("pr" ((or (mode . emacs-lisp-mode)
+                 (mode . cperl-mode)
+                 (mode . c-mode)
+                 (mode . c++-mode)
+                 (mode . php-mode)
+                 (mode . java-mode)
+                 (mode . idl-mode)
+                 (mode . lisp-interaction-mode))))
+      ("m" ((mode . muse-mode)))
+      ("w" ((or (mode . emacs-wiki-mode)
+                (mode . muse-mode))))
+      ("*" ((name . "*")))
+      ))
 
 ;;;###autoload
 (defun ywb-ibuffer-rename-buffer ()
@@ -89,14 +97,14 @@
 ;; use 'size-h instead of 'size
 (setq ibuffer-formats
     '((mark modified read-only
-            "  "
+            " "
             (name 18 18 :left :elide)
             " "
             (size-h 9 -1 :right)
             " "
             (mode 16 16 :left :elide)
             " "
-            (git-status 8 8 :left)
+            (vc-status 16 16 :left)
             " "
             filename-and-process)
     (mark modified read-only
@@ -106,9 +114,6 @@
     (mark modified read-only
             filename-and-process)))
 
-(setq ibuffer-elide-long-columns t)
-(setq ibuffer-eliding-string "&")
-
 ;; Switching to ibuffer puts the cursor on the most recent buffer
 (defadvice ibuffer (around ibuffer-point-to-most-recent) ()
     "Open ibuffer with cursor pointed to most recent buffer name"
@@ -117,51 +122,34 @@
       (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
 
-
-
+;; grouping
 (setq ibuffer-saved-filter-groups
-                    (quote (("default"
-                      ("*buffer*"   (name . "\\*.*\\*"))
-                      ("Dirs"       (mode . dired-mode))
-                      ("Shell"      (mode . shell-script-mode))
-                      ("Verilog"    (mode . verilog-mode))
-                      ("C"          (or (mode . c-mode)
-                                        (mode . c++-mode)))
-                      ("Elisp"      (or (mode . emacs-lisp-mode)
-                                        (mode . lisp-interaction-mode)))
-                      ("Perl"       (mode . cperl-mode))
-                      ("Python"     (mode . python-mode))
-                      ("Org"        (or (mode . org-mode)
-                                        (mode . org-agenda-mode)))
-                      ("Music"      (name . "^EMMS Music Playlist$"))
-                      ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
-                      ("IRC"        (mode . erc-mode))
-                      ))))
+    (quote (("default"
+        ("emacs"      (name . "\\*.*\\*"))
+        ("Dirs"       (mode . dired-mode))
+        ("Shell"      (mode . shell-script-mode))
+        ("Verilog"    (or
+                       (mode . verilog-mode)
+                       (mode . vlog-mode)))
+        ("C"          (or
+                       (mode . c-mode)
+                       (mode . c++-mode)))
+        ("Elisp"      (or
+                       (mode . emacs-lisp-mode)
+                       (mode . lisp-interaction-mode)))
+        ("Perl"       (mode . cperl-mode))
+        ("Python"     (mode . python-mode))
+        ("Org"        (or
+                       (name . "^\\*Calendar\\*$")
+                       (name . "^diary$")
+                       (mode . org-mode)
+                       (mode . org-agenda-mode)))
+        ("Music"      (name . "^EMMS Music Playlist$"))
+        ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
+        ("IRC"        (mode . erc-mode))
+        ))))
 (add-hook 'ibuffer-mode-hook
               (lambda ()
                 (ibuffer-switch-to-saved-filter-groups "default")))
-  ; (add-hook 'ibuffer-mode-hook (lambda ()
-  ;             (setq ibuffer-filter-groups
-  ;                   '(
-  ;                     ("*buffer*"   (name . "\\*.*\\*"))
-  ;                     ("Dirs"       (mode . dired-mode))
-  ;                     ("Shell"      (mode . shell-script-mode))
-  ;                     ("Verilog"    (mode . verilog-mode))
-  ;                     ("C"          (or (mode . c-mode)
-  ;                                       (mode . c++-mode)))
-  ;                     ("Elisp"      (or (mode . emacs-lisp-mode)
-  ;                                       (mode . lisp-interaction-mode)))
-  ;                     ("Perl"       (mode . cperl-mode))
-  ;                     ("Python"     (mode . python-mode))
-  ;                     ("Org"        (or (mode . org-mode)
-  ;                                       (mode . org-agenda-mode)))
-  ;                     ("Music"      (name . "^EMMS Music Playlist$"))
-  ;                     ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
-  ;                     ("IRC"        (mode . erc-mode))
-  ;                     ))))
-
 
 ;;
-;; ibuffer-git
-;;
-(require 'ibuffer-git nil t)

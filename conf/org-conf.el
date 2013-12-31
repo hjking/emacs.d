@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-30 16:52:48
+;; Last Updated: 2013-12-31 15:34:38
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -20,8 +20,8 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cl" 'org-store-link)
 
-;; (setq org-directory "~/.emacs.d/org")
-(setq org-directory (concat my-emacs-dir "org"))
+(setq org-directory "~/org")
+;; (setq org-directory (concat my-emacs-dir "org"))
 (setq org-default-notes-file (concat org-directory "/todo.org"))
 (setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
 
@@ -99,7 +99,6 @@
                              (concat org-directory "/personal.org")
                              (concat org-directory "/work.org")
                              (concat org-directory "/meeting.org")
-                             (concat org-directory "/blog.org")
                              (concat org-directory "/books.org")
                              (concat org-directory "/call.org")
                              (concat org-directory "/misc.org")))

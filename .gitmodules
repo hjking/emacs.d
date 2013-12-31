@@ -110,10 +110,6 @@
 	path = plugin/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
 	ignore = dirty
-[submodule "plugin/ibuffer-git"]
-	path = plugin/ibuffer-git
-	url = https://github.com/jrockway/ibuffer-git.git
-	ignore = dirty
 [submodule "plugin/auto-complete"]
 	path = plugin/auto-complete
 	url = https://github.com/auto-complete/auto-complete.git
@@ -137,4 +133,8 @@
 [submodule "plugin/workgroups2"]
 	path = plugin/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
+	ignore = dirty
+[submodule "plugin/ibuffer-vc"]
+	path = plugin/ibuffer-vc
+	url = https://github.com/purcell/ibuffer-vc.git
 	ignore = dirty

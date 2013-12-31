@@ -3,7 +3,7 @@
 ;; Description: Setting for auto-complete.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-30 16:24:43
+;; Last Updated: 2013-12-31 16:09:41
 ;; available for Emacs 22/23
 
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
@@ -11,6 +11,7 @@
 ; (require 'auto-complete)
 ;;(require 'auto-complete-c)
 (require 'auto-complete-config)
+(ac-config-default)
 (global-auto-complete-mode t)
 (setq-default ac-expand-on-auto-complete nil)
 (setq-default ac-auto-start nil)
@@ -21,7 +22,6 @@
 ;(require 'auto-complete-verilog)
 ;(require 'auto-complete-yasnippet)
 
-(ac-config-default)
 ;;----------------------------------------------------------------------------
 ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
 ;;----------------------------------------------------------------------------

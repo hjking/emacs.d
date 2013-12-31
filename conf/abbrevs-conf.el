@@ -2,6 +2,7 @@
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (message ">>>>> Loading [ Abbrevs ] Customizations ....")
 ;; abbrev
+;; expanding from a fixed list
 ;; ref: http://ergoemacs.org/emacs/emacs_abbrev_mode.html
 ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
 (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
@@ -41,11 +42,12 @@
 ;; [ dabbrev-expand-multiple ]--------------------------------------------------
 (message ">>>>> Loading [ dabbrev-expand-multiple ] Customizations ....")
 (require 'dabbrev-expand-multiple)
-(global-set-key "\M-/" 'dabbrev-expand-multiple)
+;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
 ;; [ dabbrev-expand-multiple ]-----------------------------------------[ End ]--
 
 
 ;; [ pabbrev ]------------------------------------------------------------------
+;; text found in a buffer
 (message ">>>>> Loading [ Predictive Abbreviation ] Customizations ....")
 (when (try-require 'pabbrev)
   ;; don't print messages while scavenging on idle timer
@@ -55,19 +57,4 @@
 )
 ;; [ pabbrev ]---------------------------------------------------------[ End ]--
 
-
-;; [ hippie-expand ]------------------------------------------------------------
-;; expand text trying various ways to find its expansion
-;; Hippie Expand
-;; (when (try-require 'hippie-exp)
-;;     (load "hippie-exp-conf")
-;; )
-
-;; (global-set-key (kbd "M-/") 'hippie-expand)
-
-;; I recommend you split the key binding of those two command.
-;; I binding TAB yas/expand, and binding M-/ hippie-expand.
-;; So yas/expand don't conflict with hippie/expand.
-
-;; [ hippie-expand ]----------------------------------------------------[ End ]--
 

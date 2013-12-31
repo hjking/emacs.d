@@ -3,10 +3,22 @@
 ;; Description: Setting for hippie-exp.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-30 09:03:17
+;; Last Updated: 2013-12-31 16:39:48
 ;;
 (message "%d: >>>>> Loading [ hippie-exp ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
+;; [ hippie-expand ]------------------------------------------------------------
+;; expand text trying various ways to find its expansion
+;; Hippie Expand
+(when (try-require 'hippie-exp)
+;;     (load "hippie-exp-conf")
+
+(global-set-key (kbd "M-/") 'hippie-expand)
+
+;; I recommend you split the key binding of those two command.
+;; I binding TAB yas/expand, and binding M-/ hippie-expand.
+;; So yas/expand don't conflict with hippie/expand.
+
 ;; skipping space
 (setq hippie-expand-dabbrev-skip-space t)
 ;; list of expansion functions tried (in order) by `hippie-expand'
@@ -38,5 +50,7 @@
     (setq case-fold-search old-case-fold-search)))
 
 (global-set-key [(control tab)] 'my-hippie-expand)
+)
 
 ;; EOF
+;; [ hippie-expand ]----------------------------------------------------[ End ]--

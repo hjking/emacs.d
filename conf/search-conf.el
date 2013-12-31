@@ -47,6 +47,7 @@
           (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
           (isearch-forward regexp-p no-recursive-edit)))))
 
+;;; anzu
 (global-anzu-mode t)
 (diminish 'anzu-mode)
 (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
