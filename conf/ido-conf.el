@@ -40,10 +40,13 @@
 (defvar ido-cur-item nil)
 (defvar ido-default-item nil)
 (defvar ido-cur-list nil)
+(defvar inherit-input-method nil)
+(defvar predicate nil)
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
 ;; Try out flx-ido for better flex matching between words
+(defvar flx-ido-mode nil)
 (require 'flx-ido)
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.

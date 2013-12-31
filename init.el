@@ -165,24 +165,23 @@
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
 (defconst win32p
-    (eq system-type 'windows-nt)
+  (eq system-type 'windows-nt)
   "Are we running on a WinTel system?")
 
 (defconst cygwinp
-    (eq system-type 'cygwin)
+  (eq system-type 'cygwin)
   "Are we running on a WinTel cygwin system?")
 
 (defconst linuxp
-    (or (eq system-type 'gnu/linux)
-        (eq system-type 'linux))
+  (or (eq system-type 'gnu/linux)
+      (eq system-type 'linux))
   "Are we running on a GNU/Linux system?")
 
 (defconst unixp
   (or linuxp
-      (eq system-type 'usg-unix-v)
-      (eq system-type 'berkeley-unix))
+    (eq system-type 'usg-unix-v)
+    (eq system-type 'berkeley-unix))
   "Are we running unix")
-
 
 ;; --[ Load Path ]--------------------------------------------------------------
 (when section-loading-libraries
@@ -200,74 +199,77 @@
     )
 
   (when linuxp
-      (add-to-list 'exec-path "~/bin"))
+    (add-to-list 'exec-path "~/bin"))
 
   ;;set the default file path
-    (setq default-directory "~/")
+  (setq default-directory "~/")
 
-    ;; My Emacs home directory
-    ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
-    ;         "The Root directory of my .emacs.d")
-    (defvar my-emacs-init-file (or load-file-name buffer-file-name))
-    (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
-        "The Root directory of my .emacs.d")
-    ;; My site-lisp directory
-    (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
-        "This directory keeps Emacs Lisp packages")
-    ;; My configuration files directory
-    (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
-        "This directory keeps my Emacs Lisp for packages")
-    ;; Personal configuration files
-    (defvar my-personal-dir (concat my-emacs-dir "personal/")
-        "This directory keeps my personal configuration")
-    (defvar my-cache-dir (concat my-emacs-dir "cache/")
-        "This directory keeps cache files")
-    (unless (file-exists-p my-cache-dir)
-        (make-directory my-cache-dir))
-    (defmacro add-load-path (path)
-        `(setq load-path (append (list, path) load-path)))
-    (defmacro add-site-lisp-load-path (path)
-        `(setq load-path (append (list (concat my-site-lisp-dir, path)) load-path)))
-    (defmacro add-site-lisp-info-path (path)
-        `(setq Info-default-directory-list (append (list (concat my-site-lisp-dir, path)) Info-default-directory-list)))
-    (add-load-path my-emacs-dir)
-    (add-load-path my-site-lisp-dir)
-    (add-load-path my-site-lisp-conf-dir)
-    (add-load-path my-personal-dir)
-    (add-load-path my-cache-dir)
-    (message ">>>>> Loading Path ... Done")
+  ;; My Emacs home directory
+  ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
+  ;         "The Root directory of my .emacs.d")
+  (defvar my-emacs-init-file (or load-file-name buffer-file-name))
+  (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
+      "The Root directory of my .emacs.d")
+  ;; My site-lisp directory
+  (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
+      "This directory keeps Emacs Lisp packages")
+  ;; My configuration files directory
+  (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
+      "This directory keeps my Emacs Lisp for packages")
+  ;; Personal configuration files
+  (defvar my-personal-dir (concat my-emacs-dir "personal/")
+      "This directory keeps my personal configuration")
+  (defvar my-cache-dir (concat my-emacs-dir "cache/")
+      "This directory keeps cache files")
+  (unless (file-exists-p my-cache-dir)
+      (make-directory my-cache-dir))
+  (defmacro add-load-path (path)
+      `(setq load-path (append (list, path) load-path)))
+  (defmacro add-site-lisp-load-path (path)
+      `(setq load-path (append (list (concat my-site-lisp-dir, path)) load-path)))
+  (defmacro add-site-lisp-info-path (path)
+      `(setq Info-default-directory-list (append (list (concat my-site-lisp-dir, path)) Info-default-directory-list)))
+  (add-load-path my-emacs-dir)
+  (add-load-path my-site-lisp-dir)
+  (add-load-path my-site-lisp-conf-dir)
+  (add-load-path my-personal-dir)
+  (add-load-path my-cache-dir)
+  (message ">>>>> Loading Path ... Done")
 
-    ;; Load all elisp files in ./init.d
-    ; (if (file-exists-p my-site-lisp-conf-dir)
-    ;     (dolist (file (directory-files my-site-lisp-conf-dir t "\\.el$"))
-    ;        (load file)))
+  ;; Load all elisp files in ./init.d
+  ; (if (file-exists-p my-site-lisp-conf-dir)
+  ;     (dolist (file (directory-files my-site-lisp-conf-dir t "\\.el$"))
+  ;        (load file)))
 
-    ;; Add external projects to load path
-    ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
-    ;     (when (file-directory-p project)
-    ;       (add-to-list 'load-path project)))
+  ;; Add external projects to load path
+  ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
+  ;     (when (file-directory-p project)
+  ;       (add-to-list 'load-path project)))
 )
 ;; --[ Load Path ]-----------------------------------------------------[ End ]--
 
 
 ;; --[ Environment ]------------------------------------------------------------
+
+(require 'init-compat)
+
 (when section-environment
-    (load "env-conf")
+  (load "env-conf")
 )
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ cygwin setting ]---------------------------------------------------------
 (when section-cygwin
-    (when win32p
-      (defconst my-cygwin-dir "d:/cygwin/" "Cygwin root path.")
-      (if (file-directory-p my-cygwin-dir)
-        (progn
-          (defvar my-cygwin-bin-dir (concat my-cygwin-dir "bin/") "Cygwin bin folder")
-          (defvar my-cygwin-usr-dir (concat my-cygwin-dir "usr/") "Cygwin usr folder")
-          (load "cygwin-conf")
-        )
+  (when win32p
+    (defconst my-cygwin-dir "d:/cygwin/" "Cygwin root path.")
+    (if (file-directory-p my-cygwin-dir)
+      (progn
+        (defvar my-cygwin-bin-dir (concat my-cygwin-dir "bin/") "Cygwin bin folder")
+        (defvar my-cygwin-usr-dir (concat my-cygwin-dir "usr/") "Cygwin usr folder")
+        (load "cygwin-conf")
       )
+    )
   )
 )
 ;; --------------------------------------------------------------------[ End ]--
@@ -430,6 +432,12 @@
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
 
+;; --[ Frame Display ]----------------------------------------------------------
+(when section-ui
+    (load "ui-conf"))
+;; --[ Frame Display ]-------------------------------------------------[ End ]--
+
+
 ;; [ cedet ]--------------------------------------------------------------------
 (when section-cedet-1.1
     (setq byte-compile-warnings nil)
@@ -458,12 +466,6 @@
 (when section-cedet
   (load "cedet-conf"))
 ;; --------------------------------------------------------------------[ End ]--
-
-
-;; --[ Frame Display ]----------------------------------------------------------
-(when section-ui
-    (load "ui-conf"))
-;; --[ Frame Display ]-------------------------------------------------[ End ]--
 
 
 ;; --[ idle-require ]-----------------------------------------------------------
@@ -746,6 +748,12 @@
 
 ;; --[ Mode Line ]--------------------------------------------------------------
 (load "mode-line")
+;; [ powerline ]
+(when section-powerline
+    (add-site-lisp-load-path "powerline/")
+    (load "powerline-conf")
+)
+;; [ powerline ]
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
 
@@ -1220,11 +1228,6 @@
 ;; [ ido ]-------------------------------------------------------------[ End ]--
 
 
-;; [ template ]-----------------------------------------------------------------
-;; (load "template-conf")
-;; [ template ]--------------------------------------------------------[ End ]--
-
-
 ;; [ Table ]--------------------------------------------------------------------
 (when section-table
     (message "%d: >>>>> Loading [ table ] Customizations ...." step_no)
@@ -1331,18 +1334,15 @@
 ;;
 ;; Git
 ;;
-(add-site-lisp-load-path "git-modes/")
+;; (add-site-lisp-load-path "git-modes/")
 
 ;; *** --- magit
-(add-site-lisp-load-path "magit/")
-(add-site-lisp-info-path "magit/")
+;; (add-site-lisp-load-path "magit/")
+;; (add-site-lisp-info-path "magit/")
 
-;; *** --- git-emacs
-(add-site-lisp-load-path "git-emacs/")
-(add-site-lisp-info-path "git-emacs/docs/")
-
-(when linuxp
-  (load "git-conf"))
+;; (when linuxp
+;;  (load "git-conf")
+  ;; )
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
 
@@ -2228,14 +2228,6 @@
 ;; [ weibo ]-----------------------------------------------------------[ End ]--
 
 
-;; [ powerline ]----------------------------------------------------------------
-(when section-powerline
-    (add-site-lisp-load-path "powerline/")
-    (load "powerline-conf")
-)
-;; [ powerline ]-------------------------------------------------------[ End ]--
-
-
 ;; [ workgroups ]---------------------------------------------------------------
 (when section-workgroups
     (add-site-lisp-load-path "workgroup/")
@@ -2269,10 +2261,6 @@
 ;; --[ Font ]-------------------------------------------------------------------
 (message "%d: >>>>> Setting [ Font ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-(require 'my-fontset-win)
-(if mswin
-  (huangq-fontset-consolas 15))
-;; huangq-fontset-monaco
 
 ;; (set-default-font "clR8x14")
 ;; (set-default-font "-Misc-Fixed-Medium-R-Normal--12-100-75-75-C-60-ISO8859-1")
@@ -2283,13 +2271,6 @@
 ;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
 ;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
 ;; --[ Font ]----------------------------------------------------------[ End ]--
-
-;; adjust the size of Emacs window
-(setq default-frame-alist
-    '((width . 100)
-      (height . 30)
-      (menu-bar-lines . 1)
-     ))
 
 
 ;; --[ Help ]-------------------------------------------------------------------

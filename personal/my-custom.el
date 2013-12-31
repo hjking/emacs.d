@@ -4,11 +4,11 @@
 ;; Filename: my-custom.el
 ;; Description:
 ;; Author: Hong Jin
-;;           By: Hong Jin
+;;           By: Jin hong
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Mon Sep 23 13:13:19 2013 (+0800)
+;; Last-Updated: Tue Dec 31 08:47:48 2013 (+0800)
 ;; Version:
-;;     Update #: 16
+;;     Update #: 17
 ;;
 ;;; Change Log:
 ;;
@@ -27,6 +27,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(cscope-database-file "cscope.out")
  '(cscope-filename-chars "-.,/A-Za-z0-9_~!@#$%&+=\\\\")
@@ -37,7 +38,6 @@
  '(cscope-program "cscope")
  '(cscope-suppress-empty-matches t)
  '(cscope-symbol-chars "A-Za-z0-9_")
- '(cua-mode t nil (cua-base))
  '(custom-safe-themes (quote ("bf9d5728e674bde6a112979bd830cc90327850aaaf2e6f3cc4654f077146b406" default)))
  '(display-time-mode t)
  '(ecb-options-version "2.40")
@@ -61,6 +61,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "outline" :family "Lucida Sans Unicode"))))
+ '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#839496" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "outline" :family "Consolas"))))
  '(completions-first-difference ((((class color) (background dark)) (:foreground "red"))))
- '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray"))))
+ '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray")))
+ '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
+ '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:foreground "LightSalmon" :strike-through t)))))

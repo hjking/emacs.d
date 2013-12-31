@@ -114,3 +114,11 @@
   `(linum-face-settings))
 
 (am-def-active-fun linum-mode linum-mode-active)
+
+;; adjust the size of Emacs window
+;; (setq default-frame-alist
+;;     '((width . 100)
+;;       (height . 30)
+;;       (menu-bar-lines . 1)
+;;      ))
+
