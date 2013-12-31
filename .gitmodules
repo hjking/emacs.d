@@ -38,10 +38,6 @@
 	path = plugin/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
 	ignore = dirty
-[submodule "plugin/workgroup"]
-	path = plugin/workgroup
-	url = https://github.com/tlh/workgroups.el.git
-	ignore = dirty
 [submodule "plugin/powerline"]
 	path = plugin/powerline
 	url = https://github.com/jonathanchu/emacs-powerline.git
@@ -137,4 +133,8 @@
 [submodule "plugin/anzu"]
 	path = plugin/anzu
 	url = https://github.com/syohex/emacs-anzu.git
+	ignore = dirty
+[submodule "plugin/workgroups2"]
+	path = plugin/workgroups2
+	url = https://github.com/pashinin/workgroups2.git
 	ignore = dirty

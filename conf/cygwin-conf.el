@@ -2,23 +2,22 @@
 
 ;;; Cygwin
 
-  	(add-to-list 'exec-path my-cygwin-bin-dir)
-  	(setq woman-manpath '(
-  		  (concat my-cygwin-usr-path "man")
-          (concat my-cygwin-usr-path "share/man")
-          (concat my-cygwin-usr-path "local/man")))
-    (setq shell-file-name "bash"
-          explicit-shell-file-name "bash")
-    (setenv "SHELL" shell-file-name)
-    (setenv "CYGWIN" "nodosfilewarning")
+(add-to-list 'exec-path my-cygwin-bin-dir)
+(setq woman-manpath '(
+    (concat my-cygwin-usr-path "man")
+      (concat my-cygwin-usr-path "share/man")
+      (concat my-cygwin-usr-path "local/man")))
+(setq shell-file-name "bash"
+      explicit-shell-file-name "bash")
+(setenv "SHELL" shell-file-name)
+(setenv "CYGWIN" "nodosfilewarning")
 
-    (when (require 'cygwin-mount nil t)
-      (cygwin-mount-activate)
-      (setq w32shell-cygwin-bin my-cygwin-dir))
-
-    (setq cygwin-mount-cygwin-bin-directory "d:/cygwin/bin")
-    (setq cygwin-root-directory "D:/cygwin/")
-    (require 'setup-cygwin)
+(when (require 'cygwin-mount nil t)
+  (cygwin-mount-activate)
+  (setq w32shell-cygwin-bin my-cygwin-dir)
+  (setq cygwin-mount-cygwin-bin-directory "d:/cygwin/bin")
+  (setq cygwin-root-directory "D:/cygwin/")
+  (require 'setup-cygwin))
 
 ;;      (setenv "PATH" (concat "d:/cygwin/bin" (getenv "PATH")))
 ;;      (require 'cygwin-mount)

@@ -55,7 +55,7 @@
 ;; Let's Rock and Roll
 ;;
 (message "")
-(message "***** >>>>> [ Loading Emacs Startup File ], Be patient, Master %s!" (getenv "USER"))
+(message "***** >>>>> [ Loading Emacs Startup File ], Be patient!")
 (setq step_no 1)
 ;;;; Debugging
 (setq
@@ -71,6 +71,7 @@
 
 ;; turn on Common Lisp support
 (require 'cl)
+(require 'cl-lib)
 
 ;; allow quick include/exclude of setup parts
 (defvar section-environment t)  ; required
@@ -2230,7 +2231,7 @@
 
 ;; [ workgroups ]---------------------------------------------------------------
 (when section-workgroups
-    (add-site-lisp-load-path "workgroup/")
+    (add-site-lisp-load-path "workgroups2/")
     (load "workgroups-conf")
 )
 ;; [ workgroups ]------------------------------------------------------[ End ]--
