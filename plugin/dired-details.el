@@ -1,12 +1,12 @@
-;;; dired-details.el -- make file details hide-able in dired
+;;; dired-details.el --- make file details hide-able in dired
 
 ;; Copyright (C) 2003-2011 Rob Giardina
 
-;; Version: 1.3.1
+;; Version: 1.3.2
 ;; Keywords: dired, hide
 ;; Author: Rob Giardina <rob.giardina.ohmmanepadmespam@oracle.com>
 ;; Maintainer: Rob Giardina
-;; Last updated: Feb 20, 2011
+;; Last updated: Aug 17, 2012
 ;; Contributors: Harold Maier, Klaus Berndl
 
 ;; This file is not part of GNU Emacs.
@@ -66,6 +66,8 @@
 ;;
 ;; CHANGES:
 ;;
+;; * 1.3.2: Added sr-mode to dired-details-hide function to make it word with
+;;          Sunrise Commander
 ;; * 1.3.1: Allow "misc lines (total used, find-dired statuses, etc)" to be hidden;
 ;;          suggested by Chris Poole
 ;; * 1.3: dired-details-toggle and customization support added by Klaus Berndl
@@ -170,7 +172,7 @@ show them."
   "Make an invisible, evaporable overlay for each file-line's details
 in this dired buffer."
   (interactive)
-  (unless (memq major-mode '(dired-mode vc-dired-mode))
+  (unless (memq major-mode '(dired-mode vc-dired-mode sr-mode))
     (error "dired-details-hide can only be called in dired mode"))
 
   (when dired-details-debug
