@@ -1,26 +1,28 @@
 ;;; dired-sort-menu+.el --- Extensions to `dired-sort-menu.el'
-;; 
+;;
 ;; Filename: dired-sort-menu+.el
 ;; Description: Extensions to `dired-sort-menu.el'
 ;; Author: Drew Adams
-;; Maintainer: Drew Adams
-;; Copyright (C) 2005-2012, Drew Adams, all rights reserved.
+;; Maintainer: Drew Adams (concat "drew.adams" "@" "oracle" ".com")
+;; Copyright (C) 2005-2014, Drew Adams, all rights reserved.
 ;; Created: Thu Jul 07 12:39:36 2005
-;; Version: 20
-;; Last-Updated: Sun Jan  1 14:26:04 2012 (-0800)
+;; Version: 0
+;; Package-Requires: ((dired-sort-menu "0"))
+;; Last-Updated: Thu Dec 26 08:47:37 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 96
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/dired-sort-menu+.el
+;;     Update #: 104
+;; URL: http://www.emacswiki.org/dired-sort-menu+.el
+;; Doc URL: http://emacswiki.org/DiredSortMenu
 ;; Keywords: directories, diredp, dired
-;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x
-;; 
+;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x
+;;
 ;; Features that might be required by this library:
 ;;
 ;;   `dired', `dired-sort-menu', `easymenu', `wid-edit', `widget'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Commentary: 
+;;
+;;; Commentary:
 ;;
 ;;    Extensions to `dired-sort-menu.el'
 ;;
@@ -41,7 +43,7 @@
 ;;   3. `handle-delete-frame' is protected against nil `buffer-name'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;; Change Log:
 ;;
 ;; 2011/06/18 dadams
@@ -59,7 +61,7 @@
 ;;       dired-sort-menu-toggle-dirs-first to "/".
 ;; 2005/07-26 dadams
 ;;     Protected ls-lisp-var-p with fboundp.
-;; 
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or modify
@@ -78,7 +80,7 @@
 ;; Floor, Boston, MA 02110-1301, USA.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;; Code:
 
 (require 'dired-sort-menu)              ; dired-sort-menu

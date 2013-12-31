@@ -1,34 +1,16 @@
 
-(require 'workgroups)
+(require 'workgroups2)
 
-;; Set your prefix key
-(setq wg-prefix-key (kbd "C-x w")
-     wg-no-confirm t
-     wg-file (concat my-emacs-dir "workgroups")
-     wg-use-faces nil
-     wg-switch-on-load nil)
-(fset 'wg-mode-line-add-display (lambda () nil))
-(fset 'wg-mode-line-remove-display (lambda () nil))
-(workgroups-mode 1)
+;; Change prefix key (before activating WG)
+(setq wg-prefix-key (kbd "C-c z"))
 
-(defun wg-load-default ()
-  "Run `wg-load' on `wg-file'."
-  (interactive)
-  (wg-load wg-file))
+;; Change workgroups session file
+(setq wg-default-session-file (concat my-cache-dir ".emacs_workgroups"))
 
-(defun wg-save-default ()
-  "Run `wg-save' on `wg-file'."
-  (interactive)
-  (when wg-list
-    (with-temp-message ""
-      (wg-save wg-file))))
+;; Set your own keyboard shortcuts to reload/save/switch WG:
+(global-set-key (kbd "<pause>")     'wg-reload-session)
+(global-set-key (kbd "C-S-<pause>") 'wg-save-session)
+(global-set-key (kbd "s-z")         'wg-switch-to-workgroup)
+(global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup)
 
-(define-key wg-map (kbd "g") 'wg-switch-to-workgroup)
-(define-key wg-map (kbd "C-l") 'wg-load-default)
-(define-key wg-map (kbd "C-s") 'wg-save-default)
-(define-key wg-map (kbd "<backspace>") 'wg-switch-left)
-(add-hook 'auto-save-hook 'wg-save-default)
-(add-hook 'kill-emacs-hook 'wg-save-default)
-
-;; See the customization section
-;; M-x customize-group RET workgroups RET
+(workgroups-mode 1)   ; put this one at the bottom of .emacs

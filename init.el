@@ -1204,7 +1204,8 @@
 
 ;; [ Dired ]--------------------------------------------------------------------
 (when section-dired
-    (load "dired-conf"))
+  (add-site-lisp-load-path "dired/")
+  (load "dired-conf"))
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
 
@@ -1212,7 +1213,7 @@
 ;; buffer switch
 (when section-ibuffer
   (add-site-lisp-load-path "ibuffer-git/")
-    (load "ibuffer-conf"))
+  (load "ibuffer-conf"))
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
 
@@ -2231,7 +2232,7 @@
 
 ;; [ workgroups ]---------------------------------------------------------------
 (when section-workgroups
-    (add-site-lisp-load-path "workgroups2/")
+    (add-site-lisp-load-path "workgroups2/src/")
     (load "workgroups-conf")
 )
 ;; [ workgroups ]------------------------------------------------------[ End ]--
