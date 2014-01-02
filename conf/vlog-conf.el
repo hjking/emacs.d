@@ -37,30 +37,49 @@
               (list "Note:" "NOTE:" "note:")))
 (vlog-mode-make-keywords)
 
+; (setq vlog-skel-header-string "\
+; /*******************************************************************************
+;  * Copyright (C) %<time %Y> by %<company>
+;  * All rights reserved
+;  * -----------------------------------------------------------------------------
+;  * File Name      : %<filename>
+;  * Module Name    : %<modulename>
+;  * Author         : %<author>
+;  * Created        : %<time %Y-%m-%d %02H:%02M:%02S>
+;  * Last Modified  : %<time %Y-%m-%d %02H:%02M:%02S>
+;  * -----------------------------------------------------------------------------
+;  * ID             : $Id$
+;  * -----------------------------------------------------------------------------
+;  * [Reference]    : %<_>
+;  * [Description]
+;  * %<_>
+;  * -----------------------------------------------------------------------------
+;  * [Revision History]
+;  * Version    Date        Author      Description
+;  * 1.0%<align>%<time %Y-%m-%d>%<align>%<author>%<align>1. Initial revision
+;  * -----------------------------------------------------------------------------
+;  *
+;  ******************************************************************************/\n")
+
 (setq vlog-skel-header-string "\
-/*******************************************************************************
- * Copyright (C) %<time %Y> by %<company>
- * All rights reserved
- * -----------------------------------------------------------------------------
- * File Name      : %<filename>
- * Module Name    : %<modulename>
- * Author         : %<author>
- * Created        : %<time %Y-%m-%d %02H:%02M:%02S>
- * Last Modified  : %<time %Y-%m-%d %02H:%02M:%02S>
- * -----------------------------------------------------------------------------
- * ID             : $Id$
- * -----------------------------------------------------------------------------
- * [Reference]    : %<_>
- * [Description]
- * %<_>
- * -----------------------------------------------------------------------------
- * [Revision History]
- * Version    Date        Author      Description
- * 1.0%<align>%<time %Y-%m-%d>%<align>%<author>%<align>1. Initial revision
- * -----------------------------------------------------------------------------
- *
- ******************************************************************************/\n")
+// ----------------------------------------------------------------------
+//  Copyright (c) %<time %Y>, %<company>
+//  Microelectronics Dept. Verification Group.
+//  All rights reserved.
+//
+//  File     : %<filename>
+//  Author   : %<author>
+//  EMail    : hongjin@fiberhome.com.cn
+//  Created  : %<time %Y-%m-%d %02H:%02M:%02S>
+//  Last Changed : %<time %Y-%m-%d %02H:%02M:%02S>
+//  Description : %<_>
+// ----------------------------------------------------------------------
+//  History:
+//      Author   : %<author>
+//      Date     : %<time %Y-%m-%d %02H:%02M:%02S>
+//      Revision : 1.0
+// ----------------------------------------------------------------------\n")
 
 (setq vlog-skel-user-name    "Hong Jin"
-      vlog-skel-company-name "Linksprite Tech (Wuhan) Co.,Ltd")
+      vlog-skel-company-name "Fiberhome Telecommunication Technology Co., Ltd.")
 

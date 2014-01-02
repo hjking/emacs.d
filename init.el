@@ -106,7 +106,7 @@
 (defvar section-hdl t)
 (defvar section-verilog nil)
 (defvar section-vlog t)
-(defvar section-vhdl t)
+(defvar section-vhdl nil)
 (defvar section-emacs-server nil) ; no
 (defvar section-org t)
 (defvar section-etask nil)
@@ -1333,11 +1333,6 @@
 ;; [ highlight-symbol ]------------------------------------------------[ End ]--
 
 
-;; [ auto-install ]-------------------------------------------------------------
-;; (load "auto-install-conf")
-;; [ auto-install ]----------------------------------------------------[ End ]--
-
-
 ;; [ auto-header ]--------------------------------------------------------------
 (when section-header
     ;; auto-insert
@@ -1658,17 +1653,11 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ auto-scroll ]--------------------------------------------------------------
-(when (try-require 'auto-scroll))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ guess-style ]--------------------------------------------------------------
 (when section-guess-style
     (add-site-lisp-load-path "guess-style/")
     (require 'guess-style)
-    (require 'guess-style-autoloads)
-)
+    (require 'guess-style-autoloads))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1676,8 +1665,7 @@
 (when section-less
     (add-site-lisp-load-path "less/")
     (require 'less)
-    (require 'less-autoloads)
-)
+    (require 'less-autoloads))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1685,8 +1673,7 @@
 (when section-mmm-mode
     (add-site-lisp-load-path "mmm-mode/")
     (add-site-lisp-info-path "mmm-mode/")
-    (load "mmm-mode-conf")
-)
+    (load "mmm-mode-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1759,6 +1746,7 @@
          ("Makefile"                      . makefile-mode)
          ;; Markdown
          ("\\.md$"                        . markdown-mode)
+         ("\\.markdown$"                  . markdown-mode)
          ("\\.mkdn$"                      . markdown-mode)
          ;; JavaScript
          ("\\.js$"                        . javascript-mode)
@@ -1867,8 +1855,7 @@
     (define-key view-mode-map "l" 'forward-char)
     (define-key view-mode-map "j" 'next-line)
     (define-key view-mode-map "k" 'previous-line)
-  )
-)
+  ))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1904,8 +1891,7 @@
 (when section-python
     (setq python-load-path (concat my-site-lisp-dir "python/"))
     (add-site-lisp-load-path "python/")
-    (load "python-conf")
-)
+    (load "python-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1920,8 +1906,7 @@
     (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
     (add-site-lisp-load-path "pde/lisp/")
     (add-site-lisp-info-path "pde/lisp/doc/")
-    (load "pde-load")
-)
+    (load "pde-load"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1944,8 +1929,7 @@
   (setq sh-indent-comment t)
   (setq indent-tabs-mode t)
   (setq sh-indent-for-case-label '0)
-  (setq sh-indent-for-case-alt '+)
-)
+  (setq sh-indent-for-case-alt '+))
 (add-hook 'sh-mode-hook 'my-shellscript-startup)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1973,7 +1957,6 @@
     (add-site-lisp-load-path "cc-mode/")
     (add-site-lisp-info-path "cc-mode/")
     (load "c-mode-conf"))
-
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2007,8 +1990,7 @@
 ;; [ ELPA ]---------------------------------------------------------------------
 ;; Packages managment
 (when section-elpa
-    (load "elpa-conf")
-)
+    (load "elpa-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2060,8 +2042,7 @@
     (setq my-emms-load-path (concat my-site-lisp-dir "emms/"))
     (add-site-lisp-load-path "emms/")
     (add-site-lisp-info-path "emms/")
-    (load "emms-conf")
-)
+    (load "emms-conf"))
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
 
 
@@ -2088,8 +2069,7 @@
     (setq my-w3m-path (concat my-site-lisp-dir "emacs-w3m/"))
     (add-site-lisp-load-path "emacs-w3m/")
     (add-site-lisp-info-path "emacs-w3m/doc/")
-    (load "w3m-conf")
-    )
+    (load "w3m-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2105,8 +2085,7 @@
     (global-set-key (kbd "M-x") 'smex)
     (global-set-key (kbd "M-X") 'smex-major-mode-commands)
     ;; This is your old M-x.
-    (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-)
+    (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2122,23 +2101,7 @@
 ;; --[ xcscope ]----------------------------------------------------------------
 (when section-cscope
     (add-site-lisp-load-path "xcscope/")
-    (load "xcscope-conf")
-    )
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; --[ post-mode ]--------------------------------------------------------------
-(setq my-post-path (concat my-site-lisp-dir "post-mode/"))
-(add-site-lisp-load-path "post-mode/")
-(autoload 'post-mode "post" "mode for e-mail" t)
-(add-to-list 'auto-mode-alist
-             '("\\.*mutt-*\\|.article\\|\\.followup" . post-mode))
-(add-hook 'post-mode-hook
-  (lambda()
-    (auto-fill-mode t)
-    (setq fill-column 72)    ; rfc 1855 for usenet messages
-    ))
-
+    (load "xcscope-conf")    )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2147,15 +2110,8 @@
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")
     (add-site-lisp-info-path "wl/doc/")
-    (require 'wl)
-)
+    (require 'wl))
 ;; --------------------------------------------------------------------[ End ]--
-
-
-;; --[ one-key ]----------------------------------------------------------------
-;;  (add-site-lisp-load-path "one-key/")
-;;  (require 'one-key)
-;; --[ one-key ]-------------------------------------------------------[ End ]--
 
 
 ;;  (require 'highlight-tail)
@@ -2164,23 +2120,20 @@
 ;; --[ Color Theme ]------------------------------------------------------------
 (when section-color-theme
     (load "color-theme-conf"))
-
 ;; --[ Color Theme ]---------------------------------------------------[ End ]--
 
 
 ;; [ weibo ]--------------------------------------------------------------------
 (when section-weibo
     (add-site-lisp-load-path "weibo/")
-    (load "weibo-conf")
-)
+    (load "weibo-conf"))
 ;; [ weibo ]-----------------------------------------------------------[ End ]--
 
 
 ;; [ workgroups ]---------------------------------------------------------------
 (when section-workgroups
     (add-site-lisp-load-path "workgroups2/src/")
-    (load "workgroups-conf")
-)
+    (load "workgroups-conf"))
 ;; [ workgroups ]------------------------------------------------------[ End ]--
 
 
@@ -2209,7 +2162,6 @@
 ;; --[ Font ]-------------------------------------------------------------------
 (message "%d: >>>>> Setting [ Font ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-
 ;; (set-default-font "clR8x14")
 ;; (set-default-font "-Misc-Fixed-Medium-R-Normal--12-100-75-75-C-60-ISO8859-1")
 ;; (set-default-font "Vera Sans Mono-14")
@@ -2232,8 +2184,7 @@
   ;; add apropos help about variables (bind `C-h A' to `apropos-variable')
   (GNUEmacs (define-key help-map (kbd "A") 'apropos-variable))
   ;; Help is provided according to the buffer’s major mode
-  (load "info-look-conf")
-)
+  (load "info-look-conf"))
 ;; --[ Help ]----------------------------------------------------------[ End ]--
 
 
@@ -2287,8 +2238,7 @@ spaces across the current buffer."
     ;; turn on minor mode ergoemacs-mode
     (setq ergoemacs-theme nil)  ;; Uses standard ergoemacs keyboard theme
     (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
-    (ergoemacs-mode 1)
-)
+    (ergoemacs-mode 1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Display missed packages
@@ -2307,8 +2257,7 @@ spaces across the current buffer."
     (message "%d: >>>>> Loading [ session ] Customizations ...." step_no)
     (setq step_no (1+ step_no))
     (add-site-lisp-load-path "session/lisp/")
-    (load "session-conf")
-)
+    (load "session-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2316,8 +2265,7 @@ spaces across the current buffer."
 (when section-desktop
     (message "%d: >>>>> Loading [ desktop ] Customizations ...." step_no)
     (setq step_no (1+ step_no))
-    (load "desktop-conf")
-)
+    (load "desktop-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 (load custom-file 'noerror)

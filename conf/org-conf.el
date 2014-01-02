@@ -27,6 +27,8 @@
 
 (setq org-hide-leading-star t)
 (setq org-startup-folded nil)  ;; open org in unfolded view
+(setq org-edit-src-content-indentation 0)
+(setq org-edit-timestamp-down-means-later t)
 
 ;; TODO Keywords
 (setq org-todo-keywords
@@ -244,7 +246,12 @@
 ;; clock
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
-(setq org-clock-into-drawer 1)
+;; Change task state to STARTED when clocking in
+(setq org-clock-in-switch-to-state "STARTED")
+;; Save clock data and notes in the LOGBOOK drawer
+(setq org-clock-into-drawer t)
+;; Removes clocked tasks with 0:00 duration
+(setq org-clock-out-remove-zero-time-clocks t)
 
 ;; automatically assign tags to tasks based on state changes
 (setq org-todo-state-tags-triggers
@@ -307,6 +314,7 @@
 (set-face-attribute 'org-headline-done nil :strike-through t)
 
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
+(setq org-tags-column 80)
 
 ; global Effort estimate values
 ; global STYLE property values for completion

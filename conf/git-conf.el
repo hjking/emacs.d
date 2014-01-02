@@ -20,6 +20,13 @@
 (setq magit-process-connection-type nil)
 (setq magit-repo-dirs-depth 2)
 (setq magit-save-some-buffers nil)
+(setq magit-process-popup-time 10)
+(setq magit-completing-read-function 'magit-ido-completing-read)
+
+;; show file of specific version
+(autoload 'magit-show "magit" "" t nil)
+;; show the commit
+(autoload 'magit-show-commit "magit" "" t nil)
 
 ;; Add an extra newline to separate commit message from git commentary
 (defun magit-commit-mode-init ()
