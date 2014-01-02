@@ -84,7 +84,7 @@
 (defvar section-killing t)
 (defvar section-yanking t)
 (defvar section-rectangles t)
-(defvar section-cua-bindings nil)
+(defvar section-cua nil)
 (defvar section-registers nil)  ; no
 (defvar section-display nil)  ; no
 (defvar section-search nil)
@@ -334,11 +334,6 @@
 
 (setq max-lisp-eval-depth 3000)
 (setq max-specpdl-size 10000)
-;; set the default text coding system
-(setq default-buffer-file-coding-system 'utf-8)
-
-;; coding system when reading
-(prefer-coding-system 'utf-8)
 
 ;; Load global settings
 (load "global")
@@ -416,11 +411,14 @@
 (setq completion-ignored-extensions (remove ".pdf" completion-ignored-extensions))
 (setq completion-ignored-extensions (remove ".dvi" completion-ignored-extensions))
 
-;;;; User info
-(setq user-mail-address "hon9jin@gmail")
-(setq user-full-name "Jin hong")
-;;; Used in ChangeLog entries
-(setq add-log-mailing-address "hon9jin@gmail.com")
+;;; Library
+
+;; dash
+(add-site-lisp-load-path "dash/")
+(eval-after-load "dash" '(dash-enable-font-lock))
+
+;; sams-lib
+(when (try-require 'sams-lib))
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
@@ -438,6 +436,7 @@
   (better-registers-install-save-registers-hook)
   (load better-registers-save-file))
 ;; --[ Register ]------------------------------------------------------[ End ]--
+
 
 ;; [ cedet ]--------------------------------------------------------------------
 (when section-cedet-1.1
@@ -466,24 +465,6 @@
 )
 (when section-cedet
   (load "cedet-conf"))
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; --[ idle-require ]-----------------------------------------------------------
-(require 'idle-require)
-;; idle time (in seconds) after which autoload functions will be loaded
-(setq idle-require-idle-delay 5)
-;; time in seconds between automatically loaded functions
-(setq idle-require-load-break 3)
-;; load unloaded autoload functions when Emacs becomes idle
-(idle-require-mode 0)
-
-(defun try-idle-require (feature)
-  (when (locate-library (symbol-name feature))
-    (require feature)))
-;; eg:
-;; (idle-require 'cedet) ;; <- Or like this.
-;; (setq idle-require-symbols '(cedet nxml-mode)) ;; <- Specify packages here.
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -593,7 +574,7 @@
 
 
 ;; --[ CUA Mode]----------------------------------------------------------------
-(when section-cua-bindings
+(when section-cua
   (when is-after-emacs-22
       (load "cua-conf")))
 ;; --------------------------------------------------------------------[ End ]--
@@ -749,12 +730,11 @@
 
 ;; --[ Mode Line ]--------------------------------------------------------------
 (load "mode-line")
+
 ;; [ powerline ]
 (when section-powerline
     (add-site-lisp-load-path "powerline/")
-    (load "powerline-conf")
-)
-;; [ powerline ]
+    (load "powerline-conf"))
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
 
@@ -954,7 +934,6 @@
 ;; use current buffer when read man
 (setq Man-notify-method 'pushy)
 
-;;
 ;; better buffer switching
 (iswitchb-mode 1)
 ;; prevent certain buffers from showing up in the completion list
@@ -962,7 +941,7 @@
 ;; prevent switching to another frame
 (setq iswitchb-default-method 'samewindow)
 ;; Quickly switch between buffer with tab-complete
-;; See to see "ido"
+;; See "ido"
 ;;
 ;; Save where i was in each file
 ;; See saveplace
@@ -991,7 +970,6 @@
     (load "window-conf")
 )
 ;; --------------------------------------------------------------------[ End ]--
-
 
 
 ;; --[ Indentation ]------------------------------------------------------------
@@ -1075,10 +1053,8 @@
 
 
 ;; --[ Parentheses ]------------------------------------------------------------
-(add-site-lisp-load-path "dash/")
 (add-site-lisp-load-path "smartparens/")
 (load "parens-conf")
-
 ;; --[ Parentheses ]---------------------------------------------------[ End ]--
 
 
@@ -1121,8 +1097,7 @@
     (defun server-ensure-safe-dir (dir) "Noop" t)) ; Suppress error "directory
                                                    ; ~/emacs.d/server is unsafe"
                                                    ; on windows.
-  (server-start 1)
-)
+  (server-start 1))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1190,9 +1165,7 @@
     (add-site-lisp-load-path "ido-ubiquitous/")
     (add-site-lisp-load-path "flx-ido/")
     (add-site-lisp-load-path "/")
-    (load "ido-conf")
-
-)
+    (load "ido-conf"))
 ;; [ ido ]-------------------------------------------------------------[ End ]--
 
 
@@ -1209,11 +1182,6 @@
 ;; [ htmlize ]------------------------------------------------------------------
 (load "htmlize-conf")
 ;; [ htmlize ]---------------------------------------------------------[ End ]--
-
-
-;; [ pager ]--------------------------------------------------------------------
-(load "pager-conf")
-;; [ pager ]-----------------------------------------------------------[ End ]--
 
 
 ;; [ kill-ring ]----------------------------------------------------------------
@@ -1234,7 +1202,6 @@
 ;;               (linum-mode t))))
 ;; (setq linum-format "%3d ")
 ;; (global-set-key "\M-n" 'linum-mode)
-
 ;; [ line-number ]-----------------------------------------------------[ End ]--
 
 
@@ -1294,14 +1261,15 @@
 
 
 ;; [ highlight-symbol ]---------------------------------------------------------
+(add-site-lisp-load-path "highlight-symbol")
 (message "%d: >>>>> Loading [ highlight-symbol ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 (require 'highlight-symbol)
 (highlight-symbol-mode 1)
-(global-set-key [C-f3]    'highlight-symbol-at-point)
-(global-set-key [M-f3]    'highlight-symbol-next)
-(global-set-key [S-f3]    'highlight-symbol-prev)
-(global-set-key [C-M-f3]  'highlight-symbol-prev)
+(global-set-key [(control f3)] 'highlight-symbol-at-point)
+(global-set-key [f3]           'highlight-symbol-next)
+(global-set-key [(shift f3)]   'highlight-symbol-prev)
+(global-set-key [(meta f3)]    'highlight-symbol-query-replace)
 ;;(global-set-key [(shift f3)]    'highlight-symbol-prev)
 ;; [ highlight-symbol ]------------------------------------------------[ End ]--
 
@@ -1313,10 +1281,6 @@
 
     ;; header2
     (load "header2-conf")
-
-    ;; (when (try-require 'auto-header)
-    ;;     (load "auto-header-conf")
-    ;; )
 )
 ;; [ auto-header ]----------------------------------------------------[ End ]---
 
@@ -1985,11 +1949,6 @@
 ;;  (when (try-require 'redo+)
 ;;  )
 ;; [ redo+ ]-----------------------------------------------------------[ End ]--
-
-
-;; [ sams-lib ]-----------------------------------------------------------------
-(when (try-require 'sams-lib))
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ ace-jump ]-----------------------------------------------------------------

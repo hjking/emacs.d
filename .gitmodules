@@ -134,3 +134,7 @@
 	path = plugin/popwin
 	url = https://github.com/m2ym/popwin-el.git
 	ignore = dirty
+[submodule "plugin/highlight-symbol"]
+	path = plugin/highlight-symbol
+	url = https://github.com/nschum/highlight-symbol.el.git
+	ignore = dirty

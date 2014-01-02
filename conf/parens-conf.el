@@ -43,6 +43,7 @@
 (setq show-paren-delay 0)        ; show matching paren immediately
 
 
+
 ; ;; Check parens
 ; ; turn on check-parens on a save
 ; ; it will not let you save until you correct the error
