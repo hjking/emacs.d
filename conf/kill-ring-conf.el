@@ -20,4 +20,4 @@
 ;; (global-set-key "\C-cy" 'browse-kill-ring)
 
 ;;
-(use-package browse-kill-ring+)
+(require 'browse-kill-ring+)

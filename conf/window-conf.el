@@ -9,14 +9,14 @@
 (global-set-key (kbd "C-x 4 u") 'winner-undo)
 (global-set-key (kbd "C-x 4 r") 'winner-redo)
 
+
 ;; [ windmove ]-------------------------------------------------------------
 (message "    >>>>> Loading [ windmove ] Customizations ....")
-(use-package windmove
-    :bind
-    (("C-<f2> <right>" . windmove-right)
-     ("C-<f2> <left>"  . windmove-left)
-     ("C-<f2> <up>"    . windmove-up)
-     ("C-<f2> <down>"  . windmove-down)))
+(require 'windmove)
+(global-set-key (kbd "C-<f2> <left>")  'windmove-left)
+(global-set-key (kbd "C-<f2> <right>") 'windmove-right)
+(global-set-key (kbd "C-<f2> <up>")    'windmove-up)
+(global-set-key (kbd "C-<f2> <down>")  'windmove-down)
 ;; use Meta key as prefix key
 ;;  (windmove-default-keybindings 'meta)
 ;; [ windmove ]----------------------------------------------------[ End ]--
@@ -61,6 +61,7 @@
 
 (global-set-key "\C-x|" 'split-window-horizontally-instead)
 (global-set-key "\C-x_" 'split-window-vertically-instead)
+
 
 ;; --[ Switch Window ]----------------------------------------------------------
 (message "%d: >>>>> Loading [ Switch Window Customization ] ...." step_no)

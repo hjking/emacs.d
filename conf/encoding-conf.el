@@ -12,8 +12,8 @@
 
 (when (or window-system (locale-is-utf8-p))
   (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-  ;; (set-language-environment 'Chinese-GB)
-  (set-language-environment 'utf-8)
+  (set-language-environment 'Chinese-GB)
+  ;; (set-language-environment 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (set-clipboard-coding-system 'utf-8)
   (set-terminal-coding-system 'utf-8)

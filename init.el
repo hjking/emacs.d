@@ -117,6 +117,7 @@
 (defvar section-muse nil)
 (defvar section-pcvs nil)
 (defvar section-psvn nil)
+(defvar section-git nil)
 (defvar section-emms t)
 (defvar section-vm nil)
 (defvar section-ac nil)
@@ -279,13 +280,6 @@
 ;; use eval-after-load to speed up the startup
 ;; http://emacser.com/eval-after-load.htm
 (require 'eval-after-load)
-
-
-;; use-package
-(add-site-lisp-load-path "use-package/")
-(require 'use-package)
-(eval-when-compile
-    (setq use-package-verbose (null byte-compile-current-file)))
 
 
 ;; --[ Personal ]---------------------------------------------------------------
@@ -1280,16 +1274,16 @@
 
 ;;
 ;; Git
-;;
-;; (add-site-lisp-load-path "git-modes/")
+(when section-git
+  (add-site-lisp-load-path "git-modes/")
 
-;; *** --- magit
-;; (add-site-lisp-load-path "magit/")
-;; (add-site-lisp-info-path "magit/")
+  ;; *** --- magit
+  (add-site-lisp-load-path "magit/")
+  (add-site-lisp-info-path "magit/")
 
-;; (when linuxp
-;;  (load "git-conf")
-;; )
+  (when linuxp
+    (load "git-conf")
+  ))
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
 
@@ -1975,17 +1969,14 @@
 ;; [ undo ]---------------------------------------------------------------------
 (when section-undo
     (add-site-lisp-load-path "undo-tree/")
-    (use-package undo-tree
-        :init
-          (global-undo-tree-mode))
-    ; (require 'undo-tree)
-    ; ;; replace the standard Emacs' undo system
-    ; (global-undo-tree-mode)
-    ; (defalias 'redo 'undo-tree-redo)
-    ; ;; (global-set-key (kbd "C-z") 'undo)  ; CTRL+Z
-    ; ;; (global-set-key (kbd "C-S-z") 'redo)  ; CTRL+Shift+Z
-    ; (global-set-key (kbd "M-z") 'undo)  ; ALT+Z
-    ; (global-set-key (kbd "M-S-z") 'redo)  ; ALT+Shift+Z
+    (require 'undo-tree)
+    ;; replace the standard Emacs' undo system
+    (global-undo-tree-mode)
+    (defalias 'redo 'undo-tree-redo)
+    ;; (global-set-key (kbd "C-z") 'undo)  ; CTRL+Z
+    ;; (global-set-key (kbd "C-S-z") 'redo)  ; CTRL+Shift+Z
+    (global-set-key (kbd "M-z") 'undo)  ; ALT+Z
+    (global-set-key (kbd "M-S-z") 'redo)  ; ALT+Shift+Z
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -2118,11 +2109,13 @@
 ;; [ multiple-cursors ]---------------------------------------------------------
 ;; https://github.com/magnars/multiple-cursors.el
 (add-site-lisp-load-path "multiple-cursors/")
-(use-package multiple-cursors
-  :bind
-   (("C->" . mc/mark-next-like-this)
-    ("C-<" . mc/mark-previous-like-this)
-    ("C-*" . mc/mark-all-like-this)))
+(require 'multiple-cursors)
+;; Add a cursor to each line in an active region that spans multiple lines
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; Add multiple cursors not based on continuous lines, but based on keywords in the buffer
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 ;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 

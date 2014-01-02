@@ -38,10 +38,6 @@
 	path = plugin/powerline
 	url = https://github.com/jonathanchu/emacs-powerline.git
 	ignore = dirty
-[submodule "plugin/use-package"]
-	path = plugin/use-package
-	url = https://github.com/jwiegley/use-package.git
-	ignore = dirty
 [submodule "plugin/mode-line-stats"]
 	path = plugin/mode-line-stats
 	url = https://github.com/Idorobots/mode-line-stats.git
