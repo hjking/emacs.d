@@ -1,3 +1,4 @@
 
-(require 'weibo)
-(setq weibo-directory (concat my-cache-dir "weibo/"))
+(autoload 'weibo-timeline "weibo" "view weibo.com now" t)
+;display no image
+(setq weibo-display-image nil)

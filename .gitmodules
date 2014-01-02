@@ -134,3 +134,7 @@
 	path = plugin/ibuffer-vc
 	url = https://github.com/purcell/ibuffer-vc.git
 	ignore = dirty
+[submodule "plugin/popwin"]
+	path = plugin/popwin
+	url = https://github.com/m2ym/popwin-el.git
+	ignore = dirty

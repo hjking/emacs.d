@@ -16,5 +16,13 @@
 ;; For more information, type M-x describe-function RET company-mode.
 ;; To customize other aspects of its behavior, type M-x customize-group RET company.
 
+(require 'company)
 (autoload 'company-mode "company" nil t)
+(add-hook 'after-init-hook 'global-company-mode)
 
+(setq company-require-match nil)
+
+(add-to-list 'company-backends 'company-cmake)
+(setq company-backends (delete 'company-dabbrev company-backends))
+(setq company-begin-commands '(self-insert-command))
+(setq company-idle-delay 0.2)

@@ -3,7 +3,7 @@
 ;; Description: Setting for emms.el
 ;; Author: Hong Jin
 ;; Created: 2011-12-09 10:00
-;; Last Updated: 2012-04-18 20:15:33
+;; Last Updated: 2014-01-02 10:57:12
 ;;
 (message "%d: >>>>> Loading [ EMMS ] Customizations File ...." step_no)
 (setq step_no (1+ step_no))
@@ -12,7 +12,7 @@
 (when win32p
   (if (file-directory-p "D:/Tool/MPlayer")
       (add-to-list 'exec-path "D:/Tool/MPlayer")
-    (message "Please install MPlayer first!!"))
+    (message "*** Please install MPlayer first!!"))
 )
 
 (require 'emms-setup)

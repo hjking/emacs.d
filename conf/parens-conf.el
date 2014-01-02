@@ -1,4 +1,7 @@
 ;;
+(message "%d: >>>>> Loading [ Parentheses ] Customizations ...." step_no)
+(setq step_no (1+ step_no))
+
 ;; smartparens
 ;;
 (require 'smartparens-config)

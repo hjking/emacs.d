@@ -1,4 +1,7 @@
 
+(message "%d: >>>>> Loading [ Aliases ] ...." step_no)
+(setq step_no (1+ step_no))
+
 (when (>= 21 emacs-major-version)
   (defalias 'move-beginning-of-line 'beginning-of-line)
   (defalias 'move-end-of-line       'end-of-line))

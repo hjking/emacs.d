@@ -119,7 +119,8 @@
 (defvar section-psvn nil)
 (defvar section-emms t)
 (defvar section-vm nil)
-(defvar section-ac t)
+(defvar section-ac nil)
+(defvar section-company t)
 (defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
@@ -322,8 +323,6 @@
 ;; --[ Alias ]------------------------------------------------------------------
 ;; load user defined alias
 (when section-alias
-    (message "%d: >>>>> Loading [ Aliases ] ...." step_no)
-    (setq step_no (1+ step_no))
     (load "defalias"))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -437,6 +436,14 @@
     (load "ui-conf"))
 ;; --[ Frame Display ]-------------------------------------------------[ End ]--
 
+
+;; --[ Register ]---------------------------------------------------------------
+(when section-registers
+;;; Better registers!
+  (require 'better-registers)
+  (better-registers-install-save-registers-hook)
+  (load better-registers-save-file))
+;; --[ Register ]------------------------------------------------------[ End ]--
 
 ;; [ cedet ]--------------------------------------------------------------------
 (when section-cedet-1.1
@@ -970,9 +977,10 @@
 
 ;; [ saveplace ]----------------------------------------------------------------
 ;; remembers your location in a file when saving files
-(message "%d: >>>>> Loading [ saveplace ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 (when (try-require 'saveplace)
+  (message "%d: >>>>> Loading [ saveplace ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
   ;; automatically save place in each file
   (setq-default save-place t)
   ;; name of the file that records `save-place-alist' value
@@ -1073,8 +1081,6 @@
 
 
 ;; --[ Parentheses ]------------------------------------------------------------
-(message "%d: >>>>> Loading [ Parentheses ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 (add-site-lisp-load-path "dash/")
 (add-site-lisp-load-path "smartparens/")
 (load "parens-conf")
@@ -1216,35 +1222,16 @@
 ;; [ pager ]-----------------------------------------------------------[ End ]--
 
 
-;; [ browse-kill-ring ]---------------------------------------------------------
+;; [ kill-ring ]----------------------------------------------------------------
 ;; enhance kill ring function
-(message "%d: >>>>> Loading [ browse-kill-ring ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 (add-site-lisp-load-path "browse-kill-ring/")
-(require 'browse-kill-ring)
-;; (require 'browse-kill-ring+)
-;; string separating entries in the `separated' style
-(setq browse-kill-ring-separator
-      "\n--separator------------------------------")
-;; temporarily highlight the inserted `kill-ring' entry
-(setq browse-kill-ring-highlight-inserted-item t)
-;; face in which to highlight the `browse-kill-ring-separator'
-(defface separator-face '((t (:foreground "Blueviolet" :weight bold))) nil)
-(setq browse-kill-ring-separator-face 'separator-face)
-(setq browse-kill-ring-quit-action 'save-and-restore)
-;; use `M-y' to invoke `browse-kill-ring'
-(browse-kill-ring-default-keybindings)
-;; map `browse-kill-ring' to another key combination
-;; (global-set-key (kbd "C-c y") 'browse-kill-ring)
-;; (global-set-key "\C-cy" 'browse-kill-ring)
-(use-package browse-kill-ring+)
-;; [ browse-kill-ring ]------------------------------------------------[ End ]--
+(load "kill-ring-conf")
+;; [ kill-ring ]-------------------------------------------------------[ End ]--
 
 
 ;; [ line-number ]--------------------------------------------------------------
 ;; display line number at left window
 ;;  (autoload 'wb-line-number-toggle "wb-line-number" nil t)
-
 
 ;; Enable linum-mode for all modes unless we think the buffer is special.
 ;; (add-hook 'change-major-mode-hook
@@ -1255,14 +1242,6 @@
 ;; (global-set-key "\M-n" 'linum-mode)
 
 ;; [ line-number ]-----------------------------------------------------[ End ]--
-
-
-;; [ remember ]-----------------------------------------------------------------
-;; (message "%d: >>>>> Loading [ remember ] Customizations ...." step_no)
-;; (require 'remember)
-;; (org-remember-insinuate)
-;; (global-set-key (kbd "C-x M-r") 'remember)
-;; [ remember ]--------------------------------------------------------[ End ]--
 
 
 ;; [ multi-term ]---------------------------------------------------------------
@@ -1310,7 +1289,7 @@
 
 ;; (when linuxp
 ;;  (load "git-conf")
-  ;; )
+;; )
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
 
@@ -1399,8 +1378,9 @@
 
 
 ;; --[ Company ]----------------------------------------------------------------
-(add-site-lisp-load-path "company-mode/")
-(load "company-conf")
+(when section-company
+  (add-site-lisp-load-path "company-mode/")
+  (load "company-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1442,10 +1422,10 @@
 
 
 ;; [ Hide-Show ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ hide-show ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 (require 'hideshow nil t)
 (when (featurep 'hideshow)
+  (message "%d: >>>>> Loading [ hide-show ] Customizations ...." step_no)
+  (setq step_no (1+ step_no))
   (dolist (hook '(c++-mode-hook
                   c-mode-hook
                   emacs-lisp-mode-hook
@@ -1512,8 +1492,6 @@
 
 ;; [ org ]----------------------------------------------------------------------
 (when section-org
-  (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
-  (setq step_no (1+ step_no))
   (add-site-lisp-load-path "org/lisp/")
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")
@@ -2130,14 +2108,14 @@
 ;; [ weibo ]-----------------------------------------------------------[ End ]--
 
 
-;; [ workgroups ]---------------------------------------------------------------
+;; [ workgroups2 ]--------------------------------------------------------------
 (when section-workgroups
     (add-site-lisp-load-path "workgroups2/src/")
     (load "workgroups-conf"))
-;; [ workgroups ]------------------------------------------------------[ End ]--
+;; [ workgroups2 ]-----------------------------------------------------[ End ]--
 
 
-;; --------------------------------------------------------------------
+;; [ multiple-cursors ]---------------------------------------------------------
 ;; https://github.com/magnars/multiple-cursors.el
 (add-site-lisp-load-path "multiple-cursors/")
 (use-package multiple-cursors
@@ -2145,7 +2123,7 @@
    (("C->" . mc/mark-next-like-this)
     ("C-<" . mc/mark-previous-like-this)
     ("C-*" . mc/mark-all-like-this)))
-;; --------------------------------------------------------------------
+;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 
 ;; [ diminish ]-----------------------------------------------------------------
@@ -2157,6 +2135,17 @@
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
+
+
+;; [ sr-speedbar ]--------------------------------------------------------------
+(load "sr-speedbar-conf")
+;; [ sr-speedbar ]-----------------------------------------------------[ End ]--
+
+
+;; [ popwin ]-------------------------------------------------------------------
+(add-site-lisp-load-path "popwin/")
+(load "popwin-conf")
+;; [ popwin ]-----------------------------------------------------------[ End ]--
 
 
 ;; --[ Font ]-------------------------------------------------------------------
@@ -2175,7 +2164,7 @@
 
 ;; --[ Help ]-------------------------------------------------------------------
 (when section-help
-  (message "%d: >>>>> Loading [ Help Customization ] ...." step_no)
+  (message "%d: >>>>> Loading [ Help ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   ;; check all variables and non-interactive functions as well
   ;; Make C-h a act as C-u C-h a
@@ -2254,8 +2243,6 @@ spaces across the current buffer."
 ;; [ session ]-------------------------------------------------------------------
 ;; session
 (when section-sessions
-    (message "%d: >>>>> Loading [ session ] Customizations ...." step_no)
-    (setq step_no (1+ step_no))
     (add-site-lisp-load-path "session/lisp/")
     (load "session-conf"))
 ;; --------------------------------------------------------------------[ End ]--
@@ -2263,8 +2250,6 @@ spaces across the current buffer."
 
 ;; [ desktop ]------------------------------------------------------------------
 (when section-desktop
-    (message "%d: >>>>> Loading [ desktop ] Customizations ...." step_no)
-    (setq step_no (1+ step_no))
     (load "desktop-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 

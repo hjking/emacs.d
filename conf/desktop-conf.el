@@ -3,9 +3,13 @@
 ;; Description: Setting for desktop.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-31 17:03:47
+;; Last Updated: 2014-01-02 12:35:28
 ;; Reference: http://www.emacswiki.org/DeskTop
 ;;
+
+(message "%d: >>>>> Loading [ desktop ] Customizations ...." step_no)
+(setq step_no (1+ step_no))
+
 (require 'desktop)
 (if is-after-emacs-22
     (desktop-save-mode 1)

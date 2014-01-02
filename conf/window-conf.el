@@ -21,12 +21,15 @@
 ;;  (windmove-default-keybindings 'meta)
 ;; [ windmove ]----------------------------------------------------[ End ]--
 
+
+;; buffer-move.el
 ;; Swap buffers without typing C-x b on each window
 ;; (require 'buffer-move)
-;; (global-set-key (kbd "<C-S-up>")     'buf-move-up)
-;; (global-set-key (kbd "<C-S-down>")   'buf-move-down)
-;; (global-set-key (kbd "<C-S-left>")   'buf-move-left)
-;; (global-set-key (kbd "<C-S-right>")  'buf-move-right)
+(global-set-key (kbd "C-c C-b C-k")     'buf-move-up)
+(global-set-key (kbd "C-c C-b C-j")   'buf-move-down)
+(global-set-key (kbd "C-c C-b C-h")   'buf-move-left)
+(global-set-key (kbd "C-c C-b C-l")  'buf-move-right)
+
 
 ;;----------------------------------------------------------------------------
 ;; When splitting window, show (other-buffer) in the new window
