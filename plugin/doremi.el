@@ -3,21 +3,22 @@
 ;; Filename: doremi.el
 ;; Description: Incremental change using arrow keys or mouse wheel.
 ;; Author: Drew Adams
-;; Maintainer: Drew Adams
-;; Copyright (C) 2004-2012, Drew Adams, all rights reserved.
+;; Maintainer: Drew Adams (concat "drew.adams" "@" "oracle" ".com")
+;; Copyright (C) 2004-2014, Drew Adams, all rights reserved.
 ;; Created: Thu Sep 02 08:21:37 2004
-;; Version: 21.1
-;; Last-Updated: Thu Aug 23 10:21:46 2012 (-0700)
+;; Version: 0
+;; Package-Requires: ()
+;; Last-Updated: Thu Dec 26 08:48:54 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 1604
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/doremi.el
-;; Doc URL: http://www.emacswiki.org/emacs/DoReMi
+;;     Update #: 1617
+;; URL: http://www.emacswiki.org/doremi.el
+;; Doc URL: http://www.emacswiki.org/DoReMi
 ;; Keywords: keys, cycle, repeat, higher-order
-;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x
+;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x
 ;;
 ;; Features that might be required by this library:
 ;;
-;;   `mwheel', `ring', `ring+'.
+;;   `mwheel', `ring'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -64,9 +65,10 @@
 ;; of using function `doremi', see files `doremi-frm.el' and
 ;; `doremi-cmd.el'.
 ;;
-;; This library uses library `ring+.el', which provides extensions to
-;; the standard library `ring.el' to let you manipulate circular
-;; structures.
+;; For Emacs prior to release 23, this library requires library
+;; `ring+.el', which provides extensions to the standard library
+;; `ring.el' to let you manipulate circular structures.  (Library
+;; `ring+.el' is part of GNU Emacs 23 and later.)
 ;;
 ;;
 ;;  Non-interactive functions defined here:
@@ -105,6 +107,8 @@
 ;;
 ;;; Change Log:
 ;;
+;; 2013/06/06 dadams
+;;     Do not require ring+.el unless prior to Emacs 23.
 ;; 2011/09/07 dadams
 ;;     doremi: Use mouse-wheel-(up|down)-event everywhere.  Thx to Michael Heerdegen.
 ;; 2011/01/04 dadams
@@ -189,8 +193,10 @@
 ;;
 ;;; Code:
 
-(require 'ring+) ;; ring-convert-sequence-to-ring, ring-insert+extend,
-                 ;; ring-member, ring-next, ring-previous
+(require 'ring)
+(unless (fboundp 'ring-member)          ; Emacs 23
+  (require 'ring+))
+  ;; ring-convert-sequence-to-ring, ring-insert+extend, ring-member, ring-next, ring-previous
 (require 'mwheel nil t) ; (no error if not found): mwheel-event-button
 
 ;; In Emacs 20, because `mwheel.el' is not loaded, byte-compiling
@@ -274,7 +280,7 @@ the same effect as using `doremi-boost-up-keys' or
 
 ;; Originally, the key-variable options were for a single key, not a list of keys.
 ;; Top-level warning when load the library.
-(when (or (boundp 'doremi-up-key)   (boundp 'doremi-boost-up-key) 
+(when (or (boundp 'doremi-up-key)   (boundp 'doremi-boost-up-key)
           (boundp 'doremi-down-key) (boundp 'doremi-boost-down-key))
   (message "WARNING: Single-key options `doremi-...-key' are OBSOLETE. Use `doremi-...-keys'."))
  
@@ -522,7 +528,6 @@ MAX must be greater than min."
     (while (> new max) (setq new  (- new del)))
     (while (< new min) (setq new  (+ new del)))
     new))
-  
  
 ;;; Example Commands.  Uncomment these and try them to get the idea.
 ;;

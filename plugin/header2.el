@@ -4,19 +4,20 @@
 ;; Description: Support for creation and update of file headers.
 ;; Author: Lynn Slater
 ;;         Drew Adams
-;; Maintainer: Drew Adams
-;; Copyright (C) 1996-2012, Drew Adams, all rights reserved.
+;; Maintainer: Drew Adams (concat "drew.adams" "@" "oracle" ".com")
+;; Copyright (C) 1996-2014, Drew Adams, all rights reserved.
 ;; Copyright (C) 1989 Free Software Foundation, Inc.
 ;; Copyright (C) 1988 Lynn Randolph Slater, Jr.
 ;; Created: Tue Aug  4 17:06:46 1987
-;; Version: 21.0
-;; Last-Updated: Thu Aug 23 12:56:11 2012 (-0700)
+;; Version: 0
+;; Package-Requires: ()
+;; Last-Updated: Thu Dec 26 09:04:08 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 1825
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/header2.el
-;; Doc URL: http://emacswiki.org/emacs/AutomaticFileHeaders
+;;     Update #: 1842
+;; URL: http://www.emacswiki.org/header2.el
+;; Doc URL: http://emacswiki.org/AutomaticFileHeaders
 ;; Keywords: tools, docs, maint, abbrev, local
-;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x
+;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -46,15 +47,16 @@
 ;;   `header-history', `header-keywords', `header-lib-requires',
 ;;   `header-maintainer', `header-mode-line',
 ;;   `header-modification-author', `header-modification-date',
-;;   `header-multiline', `header-prefix-string', `header-rcs-id',
-;;   `header-rcs-log', `header-sccs', `header-shell', `header-status',
-;;   `header-title', `header-toc', `header-update-count',
-;;   `header-url', `header-version', `headerable-file-p',
-;;   `make-box-comment', `make-divider', `make-revision',
-;;   `register-file-header-action', `section-comment-start',
-;;   `true-mode-name', `uniquify-list', `update-file-name',
-;;   `update-last-modified-date', `update-last-modifier',
-;;   `update-lib-requires', `update-write-count'.
+;;   `header-multiline', `header-pkg-requires',
+;;   `header-prefix-string', `header-rcs-id', `header-rcs-log',
+;;   `header-sccs', `header-shell', `header-status', `header-title',
+;;   `header-toc', `header-update-count', `header-url',
+;;   `header-version', `headerable-file-p', `make-box-comment',
+;;   `make-divider', `make-revision', `register-file-header-action',
+;;   `section-comment-start', `true-mode-name', `uniquify-list',
+;;   `update-file-name', `update-last-modified-date',
+;;   `update-last-modifier', `update-lib-requires',
+;;   `update-write-count'.
 ;;
 ;; User options (variables) defined here:
 ;;
@@ -70,11 +72,13 @@
 ;; To have Emacs update file headers automatically whenever you save a
 ;; file, put this in your init file (~/.emacs):
 ;;
+;;   (autoload 'auto-update-file-header "header2")
 ;;   (add-hook 'write-file-hooks 'auto-update-file-header)
 ;;
 ;; To have Emacs add a file header whenever you create a new file in
 ;; some mode, put this in your init file (~/.emacs):
 ;;
+;;   (autoload 'auto-make-header "header2")
 ;;   (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 ;;   (add-hook 'c-mode-common-hook   'auto-make-header)
 ;;   ...
@@ -165,6 +169,8 @@
 ;;
 ;;; Change Log:
 ;;
+;; 2013/07/22 dadams
+;;     Added: header-pkg-requires, for ELPA/package.el.  Added to make-header-hook.
 ;; 2012/08/23 dadams
 ;;     Added: header-doc-url.
 ;;     make-header-hook: Added header-doc-url to default value.
@@ -402,6 +408,7 @@ t means use local time with timezone; nil means use UTC."
                               header-creation-date
                               ;;header-rcs-id
                               header-version
+                              header-pkg-requires
                               ;;header-sccs
                               header-modification-date
                               header-modification-author
@@ -579,6 +586,10 @@ packages."
 (defsubst header-sccs ()
   "Insert a line to record SCCS version information."
   (insert header-prefix-string "Version: %W%    %E%    %U%\n"))
+
+(defsubst header-pkg-requires ()
+  "Insert a line to record `Package-Requires' information."
+  (insert header-prefix-string "Package-Requires: ()\n"))
 
 (defsubst header-commentary ()
   "Insert \"Commentary: \" line."
@@ -968,7 +979,7 @@ the strings that cause them to be invoked."
 (defun auto-update-file-header ()
   "Update file header if file is modified.
 Call `update-file-header' if:
- `header-auto-update-enabled' is non-nil, 
+ `header-auto-update-enabled' is non-nil,
  the file is modified,
  it is longer than 100 chars,
  and the buffer is not read-only.

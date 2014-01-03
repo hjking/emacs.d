@@ -115,8 +115,8 @@
 (defvar section-sessions nil)
 (defvar section-desktop nil)
 (defvar section-muse nil)
-(defvar section-pcvs nil)
-(defvar section-psvn nil)
+(defvar section-cvs nil)
+(defvar section-svn nil)
 (defvar section-git t)
 (defvar section-emms t)
 (defvar section-vm nil)
@@ -157,7 +157,7 @@
 (defvar section-color-theme t)
 (defvar section-weibo t)
 (defvar section-workgroups t)
-(defvar section-powerline t)
+(defvar section-powerline nil)
 
 ;;;###autoload
 (defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
@@ -517,6 +517,20 @@
     ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
     (setq set-mark-command-repeat-pop t)
 
+    ;;; rect-mark.el
+    (global-set-key (kbd "C-x r C-/") 'rm-set-mark)
+    (global-set-key (kbd "C-x r C-x") 'rm-exchange-point-and-mark)
+    (global-set-key (kbd "C-x r C-w") 'rm-kill-region)
+    (global-set-key (kbd "C-x r M-w") 'rm-kill-ring-save)
+    (autoload 'rm-set-mark "rect-mark"
+      "Set mark for rectangle." t)
+    (autoload 'rm-exchange-point-and-mark "rect-mark"
+      "Exchange point and mark for rectangle." t)
+    (autoload 'rm-kill-region "rect-mark"
+      "Kill a rectangular region and save it in the kill ring." t)
+    (autoload 'rm-kill-ring-save "rect-mark"
+      "Copy a rectangular region to the kill ring." t)
+
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -730,7 +744,12 @@
 
 
 ;; --[ Mode Line ]--------------------------------------------------------------
-(load "mode-line")
+(load "mode-line-conf")
+
+;; mode-line-stats
+;; Show CPU/Memory/Disk status on mode line
+;; (add-site-lisp-load-path "mode-line-stats/")
+;; (load "mode-line-stats-conf")
 
 ;; [ powerline ]
 (when section-powerline
@@ -1221,14 +1240,14 @@
 (setq vc-diff-switches '("-b" "-B" "-u"))
 
 ;; *** --- PCL-CVS
-(when section-pcvs
+(when section-cvs
   (when (try-require 'pcvs)
     (eval-after-load 'pcvs
       (load "pcvs-conf"))
 ))
 
 ;; *** --- Subversion
-(when section-psvn
+(when section-svn
   (when (try-require 'psvn)
     (eval-after-load 'psvn
       (load "psvn-conf"))
@@ -1274,14 +1293,10 @@
 
 ;; [ auto-header ]--------------------------------------------------------------
 (when section-header
-    ;; auto-insert
-    ;; (load "auto-insert-conf")
-
     ;; header2
     (load "header2-conf")
 )
 ;; [ auto-header ]----------------------------------------------------[ End ]---
-
 
 
 ;; [ goto change ]--------------------------------------------------------------
@@ -1398,9 +1413,13 @@
 ;; [ hide ]---------------------------------------------------------------------
 ;; hide region
 (require 'hide-region)
+(global-set-key (kbd "C-c h r") 'hide-region-hide)
+(global-set-key (kbd "C-c h u") 'hide-region-unhide)
 
 ;; hide lines
 (require 'hide-lines)
+(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
+(global-set-key (kbd "C-c h l") 'hide-lines)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1582,11 +1601,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ show-help ]-----------------------------------------------------------------
-(when (try-require 'show-help))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ guess-style ]--------------------------------------------------------------
 (when section-guess-style
     (add-site-lisp-load-path "guess-style/")
@@ -1603,14 +1617,18 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ tooltip-help ]-------------------------------------------------------------
-(when (try-require 'tooltip-help))
+;; [ show-help ]-----------------------------------------------------------------
+(when (try-require 'show-help))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ folding ]------------------------------------------------------------------
+(require 'folding)
 (load "folding" 'nomessage 'noerror)
 (folding-mode-add-find-file-hook)
+(autoload 'folding-mode          "folding" "Folding mode" t)
+(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 (folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
 (folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
@@ -1934,12 +1952,6 @@
 )
 ;; --------------------------------------------------------------------[ End ]--
 
-;; [ redo+ ]--------------------------------------------------------------------
-;;  (message ">>>>> Loading [ redo+ ] Customizations ....")
-;;  (when (try-require 'redo+)
-;;  )
-;; [ redo+ ]-----------------------------------------------------------[ End ]--
-
 
 ;; [ ace-jump ]-----------------------------------------------------------------
 (setq my-ace-jump-mode-load-path (concat my-site-lisp-dir "ace-jump-mode/"))
@@ -2032,9 +2044,6 @@
     (require 'wl))
 ;; --------------------------------------------------------------------[ End ]--
 
-
-;;  (require 'highlight-tail)
-;;  (highlight-tail-mode)
 
 ;; --[ Color Theme ]------------------------------------------------------------
 (when section-color-theme

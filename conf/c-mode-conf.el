@@ -78,4 +78,5 @@
 ;; use google-c-style
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+;; RETURN key goes to the next line and space over to the right place
 (add-hook 'c-mode-common-hook 'google-make-newline-indent)

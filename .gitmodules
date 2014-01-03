@@ -34,10 +34,6 @@
 	path = plugin/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
 	ignore = dirty
-[submodule "plugin/powerline"]
-	path = plugin/powerline
-	url = https://github.com/jonathanchu/emacs-powerline.git
-	ignore = dirty
 [submodule "plugin/mode-line-stats"]
 	path = plugin/mode-line-stats
 	url = https://github.com/Idorobots/mode-line-stats.git

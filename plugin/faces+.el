@@ -1,27 +1,28 @@
 ;;; faces+.el --- Extensions to `faces.el'.
-;; 
+;;
 ;; Filename: faces+.el
 ;; Description: Extensions to `faces.el'.
 ;; Author: Drew Adams
-;; Maintainer: Drew Adams
-;; Copyright (C) 1996-2010, Drew Adams, all rights reserved.
+;; Maintainer: Drew Adams (concat "drew.adams" "@" "oracle" ".com")
+;; Copyright (C) 1996-2014, Drew Adams, all rights reserved.
 ;; Created: Fri Jun 28 15:07:06 1996
-;; Version: 21.0
-;; Last-Updated: Fri Jan 15 13:01:15 2010 (-0800)
+;; Version: 0
+;; Package-Requires: ()
+;; Last-Updated: Thu Dec 26 08:54:19 2013 (-0800)
 ;;           By: dradams
-;;     Update #: 272
-;; URL: http://www.emacswiki.org/cgi-bin/wiki/faces+.el
+;;     Update #: 298
+;; URL: http://www.emacswiki.org/faces+.el
 ;; Keywords: faces, local
-;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x
-;; 
+;; Compatibility: GNU Emacs: 20.x, 21.x, 22.x, 23.x, 24.x
+;;
 ;; Features that might be required by this library:
 ;;
 ;;   `faces', `thingatpt', `thingatpt+'.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Commentary: 
-;; 
+;;
+;;; Commentary:
+;;
 ;;    Extensions to `faces.el'.
 ;;
 ;;
@@ -45,9 +46,15 @@
 ;;  (eval-after-load "faces" '(require 'faces+))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Change log:
 ;;
+;;; Change Log:
+;;
+;; 2012/08/21 dadams
+;;     Call tap-put-thing-at-point-props after load thingatpt+.el.
+;; 2012/08/18 dadams
+;;     Invoke tap-define-aliases-wo-prefix if thingatpt+.el is loaded.
+;; 2011/01/04 dadams
+;;     Removed autoload cookies from non def* sexps and non-interactive functions.
 ;; 2009/11/16 dadams
 ;;     face-(foreground|background)-20+: Use condition-case.  Don't test for face-attribute.
 ;; 2006/06/25 dadams
@@ -78,9 +85,9 @@
 ;;     2. Updated to corrspond with version Emacs 19.34.1.
 ;; 1996/07/15 dadams
 ;;     Added redefinition of make-face.
-;; 
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
@@ -97,15 +104,17 @@
 ;; Floor, Boston, MA 02110-1301, USA.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;; Code:
 
 (require 'faces)
-(and (< emacs-major-version 21) ;; dolist, pop, push
-     (eval-when-compile (require 'cl))) ;; (plus, for Emacs < 20: when, unless)
+(eval-when-compile (when (< emacs-major-version 21) (require 'cl))) ;; dolist, pop, push
 
 (require 'thingatpt nil t) ;; (no error if not found): symbol-at-point
-(require 'thingatpt+ nil t) ;; (no error if not found): symbol-nearest-point
+(when (and (require 'thingatpt+ nil t) ;; (no error if not found): symbol-nearest-point
+           (fboundp 'tap-put-thing-at-point-props)) ; >= 2012-08-21
+  (tap-define-aliases-wo-prefix)
+  (tap-put-thing-at-point-props))
 
 ;;;;;;;;;;;;;;;;;;;;
 
@@ -113,7 +122,6 @@
 
 ;; REPLACES ORIGINAL in `faces.el': `highlight' face is the default.
 ;;
-;;;###autoload
 (when (< emacs-major-version 21)
   (defun read-face-name (prompt)
     "Read name of a face (default: \"highlight\") and return it as a symbol.
@@ -133,12 +141,11 @@ Prompts with arg PROMPT (a string)."
 ;; `symbol-nearest-point' is defined in `thingatpt+.el'.
 ;; `symbol-at-point' is defined in `thingatpt.el'.
 ;;
-;;;###autoload
 (if (< emacs-major-version 21)
     (defun make-face (name &optional no-resources)
-      "Define a new face named NAME, on all frames.  
+      "Define a new face named NAME, on all frames.
 You can modify the font, color, etc of this face with the `set-face-*'
-functions.  
+functions.
 
 If NO-RESOURCES is non-nil, then we ignore X resources
 and always make a face whose attributes are all nil.
@@ -198,14 +205,12 @@ as a face, leave it unmodified.  Value is FACE."
         (make-face-x-resource-internal face)))
     face))
 
-;;;###autoload
 (defun face-foreground-20+ (face &optional frame inherit)
   "A version of `face-foreground' that will work with Emacs 20 and later."
   (condition-case nil
       (face-foreground face frame inherit) ; Emacs 22+.
     (error (face-foreground face frame))))
 
-;;;###autoload
 (defun face-background-20+ (face &optional frame inherit)
   "A version of `face-background' that will work with Emacs 20 and later."
   (condition-case nil

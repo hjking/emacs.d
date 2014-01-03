@@ -43,6 +43,15 @@
 (message ">>>>> Loading [ dabbrev-expand-multiple ] Customizations ....")
 (require 'dabbrev-expand-multiple)
 ;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
+(setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g"))
+;; The seconds in which tooltip is displayed.
+(setq dabbrev-expand-multiple-tooltip-timeout 2000)
+;; setting to disappear at ten seconds.
+(setq dabbrev-expand-multiple-tooltip-timeout 10)
+;; put highlight to first expanded string.
+(setq dabbrev-expand-multiple-highlight-face 'highlight)
+;; use tooltip.
+(setq dabbrev-expand-multiple-use-tooltip t)
 ;; [ dabbrev-expand-multiple ]-----------------------------------------[ End ]--
 
 
