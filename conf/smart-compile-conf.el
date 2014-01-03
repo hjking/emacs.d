@@ -14,7 +14,7 @@
 ;;   %e  extention of file name       ( bin )
 (when (featurep 'smart-compile)
     (setq smart-compile-alist
-        '(("\\.c$"          . "g++ -o %n %f")
+        '(("\\.c$"          . "gcc -O2 -Wall -o %n %f")
           ("\\.[Cc]+[Pp]*$" . "g++ -o %n %f")
           ("\\.java$"       . "javac %f")
           ("\\.php$"        . "php %f")

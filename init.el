@@ -117,7 +117,7 @@
 (defvar section-muse nil)
 (defvar section-pcvs nil)
 (defvar section-psvn nil)
-(defvar section-git nil)
+(defvar section-git t)
 (defvar section-emms t)
 (defvar section-vm nil)
 (defvar section-ac nil)
@@ -1248,10 +1248,7 @@
   ;; *** --- magit
   (add-site-lisp-load-path "magit/")
   (add-site-lisp-info-path "magit/")
-
-  (when linuxp
-    (load "git-conf")
-  ))
+  (load "git-conf"))
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
 
@@ -2092,10 +2089,6 @@
 (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
-
-
-(add-site-lisp-load-path "hackernews/")
-(require 'hackernews)
 
 
 ;; --[ Font ]-------------------------------------------------------------------

@@ -49,11 +49,3 @@
   (interactive)
   (browse-url "http://daemianmack.com/magit-cheatsheet.html"))
 (global-set-key (kbd "C-x g") 'magit-status)
-
-;;
-;; git-emacs
-;;
-; (message "%d: >>>>> Loading [ git-emacs ] Customizations ...." step_no)
-; (setq step_no (1+ step_no))
-
-; (require 'git-emacs)
