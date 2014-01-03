@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-02 12:43:03
+;; Last Updated: 2014-01-03 09:35:06
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -317,7 +317,7 @@
 (set-face-attribute 'org-headline-done nil :strike-through t)
 
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
-(setq org-tags-column 80)
+;; (setq org-tags-column 80)
 
 ; global Effort estimate values
 ; global STYLE property values for completion

@@ -269,6 +269,7 @@
       (progn
         (defvar my-cygwin-bin-dir (concat my-cygwin-dir "bin/") "Cygwin bin folder")
         (defvar my-cygwin-usr-dir (concat my-cygwin-dir "usr/") "Cygwin usr folder")
+        (add-site-lisp-load-path "cygwin/")
         (load "cygwin-conf")
       )
     )
