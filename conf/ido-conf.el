@@ -31,7 +31,8 @@
 (setq ido-enable-tramp-completion nil)
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-prefix nil)
-
+;;
+(setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 ;;
 (require 'ido-hacks)
 (ido-hacks-mode 1)

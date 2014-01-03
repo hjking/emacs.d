@@ -1598,14 +1598,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ less ]---------------------------------------------------------------------
-(when section-less
-    (add-site-lisp-load-path "less/")
-    (require 'less)
-    (require 'less-autoloads))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ mmm-mode ]-----------------------------------------------------------------
 (when section-mmm-mode
     (add-site-lisp-load-path "mmm-mode/")
@@ -2028,14 +2020,15 @@
 
 
 ;; --[ xcscope ]----------------------------------------------------------------
-(when section-cscope
+(when linuxp
+  (when section-cscope
     (add-site-lisp-load-path "xcscope/")
-    (load "xcscope-conf")    )
+    (load "xcscope-conf")))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ wl ]---------------------------------------------------------------------
-;; wanderlust
+;; wanderlist
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")
     (add-site-lisp-info-path "wl/doc/")
@@ -2099,6 +2092,10 @@
 (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
+
+
+(add-site-lisp-load-path "hackernews/")
+(require 'hackernews)
 
 
 ;; --[ Font ]-------------------------------------------------------------------
