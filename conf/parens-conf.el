@@ -38,9 +38,9 @@
 (global-rainbow-delimiters-mode)
 
 ;; show paren
-(show-paren-mode 1)
-(setq show-paren-style 'parentheses)
-(setq show-paren-delay 0)        ; show matching paren immediately
+; (show-paren-mode 1)
+; (setq show-paren-style 'parentheses)
+; (setq show-paren-delay 0)        ; show matching paren immediately
 
 
 

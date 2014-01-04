@@ -134,3 +134,9 @@
 	path = plugin/highlight-symbol
 	url = https://github.com/nschum/highlight-symbol.el.git
 	ignore = dirty
+[submodule "plugin/hungry-delete"]
+	path = plugin/hungry-delete
+	url = https://github.com/nflath/hungry-delete.git
+[submodule "plugin/powerline"]
+	path = plugin/powerline
+	url = https://github.com/milkypostman/powerline.git
