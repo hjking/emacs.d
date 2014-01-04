@@ -157,7 +157,7 @@
 (defvar section-color-theme t)
 (defvar section-weibo t)
 (defvar section-workgroups t)
-(defvar section-powerline nil)
+(defvar section-powerline t)
 
 ;;;###autoload
 (defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
@@ -197,8 +197,7 @@
     ; )
     (when linuxp
         (message "We are in Linux Platform")
-        (setq my-home "/home/jinhong")
-    )
+        (setq my-home "/home/jinhong"))
 
   (when linuxp
     (add-to-list 'exec-path "~/bin"))
@@ -256,8 +255,7 @@
 (require 'init-compat)
 
 (when section-environment
-  (load "env-conf")
-)
+  (load "env-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -330,7 +328,7 @@
 
 
 ;; --[ Basic ]------------------------------------------------------------------
-(message "%d: >>>>> Loading [ Basic Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Basic ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 (setq max-lisp-eval-depth 3000)
@@ -356,7 +354,7 @@
       x-select-enable-primary t
       save-interprogram-paste-before-kill t)
 
-(message "%d: >>>>> Loading [ Misc ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Misc ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 ;; make the help, apropos and completion windows the right height for their contents
@@ -393,7 +391,7 @@
 (which-function-mode 1)
 (setq which-func-unknown "unknown")
 
-(message ">>>>> Loading [ Misc ] Customizations Done")
+(message ">>>>> Loading [ Misc ] Customization Done")
 
 ;; NEW @  2010-10-23-23:08
 (add-hook 'message-mode-hook (lambda ()
@@ -471,7 +469,7 @@
 
 ;; --[ Minibuffer ]-------------------------------------------------------------
 (when section-minibuffer
-  (message "%d: >>>>> Loading [ Minibuffer Customization ] ...." step_no)
+  (message "%d: >>>>> Loading [ Minibuffer ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   (setq read-file-name-completion-ignore-case t)
   ;; If non-`nil', resize the minibuffer so its entire contents are visible.
@@ -509,7 +507,7 @@
 
 ;; --[ mark and region ]--------------------------------------------------------
 (when section-mark
-    (message "%d: >>>>> Loading [ Mark and Region Customization ] ...." step_no)
+    (message "%d: >>>>> Loading [ Mark and Region ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     ;; highlight marked region
     (transient-mark-mode 1)    ; highlight text selection
@@ -530,14 +528,13 @@
       "Kill a rectangular region and save it in the kill ring." t)
     (autoload 'rm-kill-ring-save "rect-mark"
       "Copy a rectangular region to the kill ring." t)
-
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
 
 ;; --[ killing ]----------------------------------------------------------------
 (when section-killing
-    (message "%d: >>>>> Loading [ Killing Customization ] ...." step_no)
+    (message "%d: >>>>> Loading [ Killing ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     ;; use a bigger kill ring
     (setq kill-ring-max (* 20 kill-ring-max))
@@ -568,7 +565,7 @@
 
 ;; --[ yanking ]----------------------------------------------------------------
 (when section-yanking
-    (message "%d: >>>>> Loading [ Yanking Customization ] ...." step_no)
+    (message "%d: >>>>> Loading [ Yanking ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     ;; middle button for paste
     (setq mouse-yank-at-point t)
@@ -596,7 +593,7 @@
 
 
 ;; --[ Bookmark ]---------------------------------------------------------------
-(message "%d: >>>>> Loading [ Bookmark Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (require 'bookmark)
 ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
@@ -608,7 +605,7 @@
 
 
 ;; --[ Scrolling ]--------------------------------------------------------------
-(message "%d: >>>>> Loading [ Scrolling Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Scrolling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; no scroll bar
 (scroll-bar-mode t)
@@ -643,7 +640,7 @@
 
 ;; --[ Rectangles ]-------------------------------------------------------------
 (when section-rectangles
-    (message "%d: >>>>> Loading [ Rectangles Customization ] ...." step_no)
+    (message "%d: >>>>> Loading [ Rectangles ] Customization ...." step_no)
     (setq step_no (1+ step_no))
 ;; `kill-rectangle' (C-x r k) and `yank-rectangle' (C-x r y) can be very
 ;; useful for shifting cells up/down within a column while leaving remaining
@@ -654,13 +651,12 @@
 
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
-    (load "search-conf")
-)
+    (load "search-conf"))
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
 
 
 ;; --[ Font Lock ]--------------------------------------------------------------
-(message "%d: >>>>> Loading [ Font Lock Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Font Lock ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; syntax highlight everywhere
 ;; (global-font-lock-mode t)
@@ -759,7 +755,7 @@
 
 
 ;; --[ Cursor and Point ]-------------------------------------------------------
-(message "%d: >>>>> Loading [ Cursor and Point Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Cursor and Point ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; move cursor when point is coming
 (mouse-avoidance-mode 'animate)
@@ -812,7 +808,7 @@
 
 
 ;; --[ Saving File ]------------------------------------------------------------
-(message "%d: >>>>> Loading [ Saving File Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Saving File ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; make file executable when saving
 ;; (add-hook 'after-save-hook
@@ -829,7 +825,7 @@
 
 
 ;; --[ Time Stamp ]-------------------------------------------------------------
-(message "%d: >>>>> Loading [ Time Stamp Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Time Stamp ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; time-stamp on
 (setq time-stamp-active t)
@@ -848,7 +844,7 @@
 
 
 ;; --[ Backup ]-----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Backup Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Backup ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; auto save interval:every 100 input event
 (setq auto-save-interval 100)
@@ -905,7 +901,7 @@
 
 
 ;; --[ Compare File ]-----------------------------------------------------------
-(message "%d: >>>>> Loading [ Compare File Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Compare File ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; default to unified diffs
 (setq diff-switches "-u")
@@ -939,7 +935,7 @@
 
 
 ;; --[ Buffer Handling ]--------------------------------------------------------
-(message "%d: >>>>> Loading [ Buffer Handling Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Buffer Handling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 ;; meaningful names for buffers with the same name
@@ -979,22 +975,20 @@
   ;; name of the file that records `save-place-alist' value
   (setq save-place-file (concat my-cache-dir "emacs.places"))
   ;; do not make backups of master save-place file
-  (setq save-place-version-control "never")
-)
+  (setq save-place-version-control "never"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Window ]-----------------------------------------------------------------
 ;; use "C-c <--" back to previous window layout
 (when section-windows
-    (load "window-conf")
-)
+    (load "window-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Indentation ]------------------------------------------------------------
 (when section-indentation
-    (message "%d: >>>>> Loading [ Indentation Customization ] ...." step_no)
+    (message "%d: >>>>> Loading [ Indentation ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     ;; Tab width
     (setq default-tab-width 4)
@@ -1027,7 +1021,7 @@
 
 
 ;; --[ Documentation ]----------------------------------------------------------
-(message "%d: >>>>> Loading [ Documentation Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
@@ -1036,7 +1030,7 @@
 
 
 ;; --[ Compilation ]------------------------------------------------------------
-(message "%d: >>>>> Loading [ Compilation Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Compilation ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; highlight and parse the whole compilation output as soon as it arrives
 (setq compile-auto-highlight t)
@@ -1049,13 +1043,12 @@
 (when section-calendar-diary
     ;; (setq diary-file "~/.emacs.d/diary")
     (setq diary-file (concat my-personal-dir "diary"))
-    (load "calendar-conf")
-)
+    (load "calendar-conf"))
 ;; --[ Calendar ]------------------------------------------------------[ End ]--
 
 
 ;; --[ Printer ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Printer Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Printer ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; in case of press "print" of menu bar
 (fset 'print-buffer 'ignore)
@@ -1065,7 +1058,7 @@
 
 
 ;; --[ Game ]-------------------------------------------------------------------
-(message "%d: >>>>> Loading [ Game ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Game ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; get rid of the Games in the Tools menu
 (define-key menu-bar-tools-menu [games] nil)
@@ -1122,7 +1115,7 @@
 
 
 ;; [ TAG ]----------------------------------------------------------------------
-(message "%d: >>>>> Loading [ TAGS ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ TAGS ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;;; ctags -e -R *.cpp *.h
 ;;; M-. : find-tag ;
@@ -1142,8 +1135,7 @@
     (interactive "DDirectory: ")
     (shell-command
       (format "%s -f %s/TAGS -e -R %s" path-to-ctags dir-name dir-name)
-    )
-)
+    ))
 ;; put etags information in bookmark
 (defun ivan-etags-bookmark ()
   (bookmark-set tagname))
@@ -1153,7 +1145,7 @@
 
 
 ;; [ Auto-Fill ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Auto-Fill Mode ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Auto-Fill Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; turn on word wrap
 (auto-fill-mode 1)
@@ -1191,7 +1183,7 @@
 
 ;; [ Table ]--------------------------------------------------------------------
 (when section-table
-    (message "%d: >>>>> Loading [ table ] Customizations ...." step_no)
+    (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     (try-require 'table)
     (autoload 'table-insert "table" "WYGIWYS table editor")
@@ -1227,13 +1219,13 @@
 
 ;; [ multi-term ]---------------------------------------------------------------
 ;; available for Emacs 23
-; (message "%d: >>>>> Loading [ multi-term ] Customizations ...." step_no)
+; (message "%d: >>>>> Loading [ multi-term ] Customization ...." step_no)
 ; (load "multi-term-conf")
 ;; [ multi-term ]------------------------------------------------------[ End ]--
 
 
 ;; [ Version Control ]----------------------------------------------------------
-(message "%d: >>>>> Loading [ Version Control ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Version Control ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 ;; Don't show whitespace in diff, but show context
@@ -1279,7 +1271,7 @@
 
 ;; [ highlight-symbol ]---------------------------------------------------------
 (add-site-lisp-load-path "highlight-symbol")
-(message "%d: >>>>> Loading [ highlight-symbol ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ highlight-symbol ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (require 'highlight-symbol)
 (highlight-symbol-mode 1)
@@ -1294,13 +1286,12 @@
 ;; [ auto-header ]--------------------------------------------------------------
 (when section-header
     ;; header2
-    (load "header2-conf")
-)
+    (load "header2-conf"))
 ;; [ auto-header ]----------------------------------------------------[ End ]---
 
 
 ;; [ goto change ]--------------------------------------------------------------
-(message ">>>>> Loading [ goto-change ] Customizations ....")
+(message ">>>>> Loading [ goto-change ] Customization ....")
 (require 'goto-chg)
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
@@ -1322,8 +1313,7 @@
     ;; helm is new version of anything
     (add-site-lisp-load-path "helm/")
     (add-site-lisp-info-path "helm/doc/")
-    (load "helm-conf")
-)
+    (load "helm-conf"))
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
 
@@ -1331,8 +1321,7 @@
 ;; [ icicles ]------------------------------------------------------------------
 (when section-icicles
     (add-site-lisp-load-path "icicles/")
-    (load "icicles-conf")
-)
+    (load "icicles-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 ;; [ auto-complete ]------------------------------------------------------------
@@ -1343,8 +1332,7 @@
     (add-site-lisp-info-path "auto-complete-1.3.1/doc/")
     (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
     (load "auto-complete-conf")
-    (add-to-list 'ac-dictionary-directories my-ac-dict-dir)
-)
+    (add-to-list 'ac-dictionary-directories my-ac-dict-dir))
 ;; [ auto-complete ]---------------------------------------------------[ End ]--
 
 
@@ -1358,8 +1346,7 @@
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (when section-abbrevs
     (load "abbrevs-conf")
-    (load "hippie-exp-conf")
-)
+    (load "hippie-exp-conf"))
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
 
@@ -1368,8 +1355,7 @@
 (when section-yasnippet
     (add-site-lisp-load-path "yasnippet/")
     (add-site-lisp-info-path "yasnippet/doc/")
-    (load "yasnippet-conf")
-)
+    (load "yasnippet-conf"))
 ;; [ yasnippet ]-------------------------------------------------------[ End ]--
 
 
@@ -1387,15 +1373,14 @@
   (add-site-lisp-load-path "vm/lisp/")
   (add-site-lisp-info-path "vm/info/")
 
-  (load "vm-conf")
-)
+  (load "vm-conf"))
 ;; [ VM ]--------------------------------------------------------------[ End ]--
 
 
 ;; [ Hide-Show ]----------------------------------------------------------------
 (require 'hideshow nil t)
 (when (featurep 'hideshow)
-  (message "%d: >>>>> Loading [ hide-show ] Customizations ...." step_no)
+  (message "%d: >>>>> Loading [ hide-show ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   (dolist (hook '(c++-mode-hook
                   c-mode-hook
@@ -1425,8 +1410,7 @@
 
 ;; [ tabbar ]-------------------------------------------------------------------
 (when (try-require 'tabbar)
-    (tabbar-mode t)
-)
+    (tabbar-mode t))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1487,19 +1471,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ selftest ]-----------------------------------------------------------------
-;; (load "self-test-conf")
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ ledger ]--------------------------------------------------------------------
-;; personal finance
-;; (when (locate-library "ledger")
-;;   (message ">>>>> Loading [ ledger ] Customizations ....")
-;;   (autoload 'ledger-mode "ledger" nil t))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ vi ]------------------------------------------------------------------------
 (when section-vi
     (add-site-lisp-load-path "evil/")
@@ -1515,8 +1486,7 @@
 
 ;; [ eshell ]-------------------------------------------------------------------
 (when section-eshell
-    (load "eshell-conf")
-)
+    (load "eshell-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1530,7 +1500,7 @@
 
 ;; [ longlines ]-----------------------------------------------------------------
 (when (load "longlines" t)
-    (message ">>>>> Loading [ longlines ] Customizations ....")
+    (message ">>>>> Loading [ longlines ] Customization ....")
     (setq longlines-show-hard-newlines t)
     (add-to-list 'auto-mode-alist '("\\.ll\\'" . longlines-mode))
     )
@@ -1546,31 +1516,27 @@
 ;; [ rot13 ]---------------------------------------------------------------------
 ;; perform Caesar ciphers
 (when (try-require 'rot13)
-    (load "rot13-conf")
-)
+    (load "rot13-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ doc-view ]-----------------------------------------------------------------
 (when section-document-view
     (if is-after-emacs-23
-        (load "doc-view-conf"))
-)
+        (load "doc-view-conf")))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ artist ]-------------------------------------------------------------------
 (when section-artist
-    (require 'artist-conf)
-)
+    (require 'artist-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ muse ]---------------------------------------------------------------------
 (when section-muse
     (add-site-lisp-load-path "muse/lisp/")
-    (load "muse-conf")
-)
+    (load "muse-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1578,8 +1544,7 @@
 (when section-ecb
     (add-site-lisp-load-path "ecb-2.40/")
     (add-site-lisp-info-path "ecb-2.40/info-help/")
-    (load "ecb-conf")
-)
+    (load "ecb-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1587,8 +1552,7 @@
 (when section-drag-stuff
     (add-site-lisp-load-path "drag-stuff/")
     (require 'drag-stuff)
-    (drag-stuff-mode t)
-)
+    (drag-stuff-mode t))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1596,8 +1560,7 @@
 (when section-epresent
     (add-site-lisp-load-path "epresent/")
     (require 'epresent)
-    (require 'epresent-autoloads)
-)
+    (require 'epresent-autoloads))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1717,7 +1680,7 @@
          ("\\.vhost$"                     . conf-mode)
          ("\\.hgrc$"                      . conf-mode)
          ("\\.rc$"                        . conf-mode)
-         ("\\.*rc$"                        . conf-unix-mode)
+         ("\\.*rc$"                       . conf-unix-mode)
          ("\\.cnf$"                       . conf-mode)
          ("\\.gitconfig$"                 . conf-mode)
          ("\\.gitmodules$"                . conf-mode)
@@ -1744,12 +1707,11 @@
          ("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . sh-mode)
        )
        auto-mode-alist
-     )
-)
+     ))
 
 
 ;; [ CSV Mode ]-----------------------------------------------------------------
-(message "%d: >>>>> Loading [ CSV Mode ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ CSV Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; major mode for editing comma-separated value files
 (require 'csv-mode nil t)
@@ -1759,7 +1721,7 @@
 
 
 ;; [ Text Mode ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Text Mode ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Text Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; default mode is Text Mode
 (setq default-major-mode 'text-mode)
@@ -1767,8 +1729,7 @@
   (interactive)
 ;;  (filladapt-mode t)
 ;;  (flyspell-mode t)
-  (setq tab-width 4)
-)
+  (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ; (add-hook 'text-mode-hook 'turn-on-auto-fill)
 ; (add-hook 'text-mode-hook 'visual-line-mode)
@@ -1790,7 +1751,7 @@
 
 
 ;; [ View Mode ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ View Mode ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ View Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; vim style
 (setq view-mode-hook
@@ -1864,7 +1825,7 @@
 
 
 ;; [ Shell script Mode ]--------------------------------------------------------
-(message ">>>>> Loading [ Shell Scripting Mode ] Customizations ....")
+(message ">>>>> Loading [ Shell Scripting Mode ] Customization ....")
 (defun my-shellscript-startup ()
   "Setup shell script mode."
   (interactive)
@@ -1879,7 +1840,7 @@
 
 
 ;; [ Makefile Mode ]------------------------------------------------------------
-(message ">>>>> Loading [ Makefile Mode ] Customizations ....")
+(message ">>>>> Loading [ Makefile Mode ] Customization ....")
 (defun my-makefile-startup ()
   "Setup how I like editing makefiles."
   (interactive)
@@ -1920,7 +1881,7 @@
 
 
 ;; [ Comint Mode ]--------------------------------------------------------------
-(message ">>>>> Loading [ Comint Mode ] Customizations ....")
+(message ">>>>> Loading [ Comint Mode ] Customization ....")
 (setq comint-input-ignoredups t)
 (setq comint-input-ring-size 64)
 (setq comint-buffer-maximum-size (expt 2 16))
@@ -2088,6 +2049,8 @@
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
+
+(add-site-lisp-load-path "hungry-delete/")
 (require 'hungry-delete)
 (global-hungry-delete-mode)
 
@@ -2104,7 +2067,7 @@
 
 
 ;; --[ Font ]-------------------------------------------------------------------
-(message "%d: >>>>> Setting [ Font ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Font ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; (set-default-font "clR8x14")
 ;; (set-default-font "-Misc-Fixed-Medium-R-Normal--12-100-75-75-C-60-ISO8859-1")
