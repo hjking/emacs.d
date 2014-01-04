@@ -133,7 +133,7 @@
 (defvar section-alias t)
 (defvar section-vi nil)
 (defvar section-artist nil)
-(defvar section-yasnippet nil)
+(defvar section-yasnippet t)
 (defvar section-cygwin t)
 (defvar section-elpa t)
 (defvar section-tramp nil)

@@ -8,7 +8,8 @@
 (message "%d: >>>>> Loading [ yasnippet ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 (require 'yasnippet) ;; not yasnippet-bundle
-(yas/initialize)
+;; (yas/initialize)
+(yas-global-mode 1)
 ; (setq my-yasnippet-dir "~/.emacs.d/plugin/yasnippet/snippets")
 (setq my-yasnippet-dir (concat my-site-lisp-dir "yasnippet/snippets/"))
 (yas/load-directory my-yasnippet-dir)
