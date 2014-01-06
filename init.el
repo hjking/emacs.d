@@ -1327,9 +1327,12 @@
 ;; [ auto-complete ]------------------------------------------------------------
 ;; available for Emacs 22/23
 (when section-ac
-    (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete-1.3.1/"))
-    (add-site-lisp-load-path "auto-complete-1.3.1/")
-    (add-site-lisp-info-path "auto-complete-1.3.1/doc/")
+    (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete/"))
+    (add-site-lisp-load-path "auto-complete/")
+    (add-site-lisp-load-path "auto-complete/lib/popup/")
+    (add-site-lisp-load-path "auto-complete/lib/fuzzy/")
+    (add-site-lisp-load-path "auto-complete/lib/ert/lisp/emacs-lisp")
+    (add-site-lisp-info-path "auto-complete/doc/")
     (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
     (load "auto-complete-conf")
     (add-to-list 'ac-dictionary-directories my-ac-dict-dir))

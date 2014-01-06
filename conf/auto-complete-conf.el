@@ -8,12 +8,12 @@
 
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-; (require 'auto-complete)
-;;(require 'auto-complete-c)
+
 (require 'auto-complete-config)
 (ac-config-default)
-(global-auto-complete-mode t)
-(setq-default ac-expand-on-auto-complete nil)
+(global-auto-complete-mode 1)
+
+(setq-default ac-expand-on-auto-complete t)
 
 ; Not to complete automatically, need to trigger
 (setq ac-auto-start t)
@@ -22,8 +22,8 @@
 ;;(require 'auto-complete-etags)
 ;;(require 'auto-complete-extension)
 ;;(require 'auto-complete-octave)
-;(require 'auto-complete-verilog)
-;(require 'auto-complete-yasnippet)
+;;(require 'auto-complete-verilog)
+;;(require 'auto-complete-yasnippet)
 
 ;;----------------------------------------------------------------------------
 ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
@@ -71,8 +71,12 @@
 
 (set-default 'ac-sources
                '(ac-source-semantic
+               	 ac-source-functions
                  ac-source-yasnippet
                  ac-source-abbrev
+                 ac-source-variables
+                 ac-source-symbols
+                 ac-source-features
                  ac-source-dictionary
                  ac-source-words-in-buffer
                  ac-source-words-in-all-buffer
@@ -101,22 +105,3 @@
 ;; (define-key ac-completing-map    "\M-/"           'ac-stop)
 ;;
 ;; (define-key ac-complete-mode-map (kbd "<return>") 'ac-complete)
-
-(eval-after-load "yasnippet"
-  '(setq-default ac-sources (append '(ac-source-yasnippet) ac-sources)))
-
-
-(defface ac-yasnippet-candidate-face
-  '((t (:background "sandybrown" :foreground "black")))
-  "Face for yasnippet candidate.")
-
-(defface ac-yasnippet-selection-face
-  '((t (:background "coral3" :foreground "white")))
-  "Face for the yasnippet selected candidate.")
-
-(defvar ac-source-yasnippet
-  '((candidates . ac-yasnippet-candidate)
-    (action . yas/expand)
-    (candidate-face . ac-yasnippet-candidate-face)
-    (selection-face . ac-yasnippet-selection-face))
-  "Source for Yasnippet.")
