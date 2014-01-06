@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: latex class
+# key: lcl
+# --
+#+latex_class: ${1:$$(yas/choose-value '("report" "book" "article" "beamer"))}

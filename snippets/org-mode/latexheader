@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: LaTeX header
+# key: lhe
+# --
+#+latex_header: ${1:\usepackage{$2}}

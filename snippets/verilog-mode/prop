@@ -1,0 +1,7 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: property
+# key: prop
+# --
+property $1;
+  $2 |-> $3;
+endproperty

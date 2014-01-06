@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: frame
+# key: frame
+# --
+** $1
+   :PROPERTIES:
+   :BEAMER_envargs: [<+->]
+   :END:

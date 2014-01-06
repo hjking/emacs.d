@@ -1,0 +1,10 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: always_ff (reset)
+# key: affr
+# --
+always @(posedge clk or negedge reset_n)
+  if (~reset_n) begin
+    $1;
+  end else if ($2) begin
+    $3;
+  end

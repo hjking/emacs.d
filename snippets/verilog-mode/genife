@@ -1,0 +1,8 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: generate if else
+# key: genife
+# --
+generate if ($1) begin : g_$2
+  $4
+end else begin : g_n_$2
+end endgenerate

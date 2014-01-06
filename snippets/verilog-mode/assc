@@ -1,0 +1,5 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: assert property (with clock)
+# key: assc
+# --
+assert property (@(posedge clk) $1 |-> $2);

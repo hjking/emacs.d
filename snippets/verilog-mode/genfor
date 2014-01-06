@@ -1,0 +1,7 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: generate for
+# key: genfor
+# --
+generate for (i = 0; i < $1; i = i + 1) begin : g_$2
+  $3
+end endgenerate

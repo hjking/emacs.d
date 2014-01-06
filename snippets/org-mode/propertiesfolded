@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: properties folded
+# key: properties
+# --
+ :PROPERTIES:
+ :VISIBILITY:folded:
+ :END:

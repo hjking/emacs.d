@@ -3,7 +3,7 @@
 ;; Description: Setting for yasnippet.el
 ;; Author: Hong Jin
 ;; Created: 2011-8-31 10:00
-;; Last Updated: 2013-09-03 11:07:14
+;; Last Updated: 2014-01-06 14:50:42
 
 (message "%d: >>>>> Loading [ yasnippet ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
@@ -23,3 +23,4 @@
 ;; disable TAB trigger
 (define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "M-[") 'yas-expand)

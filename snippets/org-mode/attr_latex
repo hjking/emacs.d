@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: attr_latex
+# key: atl
+# --
+#+attr_latex: :width $1cm

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ditaa
+# key: dit
+# --
+#+begin_ditaa ${1:export-file-name} -r -s -e
+${0}
+#+end_ditaa

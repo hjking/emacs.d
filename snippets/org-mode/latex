@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : latex
+# --
+#+BEGIN_LATEX
+${0}
+#+END_LATEX

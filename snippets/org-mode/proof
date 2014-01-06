@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: proof
+# key: prf
+# --
+#+begin_proof
+$0
+#+end_proof

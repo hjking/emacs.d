@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: author
+# key: aut
+# binding: C-c y a
+# --
+#+author: ${1:`user-full-name`}

@@ -3,7 +3,7 @@
 ;; Description: Setting for auto-complete.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-31 16:09:41
+;; Last Updated: 2014-01-06 15:17:54
 ;; available for Emacs 22/23
 
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
@@ -66,7 +66,19 @@
 ;; (add-to-list 'ac-user-dictionary "foobar@example.com")
 ;;
 
-(setq ac-sources (append ac-sources '(ac-source-dictionary)))
+(set-default 'ac-sources
+               '(ac-source-semantic
+                 ac-source-yasnippet
+                 ac-source-abbrev
+                 ac-source-dictionary
+                 ac-source-words-in-buffer
+                 ac-source-words-in-all-buffer
+                 ac-source-imenu
+                 ac-source-files-in-current-dir
+                 ac-source-filename))
+
+(dolist (command `(backward-delete-char-untabify delete-backward-char))
+    (add-to-list 'ac-trigger-commands command))
 ;; Change default sources
 ;; (setq-default ac-sources '(ac-source-words-in-all-buffer))
 (add-hook 'auto-complete-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-filename)))
@@ -167,3 +179,18 @@
 ;                    ac-source-imenu)))
 ;(add-hook 'eshell-mode-hook 'ac-settings-4-eshell)
 
+;;
+(defface ac-yasnippet-candidate-face
+  '((t (:background "sandybrown" :foreground "black")))
+  "Face for yasnippet candidate.")
+
+(defface ac-yasnippet-selection-face
+  '((t (:background "coral3" :foreground "white")))
+  "Face for the yasnippet selected candidate.")
+
+(defvar ac-source-yasnippet
+  '((candidates . ac-yasnippet-candidate)
+    (action . yas/expand)
+    (candidate-face . ac-yasnippet-candidate-face)
+    (selection-face . ac-yasnippet-selection-face))
+  "Source for Yasnippet.")

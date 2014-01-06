@@ -1,0 +1,10 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: always_ff customized
+# key: afc
+# --
+always @($1)
+  if ($2) begin
+    $3;
+  end else begin
+    $4;
+  end

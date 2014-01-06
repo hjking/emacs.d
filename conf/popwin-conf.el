@@ -15,5 +15,6 @@
 (add-to-list 'popwin:special-display-config '("*sdic*" :noselect))
 (add-to-list 'popwin:special-display-config '("*Apropos*"))
 (add-to-list 'popwin:special-display-config '("*Warnings*"))
+(add-to-list 'popwin:special-display-config '("*pabbrev suggestions*"))
 (add-to-list 'popwin:special-display-config '(" *auto-async-byte-compile*" :noselect))
 

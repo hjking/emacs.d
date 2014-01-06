@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+# name : desc
+# --
+#+DESCRIPTION: ${0}

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: lemma
+# key: lem
+# binding: C-c y l
+# --
+# <<$1>>
+#+begin_lemma
+#+latex: \label{${1:"waiting"$(unless yas/modified-p (reftex-label "lemma" 'dont-insert))}}%
+$0
+#+end_lemma

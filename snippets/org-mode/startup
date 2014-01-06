@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: startup
+# key: sta
+# --
+#+startup: ${1:options}
