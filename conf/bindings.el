@@ -29,7 +29,7 @@
 ;;  (global-set-key [S-iso-lefttab]     'dabbrev-completion)
 ;;  (global-unset-key [?\C-\040])
 ;;  (global-set-key [?\C-\040]          'dabbrev-completion)
-(global-set-key "\C-\\"             'compare-windows)
+;; (global-set-key "\C-\\"             'compare-windows)
 (global-set-key (kbd "M-;")         'hippie-expand)
 ;; (global-set-key (kbd "M-/") 		'hippie-expand)
 ;(global-set-key (kbd "M-/")     'dabbrev-expand) ;;(default)
