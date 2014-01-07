@@ -3,7 +3,7 @@
 ;; Description: Setting for auto-complete.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-06 17:16:27
+;; Last Updated: 2014-01-07 09:32:19
 ;; available for Emacs 22/23
 
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
@@ -11,7 +11,6 @@
 
 (require 'auto-complete-config)
 (ac-config-default)
-(global-auto-complete-mode 1)
 
 (setq-default ac-expand-on-auto-complete t)
 
@@ -36,6 +35,11 @@
 
 ;; add mode to auto-complete mode
 ;(add-to-list 'ac-modes 'new-mode)
+(setq ac-modes
+      (append ac-modes '(org-mode objc-mode jde-mode sql-mode
+                                  change-log-mode text-mode
+                                  makefile-gmake-mode makefile-bsdmake-mo
+                                  autoconf-mode makefile-automake-mode)))
 
 ;; Ignore case
 ;; (setq ac-ignore-case t)

@@ -51,3 +51,7 @@
 (add-hook 'diary-display-hook 'fancy-diary-display)
 (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
 
+;; Chinese calendar
+(require 'cal-china-x)
+(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+(setq calendar-holidays cal-china-x-important-holidays)

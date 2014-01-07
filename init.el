@@ -61,8 +61,7 @@
 (setq
   eval-expression-debug-on-error t       ; debugger on errors in eval-expression
   stack-trace-on-error nil               ; backtrace of error on debug
-  ;; debug-on-error t
-  debug-on-error nil                     ; debugger on errors
+  debug-on-error t                       ; debugger on errors
   debug-on-quit nil                      ; debug when C-g is hit
   debug-on-signal nil)                   ; debug any/every error
 

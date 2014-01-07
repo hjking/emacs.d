@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-03 09:35:06
+;; Last Updated: 2014-01-07 19:08:01
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -34,29 +34,32 @@
 (setq org-edit-timestamp-down-means-later t)
 
 ;; TODO Keywords
+;; sequence: status keywords, can change from one to another
+;; type: type keywords, can not switch betwwen each other
+;; !: record time when state changed
+;; @: need to leave some comments
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t)" "NEXT(n)" "ACTION" "STARTED(s)" "|" "SOMEDAY(s@/!)" "MAYBE" "WAITING(w@/!)" "HOLD(h@/!)" "|" "DONE(x)" "CANCELLED(c@/!)" "POSTPONED(p)")
-            (sequence "ToBLOG(b)" "ARCHIVED" "PHONE" "MEETING" "MEAL" "|" "COMPLETED")
-            (sequence "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
-            (sequence "OPEN(O!)" "|" "CLOSED(C!)")
+    (quote ((sequence "TODO(t!)" "NEXT(n!)" "STARTED(s!)" "MAYBE(m!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+            (type "ACTION(a)" "ToBLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
+            (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
+            (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
            )))
 
 (setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "red" :weight bold)
-              ("ToBLOG" :foreground "red" :weight bold)
-              ("NEXT" :foreground "orange" :weight bold)
-              ("STARTED" :foreground "magenta" :weight bold)
-              ("DONE" :foreground "forest green" :weight bold)
-              ("WAITING" :foreground "orange" :weight bold)
-              ("HOLD" :foreground "magenta" :weight bold)
-              ("SOMEDAY" :foreground "magenta" :weight bold)
+      (quote (("TODO"      :foreground "red"          :weight bold)
+              ("ToBLOG"    :foreground "red"          :weight bold)
+              ("NEXT"      :foreground "orange"       :weight bold)
+              ("STARTED"   :foreground "magenta"      :weight bold)
+              ("DONE"      :foreground "forest green" :weight bold)
+              ("WAITING"   :foreground "orange"       :weight bold)
+              ("HOLD"      :foreground "magenta"      :weight bold)
+              ("SOMEDAY"   :foreground "magenta"      :weight bold)
               ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING" :foreground "forest green" :weight bold)
-              ("PHONE" :foreground "forest green" :weight bold)
-              ("OPEN" :foreground "red" :weight bold)
-              ("CLOSED" :foreground "forest green" :weight bold)
-              ("ARCHIVED" . "blue")
-              ("PHONE" :foreground "forest green" :weight bold))))
+              ("MEETING"   :foreground "forest green" :weight bold)
+              ("OPEN"      :foreground "red"          :weight bold)
+              ("CLOSED"    :foreground "forest green" :weight bold)
+              ("ARCHIVED"  :foreground "blue"         :weight bold)
+              ("PHONE"     :foreground "forest green" :weight bold))))
 
 ;; Fast todo selection allows changing from any task todo state to any other state
 ;; Changing a task state is done with C-c C-t KEY
@@ -69,7 +72,7 @@
 ;;  other tags are not mutually exclusive and multiple tags
 ;;    can appear on a single task
 ;; Tags with fast selection keys
-(setq org-tag-alist '((:startgroup)
+(setq org-tag-alist '((:startgroup nil)
                       ("@home" . ?h)
                       ("@errand" . ?e)
                       ("@coding" . ?c)
@@ -77,9 +80,9 @@
                       ("@reading" . ?r)
                       ("@office" . ?o)
                       ("@laptop" . ?l)
-                      (:endgroup)
-                      ("WAITING" . ?w)
-                      ("HOLD" . ?H)
+                      (:endgroup nil)
+                      ("WEEKLY" . ?w)
+                      ("HOMEWORK" . ?H)
                       ("PERSONAL" . ?P)
                       ("WORK" . ?W)
                       ("NOTE" . ?n)
@@ -114,7 +117,10 @@
 (setq org-agenda-ndays 'month)  ; a month
 ;; Show all agenda dates - even if they are empty
 (setq org-agenda-show-all-dates t)
-(setq org-deadline-warning-days 14)
+;; see deadlines in the agenda view 7 days before the due date
+(setq org-deadline-warning-days 7)
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+(setq org-agenda-skip-scheduled-delay-if-deadline t)
 ;; the agenda start on Monday, or better today?
 (setq org-agenda-start-on-weekday nil)
 ;; show entries from the Emacs diary
@@ -336,35 +342,65 @@
                                          (plain-list-item . auto))))
 ;; Adding new tasks quickly without disturbing the current task content
 (setq org-insert-heading-respect-content nil)
-;; see deadlines in the agenda 15 days before the due date
-(setq org-deadline-warning-days 15)
-;; Publishing
+
+;;; Publishing
+(setq my-org-publish-dir
+      (expand-file-name "public_html" (directory-file-name
+                                       (file-name-directory
+                                        (directory-file-name org-directory)))))
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
-
 (setq org-publish-project-alist
-      '(("note-org"
-         :base-directory org-directory
-         :publishing-directory (concat org-directory "/publish")
-         :base-extension "org"
+      '(
+        ("org-note"
+          :base-directory "~/org/"
+          :publishing-directory "~/org/public_html/"
+          :base-extension "org"
+          :recursive t
+          :publishing-function org-html-export-to-html
+          :auto-index nil
+          :auto-sitemap t                  ; Generate sitemap.org automagically
+          :index-filename "index.org"
+          :index-title "index"
+          :link-home "index.html"
+          :headline-levels 4               ; Just the default for this project
+          :section-numbers nil
+          :export-creator-info nil    ; Disable the inclusion of "Created by Org" in the postamble
+          :export-author-info nil     ; Disable the inclusion of "Author: Your Name" in the postamble
+          :auto-postamble nil         ; Disable auto postamble
+          ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
+          :table-of-contents t)       ; Set this to "t" if you want a table of contents, set to "nil" disables TOC
+        ("org-static"                ;Used to publish static files
+         :base-directory "~/org/"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+         :publishing-directory "~/org/public_html/"
          :recursive t
-         :publishing-function org-publish-org-to-html
-         :auto-index nil
-         :index-filename "index.org"
-         :index-title "index"
-         :link-home "index.html"
-         :section-numbers nil
-         :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>")
-        ("note-static"
-         :base-directory org-directory
-         :publishing-directory (concat org-directory "/publish")
-         :recursive t
-         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el"
-         :publishing-function org-publish-attachment)
-        ("note"
-         :components ("note-org" "note-static")
-         :author "hon9jin@gmail.com"
-         )))
+         :publishing-function org-publish-attachment
+        )
+        ("org"
+          :components ("org-notes" "org-static")) ;combine "org-static" and "org-static" into one function call
+        ("blog-org"
+          :base-directory "~/org/publish/blog/org/"
+          :publishing-directory "~/org/public_html/blog/source/"
+          :base-extension "org"
+          :recursive t
+          :auto-index t
+          :publishing-function org-html-export-to-html
+          :headline-levels 4
+          :html-extension "html"
+          :body-only t ;; Only export section between
+          ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
+          :table-of-contents nil )
+        ("blog-static"
+          :base-directory "~/org/publish/blog/org/"
+          :publishing-directory "~/org/public_html/blog/org/"
+          :recursive t
+          :base-extension "css\\|js\\|bmp\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el\\|pl\\|mht\\|log\\|bin_\\|bat\\|tst\\|doc\\|docx\\|gz"
+          :publishing-function org-publish-attachment )
+        ("blog"
+         :components ("blog-org" "blog-static")
+         :author "HJKing")
+        ))
 
 ;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"
 (defun wicked/org-publish-files-maybe ()
@@ -379,10 +415,10 @@
      (org-html-export-to-html)
      nil))))
 
-(add-hook 'org-mode-hook  ;; (1)
- (lambda ()
-  (add-hook (make-local-variable 'after-save-hook) ;; (2)
-            'wicked/org-publish-files-maybe)))
+; (add-hook 'org-mode-hook  ;; (1)
+;  (lambda ()
+;   (add-hook (make-local-variable 'after-save-hook) ;; (2)
+;             'wicked/org-publish-files-maybe)))
 
 
 (global-set-key (kbd "C-c t") 'goto-org-mode-todo-file)
@@ -403,7 +439,9 @@
        (cadr org-agenda-files)))))
 
 ;; Wrap long lines
-;; (add-hook 'org-mode-hook 'toggle-truncate-lines)
+(add-hook 'org-mode-hook
+          (lambda ()
+            (setq truncate-lines nil)))
 
 ;; flyspell mode for spell checking everything
 ;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
@@ -503,26 +541,7 @@
   (save-excursion
     (beginning-of-line 0)
     (org-remove-empty-drawer-at "LOGBOOK" (point))))
-
 (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
-
-;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"
-(defun wicked/org-publish-files-maybe ()
-  "Publish this file if it contains the #+PUBLISH: keyword"
-  (save-excursion
-   (save-restriction
-    (widen)
-    (goto-char (point-min))
-    (when (re-search-forward
-           "^#?[ \t]*\\+\\(PUBLISH\\)"
-           nil t)
-     (org-html-export-to-html)
-     nil))))
-
-(add-hook 'org-mode-hook  ;; (1)
- (lambda ()
-  (add-hook (make-local-variable 'after-save-hook) ;; (2)
-            'wicked/org-publish-files-maybe)))
 
 ;; archive place
 (setq org-archive-location (concat org-directory "/archive/%s_archive::* Archived Tasks"))
@@ -645,5 +664,37 @@ or nil if the current buffer isn't visiting a dayage"
 
 ; position the habit graph on the agenda to the right of the default
 (setq org-habit-graph-column 50)
+
+;;; Priority
+(setq org-highest-priority ?A)
+(setq org-lowest-priority  ?E)
+(setq org-default-priority ?E) ;; default #E
+;; color
+(setq org-priority-faces
+  '((?A . (:background "red"        :foreground "white"     :weight bold))
+    (?B . (:background "DarkOrange" :foreground "white"     :weight bold))
+    (?C . (:background "yellow"     :foreground "DarkGreen" :weight bold))
+    (?D . (:background "DodgerBlue" :foreground "black"     :weight bold))
+    (?E . (:background "SkyBlue"    :foreground "black"     :weight bold))
+))
+
+;;; Dependence
+;; if sub-item not DONE, item can not set to DONE
+;; (setq org-enforce-todo-dependencies t)
+;;
+;; if the former item not DONE, the next can not set to DONE
+;; use :PROPERTIES:
+;;     :ORDERED: t
+;;     :END:
+
+
+;;; HTML5 Presentation export for Org-mode
+;;; org-html5presentation.el
+;; (require 'org-html5presentation)
+
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (set (make-local-variable 'system-time-locale) "C")))
 
 ;;
