@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-07 19:08:01
+;; Last Updated: 2014-01-08 11:39:50
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -46,20 +46,20 @@
            )))
 
 (setq org-todo-keyword-faces
-      (quote (("TODO"      :foreground "red"          :weight bold)
-              ("ToBLOG"    :foreground "red"          :weight bold)
-              ("NEXT"      :foreground "orange"       :weight bold)
-              ("STARTED"   :foreground "magenta"      :weight bold)
-              ("DONE"      :foreground "forest green" :weight bold)
-              ("WAITING"   :foreground "orange"       :weight bold)
-              ("HOLD"      :foreground "magenta"      :weight bold)
-              ("SOMEDAY"   :foreground "magenta"      :weight bold)
-              ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING"   :foreground "forest green" :weight bold)
-              ("OPEN"      :foreground "red"          :weight bold)
-              ("CLOSED"    :foreground "forest green" :weight bold)
-              ("ARCHIVED"  :foreground "blue"         :weight bold)
-              ("PHONE"     :foreground "forest green" :weight bold))))
+      (quote (("TODO"      . (:foreground "red"          :weight bold))
+              ("ToBLOG"    . (:foreground "red"          :weight bold))
+              ("NEXT"      . (:foreground "orange"       :weight bold))
+              ("STARTED"   . (:foreground "magenta"      :weight bold))
+              ("DONE"      . (:foreground "forest green" :weight bold))
+              ("WAITING"   . (:foreground "orange"       :weight bold))
+              ("HOLD"      . (:foreground "magenta"      :weight bold))
+              ("SOMEDAY"   . (:foreground "magenta"      :weight bold))
+              ("CANCELLED" . (:foreground "forest green" :weight bold))
+              ("MEETING"   . (:foreground "forest green" :weight bold))
+              ("OPEN"      . (:foreground "red"          :weight bold))
+              ("CLOSED"    . (:foreground "forest green" :weight bold))
+              ("ARCHIVED"  . (:foreground "blue"         :weight bold))
+              ("PHONE"     . (:foreground "forest green" :weight bold)))))
 
 ;; Fast todo selection allows changing from any task todo state to any other state
 ;; Changing a task state is done with C-c C-t KEY
@@ -100,12 +100,11 @@
 ;; (setq org-agenda-files '("~/org/widgets.org" "~/org/clients.org"))
 ;; (setq org-agenda-files (append org-agenda-files
 ;;      (list (expand-file-name (concat org-directory "/days")))))
-(setq org-agenda-files (list (concat org-directory "/gtd.org")
-                             (concat org-directory "/mygtd.org")
-                             (concat org-directory "/todo.org")
+(setq org-agenda-files (list (concat org-directory "/todo.org")
                              (concat org-directory "/habit.org")
                              (concat org-directory "/personal.org")
-                             (concat org-directory "/work.org")
+                             (concat org-directory "/work/fabric.org")
+                             (concat org-directory "/work/misc.org")
                              (concat org-directory "/meeting.org")
                              (concat org-directory "/books.org")
                              (concat org-directory "/call.org")
@@ -116,7 +115,7 @@
 ;; (setq org-agenda-ndays (* 6 7))  ;; six weeks
 (setq org-agenda-ndays 'month)  ; a month
 ;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
+(setq org-agenda-show-all-dates nil)
 ;; see deadlines in the agenda view 7 days before the due date
 (setq org-deadline-warning-days 7)
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
@@ -158,19 +157,19 @@
 (setq org-agenda-todo-ignore-with-date nil)
 
 ;; Keep tasks with deadlines on the global todo lists
-(setq org-agenda-todo-ignore-deadlines nil)
+(setq org-agenda-todo-ignore-deadlines t)
 
 ;; Keep tasks with scheduled dates on the global todo lists
-(setq org-agenda-todo-ignore-scheduled nil)
+(setq org-agenda-todo-ignore-scheduled t)
 
 ;; Keep tasks with timestamps on the global todo lists
 (setq org-agenda-todo-ignore-timestamp nil)
 
 ;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
+;; (setq org-agenda-skip-deadline-if-done t)
 
 ;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
+;; (setq org-agenda-skip-scheduled-if-done t)
 
 ;; Remove completed items from search results
 (setq org-agenda-skip-timestamp-if-done t)
@@ -380,7 +379,7 @@
         ("org"
           :components ("org-notes" "org-static")) ;combine "org-static" and "org-static" into one function call
         ("blog-org"
-          :base-directory "~/org/publish/blog/org/"
+          :base-directory "~/org/blog/org/"
           :publishing-directory "~/org/public_html/blog/source/"
           :base-extension "org"
           :recursive t
@@ -388,18 +387,29 @@
           :publishing-function org-html-export-to-html
           :headline-levels 4
           :html-extension "html"
+          :auto-sitemap t                  ; Generate sitemap.org automagically
           :body-only t ;; Only export section between
           ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
           :table-of-contents nil )
         ("blog-static"
-          :base-directory "~/org/publish/blog/org/"
-          :publishing-directory "~/org/public_html/blog/org/"
+          :base-directory "~/org/blog/org/"
+          :publishing-directory "~/org/public_html/blog/source/"
           :recursive t
           :base-extension "css\\|js\\|bmp\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el\\|pl\\|mht\\|log\\|bin_\\|bat\\|tst\\|doc\\|docx\\|gz"
           :publishing-function org-publish-attachment )
         ("blog"
          :components ("blog-org" "blog-static")
          :author "HJKing")
+        ("org-ref"
+          :base-directory "~/org/ref/"
+          :base-extension "org"
+          :publishing-directory "~/public_html/"
+          :auto-sitemap t                  ; Generate sitemap.org automagically
+          :recursive t
+          :publishing-function org-html-export-to-html
+          :headline-levels 4             ; Just the default for this project.
+          :auto-preamble t
+        )
         ))
 
 ;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"

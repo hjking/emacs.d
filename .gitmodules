@@ -137,6 +137,16 @@
 [submodule "plugin/hungry-delete"]
 	path = plugin/hungry-delete
 	url = https://github.com/nflath/hungry-delete.git
+	ignore = dirty
 [submodule "plugin/powerline"]
 	path = plugin/powerline
 	url = https://github.com/milkypostman/powerline.git
+	ignore = dirty
+[submodule "plugin/fiplr"]
+	path = plugin/fiplr
+	url = https://github.com/d11wtq/fiplr.git
+	ignore = dirty
+[submodule "plugin/grizzl"]
+	path = plugin/grizzl
+	url = https://github.com/d11wtq/grizzl.git
+	ignore = dirty

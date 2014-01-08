@@ -51,4 +51,12 @@
   ffip-limit 4096
   ffip-patterns (nconc '("*.cpp" "*.h" "*.hpp" "*.c") ffip-patterns))
 
-
+;;
+;; fiplr
+;;
+(add-site-lisp-load-path "fiplr/")
+(add-site-lisp-load-path "grizzl/")
+(require 'fiplr)
+(setq fiplr-ignored-globs '((directories (".git" ".svn"))
+                            (files ("*.jpg" "*.png" "*.zip" "*~"))))
+(global-set-key (kbd "C-x f") 'fiplr-find-file)
