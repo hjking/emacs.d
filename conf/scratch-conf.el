@@ -185,8 +185,8 @@
     ;; (my-switch-to-ibuffer)
     (my-switch-to-messages)
 )
-(add-hook 'after-init-hook 'my-emacs-after-init-hook)
+;; (add-hook 'after-init-hook 'my-emacs-after-init-hook)
 ;; (add-hook 'after-init-hook 'my-startup-buffer)
 
+;; save scratch when exit emacs
 ;; (add-hook 'kill-emacs-hook (lambda () (save-scratch-data)))
-

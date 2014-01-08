@@ -108,7 +108,6 @@
 (defvar section-vhdl nil)
 (defvar section-emacs-server nil) ; no
 (defvar section-org t)
-(defvar section-etask nil)
 (defvar section-eproject nil)
 (defvar section-ecb nil)
 (defvar section-sessions nil)
@@ -117,7 +116,7 @@
 (defvar section-cvs nil)
 (defvar section-svn nil)
 (defvar section-git t)
-(defvar section-emms t)
+(defvar section-emms nil)
 (defvar section-vm nil)
 (defvar section-ac t)
 (defvar section-company nil)
@@ -134,14 +133,12 @@
 (defvar section-artist nil)
 (defvar section-yasnippet t)
 (defvar section-cygwin t)
-(defvar section-elpa t)
+(defvar section-package t)
 (defvar section-tramp nil)
 (defvar section-cedet t)
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
-(defvar section-epresent nil)
 (defvar section-guess-style t)
-(defvar section-less t)
 (defvar section-mmm-mode t)
 (defvar section-table nil)
 (defvar section-undo t)
@@ -1460,15 +1457,9 @@
 ;; [ org ]-------------------------------------------------------------[ End ]--
 
 
-;; [ etask ]--------------------------------------------------------------------
-(when section-etask
-  (add-site-lisp-load-path "etask/")
-  (load "etask-conf"))
-;; [ etask ]-----------------------------------------------------------[ End ]--
-
-
 ;; [ eproject ]-----------------------------------------------------------------
 (when section-eproject
+  (add-site-lisp-load-path "eproject/")
   (load "eproject-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1558,16 +1549,9 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ eproject ]-----------------------------------------------------------------
-(when section-epresent
-    (add-site-lisp-load-path "epresent/")
-    (require 'epresent)
-    (require 'epresent-autoloads))
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ show-help ]-----------------------------------------------------------------
-(when (try-require 'show-help))
+;; [ show tip ]-----------------------------------------------------------------
+(add-site-lisp-load-path "clippy/")
+(require 'clippy)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1894,10 +1878,10 @@
 
 ;;;; ================ ProgrammingModes End ================
 
-;; [ ELPA ]---------------------------------------------------------------------
+;; [ package ]------------------------------------------------------------------
 ;; Packages managment
-(when section-elpa
-    (load "elpa-conf"))
+(when section-package
+    (load "package-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1940,7 +1924,6 @@
 
 
 ;; --[ tree ]-------------------------------------------------------------------
-(setq my-tree-path (concat my-site-lisp-dir "tree/"))
 (add-site-lisp-load-path "tree/")
 (load "tree-conf")
 ;; --------------------------------------------------------------------[ End ]--

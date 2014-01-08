@@ -1540,6 +1540,12 @@ File suffix is used to determine what program to run."
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max)))
 
+;; reindent the entire buffer
+(defun reindent-whole-buffer ()
+  "Reindent the whole buffer."
+  (interactive)
+  (indent-region (point-min)
+                 (point-max)))
 
 (defun cycle-windows()
     "cycle the buffer of the windows in cyclic ordering"
@@ -1661,3 +1667,18 @@ programming."
           1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'font-lock-comment-annotations)
 
+;; Popup Help
+(defun describe-thing-in-popup ()
+  (interactive)
+  (let* ((thing (symbol-at-point))
+         (help-xref-following t)
+         (description (with-temp-buffer
+                        (help-mode)
+                        (help-xref-interned thing)
+                        (buffer-string))))
+    (popup-tip description
+               :point (point)
+               :around t
+               :height 30
+               :scroll-bar t
+               :margin t)))

@@ -5,4 +5,3 @@
 
 (autoload 'imenu-tree "imenu-tree" "Imenu tree" t)
 (autoload 'tags-tree "tags-tree" "TAGS tree" t)
-

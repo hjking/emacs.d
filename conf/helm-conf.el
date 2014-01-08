@@ -1,6 +1,5 @@
 
 (require 'helm-config)
-;; (helm-mode 1)
 (setq helm-input-idle-delay 0.1) ;; I want it now!
 (setq helm-candidate-number-limit 10)
 (helm-mode 1)
