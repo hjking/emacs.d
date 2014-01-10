@@ -153,7 +153,7 @@
 (defvar section-color-theme t)
 (defvar section-weibo t)
 (defvar section-workgroups t)
-(defvar section-powerline t)
+(defvar section-powerline nil)
 
 ;;;###autoload
 (defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
@@ -222,10 +222,11 @@
       (make-directory my-cache-dir))
   (defmacro add-load-path (path)
       `(setq load-path (append (list, path) load-path)))
+  ;    `(add-to-list 'load-path path))
   (defmacro add-site-lisp-load-path (path)
-      `(setq load-path (append (list (concat my-site-lisp-dir, path)) load-path)))
+      `(add-to-list 'load-path (concat my-site-lisp-dir, path)))
   (defmacro add-site-lisp-info-path (path)
-      `(setq Info-default-directory-list (append (list (concat my-site-lisp-dir, path)) Info-default-directory-list)))
+      `(add-to-list 'Info-default-directory-list (concat my-site-lisp-dir, path)))
   (add-load-path my-emacs-dir)
   (add-load-path my-site-lisp-dir)
   (add-load-path my-site-lisp-conf-dir)
@@ -736,10 +737,10 @@
 
 
 ;; --[ Mode Line ]--------------------------------------------------------------
-(load "mode-line-conf")
+;; (load "mode-line-conf")
 
 ;; mode-line-stats
-;; Show CPU/Memory/Disk status on mode line
+;; Display CPU/Memory/Disk status on mode line
 ;; (add-site-lisp-load-path "mode-line-stats/")
 ;; (load "mode-line-stats-conf")
 
@@ -747,6 +748,14 @@
 (when section-powerline
     (add-site-lisp-load-path "powerline/")
     (load "powerline-conf"))
+
+(add-site-lisp-load-path "smart-mode-line/")
+(setq sml/theme 'dark)
+(require 'smart-mode-line)
+(setq column-number-mode t)
+(setq sml/position-percentage-format "%p")
+(sml/setup)
+
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
 
@@ -1019,6 +1028,7 @@
 ;; --[ Documentation ]----------------------------------------------------------
 (message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
 (setq step_no (1+ step_no))
+(autoload 'turn-on-eldoc-mode "eldoc" nil t)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
@@ -1549,12 +1559,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ show tip ]-----------------------------------------------------------------
-(add-site-lisp-load-path "clippy/")
-(require 'clippy)
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ guess-style ]--------------------------------------------------------------
 (when section-guess-style
     (add-site-lisp-load-path "guess-style/")
@@ -1844,10 +1848,18 @@
 (when section-c-mode
     ;; CC Mode is an Emacs and XEmacs mode for editing C
     ;; and other languages with similar syntax
-    (setq cc-mode-load-path (concat my-site-lisp-dir "cc-mode/"))
     (add-site-lisp-load-path "cc-mode/")
     (add-site-lisp-info-path "cc-mode/")
     (load "c-mode-conf"))
+;; --------------------------------------------------------------------[ End ]--
+
+
+;; --[ Lisp Mode ]--------------------------------------------------------------
+(when section-slime
+    (add-site-lisp-load-path "slime/")
+    (add-site-lisp-load-path "slime/contrib/")
+    (add-site-lisp-info-path "slime/doc")
+    (load "slime-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1857,12 +1869,6 @@
 
 ;; Edebug
 (setq edebug-trace t)
-
-;; Eldoc: provides minibuffer hints when working with Emacs Lisp
-(autoload 'turn-on-eldoc-mode "eldoc" nil t)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1965,15 +1971,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; --[ slime ]------------------------------------------------------------------
-(when section-slime
-    (setq my-slime-path (concat my-site-lisp-dir "slime/"))
-    (add-site-lisp-load-path "slime/")
-    (add-site-lisp-info-path "slime/doc")
-    (load "slime-conf"))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; --[ xcscope ]----------------------------------------------------------------
 (when linuxp
   (when section-cscope
@@ -2028,7 +2025,7 @@
 ;; diminish keeps the modeline tidy
 (require 'diminish)
 (diminish 'abbrev-mode "Abv")
-(diminish 'undo-tree-mode "Undo")
+(diminish 'undo-tree-mode "Ud")
 (diminish 'pabbrev-mode "Pabv")
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
@@ -2062,6 +2059,7 @@
 ;; (set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 ;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
 ;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
+
 ;; --[ Font ]----------------------------------------------------------[ End ]--
 
 
@@ -2076,7 +2074,13 @@
   ;; add apropos help about variables (bind `C-h A' to `apropos-variable')
   (GNUEmacs (define-key help-map (kbd "A") 'apropos-variable))
   ;; Help is provided according to the buffer’s major mode
-  (load "info-look-conf"))
+  (load "info-look-conf")
+  
+  ;; [ show tip ]-----------------------------------------------------------------
+  (add-site-lisp-load-path "clippy/")
+  (require 'clippy)
+  ;; --------------------------------------------------------------------[ End ]--
+)
 ;; --[ Help ]----------------------------------------------------------[ End ]--
 
 

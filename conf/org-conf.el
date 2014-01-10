@@ -107,8 +107,7 @@
                              (concat org-directory "/work/misc.org")
                              (concat org-directory "/meeting.org")
                              (concat org-directory "/books.org")
-                             (concat org-directory "/call.org")
-                             (concat org-directory "/misc.org")))
+                             (concat org-directory "/call.org")))
 ;; Use sticky agenda's so they persist
 (setq org-agenda-sticky t)
 ;; How many days should the default agenda show?

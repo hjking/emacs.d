@@ -150,3 +150,7 @@
 	path = plugin/grizzl
 	url = https://github.com/d11wtq/grizzl.git
 	ignore = dirty
+[submodule "plugin/smart-mode-line"]
+	path = plugin/smart-mode-line
+	url = https://github.com/Bruce-Connor/smart-mode-line.git
+	ignore = dirty
