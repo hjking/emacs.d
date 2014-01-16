@@ -307,7 +307,6 @@
 (setq org-refile-target-verify-function 'my/verify-refile-target)
 
 ;; Strike through DONE headlines
-(setq org-fontify-done-headline t)
 (custom-set-faces
   '(org-done ((t (:foreground "PaleGreen"
                  :weight normal
@@ -348,6 +347,16 @@
                                         (directory-file-name org-directory)))))
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
+(setq org-src-fontify-natively t)
+;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((C . t)
+   (emacs-lisp . t)
+   (sh . t)
+   (perl . t)
+   (python .t)
+   ))
 (setq org-publish-project-alist
       '(
         ("org-note"
@@ -386,10 +395,13 @@
           :publishing-function org-html-export-to-html
           :headline-levels 4
           :html-extension "html"
-          :auto-sitemap t                  ; Generate sitemap.org automagically
+          :creator-info nil
+          :timestamp t
+          ;; :auto-sitemap t ; Generate sitemap.org automagically
           :body-only t ;; Only export section between
           ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
-          :table-of-contents nil )
+          :table-of-contents t ;; export content
+          )
         ("blog-static"
           :base-directory "~/org/blog/org/"
           :publishing-directory "~/org/public_html/blog/source/"
@@ -707,3 +719,7 @@ or nil if the current buffer isn't visiting a dayage"
             (set (make-local-variable 'system-time-locale) "C")))
 
 ;;
+(require 'org-jekyll-mode)
+(setq org-jekyll/jekyll-project-root "~/org/blog/source/")
+(setq org-jekyll/org-mode-project-root "~/org/blog/org/")
+;; (setq org-jekyll/export-with-toc t)   ;; export content

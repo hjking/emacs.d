@@ -118,7 +118,7 @@
 ;; "C-x k" kill the buffer immediately
 (global-set-key (kbd "C-x k")       'kill-this-buffer)
 
-(global-set-key "\M-{"              'my-insert-braces)
+;; (global-set-key "\M-{"              'my-insert-braces)
 (global-set-key [M-delete]          'kill-word)
 (global-set-key (kbd "<C-M-up>")    'move-line-up)  ; FIXME M-Up multiply bound!
 (global-set-key (kbd "<C-M-down>")  'move-line-down)

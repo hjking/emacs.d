@@ -15,7 +15,7 @@
 (setq-default ac-expand-on-auto-complete t)
 
 ; Not to complete automatically, need to trigger
-(setq ac-auto-start t)
+(setq ac-auto-start nil)
 ;; (ac-set-trigger-key "TAB")
 (setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
 ;;(require 'auto-complete-etags)

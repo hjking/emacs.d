@@ -1463,6 +1463,7 @@
   (add-site-lisp-load-path "org/lisp/")
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")
+  (add-site-lisp-load-path "org-jekyll-mode/")
   (load "org-conf"))
 ;; [ org ]-------------------------------------------------------------[ End ]--
 
