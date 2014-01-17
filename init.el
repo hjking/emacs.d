@@ -138,12 +138,11 @@
 (defvar section-cedet t)
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
-(defvar section-guess-style t)
 (defvar section-mmm-mode t)
 (defvar section-table nil)
 (defvar section-undo t)
 (defvar section-header t)
-(defvar section-ergoemacs-keybindings nil)
+(defvar section-ergoemacs-mode nil)
 (defvar section-irc nil)
 (defvar section-w3m nil)
 (defvar section-smex t)
@@ -1546,25 +1545,18 @@
 
 ;; [ ecb ]----------------------------------------------------------------------
 (when section-ecb
-    (add-site-lisp-load-path "ecb-2.40/")
-    (add-site-lisp-info-path "ecb-2.40/info-help/")
-    (load "ecb-conf"))
+  (add-site-lisp-load-path "ecb-2.40/")
+  (add-site-lisp-info-path "ecb-2.40/info-help/")
+  (load "ecb-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ drag-stuff ]---------------------------------------------------------------
 (when section-drag-stuff
-    (add-site-lisp-load-path "drag-stuff/")
-    (require 'drag-stuff)
-    (drag-stuff-mode t))
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ guess-style ]--------------------------------------------------------------
-(when section-guess-style
-    (add-site-lisp-load-path "guess-style/")
-    (require 'guess-style)
-    (require 'guess-style-autoloads))
+  ;; use M-up/down/right/left to move lines, regions, words up/down or right/left
+  (add-site-lisp-load-path "drag-stuff/")
+  (require 'drag-stuff)
+  (drag-stuff-mode t))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2060,7 +2052,7 @@
 ;; (set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 ;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
 ;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
-
+(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
 ;; --[ Font ]----------------------------------------------------------[ End ]--
 
 
@@ -2124,7 +2116,7 @@ spaces across the current buffer."
 ;;
 ;; ergoemacs-keybindings
 ;;
-(when section-ergoemacs-keybindings
+(when section-ergoemacs-mode
     (setq ergoemacs-keybindings-load-path (concat my-site-lisp-dir "ergoemacs-mode/"))
     (add-site-lisp-load-path "ergoemacs-mode/")
     (add-site-lisp-info-path "ergoemacs-mode/")
@@ -2161,7 +2153,7 @@ spaces across the current buffer."
     (load "desktop-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
-(load custom-file 'noerror)
+;; (load custom-file 'noerror)
 
 
 ;; (setq debug-on-error nil)

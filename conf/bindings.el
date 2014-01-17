@@ -128,7 +128,7 @@
 (global-set-key (kbd "M-4")         'yic-kill-current-buffer)
 
 ;; dired
-(global-set-key "\M-d"              'dired)
+;; (global-set-key "\M-d"              'dired)
 
 ;; join lines
 (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))

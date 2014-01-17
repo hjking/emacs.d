@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: jekyll
+# key: jekyll
+# --
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+
+#+YAML/layout: post
+#+YAML/title: ${1:title}
+#+YAML/summary: ${2:summary}
+#+YAML/categories: ${3:category;}
+#+YAML/tags: ${4:tags;}
+#+YAML/comments: ${5:true}
+
+$0

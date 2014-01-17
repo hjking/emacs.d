@@ -722,4 +722,4 @@ or nil if the current buffer isn't visiting a dayage"
 (require 'org-jekyll-mode)
 (setq org-jekyll/jekyll-project-root "~/org/blog/source/")
 (setq org-jekyll/org-mode-project-root "~/org/blog/org/")
-;; (setq org-jekyll/export-with-toc t)   ;; export content
+(setq org-jekyll/export-with-toc t)   ;; export content

@@ -866,7 +866,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   (define-key keymap key nil))
 
 ;;; === count characters in a region ===
-(defun my-count-region (beginPos endPos)
+(defun my-count-words-in-region (beginPos endPos)
   "Print number of words and chars in region."
   (interactive "r")
   (message "Counting ...")
@@ -1583,8 +1583,8 @@ If REPOSITORY is specified, use that."
      (if (re-search-forward (concat "\\_<" (current-word) "\\_>") nil t)
          (match-beginning 0)
        cur))))
-(global-set-key '[M-up] 'sacha/search-word-backward)
-(global-set-key '[M-down] 'sacha/search-word-forward)
+(global-set-key '[M-#] 'sacha/search-word-backward)
+(global-set-key '[M-*] 'sacha/search-word-forward)
 (defadvice search-for-keyword (around sacha activate)
   "Match in a case-insensitive way."
   (let ((case-fold-search t))
@@ -1697,3 +1697,12 @@ programming."
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
     (kill-region (line-beginning-position) (line-beginning-position 2))))
+
+(defun delete-enclosed-text ()
+  "Delete texts between any pair of delimiters."
+  (interactive)
+  (save-excursion
+    (let (p1 p2)
+      (skip-chars-backward "^([<>“") (setq p1 (point))
+      (skip-chars-forward "^)]<>”") (setq p2 (point))
+      (delete-region p1 p2))))
