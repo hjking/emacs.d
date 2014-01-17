@@ -1583,7 +1583,7 @@ If REPOSITORY is specified, use that."
      (if (re-search-forward (concat "\\_<" (current-word) "\\_>") nil t)
          (match-beginning 0)
        cur))))
-(global-set-key '[M-#] 'sacha/search-word-backward)
+(global-set-key (kbd "M-#")         'sacha/search-word-backward)
 (global-set-key '[M-*] 'sacha/search-word-forward)
 (defadvice search-for-keyword (around sacha activate)
   "Match in a case-insensitive way."
