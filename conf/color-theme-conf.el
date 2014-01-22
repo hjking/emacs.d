@@ -20,6 +20,11 @@
 
 (setq color-theme-monokai-path (concat my-site-lisp-dir "color-theme-monokai/"))
 (add-to-list 'load-path color-theme-monokai-path)
+(add-to-list 'custom-theme-load-path color-theme-monokai-path)
+
+(setq color-theme-molokai-path (concat my-site-lisp-dir "color-theme-molokai/"))
+(add-to-list 'load-path color-theme-molokai-path)
+(add-to-list 'custom-theme-load-path color-theme-molokai-path)
 
 (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
 (add-to-list 'load-path color-theme-twilight-path)
@@ -33,7 +38,6 @@
 (add-to-list 'load-path color-theme-mine-path)
 (require 'gentooish)
 (require 'hjking-color)
-(require 'color-theme-almost-monokai)
 ;; (require 'color-theme-djui-light)
 ;; (require 'color-theme-djui-dark)
 (require 'color-theme-drr)
@@ -42,24 +46,10 @@
 (add-to-list 'load-path color-theme-dawn-night-path)
 (require 'color-theme-dawn-night)
 
-;;(color-theme-gentooish)
-;;(color-theme-beauty-black)
-;;(inspiration-630157)
-;;(color-theme-arjen)
-;;(color-theme-charcoal-black)
-;;(color-theme-dark-blue2)
-;;(color-theme-dark-laptop)
-;;(color-theme-jsc-dark)
-;;(color-theme-ld-dark)
-;;(color-theme-ramangalahy)
-;;(color-theme-vim-colors)
-;;(color-theme-jedit-grey)
-;;(color-theme-kingsajz)
-;;(load-theme 'zenburn t)
-(color-theme-solarized-dark)
-;; (cl-night)
-;; (require 'color-theme-random)
-;; (color-theme-random)
+; (load-theme 'zenburn t)
+(load-theme 'molokai t)
+; (color-theme-solarized-dark)
+
 
 (message ">>>>> [ Color Theme ] Setup Loaded")
 

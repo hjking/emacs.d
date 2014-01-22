@@ -1984,7 +1984,6 @@
 (diminish 'abbrev-mode "Abv")
 (diminish 'undo-tree-mode "Ud")
 (diminish 'pabbrev-mode "Pabv")
-(diminish 'guru-mode "")
 (diminish 'workgroups-mode "")
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)

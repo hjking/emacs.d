@@ -162,3 +162,7 @@
 	path = plugin/ido-vertical-mode
 	url = https://github.com/gempesaw/ido-vertical-mode.el.git
 	ignore = dirty
+[submodule "plugin/color-theme-molokai"]
+	path = plugin/color-theme-molokai
+	url = https://github.com/hbin/molokai-theme.git
+	ignore = dirty
