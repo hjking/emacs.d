@@ -2,6 +2,9 @@
 (message "%d: >>>>> Loading [ Parentheses ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 
+;; auto-insert/close bracket pairs
+(electric-pair-mode 1)
+
 ;; smartparens
 ;;
 (require 'smartparens-config)
@@ -38,8 +41,9 @@
 (global-rainbow-delimiters-mode)
 
 ;; show paren
-; (show-paren-mode 1)
+; (show-paren-mode 1) ; turn on paren match highlighting
 ; (setq show-paren-style 'parentheses)
+; (setq show-paren-style 'expression) ; highlight entire bracket expression
 ; (setq show-paren-delay 0)        ; show matching paren immediately
 
 

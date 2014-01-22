@@ -9,14 +9,7 @@
 ;; display time, day and date
 (setq display-time-day-and-date t)
 (display-time)
-;; display line number in mode line
-(setq line-number-mode t)
 
-;; display column number in each mode line
-(setq column-number-mode t)
-; (column-number-mode 1)
-(setq display-line-number-format "%3d ")
-(setq line-number-display-limit 100000)
 ;; Show buffer size in mode-line
 (size-indication-mode 1)
 

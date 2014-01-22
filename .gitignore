@@ -2,3 +2,5 @@
 /auto-save
 /cache
 /emms
+
+/plugin/pde/lisp/tools/perldoc-cache.el

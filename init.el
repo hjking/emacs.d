@@ -11,44 +11,21 @@
 ;; Created:         2010-04-22 10:20 (+800)
 ;; Description:     Emacs customization file
 ;; Reference:       Emacs document
-;; Keywords:        emacs, dotfile, config
-;; Copyright:       (C) 2010, Hong Jin
-;; License:         This program is free software: you can redistribute it and/or modify
-;;                  it under the terms of the GNU General Public License as published by
-;;                  the Free Software Foundation, either version 3 of the License, or
-;;                  (at your option) any later version.
+;; Keywords:        emacs, dotfile, config, rc
+;; Copyright:       (C) 2010 ~ 2014, Hong Jin
+;; License:
+;;    This program is free software: you can redistribute it and/or modify
+;;    it under the terms of the GNU General Public License as published by
+;;    the Free Software Foundation, either version 3 of the License, or
+;;    (at your option) any later version.
 ;;
-;;                  This program is distributed in the hope that it will be useful,
-;;                  but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;                  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;                  GNU General Public License for more details.
+;;    This program is distributed in the hope that it will be useful,
+;;    but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;    GNU General Public License for more details.
 ;;
-;;                  You should have received a copy of the GNU General Public License
-;;                  along with this program. If not, see <http://www.gnu.org/licenses/>.
-;; Revision History:
-;; +------------+------------+----------------------------------------+
-;; |  Date      |  Revision  |  Description                           |
-;; +------------+------------+----------------------------------------+
-;; | 2010-04-22 |  0.9.0     | Initial version                        |
-;; | 2010-04-23 |  0.9.1     | Add some key bindings                  |
-;; | 2010-04-25 |  0.9.2     | Add some plugins                       |
-;; | 2010-04-30 |  1.0.0     | First version                          |
-;; | 2010-04-30 |  1.1.0     | Change structure of plugin config      |
-;; | 2010-04-30 |  1.1.1     | Little change about structure          |
-;; | 2010-05-03 |  1.2.0     | Second version                         |
-;; | 2010-05-14 |  1.2.1     | Add clean-up-buffer-or-region function |
-;; | 2010-05-17 |  1.2.2     | Add delete-current-file function       |
-;; | 2010-05-21 |  1.2.3     | Change spell mode to off               |
-;; | 2010-05-31 |  1.2.4     | Add isearch-forward-at-point           |
-;; | 2010-06-01 |  1.2.5     | Add ivan-etags-bookmark                |
-;; | 2010-10-23 |  1.2.6     | Add auto-header                        |
-;; | 2010-10-23 |  1.2.7     | Delete auto-header; Add autoinsert     |
-;; | 2010-12-13 |  1.3.0     | Restructure the init file              |
-;; | 2011-09-26 |  1.4.0     | Restructure the init file              |
-;; | 2011-12-07 |  1.5.0     | Restructure the init file              |
-;; |            |            | Add some plugins                       |
-;; | 2013-06-17 |  1.6.0     | Add use-package module                 |
-;; +------------+------------+----------------------------------------+
+;;    You should have received a copy of the GNU General Public License
+;;    along with this program. If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -366,10 +343,6 @@
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disable nil)
 
-;; highlight current line
-(require 'hl-line)
-(global-hl-line-mode 1)
-
 ;; Not open new frame when WoMan
 (setq woman-use-own-frame nil)
 (setq woman-fill-column 90)
@@ -431,6 +404,18 @@
   (better-registers-install-save-registers-hook)
   (load better-registers-save-file))
 ;; --[ Register ]------------------------------------------------------[ End ]--
+
+
+;; --[ Bookmark ]---------------------------------------------------------------
+(message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
+(setq step_no (1+ step_no))
+(require 'bookmark)
+;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+(setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+;; each command that sets a bookmark will also save your bookmarks
+(setq bookmark-save-flag t)
+;; (switch-to-buffer "*Bookmark List*")
+;; --[ Bookmark ]------------------------------------------------------[ End ]--
 
 
 ;; [ cedet ]--------------------------------------------------------------------
@@ -588,18 +573,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; --[ Bookmark ]---------------------------------------------------------------
-(message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-(require 'bookmark)
-;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-(setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-;; each command that sets a bookmark will also save your bookmarks
-(setq bookmark-save-flag t)
-;; (switch-to-buffer "*Bookmark List*")
-;; --[ Bookmark ]------------------------------------------------------[ End ]--
-
-
 ;; --[ Scrolling ]--------------------------------------------------------------
 (message "%d: >>>>> Loading [ Scrolling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
@@ -634,17 +607,6 @@
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
-;; --[ Rectangles ]-------------------------------------------------------------
-(when section-rectangles
-    (message "%d: >>>>> Loading [ Rectangles ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-;; `kill-rectangle' (C-x r k) and `yank-rectangle' (C-x r y) can be very
-;; useful for shifting cells up/down within a column while leaving remaining
-;; columns intact.
-)
-;; --[ Rectangles ]----------------------------------------------------[ End ]--
-
-
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
     (load "search-conf"))
@@ -657,7 +619,7 @@
 ;; syntax highlight everywhere
 ;; (global-font-lock-mode t)
 (if (fboundp 'global-font-lock-mode)
-     (global-font-lock-mode 1)          ; GNU Emacs
+     (global-font-lock-mode 1)          ; turn on syntax coloring
      (setq font-lock-auto-fontify t))   ; XEmacs'))
 (setq font-lock-maximum-decoration t)
 ;;(setq font-lock-global-modes '(not text-mode))
@@ -751,7 +713,6 @@
 (add-site-lisp-load-path "smart-mode-line/")
 (setq sml/theme 'dark)
 (require 'smart-mode-line)
-(setq column-number-mode t)
 (setq sml/position-percentage-format "%p")
 (sml/setup)
 
@@ -994,6 +955,8 @@
 (when section-indentation
     (message "%d: >>>>> Loading [ Indentation ] Customization ...." step_no)
     (setq step_no (1+ step_no))
+    ;;  indent automatically (from 24.1)
+    (electric-indent-mode +1)
     ;; Tab width
     (setq default-tab-width 4)
     (setq tab-width 4)
@@ -1181,6 +1144,7 @@
     (add-site-lisp-load-path "ido-hacks/")
     (add-site-lisp-load-path "ido-ubiquitous/")
     (add-site-lisp-load-path "flx-ido/")
+    (add-site-lisp-load-path "ido-vertical-mode/")
     (add-site-lisp-load-path "/")
     (load "ido-conf"))
 ;; [ ido ]-------------------------------------------------------------[ End ]--
@@ -2020,14 +1984,18 @@
 (diminish 'abbrev-mode "Abv")
 (diminish 'undo-tree-mode "Ud")
 (diminish 'pabbrev-mode "Pabv")
+(diminish 'guru-mode "")
+(diminish 'workgroups-mode "")
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
 
+;; [ hungry-delete ]------------------------------------------------------------
 (add-site-lisp-load-path "hungry-delete/")
 (require 'hungry-delete)
 (global-hungry-delete-mode)
+;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ sr-speedbar ]--------------------------------------------------------------
@@ -2068,7 +2036,7 @@
   (GNUEmacs (define-key help-map (kbd "A") 'apropos-variable))
   ;; Help is provided according to the buffer’s major mode
   (load "info-look-conf")
-  
+
   ;; [ show tip ]-----------------------------------------------------------------
   (add-site-lisp-load-path "clippy/")
   (require 'clippy)
@@ -2128,6 +2096,11 @@ spaces across the current buffer."
     (setq ergoemacs-theme nil)  ;; Uses standard ergoemacs keyboard theme
     (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
     (ergoemacs-mode 1))
+
+(add-site-lisp-load-path "guru-mode/")
+(require 'guru-mode)
+(guru-global-mode +1)
+(setq guru-warn-only t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Display missed packages

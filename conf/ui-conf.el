@@ -98,9 +98,11 @@
 ;; Send deletions to the Trash folder - Emacs 23.2
 (setq delete-by-moving-to-trash nil)
 
-;; displayline number at the left side of each window
+;; display line number at the left side of each window
 (if is-after-emacs-23
     (global-linum-mode 1))
+(setq display-line-number-format "%3d ")
+(setq line-number-display-limit 100000)
 ;; line-num face setting
 (defun linum-face-settings ()
   "Face settings for `linum'."
@@ -122,3 +124,10 @@
 ;;       (menu-bar-lines . 1)
 ;;      ))
 
+;; the cursor's line position and column position will show in the status bar
+(column-number-mode 1)
+
+
+;; highlight current line
+(require 'hl-line)
+(global-hl-line-mode 1)

@@ -82,3 +82,9 @@
 ;      (delq nil (mapcar
 ;                 (lambda (x) (if (string-equal (substring x 0 1) ".") x))
 ;                 ido-temp-list)))
+
+
+;; ido-vertical-mode
+;; Makes ido-mode display vertically.
+(require 'ido-vertical-mode)
+(ido-vertical-mode 1)

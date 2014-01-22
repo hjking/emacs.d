@@ -1139,8 +1139,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     (indent-for-tab-command))
   (indent-for-tab-command))
 
-(defun insert-line-number (beg end &optional start-line)
-  "Insert line numbers into buffer."
+(defun insert-line-number-for-region (beg end &optional start-line)
+  "Insert line numbers into region."
   (interactive "r")
   (save-excursion
     (let ((max (count-lines beg end))
@@ -1153,7 +1153,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
         (incf line)
         (incf counter)))))
 
-(defun insert-line-number+ ()
+(defun insert-line-number-for-buffer ()
   "Insert line number into buffer."
   (interactive)
   (if mark-active

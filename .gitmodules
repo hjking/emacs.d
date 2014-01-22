@@ -154,3 +154,11 @@
 	path = plugin/smart-mode-line
 	url = https://github.com/Bruce-Connor/smart-mode-line.git
 	ignore = dirty
+[submodule "plugin/guru-mode"]
+	path = plugin/guru-mode
+	url = https://github.com/bbatsov/guru-mode.git
+	ignore = dirty
+[submodule "plugin/ido-vertical-mode"]
+	path = plugin/ido-vertical-mode
+	url = https://github.com/gempesaw/ido-vertical-mode.el.git
+	ignore = dirty
