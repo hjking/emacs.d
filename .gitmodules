@@ -166,3 +166,7 @@
 	path = plugin/color-theme-molokai
 	url = https://github.com/hbin/molokai-theme.git
 	ignore = dirty
+[submodule "plugin/visual-regexp"]
+	path = plugin/visual-regexp
+	url = https://github.com/benma/visual-regexp.el.git
+	ignore = dirty
