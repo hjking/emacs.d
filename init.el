@@ -215,6 +215,7 @@
 
 (when section-environment
   (load "env-conf"))
+
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -303,7 +304,7 @@
 (require 'cl)  ; provides useful things like `loop' and `setf'
 
 ;; Load face+ after loading face
-(eval-after-load "faces" '(require 'faces+))
+(eval-after-load "faces" '(require 'faces+ nil t))
 
 (when section-scratch
     (load "scratch-conf"))
@@ -606,7 +607,7 @@
 ;;(setq font-lock-maximum-size '((t . 1048576) (vm-mode . 5250000)))
 
 ;; Get more highlight
-(require 'generic-x)
+(require 'generic-x nil t)
 ;; --[ Font Lock ]-----------------------------------------------------[ End ]--
 
 
@@ -702,7 +703,7 @@
 (message "%d: >>>>> Loading [ Cursor and Point ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; move cursor when point is coming
-(mouse-avoidance-mode 'animate)
+;; (mouse-avoidance-mode 'animate)
 ;; keep point at the end of the line
 (setq track-eol t)
 ;; Support Mouse Wheel Scrolling

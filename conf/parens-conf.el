@@ -3,7 +3,7 @@
 (setq step_no (1+ step_no))
 
 ;; auto-insert/close bracket pairs
-(electric-pair-mode 1)
+;; (electric-pair-mode 1)
 
 ;; smartparens
 ;;
