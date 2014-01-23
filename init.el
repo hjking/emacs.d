@@ -13,19 +13,6 @@
 ;; Reference:       Emacs document
 ;; Keywords:        emacs, dotfile, config, rc
 ;; Copyright:       (C) 2010 ~ 2014, Hong Jin
-;; License:
-;;    This program is free software: you can redistribute it and/or modify
-;;    it under the terms of the GNU General Public License as published by
-;;    the Free Software Foundation, either version 3 of the License, or
-;;    (at your option) any later version.
-;;
-;;    This program is distributed in the hope that it will be useful,
-;;    but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;    GNU General Public License for more details.
-;;
-;;    You should have received a copy of the GNU General Public License
-;;    along with this program. If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -765,13 +752,6 @@
 ;; --[ Spell Correction ]----------------------------------------------[ End ]--
 
 
-;; --[ Emacs Init File ]--------------------------------------------------------
-;;  reload-dotemacs
-;;  my-open-dot-emacs
-;;  my-autocompile-dotemacs
-;; --[ Emacs Init File ]-----------------------------------------------[ End ]--
-
-
 ;; --[ Saving File ]------------------------------------------------------------
 (message "%d: >>>>> Loading [ Saving File ] Customization ...." step_no)
 (setq step_no (1+ step_no))
@@ -1112,11 +1092,20 @@
 ;; [ TAG ]-------------------------------------------------------------[ End ]--
 
 
-;; [ Auto-Fill ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Auto-Fill Mode ] Customization ...." step_no)
+;; [ Wrap Line ]----------------------------------------------------------------
+(message "%d: >>>>> Loading [ Wrap Line ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-;; turn on word wrap
+
+;; turn on word wrap by insert a [line ending]
 (auto-fill-mode 1)
+
+;; automatically wrap long lines after the last word before ‘fill-column’
+(when (load "longlines" t)
+    (setq longlines-show-hard-newlines t))
+
+;; wrap a line right before the window edge
+(visual-line-mode 1)
+
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
 (setq default-fill-column 80)
@@ -1170,20 +1159,6 @@
 (add-site-lisp-load-path "browse-kill-ring/")
 (load "kill-ring-conf")
 ;; [ kill-ring ]-------------------------------------------------------[ End ]--
-
-
-;; [ line-number ]--------------------------------------------------------------
-;; display line number at left window
-;;  (autoload 'wb-line-number-toggle "wb-line-number" nil t)
-
-;; Enable linum-mode for all modes unless we think the buffer is special.
-;; (add-hook 'change-major-mode-hook
-;;           (lambda ()
-;;             (unless (string-match "^\*.+\*$" (buffer-name))
-;;               (linum-mode t))))
-;; (setq linum-format "%3d ")
-;; (global-set-key "\M-n" 'linum-mode)
-;; [ line-number ]-----------------------------------------------------[ End ]--
 
 
 ;; [ multi-term ]---------------------------------------------------------------
@@ -1380,6 +1355,28 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
+;; [ folding ]------------------------------------------------------------------
+;; folding (hiding) parts of the text
+(require 'folding)
+;; if always use folding
+;; (if (load "folding" 'nomessage 'noerror)
+;;     (folding-mode-add-find-file-hook))
+
+;; autoload when turn on `folding-mode'
+(autoload 'folding-mode          "folding" "Folding mode" t)
+(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+(folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
+(folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
+(folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
+(folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
+(folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
+(folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
+(folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)
+;; --------------------------------------------------------------------[ End ]--
+
+
 ;; [ tabbar ]-------------------------------------------------------------------
 (when (try-require 'tabbar)
     (tabbar-mode t))
@@ -1394,30 +1391,6 @@
 ;;  (setq mail-user-agent 'message-user-agent)
 ;;  (setq message-send-mail-function 'message-smtpmail-send-it)
 ;;
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ frame-cmds ]---------------------------------------------------------------
-;;  (require 'frame-cmds)
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ zoom-frm ]-----------------------------------------------------------------
-;;  (require 'zoom-frm)
-;;  (global-set-key (if (boundp 'mouse-wheel-down-event) ; Emacs 22+
-;;                      (vector (list 'control mouse-wheel-down-event))
-;;                    [C-mouse-wheel])    ; Emacs 20, 21
-;;                  'zoom-in
-;;  )
-;;  (when (boundp 'mouse-wheel-up-event) ; Emacs 22+
-;;    (global-set-key (vector (list 'control mouse-wheel-up-event))
-;;          'zoom-out
-;;    )
-;;  )
-;;  (global-set-key [S-mouse-1]    'zoom-in)
-;;  (global-set-key [C-S-mouse-1]  'zoom-out)
-;;  ;; Get rid of `mouse-set-font' or `mouse-appearance-menu':
-;;  (global-set-key [S-down-mouse-1] nil)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1462,15 +1435,6 @@
     (load "erc-conf")
     (erc :server "irc.freenode.net" :port 6667 :nick "hjking")
 )
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ longlines ]-----------------------------------------------------------------
-(when (load "longlines" t)
-    (message ">>>>> Loading [ longlines ] Customization ....")
-    (setq longlines-show-hard-newlines t)
-    (add-to-list 'auto-mode-alist '("\\.ll\\'" . longlines-mode))
-    )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1529,25 +1493,6 @@
     (add-site-lisp-load-path "mmm-mode/")
     (add-site-lisp-info-path "mmm-mode/")
     (load "mmm-mode-conf"))
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ folding ]------------------------------------------------------------------
-(require 'folding)
-(load "folding" 'nomessage 'noerror)
-(folding-mode-add-find-file-hook)
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-
-(folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
-(folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
-(folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
-(folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
-(folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
-(folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
-(folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)
-
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;
@@ -1870,7 +1815,7 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Coding setting
+;;;; Encoding setting
 (when section-coding
     (load "encoding-conf"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1937,7 +1882,7 @@
 
 
 ;; --[ wl ]---------------------------------------------------------------------
-;; wanderlist
+;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")
     (add-site-lisp-info-path "wl/doc/")
@@ -1956,13 +1901,6 @@
     (add-site-lisp-load-path "weibo/")
     (load "weibo-conf"))
 ;; [ weibo ]-----------------------------------------------------------[ End ]--
-
-
-;; [ workgroups2 ]--------------------------------------------------------------
-(when section-workgroups
-    (add-site-lisp-load-path "workgroups2/src/")
-    (load "workgroups-conf"))
-;; [ workgroups2 ]-----------------------------------------------------[ End ]--
 
 
 ;; [ multiple-cursors ]---------------------------------------------------------
@@ -1984,7 +1922,6 @@
 (diminish 'abbrev-mode "Abv")
 (diminish 'undo-tree-mode "Ud")
 (diminish 'pabbrev-mode "Pabv")
-(diminish 'workgroups-mode "")
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
@@ -2019,7 +1956,7 @@
 ;; (set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
 ;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
 ;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
-(setq face-font-rescale-alist '(("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
+(setq face-font-rescale-alist '(("Source Code Pro" 1.1) ("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
 ;; --[ Font ]----------------------------------------------------------[ End ]--
 
 
@@ -2125,9 +2062,16 @@ spaces across the current buffer."
     (load "desktop-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
-;; (load custom-file 'noerror)
 
+;; [ workgroups2 ]--------------------------------------------------------------
+(when section-workgroups
+    (add-site-lisp-load-path "workgroups2/src/")
+    (load "workgroups-conf"))
+;; [ workgroups2 ]-----------------------------------------------------[ End ]--
+
+
+(load custom-file 'noerror)
 
 ;; (setq debug-on-error nil)
 
-(message "***** >>>>> [ Loading my Emacs Init File Finished ] <<<<< *****")
+(message "***** >>>>> [ Loading my Emacs Init File Completed!! ] <<<<< *****")

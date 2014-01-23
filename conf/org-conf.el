@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-08 11:39:50
+;; Last Updated: 2014-01-23 11:11:25
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -467,23 +467,10 @@
 ;; flyspell mode for spell checking everything
 ;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
 
-;; Make TAB the yas trigger key in the org-mode-hook and turn on flyspell mode
-;;    (add-hook 'org-mode-hook
-;;              (lambda ()
-;;                ;; yasnippet
-;;                (make-variable-buffer-local 'yas/trigger-key)
-;;                (org-set-local 'yas/trigger-key [tab])
-;;                (define-key yas/keymap [tab] 'yas/next-field-group)
-;;                ;; Undefine C-c [ and C-c ] since this breaks my org-agenda files when directories are include
-;;                ;; It expands the files in the directories individually
-;;                (org-defkey org-mode-map "\C-c["    'undefined)
-;;                (org-defkey org-mode-map "\C-c]"    'undefined)
-;;                (local-set-key (kbd "C-c M-o") 'bh/mail-subtree)) 'append)
-;;
-;;    (defun bh/mail-subtree ()
-;;      (interactive)
-;;      (org-mark-subtree)
-;;      (org-mime-subtree))
+;; turn on yasnippet mode
+(add-hook 'org-mode-hook
+          '(lambda ()
+               (yas-minor-mode)))
 
 ; Structure templates
 (setq org-structure-template-alist

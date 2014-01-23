@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Fri Jan 10 09:27:04 2014 (+0800)
+;; Last-Updated: Thu Jan 23 10:23:29 2014 (+0800)
 ;; Version:
-;;     Update #: 24
+;;     Update #: 27
 ;;
 ;;; Change Log:
 ;;
@@ -27,13 +27,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "\316\304Ȫ\346\344\265ȿ\355΢\303׺\332" :foundry "outline" :slant normal :weight normal :height 113 :width normal))))
+ '(default ((t (:family "Source Code Pro" :foundry "outline" :slant normal :weight normal :height 113 :width normal))))
  '(completions-first-difference ((((class color) (background dark)) (:foreground "red"))))
  '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray")))
  '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))

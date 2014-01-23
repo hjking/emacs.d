@@ -131,3 +131,4 @@
 ;; highlight current line
 (require 'hl-line)
 (global-hl-line-mode 1)
+

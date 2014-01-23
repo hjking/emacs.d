@@ -5,7 +5,6 @@
 ;; use decimal for `C-q'
 (setq read-quoted-char-radix 10)
 
-
 (setq minibuffer-max-depth nil)        ; max depth of mini-buffer no limit.
 
 ;; System locale for time

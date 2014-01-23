@@ -195,7 +195,7 @@ See also `with-temp-buffer'."
   (copy-region-as-kill beg end))
 )
 
-(defun ew-copy-line (arg)
+(defun ew-copy-lines (arg)
       "Copy lines (as many as prefix argument) in the kill ring"
       (interactive "p")
       (kill-ring-save (line-beginning-position)
@@ -303,7 +303,7 @@ See also `with-temp-buffer'."
   (set-buffer-file-coding-system 'dos))
 
 ;; Behave like vi's o command
-(defun open-next-line (arg)
+(defun open-newline-below (arg)
   "Move to the next line and then opens a line.
   See also `newline-and-indent'."
   (interactive "p")
@@ -314,7 +314,7 @@ See also `with-temp-buffer'."
     (indent-according-to-mode)))
 
 ;; Behave like vi's O command
-(defun open-previous-line (arg)
+(defun open-newline-above (arg)
   "Open a new line before the current one.
    See also `newline-and-indent'."
   (interactive "p")
@@ -1096,25 +1096,6 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
         (setq-default line-spacing 1))
     (redraw-display)
 )
-
-(defun open-newline-above (arg)
-  "Move to the previous line (like vi) and then opens a line."
-  (interactive "p")
-  (beginning-of-line)
-  (open-line arg)
-  (if (not (member major-mode '(haskell-mode org-mode literate-haskell-mode)))
-      (indent-according-to-mode)
-    (beginning-of-line)))
-
-(defun open-newline-below (arg)
-  "Move to the next line (like vi) and then opens a line."
-  (interactive "p")
-  (end-of-line)
-  (open-line arg)
-  (call-interactively 'next-line arg)
-  (if (not (member major-mode '(haskell-mode org-mode literate-haskell-mode)))
-      (indent-according-to-mode)
-    (beginning-of-line)))
 
 (defun new-line-below ()
   (interactive)
