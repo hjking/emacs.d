@@ -48,7 +48,14 @@
           (isearch-forward regexp-p no-recursive-edit)))))
 
 ;;; anzu
-(global-anzu-mode t)
-(diminish 'anzu-mode)
-(global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
-(global-set-key [remap query-replace] 'anzu-query-replace)
+; (global-anzu-mode +1)
+; (diminish 'anzu-mode)
+; (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+; (global-set-key [remap query-replace] 'anzu-query-replace)
+
+;; visual-regexp
+(require 'visual-regexp)
+;; (define-key global-map (kbd "C-c r") 'vr/replace)
+;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
+;; ;; if you use multiple-cursors, this is for you:
+;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)

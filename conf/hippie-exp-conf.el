@@ -10,7 +10,7 @@
 ;; [ hippie-expand ]------------------------------------------------------------
 ;; expand text trying various ways to find its expansion
 ;; Hippie Expand
-(when (try-require 'hippie-exp)
+(when (require 'hippie-exp nil t)
 ;;     (load "hippie-exp-conf")
 
 (global-set-key (kbd "M-/") 'hippie-expand)

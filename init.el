@@ -48,9 +48,8 @@
 (defvar section-yanking t)
 (defvar section-rectangles t)
 (defvar section-cua nil)
-(defvar section-registers nil)  ; no
-(defvar section-display nil)  ; no
-(defvar section-search nil)
+(defvar section-registers nil)
+(defvar section-search t)
 (defvar section-keyboard-macros nil)  ; no
 (defvar section-ibuffer t)
 (defvar section-ido t)
@@ -373,7 +372,7 @@
 (eval-after-load "dash" '(dash-enable-font-lock))
 
 ;; sams-lib
-(when (try-require 'sams-lib))
+(require 'sams-lib nil t)
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
@@ -382,15 +381,6 @@
 (when section-ui
     (load "ui-conf"))
 ;; --[ Frame Display ]-------------------------------------------------[ End ]--
-
-
-;; --[ Register ]---------------------------------------------------------------
-(when section-registers
-;;; Better registers!
-  (require 'better-registers)
-  (better-registers-install-save-registers-hook)
-  (load better-registers-save-file))
-;; --[ Register ]------------------------------------------------------[ End ]--
 
 
 ;; --[ Bookmark ]---------------------------------------------------------------
@@ -467,7 +457,7 @@
        '(completions-first-difference
          ((((class color) (background dark)) (:foreground "red")))))
       (set-face-foreground 'completions-common-part "yellow")))
-  (am-add-hooks 'completion-setup-hook 'completion-faces)
+  ;; (am-add-hooks 'completion-setup-hook 'completion-faces)
 
 )
 ;; --[ Minibuffer ]----------------------------------------------------[ End ]--
@@ -596,6 +586,8 @@
 
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
+    (add-site-lisp-load-path "visual-regexp/")
+    (add-site-lisp-load-path "anzu/")
     (load "search-conf"))
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
 
@@ -912,7 +904,7 @@
 ;; [ saveplace ]----------------------------------------------------------------
 ;; remembers your location in a file when saving files
 
-(when (try-require 'saveplace)
+(when (require 'saveplace nil t)
   (message "%d: >>>>> Loading [ saveplace ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   ;; automatically save place in each file
@@ -1143,7 +1135,7 @@
 (when section-table
     (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
     (setq step_no (1+ step_no))
-    (try-require 'table)
+    (require 'table nil t)
     (autoload 'table-insert "table" "WYGIWYS table editor")
     (add-hook 'text-mode-hook 'table-recognize))
 ;; --------------------------------------------------------------------[ End ]--
@@ -1177,14 +1169,14 @@
 
 ;; *** --- PCL-CVS
 (when section-cvs
-  (when (try-require 'pcvs)
+  (when (require 'pcvs nil t)
     (eval-after-load 'pcvs
       (load "pcvs-conf"))
 ))
 
 ;; *** --- Subversion
 (when section-svn
-  (when (try-require 'psvn)
+  (when (require 'psvn nil t)
     (eval-after-load 'psvn
       (load "psvn-conf"))
 ))
@@ -1378,7 +1370,7 @@
 
 
 ;; [ tabbar ]-------------------------------------------------------------------
-(when (try-require 'tabbar)
+(when (require 'tabbar nil t)
     (tabbar-mode t))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1446,7 +1438,7 @@
 
 ;; [ rot13 ]---------------------------------------------------------------------
 ;; perform Caesar ciphers
-(when (try-require 'rot13)
+(when (require 'rot13 nil t)
     (load "rot13-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 

@@ -9,7 +9,7 @@
 (setq step_no (1+ step_no))
 
 ;; view PDF/PostScript/DVI files in Emacs
-(when (try-require 'doc-view)
+(when (require 'doc-view nil t)
 
   ;; `doc-view' integrates with the usual bookmark facility. So simply use
   ;; `C-x r m' (`bookmark-set') to jump back to the last page you've read

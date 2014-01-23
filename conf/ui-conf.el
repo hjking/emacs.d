@@ -115,7 +115,7 @@
 (eval-after-load 'linum
   `(linum-face-settings))
 
-(am-def-active-fun linum-mode linum-mode-active)
+;; (am-def-active-fun linum-mode linum-mode-active)
 
 ;; adjust the size of Emacs window
 ;; (setq default-frame-alist

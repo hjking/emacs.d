@@ -69,7 +69,7 @@
 ;; load .emacs
 (global-set-key (kbd "C-c l")       'my-copy-line)
 ;; switch mode
-(global-set-key (kbd "C-c m")       'my-switch-major-mode)
+;; (global-set-key (kbd "C-c m")       'my-switch-major-mode)
 (global-set-key (kbd "C-c n")       'mouse-tear-off-window)
 ;; smart-compile: according to the extension to compile/run program
 ;; when makefile existed, run "make" automaticlly
@@ -111,8 +111,8 @@
 (global-set-key (kbd "C-z v")       'view-mode)
 
 ;; start a new line like vim o/O
-(global-set-key (kbd "C-c C-e o")         'open-next-line)
-(global-set-key (kbd "C-c C-e O")         'open-previous-line)
+(global-set-key (kbd "C-c C-e o")         'open-newline-below)
+(global-set-key (kbd "C-c C-e O")         'open-newline-above)
 ;; switch window
 ;;  (global-set-key (kbd "C-o")         'other-window) ;; use "C-x o"
 ;; "C-x k" kill the buffer immediately
@@ -193,4 +193,3 @@
 
 ;; go to the right indentation on the next line
 (global-set-key (kbd "RET") 'newline-and-indent)
-

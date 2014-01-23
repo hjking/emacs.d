@@ -24,7 +24,7 @@
 ;;;
 ;; emulate insert-directory completely in Emacs Lisp
 (message ">>>>> Loading [ ls-lisp ] Customizations ....")
-(when (try-require 'ls-lisp)
+(when (require 'ls-lisp nil t)
     ;; disable the case sensitive sort of file names
     (setq ls-lisp-ignore-case t)
     ;; sort directories first in any ordering

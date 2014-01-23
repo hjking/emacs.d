@@ -58,7 +58,7 @@
 ;; [ pabbrev ]------------------------------------------------------------------
 ;; text found in a buffer
 (message ">>>>> Loading [ Predictive Abbreviation ] Customizations ....")
-(when (try-require 'pabbrev)
+(when (require 'pabbrev nil t)
   ;; don't print messages while scavenging on idle timer
   (setq pabbrev-idle-timer-verbose nil)
   ;; tab completion with continual, as-you-type feedback
