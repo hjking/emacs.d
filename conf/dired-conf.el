@@ -3,7 +3,7 @@
 ;; Description: Setting for dired.el, dired-tar.el, dired-single, dired-x.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2013-12-31 14:09:00
+;; Last Updated: 2014-01-24 10:21:00
 ;;
 (message "%d: >>>>> Loading [ Dired ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
@@ -13,12 +13,11 @@
 ;;   ) - dired-details-show
 ;;   ( - dired-details-hide
 (message ">>>>> Loading [ dired-details ] Customizations ....")
-(require 'dired-details)
-(dired-details-install)
-(setq dired-details-hidden-string "")
+;; (require 'dired-details)
+;; (dired-details-install)
+;; (setq dired-details-hidden-string "")
 ;; dired-details+
-(message ">>>>> Loading [ dired-details+ ] Customizations ....")
-(require 'dired-details+)
+(require 'dired-details+) ;; auto load `dired-details'
 
 ;;; ls-lisp
 ;;;
@@ -39,6 +38,7 @@
 
 ;; ls-lisp+
 (require 'ls-lisp+)
+(require 'files+)
 
 
 ;;; dired setting
@@ -53,24 +53,27 @@
 ;; enable the use of the command dired-find-alternate-file without confirmation
 (put 'dired-find-alternate-file 'disabled nil)
 ;; Sort Directories First
-(setq dired-listing-switches "-aBhl  --group-directories-first")
+;; (setq dired-listing-switches "-aBhl  --group-directories-first")
 
 (add-hook 'dired-mode-hook
     '(lambda()
+       (visual-line-mode 0) ;; unwrap lines.
+       ;; (linum-mode 0) ;; turn off line numbers.
+       (auto-revert-mode) ;; auto-refresh dired
        (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
        (define-key dired-mode-map [return] 'dired-find-file-other-window)
        (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)
        (define-key dired-mode-map [mouse-2] 'dired-find-file)
+       (define-key dired-mode-map [mouse-3] 'dired-maybe-insert-subdir)
+       (define-key dired-mode-map (kbd "C-{") 'dired-narrow-window)
     )
 )
-
 
 (message ">>>>> Loading [ dired-sort ] Customizations ....")
 ;; sort
 (require 'dired-sort)
 
 ;; dired-sort-menu
-(require 'dired-sort-menu)
 (add-hook 'dired-load-hook (lambda () (require 'dired-sort-menu)))
 (require 'dired-sort-menu+)
 
@@ -102,29 +105,33 @@
 (require 'dired-x nil t)
 ;; Load Dired X when Dired is loaded.
 (add-hook 'dired-load-hook
-    (function (lambda () (load "dired-x"))))
-
-;;; DiredOmit Mode
-;;;
-;; Enable toggling of uninteresting files.
-;; (setq dired-omit-mode t)
-;;  Emacs before 22.1
-(setq-default dired-omit-files-p t) ; this is buffer-local variable
-(setq dired-omit-extensions
-      '(".svn/" "CVS/" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico"
-        ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd"
-        ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".fmt" ".tfm"
-        ".class" ".lib" ".mem" ".x86f" ".sparcf" ".fasl"
-        ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".lo" ".la" ".gmo"
-        ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr"
-        ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo"
-        ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cps" ".fn"
-        ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs"
-        ".pdb" ".ilk"
-       ))
-;; hide my dot-files when hit M-o
-(setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-(setq dired-omit-size-limit 1000000)
+          (lambda ()
+                  (load "dired-x")
+                  ;; Set global variables here.  For example:
+                  ;; (setq dired-guess-shell-gnutar "gtar")
+                  ))
+;;  DiredOmit Mode
+(add-hook 'dired-mode-hook
+          (lambda ()
+                  ;; Set buffer-local variables here.  For example:
+                  (dired-omit-mode 1)
+                  (setq-default dired-omit-files-p t) ; this is buffer-local variable
+                  (setq dired-omit-extensions
+                        '(".svn/" "CVS/" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico"
+                          ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd"
+                          ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".fmt" ".tfm"
+                          ".class" ".lib" ".mem" ".x86f" ".sparcf" ".fasl"
+                          ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".lo" ".la" ".gmo"
+                          ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr"
+                          ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo"
+                          ".idx" ".lof" ".lot" ".glo" ".blg" ".bbl" ".cps" ".fn"
+                          ".fns" ".ky" ".kys" ".pg" ".pgs" ".tp" ".tps" ".vr" ".vrs"
+                          ".pdb" ".ilk"
+                         ))
+                  ;; hide my dot-files when hit M-o
+                  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+                  (setq dired-omit-size-limit 1000000)
+          ))
 ;;-------------------------------------------------------------------------
 
 

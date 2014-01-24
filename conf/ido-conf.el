@@ -15,7 +15,6 @@
 (setq ido-enable-flex-matching t)
 (setq ido-record-commands t)
 (setq ido-max-directory-size 100000)
-(setq org-completion-us-ido t)
 (setq ido-auto-merge-work-directories-length 0)
 ;; Show previously opened buffers in ido-switch-buffer
 (setq ido-use-virtual-buffers t)
@@ -33,6 +32,7 @@
 (setq ido-enable-prefix nil)
 ;;
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
+
 ;;
 (require 'ido-hacks)
 (ido-hacks-mode 1)
@@ -88,3 +88,4 @@
 ;; Makes ido-mode display vertically.
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)

@@ -87,6 +87,7 @@
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
+(defvar section-markdown-mode t)
 (defvar section-cc-mode t)
 (defvar section-elisp-mode t)
 (defvar section-shell-mode t)
@@ -359,12 +360,6 @@
 
 ;;use proxy server
 ;;(setq url-proxy-services '(("http" . "proxy.km.local:8080")))
-
-;; Don't break lines for me, please
-(setq-default truncate-lines t)
-
-(setq completion-ignored-extensions (remove ".pdf" completion-ignored-extensions))
-(setq completion-ignored-extensions (remove ".dvi" completion-ignored-extensions))
 
 ;;; Library
 
@@ -1089,19 +1084,25 @@
 (message "%d: >>>>> Loading [ Wrap Line ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
+;; Don't break lines for me, please
+;; (setq-default truncate-lines t)
+
 ;; turn on word wrap by insert a [line ending]
 (auto-fill-mode 1)
 
 ;; automatically wrap long lines after the last word before ‘fill-column’
+(autoload 'longlines-mode
+  "longlines.el"
+  "Minor mode for automatically wrapping long lines." t)
 (when (load "longlines" t)
     (setq longlines-show-hard-newlines t))
 
 ;; wrap a line right before the window edge
-(visual-line-mode 1)
+;; (visual-line-mode 1)
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
-(setq default-fill-column 80)
+(setq fill-column 80)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1121,7 +1122,6 @@
 
 
 ;; [ ido ]----------------------------------------------------------------------
-;; start from Emacs 22
 (when section-ido
     (add-site-lisp-load-path "ido-hacks/")
     (add-site-lisp-load-path "ido-ubiquitous/")
@@ -1332,6 +1332,28 @@
   (add-hook hook 'hs-minor-mode))
   ;; (global-set-key [f1] ‘hs-toggle-hiding)
 )
+
+;; hideshowvis
+(autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
+(autoload 'hideshowvis-minor-mode
+  "hideshowvis"
+  "Will indicate regions foldable with hideshow in the fringe."
+  'interactive)
+
+(dolist (hook (list 'emacs-lisp-mode-hook
+                    'c++-mode-hook
+                    'lisp-mode-hook
+                    'ruby-mode-hook
+                    'perl-mode-hook
+                    'php-mode-hook
+                    'python-mode-hook
+                    'lua-mode-hook
+                    'c-mode-hook
+                    'java-mode-hook
+                    'js-mode-hook
+                    'vlog-mode-hook
+                    'css-mode-hook))
+  (add-hook hook 'hideshowvis-enable))
 ;; [ Hide-Show ]-------------------------------------------------------[ End ]--
 
 
@@ -1536,10 +1558,6 @@
          ;; makefile
          ("makefile"                      . makefile-mode)
          ("Makefile"                      . makefile-mode)
-         ;; Markdown
-         ("\\.md$"                        . markdown-mode)
-         ("\\.markdown$"                  . markdown-mode)
-         ("\\.mkdn$"                      . markdown-mode)
          ;; JavaScript
          ("\\.js$"                        . javascript-mode)
          ("\\.json$"                      . javascript-mode)
@@ -1617,10 +1635,13 @@
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ; (add-hook 'text-mode-hook 'turn-on-auto-fill)
-; (add-hook 'text-mode-hook 'visual-line-mode)
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+; (remove-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-
+;; ask whether to use Auto Fill Mode
+(add-hook 'text-mode-hook
+              (lambda ()
+                (when (y-or-n-p "Auto Fill mode? ")
+                  (turn-on-auto-fill))))
 ;; (add-hook 'text-mode-hook 'longlines-mode)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1746,6 +1767,23 @@
     (add-site-lisp-load-path "cc-mode/")
     (add-site-lisp-info-path "cc-mode/")
     (load "c-mode-conf"))
+;; --------------------------------------------------------------------[ End ]--
+
+
+;; [ Markdown Mode ]------------------------------------------------------------
+(when section-markdown-mode
+    ;; Markdown mode - TAB for <pre></pre> block
+    (add-hook 'markdown-mode-hook
+          (lambda ()
+            (define-key markdown-mode-map (kbd "<tab>") 'markdown-insert-pre)
+            (define-key markdown-mode-map (kbd "M-<left>") nil)
+            (define-key markdown-mode-map (kbd "M-<right>") nil)
+            ))
+
+    ;; Markdown file handling
+    (dolist (pattern '("\\.md$" "\\.markdown$" "\\.mkdn$"))
+      (add-to-list 'auto-mode-alist (cons pattern 'markdown-mode)))
+    )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1915,6 +1953,8 @@
 (diminish 'abbrev-mode "Abv")
 (diminish 'undo-tree-mode "Ud")
 (diminish 'pabbrev-mode "Pabv")
+(diminish 'dired-view-minor-mode)
+(diminish 'auto-revert-mode)
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
@@ -2030,6 +2070,7 @@ spaces across the current buffer."
 (require 'guru-mode)
 (guru-global-mode +1)
 (setq guru-warn-only t)
+(diminish 'guru-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Display missed packages

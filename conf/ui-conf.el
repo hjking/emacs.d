@@ -51,7 +51,7 @@
 
 ;;; === startup ===
 ;; no GNU emacs startup logo
-(setq inhibit-startup-echo-area-message t)
+(setq inhibit-startup-echo-area-message "HJKing")
 ;; Don't display the 'Welcome to GNU Emacs' buffer on startup
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)

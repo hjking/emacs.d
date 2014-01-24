@@ -1,6 +1,7 @@
 ;; Scratch buffer goodness
-;;
-;; (setq initial-scratch-message "")
+
+;; make *scratch* buffer clean
+(setq initial-scratch-message "")
 ;;; I initialize my *scratch* buffer with a random Emacs haiku drawn
 ;;; from among these:
 (defvar ted-emacs-haiku

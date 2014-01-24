@@ -32,6 +32,7 @@
 (setq org-startup-folded nil)  ;; open org in unfolded view
 (setq org-edit-src-content-indentation 0)
 (setq org-edit-timestamp-down-means-later t)
+(setq org-completion-us-ido t)
 
 ;; TODO Keywords
 ;; sequence: status keywords, can change from one to another
