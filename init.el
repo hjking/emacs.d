@@ -1638,10 +1638,10 @@
 ; (remove-hook 'text-mode-hook 'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 ;; ask whether to use Auto Fill Mode
-(add-hook 'text-mode-hook
-              (lambda ()
-                (when (y-or-n-p "Auto Fill mode? ")
-                  (turn-on-auto-fill))))
+; (add-hook 'text-mode-hook
+;               (lambda ()
+;                 (when (y-or-n-p "Auto Fill mode? ")
+;                   (turn-on-auto-fill))))
 ;; (add-hook 'text-mode-hook 'longlines-mode)
 ;; --------------------------------------------------------------------[ End ]--
 

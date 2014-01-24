@@ -342,6 +342,10 @@
 (setq org-insert-heading-respect-content nil)
 
 ;;; Publishing
+
+;; export org to markdown
+(require 'ox-md)
+
 (setq my-org-publish-dir
       (expand-file-name "public_html" (directory-file-name
                                        (file-name-directory
