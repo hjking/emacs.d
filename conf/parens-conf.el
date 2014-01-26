@@ -47,16 +47,15 @@
 ; (setq show-paren-delay 0)        ; show matching paren immediately
 
 
-
-; ;; Check parens
-; ; turn on check-parens on a save
-; ; it will not let you save until you correct the error
-; (add-hook 'emacs-lisp-mode-hook
-;   (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
-; (add-hook 'c-mode-hook
-;   (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
-; (add-hook 'verilog-mode-hook
-;   (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
+;; Check parens
+; turn on check-parens on a save
+; it will not let you save until you correct the error
+(add-hook 'emacs-lisp-mode-hook
+  (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
+(add-hook 'c-mode-hook
+  (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
+(add-hook 'verilog-mode-hook
+  (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
 
 
 ; ;; SkeletonMode

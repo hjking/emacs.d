@@ -41,28 +41,33 @@
 
 ;; [ dabbrev-expand-multiple ]--------------------------------------------------
 (message ">>>>> Loading [ dabbrev-expand-multiple ] Customizations ....")
-(require 'dabbrev-expand-multiple)
-;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
-(setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g"))
-;; The seconds in which tooltip is displayed.
-(setq dabbrev-expand-multiple-tooltip-timeout 2000)
-;; setting to disappear at ten seconds.
-(setq dabbrev-expand-multiple-tooltip-timeout 10)
-;; put highlight to first expanded string.
-(setq dabbrev-expand-multiple-highlight-face 'highlight)
-;; use tooltip.
-(setq dabbrev-expand-multiple-use-tooltip t)
+;; (require 'dabbrev-expand-multiple)
+(eval-after-load 'dabbrev-expand-multiple
+  '(progn
+    ;; (global-set-key "\M-/" 'dabbrev-expand-multiple)
+    (setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g"))
+    ;; The seconds in which tooltip is displayed.
+    (setq dabbrev-expand-multiple-tooltip-timeout 2000)
+    ;; setting to disappear at ten seconds.
+    (setq dabbrev-expand-multiple-tooltip-timeout 10)
+    ;; put highlight to first expanded string.
+    (setq dabbrev-expand-multiple-highlight-face 'highlight)
+    ;; use tooltip.
+    (setq dabbrev-expand-multiple-use-tooltip t)))
 ;; [ dabbrev-expand-multiple ]-----------------------------------------[ End ]--
 
 
 ;; [ pabbrev ]------------------------------------------------------------------
 ;; text found in a buffer
 (message ">>>>> Loading [ Predictive Abbreviation ] Customizations ....")
-(when (require 'pabbrev nil t)
-  ;; don't print messages while scavenging on idle timer
-  (setq pabbrev-idle-timer-verbose nil)
-  ;; tab completion with continual, as-you-type feedback
-  (global-pabbrev-mode)
+; (when (require 'pabbrev nil t)
+(eval-after-load 'pabbrev
+  '(progn
+    ;; don't print messages while scavenging on idle timer
+    (setq pabbrev-idle-timer-verbose nil)
+    ;; tab completion with continual, as-you-type feedback
+    (global-pabbrev-mode)
+    (diminish 'pabbrev-mode "Pabv"))
 )
 ;; [ pabbrev ]---------------------------------------------------------[ End ]--
 

@@ -13,7 +13,13 @@
 ;; Reference:       Emacs document
 ;; Keywords:        emacs, dotfile, config, rc
 ;; Copyright:       (C) 2010 ~ 2014, Hong Jin
+
+;; Thanks to http://www.mygooglest.com/fni/dot-emacs.html
+;; Use autoloads, which delay the loading of the complete package until one of
+;; the interactive functions is used.
 ;;
+;; If you want to set options which need to be evaluated after a package is
+;; loaded, you can use `eval-after-load'.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Let's Rock and Roll
@@ -21,19 +27,13 @@
 (message "")
 (message "***** >>>>> [ Loading Emacs Startup File ], Be patient!")
 (setq step_no 1)
-;;;; Debugging
-(setq
-  eval-expression-debug-on-error t       ; debugger on errors in eval-expression
-  stack-trace-on-error nil               ; backtrace of error on debug
-  debug-on-error t                       ; debugger on errors
-  debug-on-quit nil                      ; debug when C-g is hit
-  debug-on-signal nil)                   ; debug any/every error
+
 
 ;; uptimes
 (setq emacs-load-start-time (current-time))
 
 ;; turn on Common Lisp support
-(require 'cl)
+(require 'cl)  ; provides useful things like `loop' and `setf'
 (require 'cl-lib)
 
 ;; allow quick include/exclude of setup parts
@@ -83,7 +83,7 @@
 (defvar section-vm nil)
 (defvar section-ac t)
 (defvar section-company nil)
-(defvar section-helm t)
+(defvar section-helm nil)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -125,38 +125,50 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
-(defconst win32p
-  (eq system-type 'windows-nt)
-  "Are we running on a WinTel system?")
-
-(defconst cygwinp
-  (eq system-type 'cygwin)
-  "Are we running on a WinTel cygwin system?")
-
-(defconst linuxp
-  (or (eq system-type 'gnu/linux)
-      (eq system-type 'linux))
-  "Are we running on a GNU/Linux system?")
-
-(defconst unixp
-  (or linuxp
-    (eq system-type 'usg-unix-v)
-    (eq system-type 'berkeley-unix))
-  "Are we running unix")
+(when section-loading-libraries
+;;;; Debugging
+  (message "%d: >>>>> Debugging...." step_no)
+  (setq step_no (1+ step_no))
+  (setq
+    eval-expression-debug-on-error t       ; debugger on errors in eval-expression
+    stack-trace-on-error nil               ; backtrace of error on debug
+    debug-on-error t                       ; debugger on errors
+    debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
+    debug-on-signal nil)                   ; debug any/every error
+)
 
 ;; --[ Load Path ]--------------------------------------------------------------
 (when section-loading-libraries
   (message "%d: >>>>> Loading [ Default Path ] ...." step_no)
-    (setq step_no (1+ step_no))
-    ; (when win32p
-    ;     (message "We are in Windows Platform")
-    ;     (setq my-home "F:/Kuaipan/Workspace/src")
-    ;     (setenv "HOME" my-home)
-    ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
-    ; )
-    (when linuxp
-        (message "We are in Linux Platform")
-        (setq my-home "/home/jinhong"))
+  (setq step_no (1+ step_no))
+  ; (when win32p
+  ;     (message "We are in Windows Platform")
+  ;     (setq my-home "F:/Kuaipan/Workspace/src")
+  ;     (setenv "HOME" my-home)
+  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
+  ; )
+
+  (defconst win32p
+    (eq system-type 'windows-nt)
+    "Are we running on a WinTel system?")
+
+  (defconst cygwinp
+    (eq system-type 'cygwin)
+    "Are we running on a WinTel cygwin system?")
+
+  (defconst linuxp
+    (or (eq system-type 'gnu/linux)
+        (eq system-type 'linux))
+    "Are we running on a GNU/Linux system?")
+
+  (defconst unixp
+    (or linuxp
+      (eq system-type 'usg-unix-v)
+      (eq system-type 'berkeley-unix))
+    "Are we running unix")
+  (when linuxp
+    (message "We are in Linux Platform")
+    (setq my-home "/home/jinhong"))
 
   (when linuxp
     (add-to-list 'exec-path "~/bin"))
@@ -213,6 +225,7 @@
 ;; --[ Environment ]------------------------------------------------------------
 
 (require 'init-compat)
+(require 'diminish)
 
 (when section-environment
   (load "env-conf"))
@@ -230,10 +243,7 @@
         (defvar my-cygwin-usr-dir (concat my-cygwin-dir "usr/") "Cygwin usr folder")
         (add-site-lisp-load-path "cygwin/")
         (load "cygwin-conf")
-      )
-    )
-  )
-)
+      ))))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -248,10 +258,10 @@
 ;;
 ;; my TODO
 ;;todo_path: ~/.emacs.d/todo/
-(setq my-todo-dir (concat my-personal-dir "todo/"))
-(setq todo-file-do (concat my-todo-dir "do"))
-(setq todo-file-done (concat my-todo-dir "done"))
-(setq todo-file-top (concat my-todo-dir "top"))
+;; (setq my-todo-dir (concat my-personal-dir "todo/"))
+;; (setq todo-file-do (concat my-todo-dir "do"))
+;; (setq todo-file-done (concat my-todo-dir "done"))
+;; (setq todo-file-top (concat my-todo-dir "top"))
 
 ;; personal variables
 (setq personal-vars (concat my-personal-dir "personal.el"))
@@ -425,14 +435,18 @@
 (when section-minibuffer
   (message "%d: >>>>> Loading [ Minibuffer ] Customization ...." step_no)
   (setq step_no (1+ step_no))
+  ;; ignore case when reading a file name completion
   (setq read-file-name-completion-ignore-case t)
-  ;; If non-`nil', resize the minibuffer so its entire contents are visible.
+  ;; minibuffer window expands vertically as necessary to hold the text that you
+  ;; put in the minibuffer
   (setq resize-minibuffer-mode t)
   ;; Enable recursive minibuffer
   (setq enable-recursive-minibuffers t)
   ;; auto-complete on in minibuffer
   (unless is-after-emacs-23
       partial-completion-mode 1)
+  ;; ignore case when reading a buffer name
+  (setq read-buffer-completion-ignore-case t)
   ;; auto-complete in minibuffer when execute M-x functions and variables
   (icomplete-mode 1)
   ;; do not consider case significant in completion (GNU Emacs default)
@@ -564,7 +578,7 @@
 (setq hscroll-step 2)
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 (setq redisplay-dont-pause t)
-
+(setq scroll-lock-mode 1)
 ;; scroll one line at a time (less "jumpy" than defaults)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
@@ -1088,17 +1102,18 @@
 ;; (setq-default truncate-lines t)
 
 ;; turn on word wrap by insert a [line ending]
-(auto-fill-mode 1)
+;; (auto-fill-mode 1)
 
 ;; automatically wrap long lines after the last word before ‘fill-column’
-(autoload 'longlines-mode
-  "longlines.el"
-  "Minor mode for automatically wrapping long lines." t)
-(when (load "longlines" t)
-    (setq longlines-show-hard-newlines t))
+; (autoload 'longlines-mode
+;   "longlines.el"
+;   "Minor mode for automatically wrapping long lines." t)
+; (when (load "longlines" t)
+;     (setq longlines-show-hard-newlines t))
 
 ;; wrap a line right before the window edge
-;; (visual-line-mode 1)
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+(global-visual-line-mode 1)
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
@@ -1773,6 +1788,9 @@
 ;; [ Markdown Mode ]------------------------------------------------------------
 (when section-markdown-mode
     ;; Markdown mode - TAB for <pre></pre> block
+    (add-site-lisp-load-path "markdown-mode/")
+    (autoload 'markdown-mode "markdown-mode"
+        "Major mode for editing Markdown files" t)
     (add-hook 'markdown-mode-hook
           (lambda ()
             (define-key markdown-mode-map (kbd "<tab>") 'markdown-insert-pre)
@@ -1807,12 +1825,12 @@
 
 ;; [ Comint Mode ]--------------------------------------------------------------
 (message ">>>>> Loading [ Comint Mode ] Customization ....")
-(setq comint-input-ignoredups t)
-(setq comint-input-ring-size 64)
-(setq comint-buffer-maximum-size (expt 2 16))
 (add-hook 'comint-mode-hook
           '(lambda ()
-             (setq comint-scroll-show-maximum-output t)))
+             (setq comint-scroll-show-maximum-output t)
+             (setq comint-input-ignoredups t)
+             (setq comint-input-ring-size 64)
+             (setq comint-buffer-maximum-size (expt 2 16))))
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;;; ================ ProgrammingModes End ================
@@ -1947,19 +1965,6 @@
 ;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 
-;; [ diminish ]-----------------------------------------------------------------
-;; diminish keeps the modeline tidy
-(require 'diminish)
-(diminish 'abbrev-mode "Abv")
-(diminish 'undo-tree-mode "Ud")
-(diminish 'pabbrev-mode "Pabv")
-(diminish 'dired-view-minor-mode)
-(diminish 'auto-revert-mode)
-;;  (diminish 'wrap-region-mode)
-;;  (diminish 'yas/minor-mode)
-;; [ diminish ]--------------------------------------------------------[ End ]--
-
-
 ;; [ hungry-delete ]------------------------------------------------------------
 (add-site-lisp-load-path "hungry-delete/")
 (require 'hungry-delete)
@@ -2070,7 +2075,7 @@ spaces across the current buffer."
 (require 'guru-mode)
 (guru-global-mode +1)
 (setq guru-warn-only t)
-(diminish 'guru-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Display missed packages
@@ -2104,8 +2109,23 @@ spaces across the current buffer."
 ;; [ workgroups2 ]-----------------------------------------------------[ End ]--
 
 
+;; [ diminish ]-----------------------------------------------------------------
+;; diminish keeps the modeline tidy
+(diminish 'abbrev-mode "Abv")
+(diminish 'undo-tree-mode "Ud")
+(diminish 'dired-view-minor-mode)
+(diminish 'auto-revert-mode)
+(diminish 'guru-mode)
+(diminish 'workgroups-mode)
+;;  (diminish 'wrap-region-mode)
+;;  (diminish 'yas/minor-mode)
+;; [ diminish ]--------------------------------------------------------[ End ]--
+
+
 (load custom-file 'noerror)
 
 ;; (setq debug-on-error nil)
+(message "Emacs startup time: %d seconds."
+         (time-to-seconds (time-since emacs-load-start-time)))
 
 (message "***** >>>>> [ Loading my Emacs Init File Completed!! ] <<<<< *****")

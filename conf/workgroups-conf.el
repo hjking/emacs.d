@@ -14,5 +14,3 @@
 (global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup)
 
 (workgroups-mode 1)   ; put this one at the bottom of .emacs
-
-(diminish 'workgroups-mode "")
