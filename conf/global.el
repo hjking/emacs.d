@@ -24,6 +24,8 @@
 
 ;; visually indicate empty lines after the buffer end
 (setq-default indicate-empty-lines t)
+(when (not indicate-empty-lines)
+  (toggle-indicate-empty-lines))
 
 ;; Shut off warning messages when using system shell
 (setq w32-allow-system-shell t)

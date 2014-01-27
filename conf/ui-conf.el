@@ -132,3 +132,5 @@
 (require 'hl-line)
 (global-hl-line-mode 1)
 
+;; turns off the splash screen, straightly into the scratch buffer
+(setq inhibit-splash-screen t)

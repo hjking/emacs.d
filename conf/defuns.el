@@ -264,11 +264,8 @@ See also `with-temp-buffer'."
   (interactive)
   (progn
     (save-excursion
-      (goto-line 1) (replace-regexp "
-+" "")
-    )
-  )
-)
+      (goto-line 1) (replace-regexp "+" "")
+    )))
 
 ;; convert a buffer from DOS `^M' end of lines to Unix end of lines
 (defun dos-to-unix ()
@@ -1522,11 +1519,16 @@ File suffix is used to determine what program to run."
     (untabify (point-min) (point-max)))
 
 ;; reindent the entire buffer
-(defun reindent-whole-buffer ()
+(defun reindent-buffer ()
   "Reindent the whole buffer."
   (interactive)
-  (indent-region (point-min)
-                 (point-max)))
+  (indent-region (point-min) (point-max)))
+
+(defun my/clean-buffer-formatting ()
+  "Indent and clean up the buffer"
+  (interactive)
+  (indent-region (point-min) (point-max))
+  (whitespace-cleanup))
 
 (defun cycle-windows()
     "cycle the buffer of the windows in cyclic ordering"

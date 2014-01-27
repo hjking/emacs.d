@@ -102,10 +102,10 @@
 
 ;; comment
 ;; (global-set-key (kbd "C-c C-e c")       'comment-dwim)
-(global-set-key (kbd "C-c C-e g")       'comment-or-uncomment-region)
-(global-set-key "\C-c:"             'uncomment-region)
-(global-set-key "\C-c;"             'comment-region)
-(global-set-key "\C-c\C-c"          'comment-region)
+(global-set-key (kbd "C-;")         'comment-or-uncomment-region)
+; (global-set-key "\C-c:"             'uncomment-region)
+; (global-set-key "\C-c;"             'comment-region)
+; (global-set-key "\C-c\C-c"          'comment-region)
 
 
 (global-set-key (kbd "C-z v")       'view-mode)

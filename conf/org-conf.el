@@ -341,6 +341,15 @@
 ;; Adding new tasks quickly without disturbing the current task content
 (setq org-insert-heading-respect-content nil)
 
+
+;;; org-babel
+;; Use syntax highlighting ("fontification") in org-mode source blocks
+(setq org-src-fontify-natively t)
+;; use a slightly darker background to visually separate the source block from its surroundings
+(set-face-attribute 'org-block-background nil
+                    :background "#f0f0e8")
+                    
+
 ;;; Publishing
 
 ;; export org to markdown
@@ -352,7 +361,6 @@
                                         (directory-file-name org-directory)))))
 (setq org-export-with-section-numbers nil)
 (setq org-html-include-timestamps nil)
-(setq org-src-fontify-natively t)
 ;; active Babel languages
 (org-babel-do-load-languages
  'org-babel-load-languages

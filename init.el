@@ -1796,6 +1796,7 @@
             (define-key markdown-mode-map (kbd "<tab>") 'markdown-insert-pre)
             (define-key markdown-mode-map (kbd "M-<left>") nil)
             (define-key markdown-mode-map (kbd "M-<right>") nil)
+            (visual-line-mode t)
             ))
 
     ;; Markdown file handling
