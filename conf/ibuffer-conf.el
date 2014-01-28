@@ -104,8 +104,8 @@
             " "
             (mode 16 16 :left :elide)
             " "
-            (vc-status 16 16 :left)
-            " "
+            ; (vc-status 16 16 :left)
+            ; " "
             filename-and-process)
     (mark modified read-only
             (name 45 -1 :left)
@@ -150,6 +150,7 @@
         ))))
 (add-hook 'ibuffer-mode-hook
               (lambda ()
-                (ibuffer-switch-to-saved-filter-groups "default")))
+                (ibuffer-switch-to-saved-filter-groups "default")
+                (visual-line-mode -1)))
 
 ;;
