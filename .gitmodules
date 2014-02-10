@@ -170,3 +170,11 @@
 	path = plugin/visual-regexp
 	url = https://github.com/benma/visual-regexp.el.git
 	ignore = dirty
+[submodule "plugin/guide-key"]
+	path = plugin/guide-key
+	url = https://github.com/kbkbkbkb1/guide-key.git
+	ignore = dirty
+[submodule "plugin/highlight-global"]
+	path = plugin/highlight-global
+	url = https://github.com/glen-dai/highlight-global.git
+	ignore = dirty

@@ -3,7 +3,7 @@
 ;; Description: Setting for vlog-mode.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-22 10:00
-;; Last Updated: 2012-04-12 14:48:29
+;; Last Updated: 2014-02-10 14:15:35
 
 (message "%d: >>>>> Loading [ Vlog Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
@@ -82,4 +82,12 @@
 
 (setq vlog-skel-user-name    "Hong Jin"
       vlog-skel-company-name "Fiberhome Telecommunication Technology Co., Ltd.")
+
+;; Convert all tabs in region to multiple spaces
+(add-hook 'vlog-mode-hook
+          '(lambda ()
+              (add-hook 'local-write-file-hooks
+                        (lambda()
+                          (untabify (point-min) (point-max))
+                          nil))))
 

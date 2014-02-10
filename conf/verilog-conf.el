@@ -3,7 +3,7 @@
 ;; Description: Setting for verilog.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2012-04-12 15:04:40
+;; Last Updated: 2014-02-10 14:14:55
 
 (message "%d: >>>>> Loading [ Verilog Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
@@ -36,5 +36,10 @@
 )
 
 ;; Convert all tabs in region to multiple spaces
-(add-hook 'verilog-mode-hook '(lambda () (add-hook 'local-write-file-hooks (lambda() (untabify (point-min) (point-max))))))
+(add-hook 'verilog-mode-hook
+          '(lambda ()
+              (add-hook 'local-write-file-hooks
+                        (lambda()
+                          (untabify (point-min) (point-max))
+                          nil))))
 

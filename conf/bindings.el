@@ -166,7 +166,8 @@
 (global-set-key [f4]      'browse-kill-ring)
 (global-set-key [S-f4]    'lpr-buffer)
 
-(global-set-key [f5]      'compile)
+(global-set-key [f5]      'revert-buffer)
+(global-set-key [S-f5]    'revert-all-buffers)
 (global-set-key [f6]      'first-error)
 (global-set-key [S-f6]    'previous-error)
 (global-set-key [C-f6]    'next-error)
@@ -174,7 +175,7 @@
 (global-set-key [f7]      'balance-windows)
 ;;  (global-set-key [f8]      'next-error)
 
-(global-set-key [f9]      'new-frame)
+(global-set-key [f9]      'eval-region)
 (global-set-key [S-f9]    'delete-frame)
 (global-set-key [f10]     'split-window-vertically)
 (global-set-key [S-f10]   'delete-other-windows)
@@ -193,3 +194,41 @@
 
 ;; go to the right indentation on the next line
 (global-set-key (kbd "RET") 'newline-and-indent)
+
+
+;; Move more quickly
+(global-set-key (kbd "C-S-n")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (next-line 5))))
+
+(global-set-key (kbd "C-S-p")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (previous-line 5))))
+
+(global-set-key (kbd "C-S-f")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (forward-char 5))))
+
+(global-set-key (kbd "C-S-b")
+                (lambda ()
+                  (interactive)
+                  (ignore-errors (backward-char 5))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom key map: modi-map
+;; Source: http://stackoverflow.com/questions/1024374/how-can-i-make-c-p-an-emacs-prefix-key-for-develperlysense
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(define-prefix-command 'modi-map)
+(global-set-key (kbd "C-x m") 'modi-map) ;; overriding the default binding to `compose-mail'
+
+
+;; highlight-global
+; (global-set-key (kbd "M-H") 'highlight-frame-toggle)
+; (global-set-key (kbd "M-+") 'clear-highlight-frame)
+(define-key modi-map (kbd "h")  'highlight-frame-toggle) ;; C-x m h
+(define-key modi-map (kbd "H")  'clear-highlight-frame) ;; C-x m H
+
+;; 

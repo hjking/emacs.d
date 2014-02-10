@@ -337,7 +337,9 @@
 
 ;; enable the use of the commands `downcase-region' and `upcase-region'
 ;; without confirmation
+;; Enable conversion of the selected region to upper case using `C-x C-u`
 (put 'upcase-region 'disabled nil)
+;; Enable conversion of the selected region to lower case using `C-x C-l`
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disable nil)
 
@@ -1098,6 +1100,7 @@
 (message "%d: >>>>> Loading [ Wrap Line ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
+;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
 ;; (setq-default truncate-lines t)
 
@@ -1113,7 +1116,13 @@
 
 ;; wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-(global-visual-line-mode 1)
+
+(global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
+;; Enable/Disable visual-line mode in specific major modes. Enabling visual
+;; line mode does word wrapping only at word boundaries
+(add-hook 'sh-mode-hook      'turn-off-visual-line-mode) ;; e.g. sim.setup file
+(add-hook 'org-mode-hook     'turn-on-visual-line-mode)
+(add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
@@ -1221,18 +1230,10 @@
 ;; [ smart-compile ]---------------------------------------------------[ End ]--
 
 
-;; [ highlight-symbol ]---------------------------------------------------------
-(add-site-lisp-load-path "highlight-symbol")
-(message "%d: >>>>> Loading [ highlight-symbol ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-(require 'highlight-symbol)
-(highlight-symbol-mode 1)
-(global-set-key [(control f3)] 'highlight-symbol-at-point)
-(global-set-key [f3]           'highlight-symbol-next)
-(global-set-key [(shift f3)]   'highlight-symbol-prev)
-(global-set-key [(meta f3)]    'highlight-symbol-query-replace)
-;;(global-set-key [(shift f3)]    'highlight-symbol-prev)
-;; [ highlight-symbol ]------------------------------------------------[ End ]--
+;; [ highlight ]----------------------------------------------------------------
+(message "%d: >>>>> Loading [ highlight ] Customization ...." step_no)
+(load "highlight-conf")
+;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ auto-header ]--------------------------------------------------------------
@@ -1512,6 +1513,20 @@
 ;; [ drag-stuff ]---------------------------------------------------------------
 (when section-drag-stuff
   ;; use M-up/down/right/left to move lines, regions, words up/down or right/left
+  ;; Drag line
+  ;; To drag a line up and down. Put the cursor on that line and press <C-S-up> and
+  ;; <C-S-down>.
+
+  ;; Drag lines
+  ;; To drag several lines up and down. Select the lines you want to drag and
+  ;; press <C-S-up> and <C-S-down>.
+
+  ;; Drag region
+  ;; A region can be dragged to the left and right. Select the region you want to
+  ;; drag and press <C-S-left> and <C-S-right>.
+
+  ;; Drag word
+  ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
   (add-site-lisp-load-path "drag-stuff/")
   (require 'drag-stuff)
   (drag-stuff-mode t))
@@ -1982,6 +1997,12 @@
 (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
+
+
+;; [ guide-key ]-----------------------------------------------------------------
+(add-site-lisp-load-path "guide-key/")
+(load "guide-key-conf")
+;; ---------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Font ]-------------------------------------------------------------------

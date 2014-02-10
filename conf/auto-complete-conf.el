@@ -48,6 +48,9 @@
 ;; Distinguish case
 ;; (setq ac-ignore-case nil)
 
+(setq ac-stop-words (quote ("/" "//" "/*" "//*" "///" "////")))
+(setq ac-use-fuzzy t) ;; enable fuzzy auto complete
+
 ;; color
 (set-face-background 'ac-candidate-face "lightgray")
 (set-face-underline 'ac-candidate-face "darkgray")

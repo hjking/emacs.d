@@ -299,7 +299,7 @@
 ;;         ((concat org-directory "/business.org") . (:maxlevel . 4))
 ;;         ((concat org-directory "/organizer.org") . (:maxlevel . 4))
 ;;         ((concat org-directory "/outline.org") . (:maxlevel . 3))))
-(setq org-blank-before-new-entry nil)
+
 ; Exclude DONE state tasks from refile targets
 (defun my/verify-refile-target ()
   "Exclude todo keywords with a DONE state from refile targets"
@@ -336,8 +336,9 @@
 ;; hides blank lines between headings which keeps folded view nice and compact.
 (setq org-cycle-separator-lines 0)
 ;; prevents creating blank lines before headings but allows list items to adapt to existing blank lines around the items:
-(setq org-blank-before-new-entry (quote ((heading)
-                                         (plain-list-item . auto))))
+; (setq org-blank-before-new-entry (quote ((heading)
+;                                          (plain-list-item . auto))))
+(setq org-blank-before-new-entry (quote ((heading) (plain-list-item)))) ;; prevent auto blank lines
 ;; Adding new tasks quickly without disturbing the current task content
 (setq org-insert-heading-respect-content nil)
 

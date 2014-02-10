@@ -21,6 +21,7 @@
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 (add-hook 'c-mode-common-hook   'auto-make-header)
 (add-hook 'verilog-mode-hook    'auto-make-header)
+(add-hook 'vlog-mode-hook       'auto-make-header)
 (add-hook 'python-mode-hook     'auto-make-header)
 (add-hook 'cperl-mode-hook      'auto-make-header)
 (add-hook 'makefile-mode-hook   'auto-make-header)

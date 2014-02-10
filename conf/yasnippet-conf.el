@@ -3,7 +3,7 @@
 ;; Description: Setting for yasnippet.el
 ;; Author: Hong Jin
 ;; Created: 2011-8-31 10:00
-;; Last Updated: 2014-01-24 10:31:44
+;; Last Updated: 2014-02-10 14:26:32
 
 (message "%d: >>>>> Loading [ yasnippet ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
@@ -35,3 +35,13 @@
 (define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
 (define-key yas-minor-mode-map (kbd "M-[") 'yas-expand)
+
+(setq yas-new-snippet-default "# -*- mode: snippet -*-
+# contributor: Kaushal Modi
+# name: $1
+# key: ${2:${1:$(yas--key-from-desc yas-text)}}${3:
+# binding: ${4:direct-keybinding}}${5:
+# expand-env: ((yas-indent-line 'auto) (yas-also-auto-indent-first-line t) (yas-wrap-around-region t))}
+# --
+$0"
+      )
