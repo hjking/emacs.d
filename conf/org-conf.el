@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-01-23 11:11:25
+;; Last Updated: 2014-02-12 11:42:18
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -22,6 +22,13 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cl" 'org-store-link)
+
+(defun my-org-mode-hook ()
+  (setq truncate-lines nil)  ;; Wrap long lines
+  ;; (flyspell-mode 1)
+  (require 'yasnippet)
+  (yas-minor-mode) ;; turn on yasnippet mode
+  (set (make-local-variable 'system-time-locale) "C"))
 
 (setq org-directory "~/org")
 ;; (setq org-directory (concat my-emacs-dir "org"))
@@ -349,7 +356,7 @@
 ;; use a slightly darker background to visually separate the source block from its surroundings
 (set-face-attribute 'org-block-background nil
                     :background "#f0f0e8")
-                    
+
 
 ;;; Publishing
 
@@ -450,12 +457,6 @@
      (org-html-export-to-html)
      nil))))
 
-; (add-hook 'org-mode-hook  ;; (1)
-;  (lambda ()
-;   (add-hook (make-local-variable 'after-save-hook) ;; (2)
-;             'wicked/org-publish-files-maybe)))
-
-
 (global-set-key (kbd "C-c t") 'goto-org-mode-todo-file)
 (defun goto-org-mode-todo-file ()
   "Open the main todo file in `org-agenda-files'"
@@ -472,19 +473,6 @@
              (not is-work-hours))
          (car org-agenda-files)
        (cadr org-agenda-files)))))
-
-;; Wrap long lines
-(add-hook 'org-mode-hook
-          (lambda ()
-            (setq truncate-lines nil)))
-
-;; flyspell mode for spell checking everything
-;; (add-hook 'org-mode-hook 'turn-on-flyspell 'append)
-
-;; turn on yasnippet mode
-(add-hook 'org-mode-hook
-          '(lambda ()
-               (yas-minor-mode)))
 
 ; Structure templates
 (setq org-structure-template-alist
@@ -710,14 +698,13 @@ or nil if the current buffer isn't visiting a dayage"
 ;;     :END:
 
 
+;; org-mode-hok
+(add-hook 'org-mode-hook 'my-org-mode-hook)
+
+
 ;;; HTML5 Presentation export for Org-mode
 ;;; org-html5presentation.el
 ;; (require 'org-html5presentation)
-
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (set (make-local-variable 'system-time-locale) "C")))
 
 ;;
 (require 'org-jekyll-mode)

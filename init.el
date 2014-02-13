@@ -975,9 +975,8 @@
 (message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
+  (add-hook hook 'turn-on-eldoc-mode))
 ;; --[ Documentation ]-------------------------------------------------[ End ]--
 
 
@@ -1104,8 +1103,19 @@
 ;; Don't break lines for me, please
 ;; (setq-default truncate-lines t)
 
+
 ;; turn on word wrap by insert a [line ending]
 ;; (auto-fill-mode 1)
+
+; (add-hook 'text-mode-hook 'turn-on-auto-fill)
+; (remove-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;; ask whether to use Auto Fill Mode
+; (add-hook 'text-mode-hook
+;               (lambda ()
+;                 (when (y-or-n-p "Auto Fill mode? ")
+;                   (turn-on-auto-fill))))
+
 
 ;; automatically wrap long lines after the last word before ‘fill-column’
 ; (autoload 'longlines-mode
@@ -1114,15 +1124,20 @@
 ; (when (load "longlines" t)
 ;     (setq longlines-show-hard-newlines t))
 
+;; (add-hook 'text-mode-hook 'longlines-mode)
+
+
 ;; wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 
 (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
+;; turn off
 (add-hook 'sh-mode-hook      'turn-off-visual-line-mode) ;; e.g. sim.setup file
-(add-hook 'org-mode-hook     'turn-on-visual-line-mode)
-(add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
+;; turn on
+(dolist (hook '(text-mode-hook org-mode-hook))
+  (add-hook hook 'turn-on-visual-line-mode))
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
@@ -1664,15 +1679,6 @@
 ;;  (flyspell-mode t)
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
-; (add-hook 'text-mode-hook 'turn-on-auto-fill)
-; (remove-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-;; ask whether to use Auto Fill Mode
-; (add-hook 'text-mode-hook
-;               (lambda ()
-;                 (when (y-or-n-p "Auto Fill mode? ")
-;                   (turn-on-auto-fill))))
-;; (add-hook 'text-mode-hook 'longlines-mode)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1804,20 +1810,7 @@
 (when section-markdown-mode
     ;; Markdown mode - TAB for <pre></pre> block
     (add-site-lisp-load-path "markdown-mode/")
-    (autoload 'markdown-mode "markdown-mode"
-        "Major mode for editing Markdown files" t)
-    (add-hook 'markdown-mode-hook
-          (lambda ()
-            (define-key markdown-mode-map (kbd "<tab>") 'markdown-insert-pre)
-            (define-key markdown-mode-map (kbd "M-<left>") nil)
-            (define-key markdown-mode-map (kbd "M-<right>") nil)
-            (visual-line-mode t)
-            ))
-
-    ;; Markdown file handling
-    (dolist (pattern '("\\.md$" "\\.markdown$" "\\.mkdn$"))
-      (add-to-list 'auto-mode-alist (cons pattern 'markdown-mode)))
-    )
+    (load "markdown-mode-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 

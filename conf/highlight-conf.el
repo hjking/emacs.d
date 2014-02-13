@@ -4,13 +4,15 @@
 
 ;; Highlight Symbol at point/cursor
 ; (add-site-lisp-load-path "highlight-symbol")
-; (require 'highlight-symbol)
-; (highlight-symbol-mode 1)
-; (global-set-key [(control f3)] 'highlight-symbol-at-point)
-; (global-set-key [f3]           'highlight-symbol-next)
-; (global-set-key [(shift f3)]   'highlight-symbol-prev)
-; (global-set-key [(meta f3)]    'highlight-symbol-query-replace)
-; ;;(global-set-key [(shift f3)]    'highlight-symbol-prev)
+; (eval-after-load "highlight-symbol"
+;     '(progn
+;       (highlight-symbol-mode 1)
+;       (global-set-key [(control f3)] 'highlight-symbol-at-point)
+;       (global-set-key [f3]           'highlight-symbol-next)
+;       (global-set-key [(shift f3)]   'highlight-symbol-prev)
+;       (global-set-key [(meta f3)]    'highlight-symbol-query-replace)
+;       ;;(global-set-key [(shift f3)]    'highlight-symbol-prev)
+;       ))
 
 
 ;; Highlight Global
