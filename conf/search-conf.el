@@ -48,10 +48,11 @@
           (isearch-forward regexp-p no-recursive-edit)))))
 
 ;;; anzu
-; (global-anzu-mode +1)
+(require 'anzu)
+(global-anzu-mode +1)
 ; (diminish 'anzu-mode)
-; (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
-; (global-set-key [remap query-replace] 'anzu-query-replace)
+; (global-set-key (kbd "M-%") 'anzu-query-replace)
+; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
 ;; visual-regexp
 (require 'visual-regexp)

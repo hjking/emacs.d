@@ -10,7 +10,7 @@
 
 (require 'column-marker)
 (dolist (hook '(emacs-lisp-mode-hook
-                cperl-mode-hook
+                perl-mode-hook
                 python-mode-hok
                 shell-mode-hook
                 text-mode-hook

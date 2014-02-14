@@ -647,6 +647,7 @@
                 python-mode
                 cperl-mode
                 html-mode-hook
+                prog-mode-hook
                 css-mode-hook
                 emacs-lisp-mode))  ; no interference with Org-mode (which derives from text-mode)
   (font-lock-add-keywords mode
@@ -662,7 +663,6 @@
   (font-lock-add-keywords nil
     `((,keywords-critical-pattern 1 'keywords-critical prepend)
       (,keywords-normal-pattern 1 'keywords-normal prepend))))
-;; FIXME                        0                  t
 
 ;; set up highlighting of special words for selected major modes *and* all
 ;; major modes derived from them
@@ -683,6 +683,8 @@
                 sh-mode-hook
                 shell-mode-hook
                 verilog-mode-hook
+                vlog-mode-hook
+                prog-mode-hook
                 ssh-config-mode-hook))
   (add-hook hook 'fontify-keywords))
 ;; --[ FontLock Keywords]----------------------------------------------[ End ]--
@@ -770,12 +772,8 @@
 ;; add a new line at the end of file when saving
 ;; Ask me whether to add a final newline to files which don't have one
 (setq require-final-newline 'ask)
-;; --[ Saving File ]---------------------------------------------------[ End ]--
 
-
-;; --[ Time Stamp ]-------------------------------------------------------------
-(message "%d: >>>>> Loading [ Time Stamp ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;;; put a timestamp
 ;; time-stamp on
 (setq time-stamp-active t)
 ;; if "Last Change: " in file, then save time stamp
@@ -787,9 +785,10 @@
 ;; time-stamp format
 ;; YYYY-MM-DD Weekday HH:MM:SS
 (setq time-stamp-format "%04y-%02m-%02d %3a %02H:%02M:%02S")
-;; when save file, save time-stamp
-(add-hook 'write-file-hooks 'time-stamp)
-;; --[ Time Stamp ]----------------------------------------------------[ End ]--
+;; when saving file, save time-stamp
+; (add-hook 'write-file-hooks 'time-stamp)
+(add-hook 'before-save-hook 'time-stamp)
+;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Backup ]-----------------------------------------------------------------
@@ -924,7 +923,8 @@
   ;; name of the file that records `save-place-alist' value
   (setq save-place-file (concat my-cache-dir "emacs.places"))
   ;; do not make backups of master save-place file
-  (setq save-place-version-control "never"))
+  (setq save-place-version-control "never")
+  (define-key ctl-x-map "p" 'toggle-save-place-globally))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2132,6 +2132,9 @@ spaces across the current buffer."
 (diminish 'auto-revert-mode)
 (diminish 'guru-mode)
 (diminish 'workgroups-mode)
+(diminish 'anzu-mode)
+(diminish 'guide-key-mode)
+(diminish 'smartparens-mode)
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--

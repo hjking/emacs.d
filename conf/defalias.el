@@ -7,17 +7,8 @@
   (defalias 'move-end-of-line       'end-of-line))
 
 (defalias 'yes-or-no-p 'y-or-n-p) ; y or n is enough
-(defalias 'list-buffers 'ibuffer) ; always use ibuffer
-(defalias 'perl-mode 'cperl-mode) ; always use cperl-mode
-(defalias 'man 'woman)
 
-; major modes, easy naming
-(defalias 'ahk-mode 'xahk-mode)
-(defalias 'bbcode-mode 'xbbcode-mode)
-(defalias 'cmd-mode 'dos-mode)
-(defalias 'lsl-mode 'xlsl-mode)
-(defalias 'ocaml-mode 'tuareg-mode)
-(defalias 'math-symbol-input-mode 'xmsi-mode)
+(defalias 'man 'woman)
 
 ; shortening of often used commands
 (defalias 'qrr 'query-replace-regexp)
@@ -66,6 +57,14 @@
 (defalias 'vlm 'visual-line-mode)
 (defalias 'glm 'global-linum-mode)
 
+; major modes, easy naming
+(defalias 'ahk-mode 'xahk-mode)
+(defalias 'bbcode-mode 'xbbcode-mode)
+(defalias 'cmd-mode 'dos-mode)
+(defalias 'lsl-mode 'xlsl-mode)
+(defalias 'ocaml-mode 'tuareg-mode)
+(defalias 'math-symbol-input-mode 'xmsi-mode)
+
 ;; xah personal
 (defalias '8w 'xwe-new-word-entry)
 (defalias '8d 'xwe-add-definition)
@@ -102,4 +101,3 @@
 (defalias '\\ 'escape-quotes-region)
 (defalias '\[ 'remove-square-brackets)
 (defalias '\" 'replace-straight-quotes)
-
