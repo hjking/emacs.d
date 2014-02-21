@@ -10,71 +10,62 @@
 (setq step_no (1+ step_no))
 
 (require 'auto-complete-config)
-;;(require 'auto-complete-etags)
-;;(require 'auto-complete-extension)
-;;(require 'auto-complete-octave)
-;;(require 'auto-complete-verilog)
-;;(require 'auto-complete-yasnippet)
 (ac-config-default)
 
-(dolist (command `(backward-delete-char-untabify delete-backward-char))
-    (add-to-list 'ac-trigger-commands command))
-;; Change default sources
-;; (setq-default ac-sources '(ac-source-words-in-all-buffer))
-(add-hook 'auto-complete-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-filename)))
+; ;; Stop completion
+;   (define-key ac-completing-map "\M-/" 'ac-stop)
 
-;; key binding
-;;  ;; Use M-n/M-p to select candidates
-;; (global-set-key "\M-/" 'auto-complete)
-(global-set-key "\M-]" 'auto-complete)
-;; (define-key ac-mode-map (kbd "M-TAB")             'auto-complete)
-;; (define-key ac-mode-map (kbd "C-\\") 'auto-complete-selective)
-;; (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-;; (define-key ac-mode-map (kbd "M-]") 'auto-complete-selective)
+;   ;; Finish completion by TAB
+;   (define-key ac-completing-map "\t" 'ac-complete)
+;   (define-key ac-completing-map "\r" nil)   ;; not Enter
 
-;; Operation of completions
-;; (define-key ac-completing-map   (kbd "C-\\")     'ac-complete)
-;; (define-key ac-completing-map    "\M-/"          'ac-stop)
-;;
-;; disable RET to trigger auto-complete
-;; (define-key ac-complete-mode-map (kbd "<return>") nil)
-
-;; Only when completion menu is displayed
-(define-key ac-menu-map "\C-n" 'ac-next)      ;; default
-(define-key ac-menu-map "\C-p" 'ac-previous)  ;; default
+; (define-key ac-menu-map "\C-n" 'ac-next)      ;; default
+; (define-key ac-menu-map "\C-p" 'ac-previous)  ;; default
 
 (defun auto-complete-setting ()
   "Setting for `auto-complete'."
   (setq-default ac-expand-on-auto-complete t)
 
-  ; Not to complete automatically, need to trigger
+  ;;;==== Not to complete automatically, need to trigger
   (setq ac-auto-start nil)
-  ;; (ac-set-trigger-key "TAB")
-  (setq-default ac-dwim nil) ; To get pop-ups with docs even if a word is uniquely completed
+  ;; start completion automatically when inserted 4 or more characters
+  ;; (setq ac-auto-start 4)
+  ;; trigger auto complete by ALT-]
+  (global-set-key "\M-]" 'auto-complete)
 
-  ;;----------------------------------------------------------------------------
-  ;; Use Emacs' built-in TAB completion hooks to trigger AC (Emacs >= 23.2)
-  ;;----------------------------------------------------------------------------
-  (setq tab-always-indent 'complete)  ;; use 't when auto-complete is disabled
-  (add-to-list 'completion-styles 'initials t)
+  ;;;==== Not to show completion menu automatically
+  ;; delay time of show menu
+  (setq ac-auto-show-menu 0.8)
+
+  ;; Stop completion
+  (define-key ac-completing-map "\M-/" 'ac-stop)
+
+  ;; Finish completion by TAB
+  (define-key ac-completing-map "\t" 'ac-complete)
+  (define-key ac-completing-map "\r" nil)   ;; not Enter
+
+  ;; Select candidates
+  (setq ac-use-menu-map t)
+  ;; Only select candidates with C-n/C-p only when completion menu is displayed
+  (define-key ac-menu-map "\C-n" 'ac-next)      ;; default
+  (define-key ac-menu-map "\C-p" 'ac-previous)  ;; default
 
   ;; height of completion menu
-  (setq ac-menu-height 20)    ;; 20 lines
+  (setq ac-menu-height 10)
 
   ;; add mode to auto-complete mode
-  ;(add-to-list 'ac-modes 'new-mode)
-  (setq ac-modes
-        (append ac-modes '(org-mode objc-mode jde-mode sql-mode
-                                    change-log-mode text-mode
-                                    makefile-gmake-mode makefile-bsdmake-mo
-                                    autoconf-mode makefile-automake-mode)))
+  (dolist (mode '(magit-log-edit-mode log-edit-mode org-mode text-mode haml-mode
+                sass-mode yaml-mode csv-mode espresso-mode haskell-mode
+                html-mode nxml-mode sh-mode smarty-mode clojure-mode
+                lisp-mode textile-mode markdown-mode tuareg-mode
+                sass-mode scss-mode ruby-mode verilog-mode vlog-mode
+                js2-mode css-mode rhtml-mode prog-mode))
+  (add-to-list 'ac-modes mode))
 
-  ;; Ignore case
+  ;; Just ignore case
   ;; (setq ac-ignore-case t)
   ;; Ignore case if completion target string doesn't include upper characters
-  (setq ac-ignore-case 'smart)
-  ;; Distinguish case
-  ;; (setq ac-ignore-case nil)
+  (setq ac-ignore-case 'smart)  ;; default
 
   (setq ac-stop-words (quote ("/" "//" "/*" "//*" "///" "////")))
   (setq ac-use-fuzzy t) ;; enable fuzzy auto complete
@@ -84,14 +75,12 @@
   (set-face-underline 'ac-candidate-face "darkgray")
   (set-face-background 'ac-selection-face "steelblue")
 
-  (setq ac-use-menu-map t)
-  (setq ac-candidate-menu-height 20)
+  (setq ac-candidate-menu-height 10)
   (setq ac-candidate-max ac-candidate-menu-height)
-  ;; Quick help
-  (setq ac-use-quick-help t)
 
-  ;; delay time of show menu
-  (setq ac-auto-show-menu 1)
+  ;; Quick help
+  (setq ac-use-quick-help nil)
+
   (setq ac-comphist-file (concat my-cache-dir "ac-comphist.dat"))
   ;; dictionary directories
   ;(setq auto-comp-dict-load-path (concat auto-comp-load-path "dict"))
@@ -100,9 +89,9 @@
   ;; User defined dictionary files
   ;; (add-to-list 'ac-user-dictionary-files "~/.dict")   ;; default
 
+  ;; Change default sources
   (set-default 'ac-sources
-                 '(ac-source-semantic
-                   ac-source-functions
+                 '(ac-source-functions
                    ac-source-yasnippet
                    ac-source-abbrev
                    ac-source-variables
@@ -115,6 +104,14 @@
                    ac-source-files-in-current-dir
                    ac-source-filename
                    ac-source-words-in-same-mode-buffers))
+
+  ;; Change sources for specific major modes
+  (add-hook 'c++-mode (lambda () (add-to-list 'ac-sources 'ac-source-semantic)))
+
+  
+  (dolist (command `(backward-delete-char-untabify delete-backward-char))
+    (add-to-list 'ac-trigger-commands command))
+
   )
 
 

@@ -71,9 +71,9 @@
 ;; switch mode
 ;; (global-set-key (kbd "C-c m")       'my-switch-major-mode)
 (global-set-key (kbd "C-c n")       'mouse-tear-off-window)
+(global-set-key (kbd "C-c o")       'occur)
 ;; smart-compile: according to the extension to compile/run program
 ;; when makefile existed, run "make" automaticlly
-(global-set-key (kbd "C-c o")       'smart-run)
 (global-set-key (kbd "C-c p")       'smart-compile)
 (global-set-key (kbd "C-c q")       'comment-region)
 ;; switch in the windows
@@ -93,6 +93,7 @@
 ;; proper level automatically. This simple macro runs yank ( C-y )
 ;; followed by an indent current function. ( C-c C-q )
 (fset 'do-smart-yank "\C-y\C-c\C-q")
+(global-set-key (kbd "C-c x")       'smart-run)
 (global-set-key (kbd "C-c y")       'do-smart-yank)
 ;; resize window
 (global-set-key (kbd "C-c =")       'enlarge-window) ;; C-x ^

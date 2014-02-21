@@ -34,8 +34,8 @@
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 
 ;;
-(require 'ido-hacks)
-(ido-hacks-mode 1)
+; (require 'ido-hacks)
+; (ido-hacks-mode 1)
 
 ;; Use ido everywhere
 ;; get rid of compile warning

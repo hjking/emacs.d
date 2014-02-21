@@ -1295,15 +1295,16 @@
 ;; [ auto-complete ]------------------------------------------------------------
 ;; available for Emacs 22/23
 (when section-ac
-    (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete/"))
-    (add-site-lisp-load-path "auto-complete/")
-    (add-site-lisp-load-path "auto-complete/lib/popup/")
-    (add-site-lisp-load-path "auto-complete/lib/fuzzy/")
-    (add-site-lisp-load-path "auto-complete/lib/ert/lisp/emacs-lisp")
-    (add-site-lisp-info-path "auto-complete/doc/")
-    (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
-    (load "auto-complete-conf")
-    (add-to-list 'ac-dictionary-directories my-ac-dict-dir))
+  (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete/"))
+  (add-site-lisp-load-path "auto-complete/")
+  (add-site-lisp-load-path "auto-complete/lib/popup/")
+  (add-site-lisp-load-path "auto-complete/lib/fuzzy/")
+  (add-site-lisp-load-path "auto-complete/lib/ert/lisp/emacs-lisp")
+  (add-site-lisp-info-path "auto-complete/doc/")
+  (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
+  (load "auto-complete-conf")
+  (add-to-list 'ac-dictionary-directories my-ac-dict-dir)
+  )
 ;; [ auto-complete ]---------------------------------------------------[ End ]--
 
 
@@ -1316,8 +1317,8 @@
 
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (when section-abbrevs
-    (load "abbrevs-conf")
-    (load "hippie-exp-conf"))
+  (load "abbrevs-conf")
+  (load "hippie-exp-conf"))
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
 
@@ -1688,6 +1689,7 @@
 
 
 ;; [ Occur Mode ]---------------------------------------------------------------
+;; In isearch mode, ‘M-s o’ – call ‘occur’ with the current search term
 (add-hook 'occur-mode-hook (lambda () (setq truncate-lines t)))
 ;; [ Occur Mode ]------------------------------------------------------[ End ]--
 
