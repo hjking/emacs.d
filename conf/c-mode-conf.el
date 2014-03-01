@@ -9,6 +9,19 @@
 (setq step_no (1+ step_no))
 
 (require 'cc-mode)
+(c-set-offset 'member-init-intro '++)
+(c-set-offset 'substatement-open 0) ; brackets should be at same indentation level as the statements they open
+(c-set-offset 'inline-open '+)
+(c-set-offset 'block-open '+)
+(c-set-offset 'arglist-intro '+)
+(c-set-offset 'brace-list-open '+)   ; all "opens" should be indented by the c-indent-level
+(c-set-offset 'case-label '+)        ; indent case labels by c-indent-level, too
+(c-toggle-auto-hungry-state 1)       ; hungry-delete and auto-newline
+
+;; Enabling hungry delete, all whitespace around the cursor will be
+;; consumed when you press Backspace or C-d
+(c-toggle-hungry-state 1)
+
 
 (defun my-c-mode-hook ()
     "C mode with adjusted defaults for use with the Linux kernal formatting."
@@ -23,33 +36,28 @@
     (setq comment-column 40)
     (setq backward-delete-function nil) ; DO NOT expand tabs when deleting
     (setq compile-command "make")
-    (c-set-offset 'member-init-intro '++)
-    (c-set-offset 'substatement-open 0) ; brackets should be at same indentation level as the statements they open
-    (c-set-offset 'inline-open '+)
-    (c-set-offset 'block-open '+)
-    (c-set-offset 'arglist-intro '+)
-    (c-set-offset 'brace-list-open '+)   ; all "opens" should be indented by the c-indent-level
-    (c-set-offset 'case-label '+)        ; indent case labels by c-indent-level, too
-    (c-toggle-auto-hungry-state 0)
+    
+    (setq c-macro-shrink-window-flag t)
+    (setq c-macro-preprocessor "cpp")
+    (setq c-macro-cppflags " ")
+    (setq c-macro-prompt-flag t)
+
     ;; minor mode
     (auto-fill-mode 1)
     (hs-minor-mode 1)
-    (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
-  )
+    (c-toggle-auto-state 1)
 
-;;    (defun linux-c-mode ()
-;;      "C mode with adjusted defaults for use with the Linux kernel."
-;;       (interactive)
-;;       (c-mode)
-;;       (c-set-style "K&amp;R")
-;;       (setq tab-width 4)
-;;       (setq indent-tabs-mode t)
-;;       (setq c-basic-offset 4))
+    ;; key binding
+    (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+
+    (define-key c-mode-base-map [(f7)] 'compile)
+
+  )
 
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 
-;; Whenever you type certain characters, a newline will be inserted automatically
-(add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
+; ;; Whenever you type certain characters, a newline will be inserted automatically
+; (add-hook 'c-mode-common-hook '(lambda () (c-toggle-auto-state 1)))
 
 ;; sets Linux style only if the filename (or the directory)
 ;; contains the string “linux” somewhere
@@ -69,10 +77,6 @@
 
 ;; compilation window
 (setq compilation-window-height 8)
-
-;; Enabling hungry delete, all whitespace around the cursor will be
-;; consumed when you press Backspace or C-d
-(c-toggle-hungry-state 1)
 
 
 ;; use google-c-style

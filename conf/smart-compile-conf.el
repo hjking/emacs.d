@@ -15,7 +15,7 @@
 (when (featurep 'smart-compile)
     (setq smart-compile-alist
         '(("\\.c$"          . "gcc -O2 -Wall -o %n %f")
-          ("\\.[Cc]+[Pp]*$" . "g++ -o %n %f")
+          ("\\.[Cc]+[Pp]*$" . "g++ -o %n %f -g -pg")
           ("\\.java$"       . "javac %f")
           ("\\.php$"        . "php %f")
           ("\\.tex$"        . "latex %f")

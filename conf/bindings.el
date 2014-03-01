@@ -174,7 +174,7 @@
 (global-set-key [C-f6]    'next-error)
 ;; make all visible windows the same height (approximately)
 (global-set-key [f7]      'balance-windows)
-;;  (global-set-key [f8]      'next-error)
+(global-set-key [f8]      'smart-compile)
 
 (global-set-key [f9]      'eval-region)
 (global-set-key [S-f9]    'delete-frame)

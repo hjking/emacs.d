@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-02-12 11:42:18
+;; Last Updated: 2014-02-25 13:56:35
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -112,8 +112,7 @@
                              (concat org-directory "/habit.org")
                              (concat org-directory "/personal.org")
                              (concat org-directory "/work/fabric.org")
-                             (concat org-directory "/work/misc.org")
-                             (concat org-directory "/meeting.org")
+                             (concat org-directory "/work/schedule.org")
                              (concat org-directory "/books.org")
                              (concat org-directory "/call.org")))
 ;; Use sticky agenda's so they persist
@@ -147,7 +146,7 @@
 ;; Display tags farther right
 (setq org-agenda-tags-column -102)
 
-(setq org-columns-default-format "%30ITEM %15SCHEDULED %5TODO %5PRIORITY %Effort{:} %TAGS")
+(setq org-columns-default-format "%30ITEM %20SCHEDULED %5TODO %5PRIORITY %Effort{:} %TAGS")
 ; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
 ;; Do not dim blocked tasks
@@ -188,8 +187,11 @@
 (setq org-agenda-custom-commands
            '(
              ("c" "Desk Work" tags-todo "computer|laptop"
-                ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
-                ((concat org-directory "/computer.html"))) ;; export to file
+               ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
+               ((concat org-directory "/computer.html"))) ;; export to file
+             ("C" . "Custom View")
+             ("Cf" "View Funny Things"
+               ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/fun/*.org")))))))
              ;; overview of deadlines due within the next 60 days
              ("d" "Upcoming deadlines" agenda ""
                ((org-agenda-time-grid nil)
@@ -225,6 +227,8 @@
              ;; display next 10 entries with a 'NEXT' TODO keyword.
              ("n" todo "NEXT"
                ((org-agenda-max-entries 10)))
+             ("o" "View Office Schedule"
+               ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/work/*.org")))))))
              ;; Priority
              ("p" . "Priorities")
              ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
@@ -516,7 +520,7 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (
-              ("a" "Appointment" entry (file+headline (concat org-directory "/meeting.org") "Calendar")
+              ("a" "Appointment" entry (file+headline (concat org-directory "/todo.org") "Calendar")
                    "** APPT: %^{Description} %^g %?  Added: %U\n   SCHEDULED: %t")
               ("b" "Books to Read" entry (file+headline (concat org-directory "/books.org") "Books")
                    "** NEXT Read: %?\n   %i\n   %a")
@@ -529,7 +533,7 @@
               ("l" "Log Time" entry (file+datetree (concat org-directory "/archive/log.org") )
                    ;; "** %U - %^{Activity}  :TIME:")
                    "** %U - %a  :TIME:")
-              ("m" "Meeting" entry (file (concat org-directory "/meeting.org"))
+              ("m" "Meeting" entry (file (concat org-directory "/todo.org"))
                    "** MEETING with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
               ("n" "note" entry (file (concat org-directory "/notes.org"))
                    "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)

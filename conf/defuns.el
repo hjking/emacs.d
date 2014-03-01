@@ -1753,3 +1753,49 @@ programming."
     (delete-window)
     (hscroll-mode)
     (setq truncate-lines t))
+
+(defun quick-compile ()  
+  "A quick compile funciton for C++"  
+  (interactive)  
+  (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg")))
+
+;; From http://toumorokoshi.github.io/tag/emacs.html
+;; check if string is an integer
+(defun string-integer-p (string)
+  (if (string-match "\\`[-+]?[0-9]+\\'" string)
+      t
+    nil))
+
+;; Decrement Int
+(defun decrement ()
+  "Decrement the integer that the cursor is on."
+  (interactive)
+  (let ((x (thing-at-point 'symbol)))
+    (when (string-integer-p x)
+      (let ((x-int (string-to-number x))
+            (bds (bounds-of-thing-at-point 'symbol)))
+        (progn 
+          (delete-region (car bds) (cdr bds))
+          (insert (number-to-string (- x-int 1)))
+        )
+      )
+    )
+  )
+)
+
+;; Increment Int
+(defun increment ()
+  "Increment the integer that the cursor is on."
+  (interactive)
+  (let ((x (thing-at-point 'symbol)))
+    (when (string-integer-p x)
+      (let ((x-int (string-to-number x))
+            (bds (bounds-of-thing-at-point 'symbol)))
+        (progn 
+          (delete-region (car bds) (cdr bds))
+          (insert (number-to-string (+ x-int 1)))
+        )
+      )
+    )
+  )
+)

@@ -21,9 +21,13 @@
 
 ;; skipping space
 (setq hippie-expand-dabbrev-skip-space t)
+
+(autoload 'senator-try-expand-semantic "senator")
+
 ;; list of expansion functions tried (in order) by `hippie-expand'
 (setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev   ; from current buffer
+      '(senator-try-expand-semantic
+        try-expand-dabbrev   ; from current buffer
         try-expand-dabbrev-visible   ; from visible parts of all windows
         try-expand-dabbrev-all-buffers   ; from all other buffers
         try-expand-dabbrev-from-kill
@@ -31,7 +35,9 @@
         try-complete-file-name
         try-expand-all-abbrevs
         try-expand-list
+        try-expand-list-all-buffers
         try-expand-line
+        try-expand-line-all-buffers
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol
         try-expand-whole-kill)

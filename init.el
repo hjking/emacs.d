@@ -1731,6 +1731,10 @@
       (add-site-lisp-info-path "vhdl-mode/")
       (load "vhdl-conf"))
 
+  ;; Systemc mode
+  (autoload 'systemc-mode "systemc-mode" "Mode for SystemC files." t)
+  (setq auto-mode-alist (append (list '("\\.sp$" . systemc-mode)) auto-mode-alist))
+  
   ; (require 'auto-complete-verilog)
 )
 ;; --------------------------------------------------------------------[ End ]--
