@@ -83,7 +83,7 @@
 (defvar section-vm nil)
 (defvar section-ac t)
 (defvar section-company nil)
-(defvar section-helm nil)
+(defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -1279,8 +1279,10 @@
 ;; available for Emacs 22/23
 (when section-helm
     ;; helm is new version of anything
-    (add-site-lisp-load-path "helm/")
-    (add-site-lisp-info-path "helm/doc/")
+    (add-site-lisp-load-path "emacs-helm/")
+    (add-site-lisp-info-path "emacs-helm/doc/")
+    ;; helm-swoop
+    (add-site-lisp-load-path "helm-swoop/")
     (load "helm-conf"))
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 

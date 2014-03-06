@@ -232,4 +232,8 @@
 (define-key modi-map (kbd "h")  'highlight-frame-toggle) ;; C-x m h
 (define-key modi-map (kbd "H")  'clear-highlight-frame) ;; C-x m H
 
-;; 
+;; helm
+(when section-helm
+  ; (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "<print>") 'helm-mini)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files))
