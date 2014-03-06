@@ -357,9 +357,6 @@
 ;;; org-babel
 ;; Use syntax highlighting ("fontification") in org-mode source blocks
 (setq org-src-fontify-natively t)
-;; use a slightly darker background to visually separate the source block from its surroundings
-(set-face-attribute 'org-block-background nil
-                    :background "#f0f0e8")
 
 
 ;;; Publishing

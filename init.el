@@ -1102,7 +1102,7 @@
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
 ;; (setq-default truncate-lines t)
-
+;; (toggle-truncate-lines 1)
 
 ;; turn on word wrap by insert a [line ending]
 ;; (auto-fill-mode 1)
@@ -1134,10 +1134,10 @@
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
 ;; turn off
-(add-hook 'sh-mode-hook      'turn-off-visual-line-mode) ;; e.g. sim.setup file
+;; (add-hook 'sh-mode-hook      'turn-off-visual-line-mode) ;; e.g. sim.setup file
 ;; turn on
-(dolist (hook '(text-mode-hook org-mode-hook))
-  (add-hook hook 'turn-on-visual-line-mode))
+;; (dolist (hook '(text-mode-hook org-mode-hook))
+;;   (add-hook hook 'visual-line-mode))
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
