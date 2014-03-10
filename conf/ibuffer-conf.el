@@ -128,7 +128,7 @@
         ("emacs"      (name . "\\*.*\\*"))
         ("Dirs"       (mode . dired-mode))
         ("Shell"      (mode . shell-script-mode))
-        ("Verilog"    (or
+        ("HDL"    (or
                        (mode . verilog-mode)
                        (mode . vlog-mode)))
         ("C"          (or
@@ -151,6 +151,6 @@
 (add-hook 'ibuffer-mode-hook
               (lambda ()
                 (ibuffer-switch-to-saved-filter-groups "default")
-                (visual-line-mode -1)))
+                (setq truncate-lines t)))
 
 ;;

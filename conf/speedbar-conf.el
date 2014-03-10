@@ -9,7 +9,7 @@
 (speedbar-add-supported-extension '(".tex" ".bib" ".w" ".nw"))
 
 ;; jump to speedbar frame
-(global-set-key (kbd "<f4>") 'speedbar-get-focus)
+;; (global-set-key (kbd "<f4>") 'speedbar-get-focus)
 
 ;; bind the arrow keys in the speedbar tree
 ;; [http://www.uweb.ucsb.edu/~dreamtheorist/emacs.html]
@@ -21,9 +21,3 @@
                                   (height . 45)
                                   (foreground-color . "blue")
                                   (background-color . "white")))
-
-;; same frame speedbar
-(require 'sr-speedbar)
-(global-set-key (kbd "<f4>") 'sr-speedbar-toggle)
-
-

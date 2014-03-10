@@ -88,7 +88,6 @@
 (defvar section-scratch t)
 (defvar section-c-mode t)
 (defvar section-markdown-mode t)
-(defvar section-cc-mode t)
 (defvar section-elisp-mode t)
 (defvar section-shell-mode t)
 (defvar section-defuns t)
@@ -117,6 +116,7 @@
 (defvar section-weibo t)
 (defvar section-workgroups t)
 (defvar section-powerline nil)
+(defvar section-sml t)
 
 ;;;###autoload
 (defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
@@ -703,11 +703,14 @@
     (add-site-lisp-load-path "powerline/")
     (load "powerline-conf"))
 
-(add-site-lisp-load-path "smart-mode-line/")
-(setq sml/theme 'dark)
-(require 'smart-mode-line)
-(setq sml/position-percentage-format "%p")
-(sml/setup)
+(when section-sml
+  (add-site-lisp-load-path "smart-mode-line/")
+  (setq sml/theme 'dark)
+  (require 'smart-mode-line)
+  (setq sml/position-percentage-format "%p")
+  (setq sml/shorten-directory t)
+  (setq sml/name-width 15)
+  (sml/setup))
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -1102,34 +1105,30 @@
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
 ;; (setq-default truncate-lines t)
-;; (toggle-truncate-lines 1)
 
-;; turn on word wrap by insert a [line ending]
+;; insert a [line ending] after the last word that occurs
+;; before the value of option ‘fill-column’
 ;; (auto-fill-mode 1)
-
 ; (add-hook 'text-mode-hook 'turn-on-auto-fill)
 ; (remove-hook 'text-mode-hook 'turn-on-auto-fill)
-
 ;; ask whether to use Auto Fill Mode
 ; (add-hook 'text-mode-hook
 ;               (lambda ()
 ;                 (when (y-or-n-p "Auto Fill mode? ")
 ;                   (turn-on-auto-fill))))
 
-
+;; LongLines
 ;; automatically wrap long lines after the last word before ‘fill-column’
 ; (autoload 'longlines-mode
 ;   "longlines.el"
 ;   "Minor mode for automatically wrapping long lines." t)
 ; (when (load "longlines" t)
 ;     (setq longlines-show-hard-newlines t))
-
 ;; (add-hook 'text-mode-hook 'longlines-mode)
 
 
-;; wrap a line right before the window edge
+;; visual-line-mode, wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-
 (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
@@ -1735,8 +1734,7 @@
 
   ;; Systemc mode
   (autoload 'systemc-mode "systemc-mode" "Mode for SystemC files." t)
-  (setq auto-mode-alist (append (list '("\\.sp$" . systemc-mode)) auto-mode-alist))
-  
+  ;; (add-hook 'systemc-mode-hook 'c++-mode-hook)
   ; (require 'auto-complete-verilog)
 )
 ;; --------------------------------------------------------------------[ End ]--
@@ -2018,6 +2016,12 @@
 ;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
 ;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
 (setq face-font-rescale-alist '(("Source Code Pro" 1.1) ("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
+(when (eq window-system 'x)
+  (condition-case nil
+      (progn
+        (set-frame-font "Inconsolata-13")
+        (add-to-list 'default-frame-alist '(font . "Inconsolata-13")))
+    (error (message "Fonts Inconsolata can not be found. Please do 'sudo apt-get install ttf-inconsolata'."))))
 ;; --[ Font ]----------------------------------------------------------[ End ]--
 
 
