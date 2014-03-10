@@ -24,7 +24,7 @@
 (global-set-key "\C-cl" 'org-store-link)
 
 (defun my-org-mode-hook ()
-  (setq truncate-lines nil)  ;; Wrap long lines
+  (setq truncate-lines t)  ;; Wrap long lines
   ;; (flyspell-mode 1)
   (require 'yasnippet)
   (yas-minor-mode) ;; turn on yasnippet mode

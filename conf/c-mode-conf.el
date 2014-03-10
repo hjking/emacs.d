@@ -36,7 +36,7 @@
     (setq comment-column 40)
     (setq backward-delete-function nil) ; DO NOT expand tabs when deleting
     (setq compile-command "make")
-    
+    (setq c-hungry-delete-key t)        ;delete more than one space
     (setq c-macro-shrink-window-flag t)
     (setq c-macro-preprocessor "cpp")
     (setq c-macro-cppflags " ")

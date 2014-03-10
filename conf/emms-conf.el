@@ -10,9 +10,9 @@
 
 ;; set the location of the music player in Win
 (when win32p
-  (if (file-directory-p "D:/Tool/MPlayer")
-      (add-to-list 'exec-path "D:/Tool/MPlayer")
-    (message "*** Please install MPlayer first!!"))
+  (if (file-directory-p "D:/Tools/MPlayer")
+      (add-to-list 'exec-path "D:/Tools/MPlayer")
+    (message "*** Warning!! Please install MPlayer first!!"))
 )
 
 (require 'emms-setup)

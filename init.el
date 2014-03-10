@@ -1887,11 +1887,20 @@
 
 ;; [ EMMS ]---------------------------------------------------------------------
 ;; Music player
+;; set the location of the music player in Win
+(when win32p
+  (if (file-directory-p "D:/Tools/MPlayer")
+      (add-to-list 'exec-path "D:/Tools/MPlayer")
+    (message "*** Please install MPlayer first!!")))
 (when section-emms
     (setq my-emms-load-path (concat my-site-lisp-dir "emms/"))
     (add-site-lisp-load-path "emms/")
     (add-site-lisp-info-path "emms/")
     (load "emms-conf"))
+
+(add-site-lisp-load-path "DoubanMusic/")
+(autoload 'douban-music "douban-music-mode" nil t)
+
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
 
 
