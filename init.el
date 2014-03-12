@@ -2156,13 +2156,12 @@ spaces across the current buffer."
 (diminish 'anzu-mode)
 (diminish 'guide-key-mode)
 (diminish 'smartparens-mode)
-(diminish 'auto-fill-mode)
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
 
-(load custom-file 'noerror)
+;; (load custom-file 'noerror)
 
 ;; (setq debug-on-error nil)
 (message "Emacs startup time: %d seconds."
