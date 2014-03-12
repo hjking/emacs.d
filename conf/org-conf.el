@@ -3,7 +3,7 @@
 ;; Description: Setting for org.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-02-25 13:56:35
+;; Last Updated: 2014-03-12 11:41:41
 
 (message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
 (setq step_no (1+ step_no))
@@ -28,6 +28,8 @@
   ;; (flyspell-mode 1)
   (require 'yasnippet)
   (yas-minor-mode) ;; turn on yasnippet mode
+  (org-set-local 'yas/trigger-key [tab])
+  (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)
   (set (make-local-variable 'system-time-locale) "C"))
 
 (setq org-directory "~/org")
@@ -701,7 +703,6 @@ or nil if the current buffer isn't visiting a dayage"
 
 ;; org-mode-hok
 (add-hook 'org-mode-hook 'my-org-mode-hook)
-
 
 ;;; HTML5 Presentation export for Org-mode
 ;;; org-html5presentation.el

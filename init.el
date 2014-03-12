@@ -945,10 +945,8 @@
     ;;  indent automatically (from 24.1)
     (electric-indent-mode +1)
     ;; Tab width
-    (setq default-tab-width 4)
-    (setq tab-width 4)
+    (setq-default tab-width 4)
     ;; Use spaces, not tabs
-    (setq indent-tabs-mode nil)
     (setq-default indent-tabs-mode nil)
     ;; a single space does end a sentence
     (setq sentence-end-double-space nil)
@@ -1165,7 +1163,7 @@
     (add-site-lisp-load-path "ido-ubiquitous/")
     (add-site-lisp-load-path "flx-ido/")
     (add-site-lisp-load-path "ido-vertical-mode/")
-    (add-site-lisp-load-path "/")
+    (add-site-lisp-load-path "ido-at-point/")
     (load "ido-conf"))
 ;; [ ido ]-------------------------------------------------------------[ End ]--
 
@@ -1936,13 +1934,7 @@
 (when section-smex
     (setq my-smex-path (concat my-site-lisp-dir "smex/"))
     (add-site-lisp-load-path "smex/")
-    (require 'smex)
-    (smex-initialize)
-    (setq smex-save-file (concat my-cache-dir ".smex-items"))
-    (global-set-key (kbd "M-x") 'smex)
-    (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-    ;; This is your old M-x.
-    (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command))
+    (load "smex-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2010,6 +2002,14 @@
 ;; [ guide-key ]-----------------------------------------------------------------
 (add-site-lisp-load-path "guide-key/")
 (load "guide-key-conf")
+;; ---------------------------------------------------------------------[ End ]--
+
+
+;; [ volatile-highlights ]-------------------------------------------------------
+;; highlight changes made by commands such as undo, yank-pop, etc.
+(add-site-lisp-load-path "volatile-highlights/")
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
 ;; ---------------------------------------------------------------------[ End ]--
 
 
@@ -2156,6 +2156,7 @@ spaces across the current buffer."
 (diminish 'anzu-mode)
 (diminish 'guide-key-mode)
 (diminish 'smartparens-mode)
+(diminish 'auto-fill-mode)
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--

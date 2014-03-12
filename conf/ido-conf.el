@@ -32,7 +32,7 @@
 (setq ido-enable-prefix nil)
 ;;
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
-
+(setq ido-default-file-method 'selected-window)
 ;;
 ; (require 'ido-hacks)
 ; (ido-hacks-mode 1)
@@ -57,15 +57,15 @@
 ;; Bind `~` to go to homedir when in ido-find-file;
 ;; http://whattheemacsd.com/setup-ido.el-02.html
 (add-hook 'ido-setup-hook
- (lambda ()
-   ;; Go straight home
-   (define-key ido-file-completion-map
-     (kbd "~")
-     (lambda ()
-       (interactive)
-       (if (looking-back "/")
-           (insert "~/")
-         (call-interactively 'self-insert-command))))))
+  (lambda ()
+    ;; Go straight home
+    (define-key ido-file-completion-map
+      (kbd "~")
+      (lambda ()
+        (interactive)
+        (if (looking-back "/")
+            (insert "~/")
+            (call-interactively 'self-insert-command))))))
 
 ; (add-hook 'ido-make-file-list-hook 'ido-sort-mtime)
 ; (add-hook 'ido-make-dir-list-hook 'ido-sort-mtime)
@@ -89,3 +89,9 @@
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
+;; ido-at-point
+;; an alternative frontend for `completion-at-point'
+; (require 'ido-at-point)
+; (ido-at-point-mode)
+(load "ido-config")

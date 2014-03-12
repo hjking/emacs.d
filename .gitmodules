@@ -190,3 +190,7 @@
 	path = plugin/helm-swoop
 	url = https://github.com/ShingoFukuyama/helm-swoop.git
 	ignore = dirty
+[submodule "plugin/volatile-highlights"]
+	path = plugin/volatile-highlights
+	url = https://github.com/k-talo/volatile-highlights.el.git
+	ignore = dirty
