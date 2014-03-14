@@ -5,14 +5,14 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2014-01-24 10:21:00
 ;;
-(message "%d: >>>>> Loading [ Dired ] Customizations ...." step_no)
+(message "%d: >>>>> Loading [ Dired ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 ;;; dired-details
 ;;;
 ;;   ) - dired-details-show
 ;;   ( - dired-details-hide
-(message ">>>>> Loading [ dired-details ] Customizations ....")
+(message "    >>>>> Loading [ dired-details ] Customization ....")
 ;; (require 'dired-details)
 ;; (dired-details-install)
 ;; (setq dired-details-hidden-string "")
@@ -22,7 +22,7 @@
 ;;; ls-lisp
 ;;;
 ;; emulate insert-directory completely in Emacs Lisp
-(message ">>>>> Loading [ ls-lisp ] Customizations ....")
+(message "    >>>>> Loading [ ls-lisp ] Customization ....")
 (when (require 'ls-lisp nil t)
     ;; disable the case sensitive sort of file names
     (setq ls-lisp-ignore-case t)
@@ -69,7 +69,7 @@
     )
 )
 
-(message ">>>>> Loading [ dired-sort ] Customizations ....")
+(message "    >>>>> Loading [ dired-sort ] Customization ....")
 ;; sort
 (require 'dired-sort)
 
@@ -101,7 +101,7 @@
 
 ;;; dired-x setting
 ;;;
-(message ">>>>> Loading [ dired-x ] Customizations ....")
+(message "    >>>>> Loading [ dired-x ] Customization ....")
 (require 'dired-x nil t)
 ;; Load Dired X when Dired is loaded.
 (add-hook 'dired-load-hook
@@ -136,7 +136,7 @@
 
 
 ;;; dired-single setting
-(message ">>>>> Loading [ dired-single ] Customizations ....")
+(message "    >>>>> Loading [ dired-single ] Customization ....")
 (require 'dired-single)
 ;;-------------------------------------------------------------------------
 
@@ -145,14 +145,14 @@
 ;;;
 ;;; "F" open all marked files
 ;;; "* ." mark files by extensions
-(message ">>>>> Loading [ dired+ ] Customizations ....")
+(message "    >>>>> Loading [ dired+ ] Customization ....")
 (require 'dired+)
 
 
 ;;; dired-view
 ;;;
 ;; Browse and select files using the first character of their names
-(message ">>>>> Loading [ dired-view ] Customizations ....")
+(message "    >>>>> Loading [ dired-view ] Customization ....")
 (require 'dired-view)
 (add-hook 'dired-mode-hook 'dired-view-minor-mode-on)
 ;; define keys to toggle it

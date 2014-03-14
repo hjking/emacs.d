@@ -1,4 +1,7 @@
 
+(message "%d: >>>>> Loading [ Helm ] Customization ...." step_no)
+(setq step_no (1+ step_no))
+
 (require 'helm-config)
 (setq helm-input-idle-delay 0.1) ;; I want it now!
 (setq helm-candidate-number-limit 10)

@@ -1,5 +1,6 @@
 
-(message ">>>>> Loading [ recentf ] Customizations ....")
+(message "%d: >>>>> Loading [ recentf ] Customization ...." step_no)
+(setq step_no (1+ step_no))
 ;; recentf is a minor mode that builds a list of recently opened files
 ;; keep a list of recently opened files
 ;; this list is automatically saved across Emacs sessions

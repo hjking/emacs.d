@@ -5,7 +5,7 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2013-12-31 15:33:39
 ;;
-(message "%d: >>>>> Loading [ ibuffer ] Customizations File ...." step_no)
+(message "%d: >>>>> Loading [ ibuffer ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 (require 'ibuffer)

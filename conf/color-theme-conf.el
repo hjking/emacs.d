@@ -64,5 +64,3 @@
 (setq color-theme-dawn-night-path (concat my-site-lisp-dir "color-theme-dawn-night/"))
 (add-to-list 'load-path color-theme-dawn-night-path)
 (require 'color-theme-dawn-night)
-
-(message ">>>>> [ Color Theme ] Setup Loaded")

@@ -1,5 +1,5 @@
 
-(message "%d: >>>>> Loading [ Calendar Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Calendar ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (setq calendar-load-hook
   '( lambda ()

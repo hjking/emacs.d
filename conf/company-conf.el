@@ -17,12 +17,23 @@
 ;; To customize other aspects of its behavior, type M-x customize-group RET company.
 
 (require 'company)
-(autoload 'company-mode "company" nil t)
-(add-hook 'after-init-hook 'global-company-mode)
+
+;; (add-hook 'after-init-hook 'global-company-mode)
 
 (setq company-require-match nil)
+(setq company-begin-commands '(self-insert-command))
+; (setq company-idle-delay 0.3)
+(setq company-idle-delay t)
+(setq company-tooltip-limit 20)
+(setq company-minimum-prefix-length 2)
+(setq company-echo-delay 0)
+(setq company-auto-complete nil)
+(global-company-mode 1)
 
 (add-to-list 'company-backends 'company-cmake)
-(setq company-backends (delete 'company-dabbrev company-backends))
-(setq company-begin-commands '(self-insert-command))
-(setq company-idle-delay 0.2)
+(add-to-list 'company-backends 'company-dabbrev t)
+(add-to-list 'company-backends 'company-ispell t)
+(add-to-list 'company-backends 'company-files t)
+(add-to-list 'company-backends 'company-cider)
+
+(global-set-key "\M-]" 'company-complete-common)

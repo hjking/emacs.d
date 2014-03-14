@@ -10,8 +10,6 @@
 ;; Email:           hon9jin (at) gmail.com
 ;; Created:         2010-04-22 10:20 (+800)
 ;; Description:     Emacs customization file
-;; Reference:       Emacs document
-;; Keywords:        emacs, dotfile, config, rc
 ;; Copyright:       (C) 2010 ~ 2014, Hong Jin
 
 ;; Thanks to http://www.mygooglest.com/fni/dot-emacs.html
@@ -81,8 +79,8 @@
 (defvar section-git t)
 (defvar section-emms nil)
 (defvar section-vm nil)
-(defvar section-ac t)
-(defvar section-company nil)
+(defvar section-ac nil)
+(defvar section-company t)
 (defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
@@ -127,7 +125,7 @@
 
 (when section-loading-libraries
 ;;;; Debugging
-  (message "%d: >>>>> Debugging...." step_no)
+  (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
   (setq
     eval-expression-debug-on-error t       ; debugger on errors in eval-expression
@@ -604,92 +602,6 @@
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
 
 
-;; --[ Font Lock ]--------------------------------------------------------------
-(message "%d: >>>>> Loading [ Font Lock ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-;; syntax highlight everywhere
-;; (global-font-lock-mode t)
-(if (fboundp 'global-font-lock-mode)
-     (global-font-lock-mode 1)          ; turn on syntax coloring
-     (setq font-lock-auto-fontify t))   ; XEmacs'))
-(setq font-lock-maximum-decoration t)
-;;(setq font-lock-global-modes '(not text-mode))
-;;(setq font-lock-verbose t)
-;;(setq font-lock-maximum-size '((t . 1048576) (vm-mode . 5250000)))
-
-;; Get more highlight
-(require 'generic-x nil t)
-;; --[ Font Lock ]-----------------------------------------------------[ End ]--
-
-
-;; --[ FontLock Keywords]-------------------------------------------------------
-;; special words
-(setq keywords-critical-pattern
-      "\\(BUGS\\|FIXME\\|TODO\\|todo\\|XXX\\|[Ee][Rr][Rr][Oo][Rr]\\|[Mm][Ii][Ss][Ss][Ii][Nn][Gg]\\|[Ii][Nn][Vv][Aa][Ll][Ii][Dd]\\|[Ff][Aa][Ii][Ll][Ee][Dd]\\|[Cc][Oo][Rr][Rr][Uu][Pp][Tt][Ee][Dd]\\)")
-(make-face 'keywords-critical)
-(GNUEmacs (set-face-attribute 'keywords-critical nil
-                              :foreground "red" :background "yellow"
-                              :weight 'bold))
-
-(setq keywords-normal-pattern "\\([Ww][Aa][Rr][Nn][Ii][Nn][Gg]\\)")
-(make-face 'keywords-normal)
-(GNUEmacs (set-face-attribute 'keywords-normal nil
-                              :foreground "magenta2" :background "yellow"))
-
-;; set up highlighting of special words for proper selected major modes only
-(dolist (mode '(fundamental-mode
-                svn-log-view-mode
-                text-mode
-                c-mode
-                java-mode
-                verilog-mode
-                vlog-mode
-                python-mode
-                cperl-mode
-                html-mode-hook
-                prog-mode-hook
-                css-mode-hook
-                emacs-lisp-mode))  ; no interference with Org-mode (which derives from text-mode)
-  (font-lock-add-keywords mode
-    `((,keywords-critical-pattern 1 'keywords-critical prepend)
-      (,keywords-normal-pattern 1 'keywords-normal prepend))))
-
-;; add fontification patterns (even in comments) to a selected major mode
-;; *and* all major modes derived from it
-(defun fontify-keywords ()
-  (interactive)
-;;;   (font-lock-mode -1)
-;;;   (font-lock-mode 1)
-  (font-lock-add-keywords nil
-    `((,keywords-critical-pattern 1 'keywords-critical prepend)
-      (,keywords-normal-pattern 1 'keywords-normal prepend))))
-
-;; set up highlighting of special words for selected major modes *and* all
-;; major modes derived from them
-(dolist (hook '(c++-mode-hook
-                c-mode-hook
-                change-log-mode-hook
-                cperl-mode-hook
-                css-mode-hook
-                emacs-lisp-mode-hook
-                html-mode-hook
-                java-mode-hook
-                latex-mode-hook
-                lisp-mode-hook
-                makefile-mode-hook
-                message-mode-hook
-                php-mode-hook
-                python-mode-hook
-                sh-mode-hook
-                shell-mode-hook
-                verilog-mode-hook
-                vlog-mode-hook
-                prog-mode-hook
-                ssh-config-mode-hook))
-  (add-hook hook 'fontify-keywords))
-;; --[ FontLock Keywords]----------------------------------------------[ End ]--
-
-
 ;; --[ Mode Line ]--------------------------------------------------------------
 ;; (load "mode-line-conf")
 
@@ -1023,35 +935,6 @@
 ;; --[ Parentheses ]---------------------------------------------------[ End ]--
 
 
-;; --[ Highlight Hex ]----------------------------------------------------------
-(defvar hexcolor-keywords
-    '(("#[ABCDEFabcdef[:digit:]]\\{6\\}"
-        (0 (put-text-property (match-beginning 0)
-                              (match-end 0)
-                              'face (list :background
-                                          (match-string-no-properties 0)))))))
-
-(defun hexcolor-add-to-font-lock ()
-    (interactive)
-    (font-lock-add-keywords nil hexcolor-keywords))
-
-(defun add-to-hooks (action &rest hooks)
-    (mapc #'(lambda (x)
-              (add-hook x action)) hooks))
-
-(add-to-hooks 'hexcolor-add-to-font-lock
-              'css-mode-hook
-              'php-mode-hook
-              'html-mode-hook
-              'shell-script-mode
-              'shell-mode-hook
-              'emacs-lisp-mode-hook
-              'text-mode-hook
-              'haskell-mode-hook)
-
-;; --[ Highlight Hex ]-------------------------------------------------[ End ]--
-
-
 ;; [ Emacs Server ]-------------------------------------------------------------
 ;;; EmacsClient
 (when section-emacs-server
@@ -1067,32 +950,7 @@
 
 
 ;; [ TAG ]----------------------------------------------------------------------
-(message "%d: >>>>> Loading [ TAGS ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-;;; ctags -e -R *.cpp *.h
-;;; M-. : find-tag ;
-;;; M-* : jump back ;
-;;; M-x tags-search : regexp-search
-;;; M-, : resume 'tags-search'
-;;; M-x tags-apropos : list all tags in a tag file that match a regexp
-;;; M-x list-tags : list all tags defined in a source file
-;;; C-x 4 . tag : Find first definition of tag, but display it in another window (find-tag-other-window).
-;;; C-x 5 . tag : Find first definition of tag, and create a new frame to select the buffer (find-tag-other-frame).
-;; (setq path-to-ctags "/usr/bin/ctags")
-(setq path-to-ctags "ctags")
-;; set search dirs
-(setq tags-table-list '("./TAGS" "../TAGS" "../.."))
-(defun my-create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (shell-command
-      (format "%s -f %s/TAGS -e -R %s" path-to-ctags dir-name dir-name)
-    ))
-;; put etags information in bookmark
-(defun ivan-etags-bookmark ()
-  (bookmark-set tagname))
-(bookmark-bmenu-list)
-(add-hook 'find-tag-hook 'ivan-etags-bookmark)
+(load "ctags-conf")
 ;; [ TAG ]-------------------------------------------------------------[ End ]--
 
 
@@ -1243,20 +1101,17 @@
 
 
 ;; [ highlight ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ highlight ] Customization ...." step_no)
 (load "highlight-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ auto-header ]--------------------------------------------------------------
 (when section-header
-    ;; header2
     (load "header2-conf"))
 ;; [ auto-header ]----------------------------------------------------[ End ]---
 
 
 ;; [ goto change ]--------------------------------------------------------------
-(message ">>>>> Loading [ goto-change ] Customization ....")
 (require 'goto-chg)
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
@@ -1549,6 +1404,7 @@
 
 
 ;; [ mmm-mode ]-----------------------------------------------------------------
+;; Multiple Major Modes coexist in one buffer
 (when section-mmm-mode
     (add-site-lisp-load-path "mmm-mode/")
     (add-site-lisp-info-path "mmm-mode/")
@@ -1703,7 +1559,7 @@
     (define-key view-mode-map "l" 'forward-char)
     (define-key view-mode-map "j" 'next-line)
     (define-key view-mode-map "k" 'previous-line)
-  ))
+))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1771,7 +1627,7 @@
 
 
 ;; [ Shell script Mode ]--------------------------------------------------------
-(message ">>>>> Loading [ Shell Scripting Mode ] Customization ....")
+(message ">>>>> Loading [ Shell Script Mode ] Customization ....")
 (defun my-shellscript-startup ()
   "Setup shell script mode."
   (interactive)
@@ -2161,10 +2017,10 @@ spaces across the current buffer."
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
 
-;; (load custom-file 'noerror)
+(load custom-file 'noerror)
 
 ;; (setq debug-on-error nil)
-(message "Emacs startup time: %d seconds."
+(message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))
 
 (message "***** >>>>> [ Loading my Emacs Init File Completed!! ] <<<<< *****")

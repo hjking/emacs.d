@@ -1,5 +1,5 @@
 
-(message "%d: >>>>> Loading [ Windows Customization ] ...." step_no)
+(message "%d: >>>>> Loading [ Windows ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 ;; [ winner ]----------------------------------------------------------------
@@ -64,8 +64,7 @@
 
 
 ;; --[ Switch Window ]----------------------------------------------------------
-(message "%d: >>>>> Loading [ Switch Window Customization ] ...." step_no)
-(setq step_no (1+ step_no))
+(message "    >>>>> Loading [ Switch Window ] Customization ....")
 (add-site-lisp-load-path "switch-window/")
 (require 'switch-window)
 (global-set-key (kbd "C-x o") 'switch-window)

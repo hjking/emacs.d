@@ -5,7 +5,7 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2014-03-12 11:41:41
 
-(message "%d: >>>>> Loading [ org ] Customization File ...." step_no)
+(message "%d: >>>>> Loading [ org ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))

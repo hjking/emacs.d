@@ -25,16 +25,10 @@
 ; (global-set-key (kbd "C-c <left>")  'windmove-left)
 ; (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c SPC")     'my-goto-last-edit-pos)
-;; This binds word completions to Shift-Tab, and Ctrl+Space
-;;  (global-set-key [S-iso-lefttab]     'dabbrev-completion)
-;;  (global-unset-key [?\C-\040])
-;;  (global-set-key [?\C-\040]          'dabbrev-completion)
 ;; (global-set-key "\C-\\"             'compare-windows)
 (global-set-key (kbd "M-;")         'hippie-expand)
-;; (global-set-key (kbd "M-/") 		'hippie-expand)
-;(global-set-key (kbd "M-/")     'dabbrev-expand) ;;(default)
-(global-set-key (kbd "C-<tab>")     'dabbrev-expand)
-(define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
+;; (global-set-key (kbd "M-/")         'dabbrev-expand) ;;(default)
+(global-set-key (kbd "M-/")         'dabbrev-expand-multiple) ;; extend dabbrev-expand
 
 ;; Copy sexp under cursor into register. Somewhat of a hack since
 ;; marked region remains active following copy. Macro will call
