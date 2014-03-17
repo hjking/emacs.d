@@ -9,6 +9,10 @@
 (message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 
+
+;; start auto-complete
+(require 'auto-complete)
+;; do default config for auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -24,18 +28,20 @@
 
 (defun auto-complete-setting ()
   "Setting for `auto-complete'."
-  (setq-default ac-expand-on-auto-complete t)
+  (setq ac-expand-on-auto-complete t)
 
   ;;;==== Not to complete automatically, need to trigger
-  (setq ac-auto-start nil)
+  ;; (setq ac-auto-start nil)
   ;; start completion automatically when inserted 4 or more characters
-  ;; (setq ac-auto-start 4)
+  (setq ac-auto-start 4)
   ;; trigger auto complete by ALT-]
   (global-set-key "\M-]" 'auto-complete)
+  (ac-set-trigger-key  "\M-]") ;; trigger key when ac-auto-start=nil
 
   ;;;==== Not to show completion menu automatically
   ;; delay time of show menu
   (setq ac-auto-show-menu 0.8)
+  (setq ac-delay 0.5)
 
   ;; Stop completion
   (define-key ac-completing-map "\M-/" 'ac-stop)
@@ -43,12 +49,14 @@
   ;; Finish completion by TAB
   (define-key ac-completing-map "\t" 'ac-complete)
   (define-key ac-completing-map "\r" nil)   ;; not Enter
+  (define-key ac-completing-map "\C-e" 'ac-complete)
 
   ;; Select candidates
   (setq ac-use-menu-map t)
   ;; Only select candidates with C-n/C-p only when completion menu is displayed
   (define-key ac-menu-map "\C-n" 'ac-next)      ;; default
   (define-key ac-menu-map "\C-p" 'ac-previous)  ;; default
+  (define-key ac-menu-map "\r" 'ac-complete)
 
   ;; height of completion menu
   (setq ac-menu-height 10)
@@ -71,9 +79,9 @@
   (setq ac-use-fuzzy t) ;; enable fuzzy auto complete
 
   ;; color
-  (set-face-background 'ac-candidate-face "lightgray")
-  (set-face-underline 'ac-candidate-face "darkgray")
-  (set-face-background 'ac-selection-face "steelblue")
+  ; (set-face-background 'ac-candidate-face "lightgray")
+  ; (set-face-underline 'ac-candidate-face "darkgray")
+  ; (set-face-background 'ac-selection-face "steelblue")
 
   (setq ac-candidate-menu-height 10)
   (setq ac-candidate-max ac-candidate-menu-height)
@@ -86,34 +94,35 @@
   ;(setq auto-comp-dict-load-path (concat auto-comp-load-path "dict"))
   ;;(add-to-list 'ac-dictionary-directories auto-comp-dict-load-path)
 
-  ;; User defined dictionary files
-  ;; (add-to-list 'ac-user-dictionary-files "~/.dict")   ;; default
-
   ;; Change default sources
   (set-default 'ac-sources
-                 '(ac-source-functions
-                   ac-source-yasnippet
-                   ac-source-abbrev
-                   ac-source-variables
-                   ac-source-symbols
-                   ac-source-features
-                   ac-source-dictionary
-                   ac-source-words-in-buffer
-                   ac-source-words-in-all-buffer
-                   ac-source-imenu
-                   ac-source-files-in-current-dir
-                   ac-source-filename
-                   ac-source-words-in-same-mode-buffers))
+               '(ac-source-functions
+                 ac-source-yasnippet
+                 ac-source-abbrev
+                 ac-source-variables
+                 ac-source-symbols
+                 ac-source-features
+                 ac-source-dictionary
+                 ac-source-words-in-buffer
+                 ac-source-words-in-all-buffer
+                 ac-source-imenu
+                 ac-source-files-in-current-dir
+                 ac-source-filename
+                 ac-source-words-in-same-mode-buffers))
 
   ;; Change sources for specific major modes
   (add-hook 'c++-mode (lambda () (add-to-list 'ac-sources 'ac-source-semantic)))
 
-  
   (dolist (command `(backward-delete-char-untabify delete-backward-char))
-    (add-to-list 'ac-trigger-commands command))
-
-  )
-
+    (add-to-list 'ac-trigger-commands command)))
 
 (eval-after-load "auto-complete"
   '(auto-complete-setting))
+
+
+;; auto-complete-c-headers
+(defun my/ac-c-header-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers))
+(add-hook 'c++-mode-hook 'my/ac-c-header-init)
+(add-hook 'c-mode-hook 'my/ac-c-header-init)

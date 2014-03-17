@@ -79,8 +79,8 @@
 (defvar section-git t)
 (defvar section-emms nil)
 (defvar section-vm nil)
-(defvar section-ac nil)
-(defvar section-company t)
+(defvar section-ac t)
+(defvar section-company nil)
 (defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
@@ -248,6 +248,12 @@
 ;; use eval-after-load to speed up the startup
 ;; http://emacser.com/eval-after-load.htm
 (require 'eval-after-load)
+
+;; [ package ]------------------------------------------------------------------
+;; Packages managment
+(when section-package
+    (load "package-conf"))
+;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Personal ]---------------------------------------------------------------
@@ -1703,13 +1709,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;;; ================ ProgrammingModes End ================
-
-;; [ package ]------------------------------------------------------------------
-;; Packages managment
-(when section-package
-    (load "package-conf"))
-;; --------------------------------------------------------------------[ End ]--
-
 
 ;; [ undo ]---------------------------------------------------------------------
 (when section-undo

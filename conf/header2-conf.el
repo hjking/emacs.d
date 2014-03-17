@@ -10,15 +10,31 @@
 
 (require 'header2)
 
-(setq header-copyright-notice "Copyright © Hong Jin\n")
+(setq header-copyright-notice "Copyright (c) 2014, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
 (setq header-author 'user-full-name)
 (setq header-file-name 'buffer-file-name)
 (setq header-creation-date 'current-time-string)
 (setq header-modification-author 'user-full-name)
 
+(setq make-header-hook '(
+                         header-blank
+                         header-copyright
+                         header-blank
+                         header-file-name
+                         header-author
+                         header-creation-date
+                         header-version
+                         header-description
+                         header-modification-date
+                         header-end-line
+                         header-history
+                         header-code
+                         header-eof))
+
 ;; add a file header whenever you create a new file in some mode
 (autoload 'auto-make-header "header2")
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+(add-hook 'c-mode-hook          'auto-make-header)
 (add-hook 'c-mode-common-hook   'auto-make-header)
 (add-hook 'verilog-mode-hook    'auto-make-header)
 (add-hook 'vlog-mode-hook       'auto-make-header)
