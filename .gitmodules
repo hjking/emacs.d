@@ -194,3 +194,6 @@
 	path = plugin/volatile-highlights
 	url = https://github.com/k-talo/volatile-highlights.el.git
 	ignore = dirty
+[submodule "plugin/projectile"]
+	path = plugin/projectile
+	url = https://github.com/bbatsov/projectile.git

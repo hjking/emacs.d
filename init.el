@@ -46,7 +46,8 @@
 (defvar section-yanking t)
 (defvar section-rectangles t)
 (defvar section-cua nil)
-(defvar section-registers nil)
+(defvar section-register nil)
+(defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-keyboard-macros nil)  ; no
 (defvar section-ibuffer t)
@@ -380,7 +381,7 @@
 ;;; Library
 
 ;; dash
-(add-site-lisp-load-path "dash/")
+; (add-site-lisp-load-path "dash/")
 (eval-after-load "dash" '(dash-enable-font-lock))
 
 ;; sams-lib
@@ -396,14 +397,16 @@
 
 
 ;; --[ Bookmark ]---------------------------------------------------------------
-(message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-(require 'bookmark)
-;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-(setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-;; each command that sets a bookmark will also save your bookmarks
-(setq bookmark-save-flag t)
-;; (switch-to-buffer "*Bookmark List*")
+(when section-bookmark
+  (message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  (require 'bookmark)
+  ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+  (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+  ;; each command that sets a bookmark will also save your bookmarks
+  (setq bookmark-save-flag t)
+  ;; (switch-to-buffer "*Bookmark List*")
+)
 ;; --[ Bookmark ]------------------------------------------------------[ End ]--
 
 

@@ -17,6 +17,7 @@
     auto-complete
     auto-complete-c-headers
     stripe-buffer               ;; different background for even and odd lines
+    ;; projectile
     )
   "A list of packages to ensure are installed at launch.")
 

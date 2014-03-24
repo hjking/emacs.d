@@ -60,3 +60,10 @@
 (setq fiplr-ignored-globs '((directories (".git" ".svn"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
+
+;; Projectile
+(eval-after-load "projectile"
+  '(progn
+; (add-site-lisp-load-path "projectile/")
+; (require 'projectile)
+    (projectile-global-mode)))
