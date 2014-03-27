@@ -82,7 +82,7 @@
 
   ;; highlight keywords or users which i'm interested
   (erc-match-mode 1)
-  (setq erc-keywords '("emms" "python"))
+  (setq erc-keywords '("emms" "python" "emacs" "org" "vim"))
   (setq erc-pals '("rms"))
 
   ;; reject some keywords and users
@@ -119,7 +119,10 @@
 
   (setq erc-auto-query 'buffer)
 
-  (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT"))
+  (eval-after-load 'erc-track
+  (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT")
+        erc-track-switch-direction 'newest
+        erc-track-enable-keybindings t))
 
   (require 'erc-services)
   (erc-nickserv-mode 1)

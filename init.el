@@ -384,7 +384,7 @@
 
 ;; dash
 (require 'dash)
-(eval-after-load "dash" '(dash-enable-font-lock))
+(dash-enable-font-lock)
 
 ;; sams-lib
 (require 'sams-lib nil t)
@@ -2000,7 +2000,7 @@ spaces across the current buffer."
 ;; [ diminish ]-----------------------------------------------------------------
 ;; diminish keeps the modeline tidy
 (diminish 'abbrev-mode "Abv")
-(diminish 'undo-tree-mode "Ud")
+(diminish 'undo-tree-mode)
 (diminish 'dired-view-minor-mode)
 (diminish 'auto-revert-mode)
 (diminish 'guru-mode)
@@ -2008,6 +2008,8 @@ spaces across the current buffer."
 (diminish 'anzu-mode)
 (diminish 'guide-key-mode)
 (diminish 'smartparens-mode)
+(diminish 'drag-stuff-mode)
+(diminish 'volatile-highlights-mode)
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 ;; [ diminish ]--------------------------------------------------------[ End ]--

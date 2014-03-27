@@ -15,3 +15,5 @@
 
 /git-submodule-move
 /history
+
+/vendor/pde/lisp/tools/perldoc-cache.el

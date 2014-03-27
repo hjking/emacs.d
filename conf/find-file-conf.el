@@ -66,4 +66,5 @@
   '(progn
 ; (add-site-lisp-load-path "projectile/")
 ; (require 'projectile)
-    (projectile-global-mode)))
+    (projectile-global-mode)
+    (diminish 'projectile-mode)))
