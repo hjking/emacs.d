@@ -22,10 +22,6 @@
 	path = vendor/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
 	ignore = dirty
-[submodule "vendor/smex"]
-	path = vendor/smex
-	url = https://github.com/nonsequitur/smex.git
-	ignore = dirty
 [submodule "vendor/rainbow-delimiters"]
 	path = vendor/rainbow-delimiters
 	url = https://github.com/jlr/rainbow-delimiters.git

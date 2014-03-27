@@ -9,7 +9,6 @@
 (setq step_no (1+ step_no))
 
 (require 'ibuffer)
-(require 'ibuffer-vc)
 
 (setq ibuffer-delete-window-on-quit t)
 ;; replaces the functionality of list-buffers command

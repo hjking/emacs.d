@@ -182,10 +182,10 @@
   (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
       "The Root directory of my .emacs.d")
   ;; My site-lisp directory
-  (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
-      "This directory keeps Emacs Lisp packages")
-  ; (defvar my-site-lisp-dir (concat my-emacs-dir "vendor/")
+  ; (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
   ;     "This directory keeps Emacs Lisp packages")
+  (defvar my-site-lisp-dir (concat my-emacs-dir "vendor/")
+      "This directory keeps Emacs Lisp packages")
   ;; My configuration files directory
   (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
       "This directory keeps my Emacs Lisp for packages")
@@ -1030,7 +1030,6 @@
 ;; [ ibuffer ]------------------------------------------------------------------
 ;; buffer switch
 (when section-ibuffer
-  (add-site-lisp-load-path "ibuffer-vc/")
   (load "ibuffer-conf"))
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
