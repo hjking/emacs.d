@@ -94,10 +94,6 @@
 	path = vendor/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
 	ignore = dirty
-[submodule "plugin/auto-complete"]
-	path = plugin/auto-complete
-	url = https://github.com/auto-complete/auto-complete.git
-	ignore = dirty
 [submodule "vendor/undo-tree"]
 	path = vendor/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
@@ -105,10 +101,6 @@
 [submodule "vendor/flx-ido"]
 	path = vendor/flx-ido
 	url = https://github.com/lewang/flx.git
-	ignore = dirty
-[submodule "plugin/company-mode"]
-	path = plugin/company-mode
-	url = https://github.com/company-mode/company-mode.git
 	ignore = dirty
 [submodule "vendor/anzu"]
 	path = vendor/anzu
