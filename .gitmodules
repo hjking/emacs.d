@@ -30,8 +30,8 @@
 	path = plugin/rainbow-delimiters
 	url = https://github.com/jlr/rainbow-delimiters.git
 	ignore = dirty
-[submodule "plugin/weibo"]
-	path = plugin/weibo
+[submodule "vendor/weibo"]
+	path = vendor/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
 	ignore = dirty
 [submodule "plugin/mode-line-stats"]

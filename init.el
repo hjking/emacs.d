@@ -72,7 +72,7 @@
 (defvar section-org t)
 (defvar section-eproject nil)
 (defvar section-ecb nil)
-(defvar section-sessions nil)
+(defvar section-session nil)
 (defvar section-desktop nil)
 (defvar section-muse nil)
 (defvar section-cvs nil)
@@ -184,6 +184,8 @@
   ;; My site-lisp directory
   (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
       "This directory keeps Emacs Lisp packages")
+  ; (defvar my-site-lisp-dir (concat my-emacs-dir "vendor/")
+  ;     "This directory keeps Emacs Lisp packages")
   ;; My configuration files directory
   (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
       "This directory keeps my Emacs Lisp for packages")
@@ -381,13 +383,18 @@
 ;;; Library
 
 ;; dash
-; (add-site-lisp-load-path "dash/")
+(require 'dash)
 (eval-after-load "dash" '(dash-enable-font-lock))
 
 ;; sams-lib
 (require 'sams-lib nil t)
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
+
+
+;; --[ Font ]-------------------------------------------------------------------
+(load "font-conf")
+;; --[ Font ]----------------------------------------------------------[ End ]--
 
 
 ;; --[ Frame Display ]----------------------------------------------------------
@@ -505,6 +512,9 @@
       "Kill a rectangular region and save it in the kill ring." t)
     (autoload 'rm-kill-ring-save "rect-mark"
       "Copy a rectangular region to the kill ring." t)
+
+    (require 'expand-region)
+    (global-set-key (kbd "C-=") 'er/expand-region)
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -626,12 +636,13 @@
 
 (when section-sml
   (add-site-lisp-load-path "smart-mode-line/")
-  (setq sml/theme 'dark)
   (require 'smart-mode-line)
   (setq sml/position-percentage-format "%p")
   (setq sml/shorten-directory t)
   (setq sml/name-width 15)
-  (sml/setup))
+  (sml/apply-theme 'dark)  ;; respectful
+  (sml/setup)
+  )
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -1871,27 +1882,6 @@
 ;; ---------------------------------------------------------------------[ End ]--
 
 
-;; --[ Font ]-------------------------------------------------------------------
-(message "%d: >>>>> Loading [ Font ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-;; (set-default-font "clR8x14")
-;; (set-default-font "-Misc-Fixed-Medium-R-Normal--12-100-75-75-C-60-ISO8859-1")
-;; (set-default-font "Vera Sans Mono-14")
-;; (set-default-font "-*-Monaco-normal-r-*-*-17-102-120-120-c-*-iso8859-1")
-;; (set-default-font "Monospace-10")
-;; (set-default-font "-adobe-courier-medium-r-normal--18-180-75-75-m-110-iso8859-1")
-;; (set-default-font "-b&h-lucidatypewriter-bold-r-normal-sans-14-140-75-75-m-90-iso8859-1")
-;; (set-default-font "-misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1")
-(setq face-font-rescale-alist '(("Source Code Pro" 1.1) ("微软雅黑" . 1.2) ("Microsoft Yahei" . 1.2) ("WenQuanYi Zen Hei" . 1.2)))
-(when (eq window-system 'x)
-  (condition-case nil
-      (progn
-        (set-frame-font "Inconsolata-13")
-        (add-to-list 'default-frame-alist '(font . "Inconsolata-13")))
-    (error (message "Fonts Inconsolata can not be found. Please do 'sudo apt-get install ttf-inconsolata'."))))
-;; --[ Font ]----------------------------------------------------------[ End ]--
-
-
 ;; --[ Help ]-------------------------------------------------------------------
 (when section-help
   (message "%d: >>>>> Loading [ Help ] Customization ...." step_no)
@@ -1984,11 +1974,16 @@ spaces across the current buffer."
 
 ;; [ session ]-------------------------------------------------------------------
 ;; session
-(when section-sessions
+(when section-session
     (add-site-lisp-load-path "session/lisp/")
     (load "session-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
+;; Save a minibuffer input history
+(eval-after-load 'savehist
+  '(setq savehist-save-minibuffer-history t
+        savehist-autosave-interval 180))
+(savehist-mode t)
 
 ;; [ desktop ]------------------------------------------------------------------
 (when section-desktop

@@ -6,3 +6,9 @@
 /plugin/pde/lisp/tools/perldoc-cache.el
 
 /elpa
+
+/ac-comphist.dat
+
+/projectile-bookmarks.eld
+
+/projectile.cache
