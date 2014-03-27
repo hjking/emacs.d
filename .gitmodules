@@ -1,101 +1,97 @@
-[submodule "plugin/color-theme-zenburn"]
-	path = plugin/color-theme-zenburn
+[submodule "vendor/color-theme-zenburn"]
+	path = vendor/color-theme-zenburn
 	url = https://github.com/bbatsov/zenburn-emacs.git
 	ignore = dirty
-[submodule "plugin/color-theme-twilight"]
-	path = plugin/color-theme-twilight
+[submodule "vendor/color-theme-twilight"]
+	path = vendor/color-theme-twilight
 	url = https://github.com/crafterm/twilight-emacs.git
 	ignore = dirty
-[submodule "plugin/color-theme-monokai"]
-	path = plugin/color-theme-monokai
+[submodule "vendor/color-theme-monokai"]
+	path = vendor/color-theme-monokai
 	url = https://github.com/lvillani/el-monokai-theme.git
 	ignore = dirty
-[submodule "plugin/color-theme-solarized"]
-	path = plugin/color-theme-solarized
+[submodule "vendor/color-theme-solarized"]
+	path = vendor/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
 	ignore = dirty
-[submodule "plugin/magit"]
-	path = plugin/magit
+[submodule "vendor/magit"]
+	path = vendor/magit
 	url = https://github.com/magit/magit.git
 	ignore = dirty
-[submodule "plugin/yasnippet"]
-	path = plugin/yasnippet
+[submodule "vendor/yasnippet"]
+	path = vendor/yasnippet
 	url = https://github.com/capitaomorte/yasnippet.git
 	ignore = dirty
-[submodule "plugin/smex"]
-	path = plugin/smex
+[submodule "vendor/smex"]
+	path = vendor/smex
 	url = https://github.com/nonsequitur/smex.git
 	ignore = dirty
-[submodule "plugin/rainbow-delimiters"]
-	path = plugin/rainbow-delimiters
+[submodule "vendor/rainbow-delimiters"]
+	path = vendor/rainbow-delimiters
 	url = https://github.com/jlr/rainbow-delimiters.git
 	ignore = dirty
 [submodule "vendor/weibo"]
 	path = vendor/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
 	ignore = dirty
-[submodule "plugin/mode-line-stats"]
-	path = plugin/mode-line-stats
+[submodule "vendor/mode-line-stats"]
+	path = vendor/mode-line-stats
 	url = https://github.com/Idorobots/mode-line-stats.git
 	ignore = dirty
 [submodule "vendor/iedit"]
 	path = vendor/iedit
 	url = https://github.com/tsdh/iedit.git
 	ignore = dirty
-[submodule "plugin/drag-stuff"]
-	path = plugin/drag-stuff
+[submodule "vendor/drag-stuff"]
+	path = vendor/drag-stuff
 	url = https://github.com/rejeep/drag-stuff.git
 	ignore = dirty
-[submodule "plugin/switch-window"]
-	path = plugin/switch-window
+[submodule "vendor/switch-window"]
+	path = vendor/switch-window
 	url = https://github.com/dimitri/switch-window.git
 	ignore = dirty
-[submodule "plugin/smooth-scrolling"]
-	path = plugin/smooth-scrolling
+[submodule "vendor/smooth-scrolling"]
+	path = vendor/smooth-scrolling
 	url = https://github.com/aspiers/smooth-scrolling.git
 	ignore = dirty
-[submodule "plugin/browse-kill-ring"]
-	path = plugin/browse-kill-ring
+[submodule "vendor/browse-kill-ring"]
+	path = vendor/browse-kill-ring
 	url = https://github.com/browse-kill-ring/browse-kill-ring.git
 	ignore = dirty
-[submodule "plugin/ace-jump-mode"]
-	path = plugin/ace-jump-mode
+[submodule "vendor/ace-jump-mode"]
+	path = vendor/ace-jump-mode
 	url = https://github.com/winterTTr/ace-jump-mode.git
 	ignore = dirty
-[submodule "plugin/ergoemacs-mode"]
-	path = plugin/ergoemacs-mode
+[submodule "vendor/ergoemacs-mode"]
+	path = vendor/ergoemacs-mode
 	url = https://github.com/ergoemacs/ergoemacs-mode
 	ignore = dirty
-[submodule "plugin/git-modes"]
-	path = plugin/git-modes
+[submodule "vendor/git-modes"]
+	path = vendor/git-modes
 	url = https://github.com/magit/git-modes.git
 	ignore = dirty
-[submodule "plugin/color-theme-ample"]
-	path = plugin/color-theme-ample
+[submodule "vendor/color-theme-ample"]
+	path = vendor/color-theme-ample
 	url = https://github.com/jordonbiondo/ample-theme.git
 	ignore = dirty
-[submodule "plugin/ido-hacks"]
-	path = plugin/ido-hacks
+[submodule "vendor/ido-hacks"]
+	path = vendor/ido-hacks
 	url = https://github.com/scottjad/ido-hacks.git
 	ignore = dirty
-[submodule "plugin/multiple-cursors"]
-	path = plugin/multiple-cursors
+[submodule "vendor/multiple-cursors"]
+	path = vendor/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el
 	ignore = dirty
-[submodule "plugin/find-file-in-project"]
-	path = plugin/find-file-in-project
+[submodule "vendor/find-file-in-project"]
+	path = vendor/find-file-in-project
 	url = https://github.com/technomancy/find-file-in-project.git
 	ignore = dirty
 [submodule "vendor/smartparens"]
 	path = vendor/smartparens
 	url = https://github.com/Fuco1/smartparens.git
 	ignore = dirty
-[submodule "plugin/dash"]
-	path = plugin/dash
-	url = https://github.com/magnars/dash.el.git
-	ignore = dirty
-[submodule "plugin/ido-ubiquitous"]
-	path = plugin/ido-ubiquitous
+[submodule "vendor/ido-ubiquitous"]
+	path = vendor/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
 	ignore = dirty
 [submodule "plugin/auto-complete"]
@@ -106,8 +102,8 @@
 	path = vendor/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
 	ignore = dirty
-[submodule "plugin/flx-ido"]
-	path = plugin/flx-ido
+[submodule "vendor/flx-ido"]
+	path = vendor/flx-ido
 	url = https://github.com/lewang/flx.git
 	ignore = dirty
 [submodule "plugin/company-mode"]
@@ -118,13 +114,9 @@
 	path = vendor/anzu
 	url = https://github.com/syohex/emacs-anzu.git
 	ignore = dirty
-[submodule "plugin/workgroups2"]
-	path = plugin/workgroups2
+[submodule "vendor/workgroups2"]
+	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
-	ignore = dirty
-[submodule "plugin/ibuffer-vc"]
-	path = plugin/ibuffer-vc
-	url = https://github.com/purcell/ibuffer-vc.git
 	ignore = dirty
 [submodule "vendor/popwin"]
 	path = vendor/popwin
@@ -154,43 +146,43 @@
 	path = vendor/smart-mode-line
 	url = https://github.com/Bruce-Connor/smart-mode-line.git
 	ignore = dirty
-[submodule "plugin/guru-mode"]
-	path = plugin/guru-mode
+[submodule "vendor/guru-mode"]
+	path = vendor/guru-mode
 	url = https://github.com/bbatsov/guru-mode.git
 	ignore = dirty
-[submodule "plugin/ido-vertical-mode"]
-	path = plugin/ido-vertical-mode
+[submodule "vendor/ido-vertical-mode"]
+	path = vendor/ido-vertical-mode
 	url = https://github.com/gempesaw/ido-vertical-mode.el.git
 	ignore = dirty
-[submodule "plugin/color-theme-molokai"]
-	path = plugin/color-theme-molokai
+[submodule "vendor/color-theme-molokai"]
+	path = vendor/color-theme-molokai
 	url = https://github.com/hbin/molokai-theme.git
 	ignore = dirty
-[submodule "plugin/visual-regexp"]
-	path = plugin/visual-regexp
+[submodule "vendor/visual-regexp"]
+	path = vendor/visual-regexp
 	url = https://github.com/benma/visual-regexp.el.git
 	ignore = dirty
 [submodule "vendor/guide-key"]
 	path = vendor/guide-key
 	url = https://github.com/kbkbkbkb1/guide-key.git
 	ignore = dirty
-[submodule "plugin/highlight-global"]
-	path = plugin/highlight-global
+[submodule "vendor/highlight-global"]
+	path = vendor/highlight-global
 	url = https://github.com/glen-dai/highlight-global.git
 	ignore = dirty
-[submodule "plugin/dired/dired-hacks"]
-	path = plugin/dired/dired-hacks
+[submodule "vendor/dired/dired-hacks"]
+	path = vendor/dired/dired-hacks
 	url = https://github.com/Fuco1/dired-hacks.git
 	ignore = dirty
-[submodule "plugin/emacs-helm"]
-	path = plugin/emacs-helm
+[submodule "vendor/emacs-helm"]
+	path = vendor/emacs-helm
 	url = https://github.com/emacs-helm/helm.git
 	ignore = dirty
-[submodule "plugin/helm-swoop"]
-	path = plugin/helm-swoop
+[submodule "vendor/helm-swoop"]
+	path = vendor/helm-swoop
 	url = https://github.com/ShingoFukuyama/helm-swoop.git
 	ignore = dirty
-[submodule "plugin/volatile-highlights"]
-	path = plugin/volatile-highlights
+[submodule "vendor/volatile-highlights"]
+	path = vendor/volatile-highlights
 	url = https://github.com/k-talo/volatile-highlights.el.git
 	ignore = dirty
