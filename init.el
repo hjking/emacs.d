@@ -96,7 +96,7 @@
 (defvar section-yasnippet t)
 (defvar section-cygwin t)
 (defvar section-package t)
-(defvar section-tramp nil)
+(defvar section-tramp t)
 (defvar section-cedet t)
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
