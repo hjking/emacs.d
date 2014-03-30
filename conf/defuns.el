@@ -1754,9 +1754,9 @@ programming."
     (hscroll-mode)
     (setq truncate-lines t))
 
-(defun quick-compile ()  
-  "A quick compile funciton for C++"  
-  (interactive)  
+(defun quick-compile ()
+  "A quick compile funciton for C++"
+  (interactive)
   (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg")))
 
 ;; From http://toumorokoshi.github.io/tag/emacs.html
@@ -1774,7 +1774,7 @@ programming."
     (when (string-integer-p x)
       (let ((x-int (string-to-number x))
             (bds (bounds-of-thing-at-point 'symbol)))
-        (progn 
+        (progn
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (- x-int 1)))
         )
@@ -1791,7 +1791,7 @@ programming."
     (when (string-integer-p x)
       (let ((x-int (string-to-number x))
             (bds (bounds-of-thing-at-point 'symbol)))
-        (progn 
+        (progn
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (+ x-int 1)))
         )
@@ -1799,6 +1799,23 @@ programming."
     )
   )
 )
+
+;; let you quickly search a set of buffers that match a specific major mode
+(defun get-buffers-matching-mode (mode)
+  "Returns a list of buffers where their major-mode is equal to MODE"
+  (let ((buffer-mode-matches '()))
+   (dolist (buf (buffer-list))
+     (with-current-buffer buf
+       (if (eq mode major-mode)
+           (add-to-list 'buffer-mode-matches buf))))
+   buffer-mode-matches))
+
+(defun multi-occur-in-this-mode ()
+  "Show all lines matching REGEXP in buffers with this major mode."
+  (interactive)
+  (multi-occur
+   (get-buffers-matching-mode major-mode)
+   (car (occur-read-primary-args))))
 
 (defun increase-window-height (&optional arg)
   "Make the window taller by one line. Useful when bound to a repeatable key combination."
