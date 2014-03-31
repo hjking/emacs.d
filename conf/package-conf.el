@@ -18,6 +18,8 @@
     auto-complete-c-headers
     stripe-buffer               ;; different background for even and odd lines
     expand-region
+    smex
+    projectile
     ;; projectile
     )
   "A list of packages to ensure are installed at launch.")

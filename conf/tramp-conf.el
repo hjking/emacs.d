@@ -25,32 +25,34 @@
 ;; Backup dir
 (setq tramp-backup-directory-alist backup-directory-alist)
 
+(setq tramp-chunksize 500)
+
 ;; help debugging
 (setq tramp-verbose 10)
 (setq tramp-debug-buffer t)
 ;; how many seconds passwords are cached
 (setq password-cache-expiry 60)  ; default is 16
 
-; (when win32p
-;   (setq tramp-password-end-of-line "\r\n")
-;   ;;(setq tramp-sh-program "d:/cygwin/bin/sh.exe")
-;   ;;(setq tramp-default-method "smx")
-;   ;; default transfer method
-;   (setq tramp-default-method  ; `scp' by default
-;         (cond (win32p
-;                ;; (issues with Cygwin `ssh' which does not cooperate with
-;                ;; Emacs processes -> use `plink' from PuTTY, it definitely
-;                ;; does work under Windows)
-;                ;; C-x C-f /plink:myuser@host:/some/directory/file
-;                "plink")
-;               (t
-;                "ssh")))
-;   (setq tramp-auto-save-directory "c:/temp")
+(when win32p
+  (setq tramp-password-end-of-line "\r\n")
+  ;;(setq tramp-sh-program "d:/cygwin/bin/sh.exe")
+  ;;(setq tramp-default-method "smx")
+  ;; default transfer method
+  (setq tramp-default-method  ; `scp' by default
+        (cond (win32p
+               ;; (issues with Cygwin `ssh' which does not cooperate with
+               ;; Emacs processes -> use `plink' from PuTTY, it definitely
+               ;; does work under Windows)
+               ;; C-x C-f /plink:myuser@host:/some/directory/file
+               "plink")
+              (t
+               "ssh")))
+  (setq tramp-auto-save-directory "c:\\temp")
 
-;   ;; string used for end of line in rsh connections
-;   ;; (setq tramp-rsh-end-of-line  ; `\n' by default
-;   ;;       (cond (running-ms-windows
-;   ;;              "\n")
-;   ;;             (t
-;   ;;              "\r")))
-; )
+  ;; string used for end of line in rsh connections
+  ;; (setq tramp-rsh-end-of-line  ; `\n' by default
+  ;;       (cond (running-ms-windows
+  ;;              "\n")
+  ;;             (t
+  ;;              "\r")))
+)
