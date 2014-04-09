@@ -20,6 +20,7 @@
     expand-region
     smex
     projectile
+    info+
     ;; projectile
     )
   "A list of packages to ensure are installed at launch.")

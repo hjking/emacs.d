@@ -718,5 +718,5 @@ or nil if the current buffer isn't visiting a dayage"
 (require 'org-extension)
 
 ;; Teach Smartparens about Org Mode markup
-(--each '("*" "/" "=" "~" "_" "+")
-  (sp-local-pair 'org-mode it it))
+; (--each '("*" "/" "=" "~" "_" "+")
+;   (sp-local-pair 'org-mode it it))
