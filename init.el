@@ -900,6 +900,9 @@
       (if indent-tabs-mode
         (message "`indent-tabs-mode' now on")
       (message  "`indent-tabs-mode' now off")))
+
+    (require 'indent-guide)
+    (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1)))
 )
 ;; --[ Indentation ]---------------------------------------------------[ End ]--
 
@@ -1023,6 +1026,7 @@
 ;; [ Dired ]--------------------------------------------------------------------
 (when section-dired
   (add-site-lisp-load-path "dired/")
+  (add-site-lisp-load-path "dired/dired-hacks/")
   (load "dired-conf"))
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1893,6 +1897,9 @@
   (GNUEmacs (define-key help-map (kbd "A") 'apropos-variable))
   ;; Help is provided according to the buffer’s major mode
   (load "info-look-conf")
+
+  ;; show function name
+  (add-hook 'prog-mode-hook (lambda () (which-function-mode 1)))
 
   ;; [ show tip ]-----------------------------------------------------------------
   (add-site-lisp-load-path "clippy/")
