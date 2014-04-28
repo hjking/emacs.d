@@ -67,4 +67,6 @@
 ; (add-site-lisp-load-path "projectile/")
 ; (require 'projectile)
     (projectile-global-mode)
+    (setq projectile-enable-caching t)  ;; enable caching
+    (setq projectile-switch-project-action 'projectile-dired) ;; default: projectile-find-file
     (diminish 'projectile-mode)))
