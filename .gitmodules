@@ -58,10 +58,6 @@
 	path = vendor/ace-jump-mode
 	url = https://github.com/winterTTr/ace-jump-mode.git
 	ignore = dirty
-[submodule "vendor/ergoemacs-mode"]
-	path = vendor/ergoemacs-mode
-	url = https://github.com/ergoemacs/ergoemacs-mode
-	ignore = dirty
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
 	url = https://github.com/magit/git-modes.git
