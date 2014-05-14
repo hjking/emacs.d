@@ -47,7 +47,7 @@
 
   ;; auto join channels after logined in
   (setq erc-autojoin-channels-alist
-        '(("freenode.net" "#org-mode" "#emacs" "#hacklabto")
+        '(("freenode.net" "#org-mode" "#emacs" "#hacklabto" "#vim")
           ("oftc.net" "#debian-zh" "#emacs-cn")
           ("irc.int.ru" "#unix")
           ("irc.fu-berlin.de" "#unix.ru" "#fidorus")

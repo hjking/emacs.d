@@ -25,6 +25,7 @@
 
 (defun my-org-mode-hook ()
   (setq truncate-lines t)  ;; Wrap long lines
+  (visual-line-mode t)
   ;; (flyspell-mode 1)
   (require 'yasnippet)
   (yas-minor-mode) ;; turn on yasnippet mode

@@ -527,6 +527,8 @@
     (setq kill-ring-max (* 20 kill-ring-max))
     ;; C-k delete a whole line
     (setq-default kill-whole-line t)
+    ;; enables wrapping but kill-line still kills the whole line
+    (setq-default word-wrap t)
     ;; when press copy or cut when no region is active, copy or cut the current line
     ;; <http://www.zafar.se/bkz/Articles/EmacsTips>
     (defadvice kill-ring-save (before slickcopy activate compile)
@@ -1008,7 +1010,8 @@
 
 ;; visual-line-mode, wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-(global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
+;; (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
+(global-visual-line-mode t)
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
 ;; turn off
