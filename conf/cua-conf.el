@@ -40,7 +40,6 @@
     ;; enable rectangle support, global mark mode, and other features
     ;; Enable CUA selection mode; sorry, it stuck.
     (cua-selection-mode t)
-    (setq delete-selection-mode t)
 
     (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
     (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour

@@ -330,6 +330,7 @@
 ;; use clipboard, share with other applications
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
+      ;; Save clipboard strings into kill ring before replacing them
       save-interprogram-paste-before-kill t)
 
 (message "%d: >>>>> Loading [ Misc ] Customization ...." step_no)
@@ -498,6 +499,8 @@
     (delete-selection-mode 1) ; delete seleted text when typing
     ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
     (setq set-mark-command-repeat-pop t)
+    (setq select-active-region t)
+    (setq delete-active-region 'kill)
 
     ;;; rect-mark.el
     (global-set-key (kbd "C-x r C-/") 'rm-set-mark)
@@ -596,6 +599,9 @@
 ; Scroll just one line when hitting bottom of window
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position 1)
+; (setq scroll-preserve-screen-position 'always
+;       scroll-conservatively           most-positive-fixnum
+;       scroll-step                     0)
 (setq hscroll-step 2)
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 (setq redisplay-dont-pause t)
@@ -731,10 +737,6 @@
 ;; --[ Backup ]-----------------------------------------------------------------
 (message "%d: >>>>> Loading [ Backup ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-;; auto save interval:every 100 input event
-(setq auto-save-interval 100)
-;; auto save after 20 senconds idle time
-(setq auto-save-timeout 20)
 ;; default backup folder:~/emacs.d/auto-save/
 ;; set backup file path
 (setq my-backup-dir (concat my-emacs-dir "backup/"))
@@ -757,6 +759,11 @@
 (setq make-backup-files nil)
 ; stop creating those #autosave# files
 (setq auto-save-default nil)
+;; auto save interval:every 100 input event
+(setq auto-save-interval 100)
+;; auto save after 20 senconds idle time
+(setq auto-save-timeout 20)
+(setq delete-auto-save-files t)
 (setq backup-inhibited t)
 
 ;; make the message "FILE has auto saved data" unmissable
@@ -1012,6 +1019,7 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 ;; (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 (global-visual-line-mode t)
+(setq line-move-visual nil)
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
 ;; turn off
@@ -1903,6 +1911,8 @@
 
   ;; show function name
   (add-hook 'prog-mode-hook (lambda () (which-function-mode 1)))
+
+  (setq tooltip-delay 1)
 
   ;; [ show tip ]-----------------------------------------------------------------
   (add-site-lisp-load-path "clippy/")

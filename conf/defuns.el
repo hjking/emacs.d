@@ -356,7 +356,8 @@ See also `with-temp-buffer'."
            (forward-line)
            (transpose-lines 1))
          (forward-line)
-         (move-to-column col)))
+         (move-to-column col)
+         (indent-according-to-mode)))
 
 (defun move-line-up ()
 	"Swap the current line with the line above."
@@ -365,7 +366,8 @@ See also `with-temp-buffer'."
          (save-excursion
             (forward-line)
             (transpose-lines -1))
-         (move-to-column col)))
+         (move-to-column col)
+         (indent-according-to-mode)))
 
 (defun move-nline-up (n)
   "Move the current line up by N lines."

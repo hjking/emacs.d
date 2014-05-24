@@ -19,9 +19,9 @@
 
         (setq my-snippet-dir (concat my-site-lisp-dir "snippets/"))
         (yas/load-directory my-snippet-dir)
-        ;; (setq yas-snippet-dirs
-        ;;           '(,my-snippet-dir                 ;; personal snippets
-        ;;            ))
+        ; (setq yas-snippet-dirs
+        ;   (list"/home/eric/.emacs.d/lisp/yasnippet/snippets"
+        ;        "/home/eric/Projects/DotEmacs/snippets"))
         (setq yas/key-syntaxes '("w_" "w_." "^ "))
 
         ;; hook for automatic reloading of changed snippets

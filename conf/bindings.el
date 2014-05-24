@@ -169,6 +169,7 @@
 ;; make all visible windows the same height (approximately)
 (global-set-key [f7]      'balance-windows)
 (global-set-key [f8]      'smart-compile)
+(global-set-key [S-f8]    'recentf-open-files)
 
 (global-set-key [f9]      'eval-region)
 (global-set-key [S-f9]    'delete-frame)
@@ -232,3 +233,5 @@
   (global-set-key (kbd "<print>") 'helm-mini)
   ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
   )
+
+(global-set-key (kbd "C-h C-m") 'discover-my-major)

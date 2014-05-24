@@ -52,7 +52,7 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; highlight trailing whitespaces in all modes
-(setq-default show-trailing-whitespace t)
+(setq show-trailing-whitespace t)
 
 ;; after 1 second typed M-x CMD, display CMD binding key
 (setq suggest-key-bindings 1)
@@ -74,3 +74,5 @@
 ;; Also auto refresh dired, but be quiet about it
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+
+(global-hi-lock-mode 1)
