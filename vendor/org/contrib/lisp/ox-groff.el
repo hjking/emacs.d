@@ -1,6 +1,6 @@
 ;;; ox-groff.el --- Groff Back-End for Org Export Engine
 
-;; Copyright (C) 2011-2013  Free Software Foundation, Inc.
+;; Copyright (C) 2011-2014  Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou at gmail dot com>
 ;; Author: Luis R Anaya <papoanaya aroba hot mail punto com>
@@ -1253,12 +1253,8 @@ INFO is a plist holding contextual information.  See
          (path (cond
                 ((member type '("http" "https" "ftp" "mailto"))
                  (concat type ":" raw-path))
-                ((string= type "file")
-                 (when (string-match "\\(.+\\)::.+" raw-path)
-                   (setq raw-path (match-string 1 raw-path)))
-                 (if (file-name-absolute-p raw-path)
-                     (concat "file://" (expand-file-name raw-path))
-                   (concat "file://" raw-path)))
+                ((and (string= type "file") (file-name-absolute-p raw-path))
+                 (concat "file://" raw-path))
                 (t raw-path)))
          protocol)
     (cond
@@ -1274,7 +1270,8 @@ INFO is a plist holding contextual information.  See
       (let ((destination (org-export-resolve-radio-link link info)))
         (when destination
           (format "\\fI [%s] \\fP"
-                  (org-export-solidify-link-text path)))))
+                  (org-export-solidify-link-text
+		   (org-element-property :value destination))))))
 
      ;; Links pointing to a headline: find destination and build
      ;; appropriate referencing command.
