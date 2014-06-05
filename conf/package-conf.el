@@ -11,7 +11,7 @@
   (when (< emacs-major-version 24)
       (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
   (package-initialize)
-  
+
   (defvar my-packages
   '(
     auto-complete
@@ -22,6 +22,12 @@
     projectile
     info+
     indent-guide
+    dired+
+    dired-details
+    dired-details+
+    dired-sort-menu
+    dired-sort-menu+
+    smartparens
     ;; projectile
     )
   "A list of packages to ensure are installed at launch.")
@@ -34,7 +40,7 @@
     (loop for p in my-packages
           when (not (package-installed-p p)) do (return nil)
           finally (return t)))
-  
+
   ;; if not all packages are installed, check one by one and install the missing ones.
   (unless (packages-installed-p)
     ; check for new packages (package versions)
@@ -45,7 +51,7 @@
     (dolist (p my-packages)
       (when (not (package-installed-p p))
         (package-install p))))
-  
+
   (defun package-require (pkg)
       "Install a package only if it's not already installed."
       (when (not (package-installed-p pkg))

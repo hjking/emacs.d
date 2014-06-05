@@ -78,10 +78,6 @@
 	path = vendor/find-file-in-project
 	url = https://github.com/technomancy/find-file-in-project.git
 	ignore = dirty
-[submodule "vendor/smartparens"]
-	path = vendor/smartparens
-	url = https://github.com/Fuco1/smartparens.git
-	ignore = dirty
 [submodule "vendor/ido-ubiquitous"]
 	path = vendor/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git

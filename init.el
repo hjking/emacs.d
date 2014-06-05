@@ -962,7 +962,7 @@
 
 
 ;; --[ Parentheses ]------------------------------------------------------------
-(add-site-lisp-load-path "smartparens/")
+;; (add-site-lisp-load-path "smartparens/")
 (load "parens-conf")
 ;; --[ Parentheses ]---------------------------------------------------[ End ]--
 
