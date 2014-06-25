@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Thu Mar 13 15:47:04 2014 (+0800)
+;; Last-Updated: Tue Jun 24 16:25:29 2014 (+0800)
 ;; Version:
-;;     Update #: 30
+;;     Update #: 31
 ;;
 ;;; Change Log:
 ;;
@@ -29,6 +29,7 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(column-number-mode t)
+ '(projectile-enable-idle-timer t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -88,6 +88,7 @@
 (defvar section-c-mode t)
 (defvar section-markdown-mode t)
 (defvar section-elisp-mode t)
+(defvar section-html-mode t)
 (defvar section-shell-mode t)
 (defvar section-defuns t)
 (defvar section-alias t)
@@ -404,6 +405,13 @@
 ;; --[ Frame Display ]-------------------------------------------------[ End ]--
 
 
+;; --[ Encoding ]---------------------------------------------------------------
+;;;; Encoding setting
+(when section-coding
+    (load "encoding-conf"))
+;; --[ Encoding ]------------------------------------------------------[ End ]--
+
+
 ;; --[ Bookmark ]---------------------------------------------------------------
 (when section-bookmark
   (message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
@@ -468,6 +476,8 @@
   (icomplete-mode 1)
   ;; do not consider case significant in completion (GNU Emacs default)
   (setq completion-ignore-case t)
+  ;; Ignore case when using completion for file names
+  (setq read-file-name-completion-ignore-case t)
   ;; type SPACE to auto-complete in minibuffer
   (define-key minibuffer-local-completion-map (kbd "SPC") 'minibuffer-complete-word)
   ;; auto-complete
@@ -495,7 +505,8 @@
     (message "%d: >>>>> Loading [ Mark and Region ] Customization ...." step_no)
     (setq step_no (1+ step_no))
     ;; highlight marked region
-    (transient-mark-mode 1)    ; highlight text selection
+    ;; change buffer, or focus, disable the current buffer’s mark
+    (transient-mark-mode t)    ; highlight text selection
     (delete-selection-mode 1) ; delete seleted text when typing
     ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
     (setq set-mark-command-repeat-pop t)
@@ -616,8 +627,8 @@
 ;; <pager> provides a better scrolling in Emacs
 
 ;; Keep cursor away from edges when scrolling up/down
-(add-site-lisp-load-path "smooth-scrolling/")
 (require 'smooth-scrolling)
+(setq smooth-scroll-margin 4)
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
@@ -713,8 +724,9 @@
 ;;    (setq buffer-file-name "~/emacs_scratch"))
 
 ;; add a new line at the end of file when saving
+(setq require-final-newline t)
 ;; Ask me whether to add a final newline to files which don't have one
-(setq require-final-newline 'ask)
+;; (setq require-final-newline 'ask)
 
 ;;; put a timestamp
 ;; time-stamp on
@@ -1019,7 +1031,8 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 ;; (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 (global-visual-line-mode t)
-(setq line-move-visual nil)
+;; move around lines based on how they are displayed, rather than the actual line
+(setq line-move-visual t)
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
 ;; turn off
@@ -1095,6 +1108,10 @@
 
 ;; Don't show whitespace in diff, but show context
 (setq vc-diff-switches '("-b" "-B" "-u"))
+;; Follow symlinks
+(setq vc-follow-symlinks t)
+;; update VCS info on revert
+(setq auto-revert-check-vc-info t)
 
 ;; *** --- PCL-CVS
 (when section-cvs
@@ -1726,6 +1743,15 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
+;; --[ HTML Mode ]--------------------------------------------------------------
+(when section-html-mode
+  (require 'zencoding-mode)
+  (add-hook 'sgml-mode-hook 'zencoding-mode)
+  (add-hook 'html-mode-hook 'zencoding-mode)
+)
+;; --------------------------------------------------------------------[ End ]--
+
+
 ;; [ Comint Mode ]--------------------------------------------------------------
 (message ">>>>> Loading [ Comint Mode ] Customization ....")
 (add-hook 'comint-mode-hook
@@ -1758,12 +1784,6 @@
 (add-site-lisp-load-path "ace-jump-mode/")
 (load "ace-jump-conf")
 ;; --------------------------------------------------------------------[ End ]--
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Encoding setting
-(when section-coding
-    (load "encoding-conf"))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;; [ EMMS ]---------------------------------------------------------------------

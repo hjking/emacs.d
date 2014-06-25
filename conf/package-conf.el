@@ -28,7 +28,11 @@
     dired-sort-menu
     dired-sort-menu+
     smartparens
-    ;; projectile
+    perspective
+    persp-projectile
+    zencoding-mode
+    org-toc
+    smooth-scrolling
     )
   "A list of packages to ensure are installed at launch.")
 

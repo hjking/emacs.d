@@ -46,10 +46,6 @@
 	path = vendor/switch-window
 	url = https://github.com/dimitri/switch-window.git
 	ignore = dirty
-[submodule "vendor/smooth-scrolling"]
-	path = vendor/smooth-scrolling
-	url = https://github.com/aspiers/smooth-scrolling.git
-	ignore = dirty
 [submodule "vendor/browse-kill-ring"]
 	path = vendor/browse-kill-ring
 	url = https://github.com/browse-kill-ring/browse-kill-ring.git

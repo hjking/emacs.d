@@ -50,7 +50,7 @@
 ;; !: record time when state changed
 ;; @: need to leave some comments
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t!)" "NEXT(n!)" "STARTED(s!)" "MAYBE(m!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+    (quote ((sequence "TODO(t!)" "INPROGRESS(i!)" "NEXT(n!)" "STARTED(s!)" "MAYBE(m!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
             (type "ACTION(a)" "ToBLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
             (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
@@ -70,6 +70,7 @@
               ("OPEN"      . (:foreground "red"          :weight bold))
               ("CLOSED"    . (:foreground "forest green" :weight bold))
               ("ARCHIVED"  . (:foreground "blue"         :weight bold))
+              ("INPROGRESS" . (:foreground "deep sky blue" :weight bold))
               ("PHONE"     . (:foreground "forest green" :weight bold)))))
 
 ;; Fast todo selection allows changing from any task todo state to any other state
@@ -355,12 +356,15 @@
 (setq org-blank-before-new-entry (quote ((heading) (plain-list-item)))) ;; prevent auto blank lines
 ;; Adding new tasks quickly without disturbing the current task content
 (setq org-insert-heading-respect-content nil)
-
+(setq org-startup-truncated nil)
 
 ;;; org-babel
 ;; Use syntax highlighting ("fontification") in org-mode source blocks
 (setq org-src-fontify-natively t)
-
+(setq org-fontify-whole-heading-line t)
+(setq org-src-window-setup 'current-window)
+;; Overwrite the current window with the agenda
+(setq org-agenda-window-setup 'current-window)
 
 ;;; Publishing
 
@@ -704,6 +708,7 @@ or nil if the current buffer isn't visiting a dayage"
 
 ;; org-mode-hok
 (add-hook 'org-mode-hook 'my-org-mode-hook)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 ;;; HTML5 Presentation export for Org-mode
 ;;; org-html5presentation.el
@@ -715,7 +720,14 @@ or nil if the current buffer isn't visiting a dayage"
 (setq org-jekyll/org-mode-project-root "~/org/blog/org/")
 (setq org-jekyll/export-with-toc t)   ;; export content
 
+;; org-toc is a utility to have an up-to-date table of contents
+;; in the org files without exporting
+;; add a TOC tag with command `org-set-tags-command`
+(require 'org-toc)
+(add-hook 'org-mode-hook 'org-toc-enable)
 
+
+;; org-extension
 (require 'org-extension)
 
 ;; Teach Smartparens about Org Mode markup

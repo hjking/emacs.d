@@ -27,11 +27,12 @@
     "C mode with adjusted defaults for use with the Linux kernal formatting."
     ;; (interactive)
     ;; (c-mode)
-    (c-set-style "linux")
+    (c-set-style "stroustrup")
     (setq tab-width 4)
     (setq indent-tabs-mode t) ; Pressing TAB should cause indentation
     (setq c-indent-level 4)   ; A TAB is equivilent to four spaces
     (setq c-basic-offset 4)
+    (c-toggle-electric-state -1)
     (setq c-continued-statement-offset 4)
     (setq comment-column 40)
     (setq backward-delete-function nil) ; DO NOT expand tabs when deleting

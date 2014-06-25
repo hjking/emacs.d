@@ -52,6 +52,7 @@
 (setq dired-dwim-target t)
 ;; enable the use of the command dired-find-alternate-file without confirmation
 (put 'dired-find-alternate-file 'disabled nil)
+(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 ;; Sort Directories First
 ;; (setq dired-listing-switches "-aBhl  --group-directories-first")
 
@@ -60,6 +61,7 @@
        (visual-line-mode 0) ;; unwrap lines.
        ;; (linum-mode 0) ;; turn off line numbers.
        (auto-revert-mode) ;; auto-refresh dired
+       (hl-line-mode)
        (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
        (define-key dired-mode-map [return] 'dired-find-file-other-window)
        (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)

@@ -76,3 +76,21 @@
 (setq auto-revert-verbose nil)
 
 (global-hi-lock-mode 1)
+
+;; Echo commands I haven’t finished quicker than the default of 1 second
+(setq echo-keystrokes 0.1)
+
+;; warn me if the file is larger than 25Mb
+(setq large-file-warning-threshold (* 25 1024 1024))
+
+;; Hide the mouse while typing
+(setq make-pointer-invisible t)
+
+;; It’s okay to refer to a file by a symlink
+(setq-default find-file-visit-truename nil)
+
+;; Single space still ends a sentence
+(setq sentence-end-double-space nil)
+
+;; Always turn on whitespace mode
+(whitespace-mode t)

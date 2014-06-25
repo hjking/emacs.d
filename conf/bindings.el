@@ -119,6 +119,7 @@
 (global-set-key (kbd "<C-M-down>")  'move-line-down)
 
 ;;(global-set-key "\M-%"              'query-replace) ;; (default)
+(global-set-key (kbd "M-%")         'query-replace-regexp)
 (global-set-key (kbd "M-1")         'delete-other-windows)
 (global-set-key (kbd "M-4")         'yic-kill-current-buffer)
 
