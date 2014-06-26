@@ -28,7 +28,7 @@
                  (file-name-directory (buffer-file-name))
                "")))
     (string-match-p REGEX dir)))
- 
+
 (defun my-create-tags-if-needed (SRC-DIR &optional FORCE)
   "return the full path of tags file"
   (let ((dir (file-name-as-directory (file-truename SRC-DIR)) )
@@ -37,20 +37,20 @@
     (when (or FORCE (not (file-exists-p file)))
       (message "Creating TAGS in %s ..." dir)
       (shell-command
-       (format "ctags -f %s -e -R %s" file dir))
+       (format "ctags -f %s -R %s" file dir))
       )
     file
     ))
- 
+
 (defvar my-tags-updated-time nil)
- 
+
 (defun my-update-tags ()
   (interactive)
   "check the tags in tags-table-list and re-create it"
   (dolist (tag tags-table-list)
     (my-create-tags-if-needed (file-name-directory tag) t)
     ))
- 
+
 (defun my-auto-update-tags-when-save ()
   (interactive)
   (cond
@@ -66,7 +66,7 @@
     (message "updated tags after %d seconds." (- (float-time (current-time))  (float-time my-tags-updated-time)))
     )
    ))
- 
+
 (defun my-setup-develop-environment ()
     (when (my-project-name-contains-substring "Loris")
       (cond
@@ -81,7 +81,7 @@
         ;; html project donot need C++ tags
         (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))
         ))))
- 
+
 (add-hook 'after-save-hook 'my-auto-update-tags-when-save)
 (add-hook 'js2-mode-hook 'my-setup-develop-environment)
 (add-hook 'web-mode-hook 'my-setup-develop-environment)

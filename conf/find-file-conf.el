@@ -62,10 +62,9 @@
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
 
 ;; Projectile
-(eval-after-load "projectile"
-  '(progn
-; (add-site-lisp-load-path "projectile/")
-; (require 'projectile)
+; (eval-after-load "projectile"
+;   '(progn
+    (require 'projectile)
     (projectile-global-mode)
     (setq projectile-enable-caching t)  ;; enable caching
     ;; restore the recent window configuration of the target project
@@ -78,11 +77,11 @@
     ;; and then that sub-directory is opened for you in a dired buffer
     ;; probably also want to set
     ;; (setq projectile-find-dir-includes-top-level t)
-    (defconst projectile-mode-line-lighter " P")
+    ; (defconst projectile-mode-line-lighter " P")
     ;; (diminish 'projectile-mode)
 
     ;; integrate perspective with projectile
     (require 'perspective)
     (persp-mode)
     (require 'persp-projectile)
-    ))
+    ; ))
