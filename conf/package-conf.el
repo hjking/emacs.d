@@ -43,6 +43,7 @@
     web-mode
     helm
     helm-projectile
+    helm-swoop
     ggtags
     diminish
     ztree

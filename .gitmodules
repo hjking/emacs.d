@@ -150,14 +150,6 @@
 	path = vendor/dired/dired-hacks
 	url = https://github.com/Fuco1/dired-hacks.git
 	ignore = dirty
-[submodule "vendor/emacs-helm"]
-	path = vendor/emacs-helm
-	url = https://github.com/emacs-helm/helm.git
-	ignore = dirty
-[submodule "vendor/helm-swoop"]
-	path = vendor/helm-swoop
-	url = https://github.com/ShingoFukuyama/helm-swoop.git
-	ignore = dirty
 [submodule "vendor/volatile-highlights"]
 	path = vendor/volatile-highlights
 	url = https://github.com/k-talo/volatile-highlights.el.git
