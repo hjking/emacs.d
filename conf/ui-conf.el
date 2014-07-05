@@ -127,10 +127,5 @@
 ;; the cursor's line position and column position will show in the status bar
 (column-number-mode 1)
 
-
-;; highlight current line
-(require 'hl-line)
-(global-hl-line-mode 1)
-
 ;; turns off the splash screen, straightly into the scratch buffer
 (setq inhibit-splash-screen t)

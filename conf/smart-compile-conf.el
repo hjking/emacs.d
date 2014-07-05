@@ -8,6 +8,7 @@
 (message "%d: >>>>> Loading [ smart-compile ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 (require 'smart-compile nil t)
+; (autoload 'smart-compile "smart-compile" "" t)
 ;;   %F  absolute pathname            ( /usr/local/bin/netscape.bin )
 ;;   %f  file name without directory  ( netscape.bin )
 ;;   %n  file name without extention  ( netscape )

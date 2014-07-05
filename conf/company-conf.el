@@ -16,24 +16,37 @@
 ;; For more information, type M-x describe-function RET company-mode.
 ;; To customize other aspects of its behavior, type M-x customize-group RET company.
 
-(require 'company)
+; (require 'company)
 
+(add-hook 'prog-mode-hook 'global-company-mode)
 ;; (add-hook 'after-init-hook 'global-company-mode)
+(global-set-key "\M-]" 'company-complete-common)
 
 (setq company-require-match nil)
-(setq company-begin-commands '(self-insert-command))
-; (setq company-idle-delay 0.3)
-(setq company-idle-delay t)
-(setq company-tooltip-limit 20)
-(setq company-minimum-prefix-length 2)
-(setq company-echo-delay 0)
-(setq company-auto-complete nil)
-(global-company-mode 1)
 
-(add-to-list 'company-backends 'company-cmake)
-(add-to-list 'company-backends 'company-dabbrev t)
-(add-to-list 'company-backends 'company-ispell t)
-(add-to-list 'company-backends 'company-files t)
-(add-to-list 'company-backends 'company-cider)
+(eval-after-load 'company
+  '(progn
+     (add-to-list 'company-backends 'company-cmake)
+     (add-to-list 'company-backends 'company-dabbrev t)
+     (add-to-list 'company-backends 'company-ispell t)
+     (add-to-list 'company-backends 'company-files t)
+     ; (add-to-list 'company-backends 'company-cider)
+     ;; can't work with TRAMP
+     (setq company-backends (delete 'company-ropemacs company-backends))
+     (setq company-backends (delete 'company-capf company-backends))
+     ;; I don't like the downcase word in company-dabbrev
+     ;; for languages use camel case naming convention
+     (setq company-dabbrev-downcase nil)
+     (setq company-show-numbers t)
+     (setq company-begin-commands '(self-insert-command))
+     (setq company-idle-delay 0.2)
+     ;; (setq company-idle-delay t)
+     (setq company-clang-insert-arguments nil)
 
-(global-set-key "\M-]" 'company-complete-common)
+     ; (setq company-idle-delay 0.3)
+     (setq company-tooltip-limit 20)
+     (setq company-minimum-prefix-length 2)
+     (setq company-echo-delay 0)
+     (setq company-auto-complete nil)
+     ))
+

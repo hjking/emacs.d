@@ -12,13 +12,26 @@
 (defun custom-goto-match-beginning ()
   "Use with isearch hook to end search at first char of match."
   (when isearch-forward (goto-char isearch-other-end)))
-;; repeat search
-(defun isearch-occur ()
-  "Invoke `occur' from within isearch."
+
+(define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+
+;; Search back/forth for the symbol at point
+;; See http://www.emacswiki.org/emacs/SearchAtPoint
+(defun isearch-yank-symbol ()
+  "*Put symbol at current point into search string."
   (interactive)
-  (let ((case-fold-search isearch-case-fold-search))
-    (occur (if isearch-regexp isearch-string (regexp-quote isearch-string)))))
-;;  (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+  (let ((sym (symbol-at-point)))
+    (if sym
+        (progn
+          (setq isearch-regexp t
+                isearch-string (concat "\\_<" (regexp-quote (symbol-name sym)) "\\_>")
+                isearch-message (mapconcat 'isearch-text-char-description isearch-string "")
+                isearch-yank-flag t))
+      (ding)))
+  (isearch-search-and-update))
+
+(define-key isearch-mode-map "\C-\M-w" 'isearch-yank-symbol)
+
 
 ;; `M-x flush-lines' deletes each line that contains a match for REGEXP
 
@@ -50,7 +63,7 @@
 ;;; anzu
 (require 'anzu)
 (global-anzu-mode +1)
-; (diminish 'anzu-mode)
+(diminish 'anzu-mode)
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 

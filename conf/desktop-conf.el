@@ -29,7 +29,10 @@
 )
 
 (setq desktop-restore-eager 5)
-(setq desktop-save (quote if-exists))
+(setq desktop-save 'if-exists)
+(defadvice desktop-read (around trace-desktop-errors)
+  (let ((debug-on-error t))
+    ad-do-it))
 
 ;; specify buffers which should not be saved, by name or by mode
 (setq desktop-buffers-not-to-save

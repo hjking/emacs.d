@@ -11,7 +11,19 @@
 ;;; C-x 4 . tag : Find first definition of tag, but display it in another window (find-tag-other-window).
 ;;; C-x 5 . tag : Find first definition of tag, and create a new frame to select the buffer (find-tag-other-frame).
 ;; (setq path-to-ctags "/usr/bin/ctags")
-(setq path-to-ctags "ctags")
+
+;; Don't ask before rereading the TAGS files if they have changed
+(setq tags-revert-without-query t)
+;; Do case-sensitive tag searches
+(setq tags-case-fold-search nil) ;; t=case-insensitive, nil=case-sensitive
+;; Don't warn when TAGS files are large
+(setq large-file-warning-threshold nil)
+
+(when *is-a-mac*
+  ; Mac's default ctags does not support -e option
+  ; If you install Emacs by homebrew, another version of etags is already installed which does not need -e too
+  (setq ctags-command "/usr/local/bin/ctags -e -R ") ;; the best option is to install latest ctags from sf.net
+  )
 
 ;; From http://blog.binchen.org/?p=1057
 ;; I hard coded full path of TAGS in .emacs because I usually don’t change project path.
@@ -21,7 +33,6 @@
 
 ;; set search dirs
 ; (setq tags-table-list '("./TAGS" "../TAGS" "../.."))
-; (setq tags-table-list '("~/wxWidgets-master/TAGS" "~/projs/Loris/src/desktop/TAGS"))
 
 (defun my-project-name-contains-substring (REGEX)
   (let ((dir (if (buffer-file-name)
@@ -68,22 +79,61 @@
    ))
 
 (defun my-setup-develop-environment ()
-    (when (my-project-name-contains-substring "Loris")
+    (when (my-project-name-contains-substring "hongjin")
       (cond
-       ((my-project-name-contains-substring "src/desktop")
+       ((my-project-name-contains-substring "systemc")
         ;; C++ project don't need html tags
         (setq tags-table-list (list
                                (my-create-tags-if-needed
-                                (concat (file-name-as-directory (getenv "WXWIN")) "include"))
-                               (my-create-tags-if-needed "~/projs/Loris/loris/src/desktop")))
+                                (concat (file-name-as-directory (getenv "SYSTEMC_HOME")) "include"))
+                               (my-create-tags-if-needed "~/hongjin/workspace/fabric/software/systemc")))
         )
-       ((my-project-name-contains-substring "src/html")
-        ;; html project donot need C++ tags
-        (setq tags-table-list (list (my-create-tags-if-needed "~/projs/Loris/loris/src/html")))
-        ))))
+       )))
 
-(add-hook 'after-save-hook 'my-auto-update-tags-when-save)
-(add-hook 'js2-mode-hook 'my-setup-develop-environment)
-(add-hook 'web-mode-hook 'my-setup-develop-environment)
-(add-hook 'c++-mode-hook 'my-setup-develop-environment)
-(add-hook 'c-mode-hook 'my-setup-develop-environment)
+; (add-hook 'after-save-hook 'my-auto-update-tags-when-save)
+; (add-hook 'c++-mode-hook 'my-setup-develop-environment)
+; (add-hook 'c-mode-hook 'my-setup-develop-environment)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; gtags
+;;
+(defun gtags-ext-produce-tags-if-needed (dir)
+   (if (not (= 0 (call-process "global" nil nil nil " -p"))) ; tagfile doesn't exist?
+      (let ((olddir default-directory))
+        (cd dir)
+        (shell-command "gtags && echo 'created tagfile'")
+        (cd olddir)) ; restore
+    ;;  tagfile already exists; update it
+    (shell-command "global -u && echo 'updated tagfile'"))
+  )
+
+;; @see http://emacs-fu.blogspot.com.au/2008/01/navigating-through-source-code-using.html
+(defun gtags-ext-create-or-update ()
+  "create or update the gnu global tag file"
+  (interactive)
+  (gtags-ext-produce-tags-if-needed (read-directory-name
+                            "gtags: top of source tree:" default-directory)))
+
+(defun gtags-ext-add-gtagslibpath (libdir &optional del)
+  "add external library directory to environment variable GTAGSLIBPATH.\ngtags will can that directory if needed.\nC-u M-x add-gtagslibpath will remove the directory from GTAGSLIBPATH."
+  (interactive "DDirectory containing GTAGS:\nP")
+  (let (sl)
+  (if (not (file-exists-p (concat (file-name-as-directory libdir) "GTAGS")))
+      ;; create tags
+      (let ((olddir default-directory))
+        (cd libdir)
+        (shell-command "gtags && echo 'created tagfile'")
+        (cd olddir)
+        )
+    )
+  (setq libdir (directory-file-name libdir)) ;remove final slash
+  (setq sl (split-string (if (getenv "GTAGSLIBPATH") (getenv "GTAGSLIBPATH") "")  ":" t))
+  (if del (setq sl (delete libdir sl)) (add-to-list 'sl libdir t))
+  (setenv "GTAGSLIBPATH" (mapconcat 'identity sl ":")))
+  )
+
+(defun gtags-ext-print-gtagslibpath ()
+  "print the GTAGSLIBPATH (for debug purpose)"
+  (interactive)
+  (message "GTAGSLIBPATH=%s" (getenv "GTAGSLIBPATH"))
+  )

@@ -3,11 +3,14 @@
 ;;
 (message "%d: >>>>> Loading [ ido ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ido)
 (ido-mode 1)
 (ido-everywhere 1)
 ;; (setq ido-save-directory-list-file "~/.emacs.d/_ido_last")
 (setq ido-save-directory-list-file (concat my-cache-dir "ido_last"))
+;; Allow the same buffer to be open in different frames
 (setq ido-default-buffer-method 'selected-window)
 (setq ido-create-new-buffer 'always)
 (setq ido-enable-regexp t)
@@ -33,11 +36,14 @@
 ;;
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 (setq ido-default-file-method 'selected-window)
-;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; (require 'ido-hacks)
 ; (ido-hacks-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use ido everywhere
+;; not enabled for org mode or magit mode
 ;; get rid of compile warning
 (defvar ido-cur-item nil)
 (defvar ido-default-item nil)
@@ -47,7 +53,11 @@
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Try out flx-ido for better flex matching between words
+;; provides fuzzy completion to select completion candidates.
+;; For example, if you want to select a file src/foo/bar.txt,
+;; you only need to type in Ido prompt "sfb", short for (s)rc/(f)oo/(b)ar
 (defvar flx-ido-mode nil)
 (require 'flx-ido)
 (flx-ido-mode 1)
@@ -67,6 +77,23 @@
             (insert "~/")
             (call-interactively 'self-insert-command))))))
 
+(add-hook 'ido-setup-hook 'fc/ido-setup)
+(defun fc/ido-setup ()
+  (define-key ido-common-completion-map (kbd "C-c")
+    (make-sparse-keymap))
+  (define-key ido-common-completion-map (kbd "C-c C-u")
+    'fc/ido-copy-selection)
+  (define-key ido-file-dir-completion-map (kbd "<up>")
+    'ido-prev-work-directory)
+  (define-key ido-file-dir-completion-map (kbd "<down>")
+    'ido-next-work-directory))
+
+(defun fc/ido-copy-selection ()
+  "Copy the current ido selection to the kill ring."
+  (interactive)
+  (kill-new (abbreviate-file-name (concat ido-current-directory
+            ido-text))))
+
 ; (add-hook 'ido-make-file-list-hook 'ido-sort-mtime)
 ; (add-hook 'ido-make-dir-list-hook 'ido-sort-mtime)
 ; (defun ido-sort-mtime ()
@@ -84,14 +111,47 @@
 ;                 ido-temp-list)))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ido-vertical-mode
 ;; Makes ido-mode display vertically.
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
 (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ido-at-point
 ;; an alternative frontend for `completion-at-point'
 ; (require 'ido-at-point)
 ; (ido-at-point-mode)
-(load "ido-config")
+(require 'ido-at-point)
+
+(defun ido-at-point-x-prompt (prompt choices &optional display-fn)
+  "Display choices in a x-window prompt."
+  (when (and window-system choices)
+    (let ((chosen
+           (let (menu d) ;; d for display
+             (dolist (c choices)
+               (setq d (or (and display-fn (funcall display-fn c))
+                           c))
+               (cond ((stringp d)
+                      (push (cons (concat "   " d) c) menu))
+                     ((listp d)
+                      (push (car d) menu))))
+             (setq menu (list prompt (push "title" menu)))
+             (x-popup-menu (if (fboundp 'posn-at-point)
+                               (let ((x-y (posn-x-y (posn-at-point (point)))))
+                                 (list (list (+ (car x-y) 10)
+                                             (+ (cdr x-y) 20))
+                                       (selected-window)))
+                             t)
+                           menu))))
+      (or chosen
+          (keyboard-quit)))))
+
+(defun ido-at-point-read (completions common)
+  (ido-at-point-x-prompt "Completions" completions))
+
+(ido-at-point-mode t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+

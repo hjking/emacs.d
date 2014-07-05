@@ -47,7 +47,7 @@
                "plink")
               (t
                "ssh")))
-  (setq tramp-auto-save-directory "c:\\temp")
+  (setq tramp-auto-save-directory my-auto-save-dir)
 
   ;; string used for end of line in rsh connections
   ;; (setq tramp-rsh-end-of-line  ; `\n' by default

@@ -5,11 +5,18 @@
   (require 'package)
 
   (add-to-list 'package-archives
-           '("marmalade" . "http://marmalade-repo.org/packages/") t)
+               '("marmalade" . "http://marmalade-repo.org/packages/")
+               t)
+  ;; under active development.
+  ; (add-to-list 'package-archives
+  ;          '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  ;; stable
   (add-to-list 'package-archives
-           '("melpa" . "http://melpa.milkbox.net/packages/") t)
+               '("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
+               t)
   (when (< emacs-major-version 24)
-      (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+      (add-to-list 'package-archives
+                   '("gnu" . "http://elpa.gnu.org/packages/")))
   (package-initialize)
 
   (defvar my-packages
@@ -33,6 +40,12 @@
     zencoding-mode
     org-toc
     smooth-scrolling
+    web-mode
+    helm
+    helm-projectile
+    ggtags
+    diminish
+    ztree
     )
   "A list of packages to ensure are installed at launch.")
 

@@ -15,29 +15,36 @@
   ;; I recommend you split the key binding of those two command.
   ;; I binding TAB yas/expand, and binding M-/ hippie-expand.
   ;; So yas/expand don't conflict with hippie/expand.
-  
+
   ;; skipping space
   (setq hippie-expand-dabbrev-skip-space t)
-  
+
   (autoload 'senator-try-expand-semantic "senator")
-  
+
   ;; list of expansion functions tried (in order) by `hippie-expand'
 
-  (add-to-list 'hippie-expand-try-functions-list 'senator-try-expand-semantic)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-dabbrev)   ; from current buffer
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-dabbrev-visible)   ; from visible parts of all windows
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-dabbrev-all-buffers)   ; from all other buffers
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-dabbrev-from-kill)
-  (add-to-list 'hippie-expand-try-functions-list 'try-complete-file-name-partially)
-  (add-to-list 'hippie-expand-try-functions-list 'try-complete-file-name)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-all-abbrevs)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-list)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-list-all-buffers)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-line)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-line-all-buffers)
-  (add-to-list 'hippie-expand-try-functions-list 'try-complete-lisp-symbol-partially)
-  (add-to-list 'hippie-expand-try-functions-list 'try-complete-lisp-symbol)
-  (add-to-list 'hippie-expand-try-functions-list 'try-expand-whole-kill)
+  (setq hippie-expand-try-functions-list
+      '(senator-try-expand-semantic
+        try-complete-file-name-partially
+        try-expand-dabbrev
+        try-expand-dabbrev-visible
+        try-expand-dabbrev-all-buffers
+        try-expand-dabbrev-from-kill
+        try-complete-file-name-partially
+        try-complete-file-name
+        try-expand-all-abbrevs
+        try-expand-list
+        try-expand-list-all-buffers
+        try-expand-line-all-buffers
+        try-complete-lisp-symbol-partially
+        try-complete-lisp-symbol
+        try-expand-whole-kill
+        ))
+
+;; Full-line completion is *annoying*
+(setq hippie-expand-try-functions-list
+      (delq 'try-expand-line
+      hippie-expand-try-functions-list))
 
   ;; expand-function
   (defun my-hippie-expand (arg)
@@ -51,7 +58,7 @@
       (setq case-fold-search nil)
       (hippie-expand arg)
       (setq case-fold-search old-case-fold-search)))
-  
+
 )
 
 ;; EOF

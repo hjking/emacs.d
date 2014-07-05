@@ -47,11 +47,12 @@
 ;; [ dabbrev-expand-multiple ]--------------------------------------------------
 ;; extend standard Dynamic Abbreviation
 ;; show multiple candidates with tooltip
+(autoload 'dabbrev-expand-multiple "dabbrev-expand-multiple" "dynamic abbrev expansion for multiple selection" t)
 (eval-after-load 'dabbrev-expand-multiple
   '(progn
     (message "    >>>>> Loading [ DabbrevExpandMultiple ] Customization ....")
     ;; setting abbrev displayed at a time to five.
-    (setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g"))
+    (setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g" "q" "w" "e" "r" "t"))
     ;; The seconds in which tooltip is displayed.
     ;; (setq dabbrev-expand-multiple-tooltip-timeout 2000)
     ;; setting to disappear at ten seconds.
@@ -63,7 +64,7 @@
     (setq dabbrev-expand-multiple-inline-show-face 'underline)
     ;; Change inline display face. (not use underline.)
     ;; (setq dabbrev-expand-multiple-inline-show-face nil)
-    
+
     ;; use tooltip.
     (setq dabbrev-expand-multiple-use-tooltip t)
     ;; use inline display. (not use tooltip.)

@@ -26,6 +26,9 @@
 (message "***** >>>>> [ Loading Emacs Startup File ], Be patient!")
 (setq step_no 1)
 
+;; I don't use XEmacs.  This file does not work with XEmacs.
+(when (featurep 'xemacs)
+  (error "This .emacs file does not work with XEmacs."))
 
 ;; uptimes
 (setq emacs-load-start-time (current-time))
@@ -38,7 +41,6 @@
 (defvar section-environment t)  ; required
 (defvar section-loading-libraries t)  ; required
 (defvar section-debugging t)
-(defvar section-basic nil)  ; no
 (defvar section-minibuffer t)
 (defvar section-help t) ; no
 (defvar section-mark t)
@@ -49,7 +51,6 @@
 (defvar section-register nil)
 (defvar section-bookmark t)
 (defvar section-search t)
-(defvar section-keyboard-macros nil)  ; no
 (defvar section-ibuffer t)
 (defvar section-ido t)
 (defvar section-windows t)
@@ -62,13 +63,13 @@
 (defvar section-dired t)
 (defvar section-calendar-diary t)
 (defvar section-document-view nil)
-(defvar section-gnus t) ; no
+(defvar section-gnus nil)
 (defvar section-eshell t)
 (defvar section-hdl t)
 (defvar section-verilog nil)
 (defvar section-vlog t)
 (defvar section-vhdl nil)
-(defvar section-emacs-server nil) ; no
+(defvar section-emacs-server nil)
 (defvar section-org t)
 (defvar section-eproject nil)
 (defvar section-ecb nil)
@@ -76,13 +77,13 @@
 (defvar section-desktop nil)
 (defvar section-muse nil)
 (defvar section-cvs nil)
-(defvar section-svn nil)
+(defvar section-svn t)
 (defvar section-git t)
 (defvar section-emms nil)
 (defvar section-vm nil)
-(defvar section-ac t)
+(defvar section-ac nil)
 (defvar section-company nil)
-(defvar section-helm t)
+(defvar section-helm nil)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -102,10 +103,10 @@
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
 (defvar section-mmm-mode t)
+(defvar section-csv-mode t)
 (defvar section-table nil)
 (defvar section-undo t)
 (defvar section-header t)
-(defvar section-ergoemacs-mode nil)
 (defvar section-irc nil)
 (defvar section-w3m nil)
 (defvar section-smex t)
@@ -118,6 +119,8 @@
 (defvar section-powerline nil)
 (defvar section-sml t)
 
+(random t)
+
 ;;;###autoload
 (defmacro define-kbd  (keymap key def) `(define-key ,keymap (kbd ,key) ,def))
 ;;;###autoload
@@ -125,7 +128,7 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
-(when section-loading-libraries
+(when section-debugging
 ;;;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
@@ -141,12 +144,6 @@
 (when section-loading-libraries
   (message "%d: >>>>> Loading [ Default Path ] ...." step_no)
   (setq step_no (1+ step_no))
-  ; (when win32p
-  ;     (message "We are in Windows Platform")
-  ;     (setq my-home "F:/Kuaipan/Workspace/src")
-  ;     (setenv "HOME" my-home)
-  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
-  ; )
 
   (defconst win32p
     (eq system-type 'windows-nt)
@@ -211,15 +208,23 @@
   (add-load-path my-cache-dir)
   (message ">>>>> Loading Path ... Done")
 
-  ;; Load all elisp files in ./init.d
+  ;; Load all elisp files in directory
   ; (if (file-exists-p my-site-lisp-conf-dir)
   ;     (dolist (file (directory-files my-site-lisp-conf-dir t "\\.el$"))
   ;        (load file)))
 
-  ;; Add external projects to load path
+  ;; Add directories to load path
   ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
   ;     (when (file-directory-p project)
   ;       (add-to-list 'load-path project)))
+  (when win32p
+  ;     (message "We are in Windows Platform")
+  ;     (setq my-home "F:/Kuaipan/Workspace/src")
+  ;     (setenv "HOME" my-home)
+  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
+    (setenv "PATH" (concat "D:/DEV/global/bin;" (getenv "PATH")))
+    (setq exec-path (append exec-path '("D:/DEV/global/bin")))
+  )
 )
 ;; --[ Load Path ]-----------------------------------------------------[ End ]--
 
@@ -227,7 +232,6 @@
 ;; --[ Environment ]------------------------------------------------------------
 
 (require 'init-compat)
-(require 'diminish)
 
 (when section-environment
   (load "env-conf"))
@@ -238,7 +242,7 @@
 ;; --[ cygwin setting ]---------------------------------------------------------
 (when section-cygwin
   (when win32p
-    (defconst my-cygwin-dir "d:/cygwin/" "Cygwin root path.")
+    (defconst my-cygwin-dir "d:/DEV/cygwin/" "Cygwin root path.")
     (if (file-directory-p my-cygwin-dir)
       (progn
         (defvar my-cygwin-bin-dir (concat my-cygwin-dir "bin/") "Cygwin bin folder")
@@ -329,10 +333,15 @@
     (load "scratch-conf"))
 
 ;; use clipboard, share with other applications
-(setq x-select-enable-clipboard t
-      x-select-enable-primary t
-      ;; Save clipboard strings into kill ring before replacing them
-      save-interprogram-paste-before-kill t)
+(when (window-system)
+  (setq x-select-enable-primary t
+        x-select-enable-clipboard nil
+        x-stretch-cursor t
+        ;; middle button for paste
+        mouse-yank-at-point t))
+
+;; Save clipboard strings into kill ring before replacing them
+(setq save-interprogram-paste-before-kill t)
 
 (message "%d: >>>>> Loading [ Misc ] Customization ...." step_no)
 (setq step_no (1+ step_no))
@@ -365,16 +374,16 @@
 (require 'jka-compr)
 (auto-compression-mode 1)
 
-;; display function the cursor is in
-(which-function-mode 1)
-(setq which-func-unknown "unknown")
+;; display time
+(display-time-mode 1)
+;; use 24-hour format
+(setq display-time-24hr-format t)
+(setq display-time-interval 10)
+;; display time, day and date
+(setq display-time-day-and-date t)
+(display-time)
 
 (message ">>>>> Loading [ Misc ] Customization Done")
-
-;; NEW @  2010-10-23-23:08
-(add-hook 'message-mode-hook (lambda ()
-    (setq fill-column 80)
-    (turn-on-auto-fill)))
 
 (autoload 'mode-compile "mode-compile"
   "Command to compile current buffer file based on the major mode" t)
@@ -462,6 +471,10 @@
   (setq step_no (1+ step_no))
   ;; ignore case when reading a file name completion
   (setq read-file-name-completion-ignore-case t)
+  ;; ignore case when reading a buffer name
+  (setq read-buffer-completion-ignore-case t)
+  ;; do not consider case significant in completion (GNU Emacs default)
+  (setq completion-ignore-case t)
   ;; minibuffer window expands vertically as necessary to hold the text that you
   ;; put in the minibuffer
   (setq resize-minibuffer-mode t)
@@ -470,12 +483,8 @@
   ;; auto-complete on in minibuffer
   (unless is-after-emacs-23
       partial-completion-mode 1)
-  ;; ignore case when reading a buffer name
-  (setq read-buffer-completion-ignore-case t)
   ;; auto-complete in minibuffer when execute M-x functions and variables
   (icomplete-mode 1)
-  ;; do not consider case significant in completion (GNU Emacs default)
-  (setq completion-ignore-case t)
   ;; Ignore case when using completion for file names
   (setq read-file-name-completion-ignore-case t)
   ;; type SPACE to auto-complete in minibuffer
@@ -507,6 +516,8 @@
     ;; highlight marked region
     ;; change buffer, or focus, disable the current buffer’s mark
     (transient-mark-mode t)    ; highlight text selection
+    ;;;;;;;;;;;;
+    ;; delsel.el
     (delete-selection-mode 1) ; delete seleted text when typing
     ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
     (setq set-mark-command-repeat-pop t)
@@ -535,33 +546,33 @@
 
 ;; --[ killing ]----------------------------------------------------------------
 (when section-killing
-    (message "%d: >>>>> Loading [ Killing ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ;; use a bigger kill ring
-    (setq kill-ring-max (* 20 kill-ring-max))
-    ;; C-k delete a whole line
-    (setq-default kill-whole-line t)
-    ;; enables wrapping but kill-line still kills the whole line
-    (setq-default word-wrap t)
-    ;; when press copy or cut when no region is active, copy or cut the current line
-    ;; <http://www.zafar.se/bkz/Articles/EmacsTips>
-    (defadvice kill-ring-save (before slickcopy activate compile)
-      "When called interactively with no active region, copy the current line instead."
-      (interactive
-      (if mark-active
-        (list (region-beginning) (region-end))
-        (progn
-          (message "Current line is copied")
-          (list (line-beginning-position) (line-end-position))))))
+  (message "%d: >>>>> Loading [ Killing ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  ;; use a bigger kill ring
+  (setq kill-ring-max (* 20 kill-ring-max))
+  ;; C-k delete a whole line
+  (setq-default kill-whole-line t)
+  ;; enables wrapping but kill-line still kills the whole line
+  (setq-default word-wrap t)
+  ;; when press copy or cut when no region is active, copy or cut the current line
+  ;; <http://www.zafar.se/bkz/Articles/EmacsTips>
+  (defadvice kill-ring-save (before slickcopy activate compile)
+    "When called interactively with no active region, copy the current line instead."
+    (interactive
+    (if mark-active
+      (list (region-beginning) (region-end))
+      (progn
+        (message "Current line is copied")
+        (list (line-beginning-position) (line-end-position))))))
 
-    (defadvice kill-region (before slickcut activate compile)
-      "When called interactively with no active region, cut the current line instead."
-      (interactive
-      (if mark-active
-        (list (region-beginning) (region-end))
-        (progn
-            (message "Current line is cut.")
-            (list (line-beginning-position) (line-end-position))))))
+  (defadvice kill-region (before slickcut activate compile)
+    "When called interactively with no active region, cut the current line instead."
+    (interactive
+    (if mark-active
+      (list (region-beginning) (region-end))
+      (progn
+          (message "Current line is cut.")
+          (list (line-beginning-position) (line-end-position))))))
 )
 ;; --[ killing ]-------------------------------------------------------[ End ]--
 
@@ -570,8 +581,6 @@
 (when section-yanking
     (message "%d: >>>>> Loading [ Yanking ] Customization ...." step_no)
     (setq step_no (1+ step_no))
-    ;; middle button for paste
-    (setq mouse-yank-at-point t)
     ;; auto-indent pasted code
     (defadvice yank (after indent-region activate)
       (if (member major-mode
@@ -648,6 +657,12 @@
 ;; (add-site-lisp-load-path "mode-line-stats/")
 ;; (load "mode-line-stats-conf")
 
+;; Show buffer size in mode-line
+(size-indication-mode 1)
+
+;; use inactive face for mode-line in non-selected windows
+(setq mode-line-in-non-selected-windows t)
+
 ;; [ powerline ]
 (when section-powerline
     (add-site-lisp-load-path "powerline/")
@@ -662,6 +677,12 @@
   (sml/apply-theme 'dark)  ;; respectful
   (sml/setup)
   )
+
+;; displays the current function name in the mode line
+(require 'which-func)
+(which-func-mode 1)
+(setq which-func-unknown "unknown")
+(add-to-list 'which-func-modes 'org-mode)
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -752,10 +773,14 @@
 ;; default backup folder:~/emacs.d/auto-save/
 ;; set backup file path
 (setq my-backup-dir (concat my-emacs-dir "backup/"))
-(add-to-list 'backup-directory-alist '(cons "." my-backup-dir))
 (setq my-auto-save-dir (concat my-emacs-dir "auto-save/"))
+(dolist (dir (list my-backup-dir my-auto-save-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+(add-to-list 'backup-directory-alist '(cons "." my-backup-dir))
 (setq auto-save-list-file-name (concat my-auto-save-dir "auto-save"))
-; (setq auto-save-file-name-transforms '((".*" "auto-save-list" t)))
+; (setq auto-save-file-name-transforms '((".*" "auto-save-list" t))
+;       auto-save-list-file-prefix (concat auto-saves-dir ".saves-"))
 ;; version control on
 (setq version-control t)
 ;; backup older versions twice:before 1st edit and 2nd edit
@@ -807,8 +832,10 @@
 ;; --[ Compare File ]-----------------------------------------------------------
 (message "%d: >>>>> Loading [ Compare File ] Customization ...." step_no)
 (setq step_no (1+ step_no))
+;;;;;;;;;;
+;; diff.el
 ;; default to unified diffs
-(setq diff-switches "-u")
+(setq diff-switches (list "-b" "-u"))
 ;; compare text in current window with text in next window
 ;; use 'compare-windows function
 
@@ -870,7 +897,6 @@
 
 ;; [ saveplace ]----------------------------------------------------------------
 ;; remembers your location in a file when saving files
-
 (when (require 'saveplace nil t)
   (message "%d: >>>>> Loading [ saveplace ] Customization ...." step_no)
   (setq step_no (1+ step_no))
@@ -881,6 +907,18 @@
   ;; do not make backups of master save-place file
   (setq save-place-version-control "never")
   (define-key ctl-x-map "p" 'toggle-save-place-globally))
+
+;; History
+;; Save a minibuffer input history
+(savehist-mode t)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-autosave-interval 180)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -895,6 +933,8 @@
 (when section-indentation
     (message "%d: >>>>> Loading [ Indentation ] Customization ...." step_no)
     (setq step_no (1+ step_no))
+    ;;;;;;;;;;;;;;
+    ;; electric.el
     ;;  indent automatically (from 24.1)
     (electric-indent-mode 1)
     ;; set default tab char's display width to 4 spaces
@@ -919,19 +959,6 @@
 
     ;; `C-M-\' runs the command `indent-region' (which does the job of
     ;; the imaginary command `unsuck-html-layout' in `html-mode')
-    (defun indent-whole-buffer ()
-      (interactive)
-      (save-excursion
-        (mark-whole-buffer)
-        (indent-for-tab-command)))
-
-    (defun toggle-indent-tabs-mode ()
-      "Set `indent-tabs-mode' to what it isn't"
-      (interactive)
-      (setq indent-tabs-mode (not indent-tabs-mode))
-      (if indent-tabs-mode
-        (message "`indent-tabs-mode' now on")
-      (message  "`indent-tabs-mode' now off")))
 
     (require 'indent-guide)
     (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1)))
@@ -955,6 +982,10 @@
 (setq compile-auto-highlight t)
 ;; display compiler error message, check key bindings:
 ;; first-error / next-error / previous-error
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 ;; --[ Compilation ]---------------------------------------------------[ End ]--
 
 
@@ -993,7 +1024,7 @@
 ;; [ Emacs Server ]-------------------------------------------------------------
 ;;; EmacsClient
 (when section-emacs-server
-  (require 'server)
+  (require 'server nil t)
   (when (and (= emacs-major-version 23)
              (= emacs-minor-version 1)
              (equal window-system 'w32))
@@ -1006,6 +1037,12 @@
 
 ;; [ TAG ]----------------------------------------------------------------------
 (load "ctags-conf")
+
+;; ggtags: Emacs frontend to GNU Global source code tagging system
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'cperl-mode 'python-mode)
+              (ggtags-mode 1))))
 ;; [ TAG ]-------------------------------------------------------------[ End ]--
 
 
@@ -1027,6 +1064,10 @@
 ;               (lambda ()
 ;                 (when (y-or-n-p "Auto Fill mode? ")
 ;                   (turn-on-auto-fill))))
+(add-hook 'prog-mode-hook 'auto-fill-mode)
+(add-hook 'message-mode-hook (lambda ()
+                                (setq fill-column 80)
+                                (turn-on-auto-fill)))
 
 ;; LongLines
 ;; automatically wrap long lines after the last word before ‘fill-column’
@@ -1038,7 +1079,8 @@
 ;; (add-hook 'text-mode-hook 'longlines-mode)
 
 
-;; visual-line-mode, wrap a line right before the window edge
+;; visual-line-mode
+;; wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 ;; (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 (global-visual-line-mode t)
@@ -1118,7 +1160,8 @@
 (setq step_no (1+ step_no))
 
 ;; Don't show whitespace in diff, but show context
-(setq vc-diff-switches '("-b" "-B" "-u"))
+; (setq vc-diff-switches '("-b" "-B" "-u"))
+(setq vc-diff-switches diff-switches)
 ;; Follow symlinks
 (setq vc-follow-symlinks t)
 ;; update VCS info on revert
@@ -1127,15 +1170,13 @@
 ;; *** --- PCL-CVS
 (when section-cvs
   (when (require 'pcvs nil t)
-    (eval-after-load 'pcvs
-      (load "pcvs-conf"))
+      (load "pcvs-conf")
 ))
 
 ;; *** --- Subversion
 (when section-svn
   (when (require 'psvn nil t)
-    (eval-after-load 'psvn
-      (load "psvn-conf"))
+      (load "psvn-conf")
 ))
 
 ;; *** --- Change Log
@@ -1167,6 +1208,20 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
+;; [ column-marker ]------------------------------------------------------------
+;; highlight columns 75, 80, 100 in some modes
+(load "column-marker-conf")
+;; [ column-marker ]---------------------------------------------------[ End ]--
+
+
+;; [ volatile-highlights ]-------------------------------------------------------
+;; highlight changes made by commands such as undo, yank-pop, etc.
+(add-site-lisp-load-path "volatile-highlights/")
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+;; ---------------------------------------------------------------------[ End ]--
+
+
 ;; [ auto-header ]--------------------------------------------------------------
 (when section-header
     (load "header2-conf"))
@@ -1178,12 +1233,6 @@
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
 
-;; [ column-marker ]------------------------------------------------------------
-;; highlight columns 75, 80, 100 in some modes
-(load "column-marker-conf")
-;; [ column-marker ]---------------------------------------------------[ End ]--
-
-
 ;; [ recent files ]-------------------------------------------------------------
 (load "recentf-conf")
 ;; [ recent files ]---------------------------------------------------[ End ]---
@@ -1193,8 +1242,8 @@
 ;; available for Emacs 22/23
 (when section-helm
     ;; helm is new version of anything
-    (add-site-lisp-load-path "emacs-helm/")
-    (add-site-lisp-info-path "emacs-helm/doc/")
+    ; (add-site-lisp-load-path "emacs-helm/")
+    ; (add-site-lisp-info-path "emacs-helm/doc/")
     ;; helm-swoop
     (add-site-lisp-load-path "helm-swoop/")
     (load "helm-conf"))
@@ -1226,7 +1275,7 @@
 
 ;; --[ Company ]----------------------------------------------------------------
 (when section-company
-  (add-site-lisp-load-path "company-mode/")
+  ; (add-site-lisp-load-path "company-mode/")
   (load "company-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1250,7 +1299,10 @@
 ;; [ Find File ]----------------------------------------------------------------
 ;; find file or URL at point
 ;; Find file in Project
+;; fiplr, find-file-in-project, ffap
 (load "find-file-conf")
+;; projectile
+(load "projectile-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1260,14 +1312,12 @@
   (setq my-vm-lisp-path (concat my-vm-load-path "lisp/"))
   (add-site-lisp-load-path "vm/lisp/")
   (add-site-lisp-info-path "vm/info/")
-
   (load "vm-conf"))
 ;; [ VM ]--------------------------------------------------------------[ End ]--
 
 
 ;; [ Hide-Show ]----------------------------------------------------------------
-(require 'hideshow nil t)
-(when (featurep 'hideshow)
+(when (require 'hideshow nil t)
   (message "%d: >>>>> Loading [ hide-show ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   (dolist (hook '(c++-mode-hook
@@ -1494,15 +1544,6 @@
          ("\\.cpp\\'"                     . c++-mode)
          ("\\.h\\'"                       . c++-mode)
          ("\\.java\\'"                    . java-mode)
-         ;; shellscript
-         ("/etc/profile"                  . sh-mode)
-         ("/etc/bash_completion"          . sh-mode)
-         ("\\.SH"                         . sh-mode)
-         ("\\.bashrc"                     . sh-mode)
-         ("\\.sh\\'"                      . shell-script-mode)
-         ("\\.csh\\'"                     . shell-script-mode)
-         ("\\.zsh\\'"                     . shell-script-mode)
-         ("\\rc\\'"                       . shell-script-mode)
          ;; cperl-mode
          ("\\.PL$"                        . cperl-mode)
          ("\\.pl$"                        . cperl-mode)
@@ -1524,11 +1565,7 @@
          ;; JavaScript
          ("\\.js$"                        . javascript-mode)
          ("\\.json$"                      . javascript-mode)
-         ;; HTML
-         ("\\.html\\'"                    . html-mode)
-         ("\\.htm\\'"                     . html-mode)
          ("\\.bin\\'"                     . hexl-mode)
-         ("\\.py\\'"                      . python-mode)
          ;; php
          ("\\.php$"                       . php-mode)
          ;; org-mode
@@ -1567,22 +1604,22 @@
          ("\\.rake$"                      . ruby-mode)
          ("\\.kick$"                      . ruby-mode)
          ("TODO\\'"                       . outline-mode)
-         ("\\.[ck]?sh\\'\\|\\.shar\\'\\|/\\.z?profile\\'" . sh-mode)
-         ("\\(/\\|\\`\\)\\.\\(bash_profile\\|z?login\\|bash_login\\|z?logout\\)\\'" . sh-mode)
-         ("\\(/\\|\\`\\)\\.\\(bash_logout\\|[kz]shrc\\|bashrc\\|t?cshrc\\|esrc\\)\\'" . sh-mode)
-         ("\\(/\\|\\`\\)\\.\\([kz]shenv\\|xinitrc\\|startxrc\\|xsession\\)\\'" . sh-mode)
        )
        auto-mode-alist
      ))
 
 
 ;; [ CSV Mode ]-----------------------------------------------------------------
-(message "%d: >>>>> Loading [ CSV Mode ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;; major mode for editing comma-separated value files
-(require 'csv-mode nil t)
-;; field separators: a list of *single-character* strings
-(setq csv-separators '("," ";"))
+(when section-csv-mode
+  (message "%d: >>>>> Loading [ CSV Mode ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  (autoload 'csv-mode "csv-mode" "Major mode for editing comma-separated value files." t)
+  (add-auto-mode 'csv-mode "\\.[Cc][Ss][Vv]\\'")
+  (autoload 'csv-nav-mode "csv-nav-mode" "Major mode for navigating comma-separated value files." t)
+  ;; field separators: a list of *single-character* strings
+  (setq csv-separators '("," ";" "|" " "))
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1590,7 +1627,7 @@
 (message "%d: >>>>> Loading [ Text Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; default mode is Text Mode
-(setq default-major-mode 'text-mode)
+(setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
   (interactive)
 ;;  (filladapt-mode t)
@@ -1615,13 +1652,14 @@
 (message "%d: >>>>> Loading [ View Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 ;; vim style
-(setq view-mode-hook
-  (lambda ()
-    (define-key view-mode-map "h" 'backward-char)
-    (define-key view-mode-map "l" 'forward-char)
-    (define-key view-mode-map "j" 'next-line)
-    (define-key view-mode-map "k" 'previous-line)
-))
+(defun my-view-mode-hook ()
+  "Set up some conveniences for Emacs Lisp."
+  (local-set-key "h" 'backward-char)
+  (local-set-key "l" 'forward-char)
+  (local-set-key "j" 'next-line)
+  (local-set-key "k" 'previous-line)
+  )
+(add-hook 'view-mode-hook 'my-view-mode-hook)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1680,7 +1718,7 @@
 
 
 ;; [ Shell Mode ]---------------------------------------------------------------
-;; set shell type
+;; invoke a shell
 (when section-shell-mode
     (when linuxp
         (setq shell-file-name "/bin/bash"))
@@ -1689,17 +1727,7 @@
 
 
 ;; [ Shell script Mode ]--------------------------------------------------------
-(message ">>>>> Loading [ Shell Script Mode ] Customization ....")
-(defun my-shellscript-startup ()
-  "Setup shell script mode."
-  (interactive)
-  (setq sh-basic-offset '8)
-  (setq sh-indentation '8)
-  (setq sh-indent-comment t)
-  (setq indent-tabs-mode t)
-  (setq sh-indent-for-case-label '0)
-  (setq sh-indent-for-case-alt '+))
-(add-hook 'sh-mode-hook 'my-shellscript-startup)
+(load "sh-mode-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1756,9 +1784,15 @@
 
 ;; --[ HTML Mode ]--------------------------------------------------------------
 (when section-html-mode
+  ;; HTML
+  (add-to-list 'auto-mode-alist '("\\.html\\'"                    . html-mode))
+  (add-to-list 'auto-mode-alist '("\\.htm\\'"                     . html-mode))
+
   (require 'zencoding-mode)
   (add-hook 'sgml-mode-hook 'zencoding-mode)
   (add-hook 'html-mode-hook 'zencoding-mode)
+
+  (load "web-mode-conf")
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1781,6 +1815,8 @@
     (require 'undo-tree)
     ;; replace the standard Emacs' undo system
     (global-undo-tree-mode)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)
     (defalias 'redo 'undo-tree-redo)
     ;; (global-set-key (kbd "C-z") 'undo)  ; CTRL+Z
     ;; (global-set-key (kbd "C-S-z") 'redo)  ; CTRL+Shift+Z
@@ -1913,20 +1949,6 @@
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
 
 
-;; [ guide-key ]-----------------------------------------------------------------
-(add-site-lisp-load-path "guide-key/")
-(load "guide-key-conf")
-;; ---------------------------------------------------------------------[ End ]--
-
-
-;; [ volatile-highlights ]-------------------------------------------------------
-;; highlight changes made by commands such as undo, yank-pop, etc.
-(add-site-lisp-load-path "volatile-highlights/")
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
-;; ---------------------------------------------------------------------[ End ]--
-
-
 ;; --[ Help ]-------------------------------------------------------------------
 (when section-help
   (message "%d: >>>>> Loading [ Help ] Customization ...." step_no)
@@ -1940,18 +1962,19 @@
   ;; Help is provided according to the buffer’s major mode
   (load "info-look-conf")
 
-  ;; show function name
-  (add-hook 'prog-mode-hook (lambda () (which-function-mode 1)))
-
   (setq tooltip-delay 1)
 
-  ;; [ show tip ]-----------------------------------------------------------------
+  ;; [ show tip ]---------------------------------------------------------------
   (add-site-lisp-load-path "clippy/")
   (require 'clippy)
-  ;; --------------------------------------------------------------------[ End ]--
+  ;; ------------------------------------------------------------------[ End ]--
 )
 ;; --[ Help ]----------------------------------------------------------[ End ]--
 
+(autoload 'turn-on-stripe-buffer-mode "stripe-buffer" "" nil)
+(autoload 'turn-on-stripe-table-mode "stripe-buffer" "" nil)
+(add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+(add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
@@ -1963,20 +1986,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (autoload 'word-at-point "thingatpt" nil t)
-(defun replace-word-at-point (from to)
-  "Replace word at point."
-  (interactive (let ((from (word-at-point)))
-     (list from (query-replace-read-to from "Replace" nil))))
-  (query-replace from to))
-
-;; delete all the trailing whitespaces and tabs across the current buffer
-(defun my-delete-trailing-whitespaces-and-untabify ()
-  "Delete all the trailing white spaces, and convert all tabs to multiple
-spaces across the current buffer."
-  (interactive "*")
-  (delete-trailing-whitespace)
-  (untabify (point-min) (point-max)))
-;; (global-set-key (kbd "C-c t") 'my-delete-trailing-whitespaces-and-untabify)
 
 ;; change the background to yellow when if open a read-only file
 ;; (add-hook 'find-file-hooks
@@ -1987,28 +1996,22 @@ spaces across the current buffer."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Gloabal Key Binding ====
-(load "bindings")
+(load "keybindings")
 
-;;
-;; ergoemacs-keybindings
-;;
-(when section-ergoemacs-mode
-    (setq ergoemacs-keybindings-load-path (concat my-site-lisp-dir "ergoemacs-mode/"))
-    (add-site-lisp-load-path "ergoemacs-mode/")
-    (add-site-lisp-info-path "ergoemacs-mode/")
+;; Guru mode disables some common keybindings and
+;; suggests the use of the established Emacs alternatives instead
+; (add-site-lisp-load-path "guru-mode/")
+; (require 'guru-mode)
+; (guru-global-mode +1)
+; (setq guru-warn-only t)
 
-    ;; load ErgoEmacs keybinding
-    (require 'ergoemacs-mode)
+;; (global-set-key (kbd "C-c t") 'my-delete-trailing-whitespaces-and-untabify)
 
-    ;; turn on minor mode ergoemacs-mode
-    (setq ergoemacs-theme nil)  ;; Uses standard ergoemacs keyboard theme
-    (setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
-    (ergoemacs-mode 1))
-
-(add-site-lisp-load-path "guru-mode/")
-(require 'guru-mode)
-(guru-global-mode +1)
-(setq guru-warn-only t)
+;; [ guide-key ]-----------------------------------------------------------------
+;; displays the available key bindings automatically and dynamically
+(add-site-lisp-load-path "guide-key/")
+(load "guide-key-conf")
+;; ---------------------------------------------------------------------[ End ]--
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -2029,11 +2032,6 @@ spaces across the current buffer."
     (load "session-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
-;; Save a minibuffer input history
-(eval-after-load 'savehist
-  '(setq savehist-save-minibuffer-history t
-        savehist-autosave-interval 180))
-(savehist-mode t)
 
 ;; [ desktop ]------------------------------------------------------------------
 (when section-desktop
@@ -2050,19 +2048,7 @@ spaces across the current buffer."
 
 ;; [ diminish ]-----------------------------------------------------------------
 ;; diminish keeps the modeline tidy
-(diminish 'abbrev-mode "Abv")
-(diminish 'undo-tree-mode)
-(diminish 'dired-view-minor-mode)
-(diminish 'auto-revert-mode)
-(diminish 'guru-mode)
-(diminish 'workgroups-mode)
-(diminish 'anzu-mode)
-(diminish 'guide-key-mode)
-(diminish 'smartparens-mode)
-(diminish 'drag-stuff-mode)
-(diminish 'volatile-highlights-mode)
-;;  (diminish 'wrap-region-mode)
-;;  (diminish 'yas/minor-mode)
+(load "diminish-conf")
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
 

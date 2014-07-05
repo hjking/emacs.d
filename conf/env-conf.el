@@ -10,9 +10,11 @@
 (defvar running-ms-win
     (string-match "windows" (prin1-to-string system-type)))
 (defvar mswin
-    (equal window-system 'w32)  "Non-nil means windows system.")
+    (equal window-system 'windows-nt)  "Non-nil means windows system.")
 (defvar cygwin
     (equal system-type 'cygwin) "Non-nil means cygwin system.")
+
+(setq *is-a-mac* (eq system-type 'darwin))
 
 (defvar last-region-beg     nil "Beginning of last region.")
 (defvar last-region-end     nil "End of last region.")
@@ -69,10 +71,10 @@
   "Are we running XEmacs?")
 
 ;; Emacs version
-(defconst is-before-emacs-21 (>= 21 emacs-major-version) "Before version 21")
-(defconst is-after-emacs-22  (<= 22 emacs-major-version) "After version 22")
-(defconst is-after-emacs-23  (<= 23 emacs-major-version) "After version 23")
-(defconst is-after-emacs-24  (<= 24 emacs-major-version) "After version 24")
+(defconst is-before-emacs-21 (and (not xemacsp) (or (>= 21 emacs-major-version))) "Before version 21")
+(defconst is-after-emacs-22  (and (not xemacsp) (or (<= 22 emacs-major-version))) "After version 22")
+(defconst is-after-emacs-23  (and (not xemacsp) (or (<= 23 emacs-major-version))) "After version 23")
+(defconst is-after-emacs-24  (and (not xemacsp) (or (<= 24 emacs-major-version))) "After version 24")
 (defconst emacs>=21p
     (and (not xemacsp) (or (= emacs-major-version 21)
                            (= emacs-major-version 22)

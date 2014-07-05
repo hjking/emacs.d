@@ -2,6 +2,11 @@
 (message "%d: >>>>> Loading [ Key Bindings ] ...." step_no)
 (setq step_no (1+ step_no))
 
+;; binding in following ways:
+;; (global-set-key (kbd "C-x C-b") 'ibuffer)  ;; recommend
+;; (global-set-key "\C-x\C-b" 'ibuffer)   ;; modifier keys must be escaped with the backslash
+;; (global-set-key [?\C-x?\C-b] 'ibuffer) ;; use vector instead of a string
+
 ;;; === define prefix binding key ===
 (define-prefix-command 'ctrl-cc-map)
 ;; (global-set-key (kbd "C-c c") 'ctrl-cc-map)
@@ -47,9 +52,9 @@
 (global-set-key (kbd "C-c C-e w")       'my-copy-word)
 (global-set-key (kbd "C-c e")       'eval-buffer)
 ;; find file at point
-(global-set-key (kbd "C-c F")       'ffap)
+(global-set-key (kbd "C-c f")       'find-file-at-point)  ;; ffap.el
 ;; find file in project
-(global-set-key (kbd "C-c f")       'ffip)
+(global-set-key (kbd "C-c F")       'ffip)
 ;; go to specific line in current buffer
 (global-set-key (kbd "C-c g")       'goto-line)
 ;(global-set-key (kbd "C-c h")       ')
@@ -97,13 +102,13 @@
 
 ;; comment
 ;; (global-set-key (kbd "C-c C-e c")       'comment-dwim)
-(global-set-key (kbd "C-;")         'comment-or-uncomment-region)
+;; (global-set-key (kbd "C-;")         'comment-or-uncomment-region)
+(global-set-key (kbd "C-;")         'comment-dwim)
 ; (global-set-key "\C-c:"             'uncomment-region)
 ; (global-set-key "\C-c;"             'comment-region)
 ; (global-set-key "\C-c\C-c"          'comment-region)
 
-
-(global-set-key (kbd "C-z v")       'view-mode)
+;; (global-set-key (kbd "C-z v")       'view-mode)
 
 ;; start a new line like vim o/O
 (global-set-key (kbd "C-c C-e o")         'open-newline-below)
@@ -192,6 +197,8 @@
 ;; go to the right indentation on the next line
 (global-set-key (kbd "RET") 'newline-and-indent)
 
+;; A quick major mode help with discover-my-major
+(define-key 'help-command (kbd "C-m") 'discover-my-major)
 
 ;; Move more quickly
 (global-set-key (kbd "C-S-n")
@@ -214,6 +221,15 @@
                   (interactive)
                   (ignore-errors (backward-char 5))))
 
+;; Font size
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
+;; Window switching. (C-x o goes to the next window)
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1))) ;; back one
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom key map: modi-map
 ;; Source: http://stackoverflow.com/questions/1024374/how-can-i-make-c-p-an-emacs-prefix-key-for-develperlysense
@@ -231,8 +247,66 @@
 ;; helm
 (when section-helm
   ; (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "<print>") 'helm-mini)
-  ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  ; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  ; (global-set-key (kbd "C-c h m") 'helm-man-woman)
+  ; (global-set-key (kbd "C-c h g") 'helm-do-grep)
+  ; (global-set-key (kbd "C-c h f") 'helm-find)
+  ; (global-set-key (kbd "C-c h l") 'helm-locate)
+  ; (global-set-key (kbd "C-c h o") 'helm-occur)
+  ; (global-set-key (kbd "C-c h r") 'helm-resume)
+  ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
   )
 
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
+
+;; { smarter navigation to the beginning of a line
+;; http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
+(defun smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
+
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line]
+                'smarter-move-beginning-of-line)
+;; }
+
+
+(defun kill-back-to-indentation ()
+  "Kill from point back to the first non-whitespace character on the line."
+  (interactive)
+  (let ((prev-pos (point)))
+    (back-to-indentation)
+    (kill-region (point) prev-pos)))
+
+(global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
+
+(global-set-key (kbd "M-t") nil) ;; Remove the old keybinding
+(global-set-key (kbd "M-t c") 'transpose-chars)
+(global-set-key (kbd "M-t w") 'transpose-words)
+(global-set-key (kbd "M-t t") 'transpose-words)
+(global-set-key (kbd "M-t M-t") 'transpose-words)
+(global-set-key (kbd "M-t l") 'transpose-lines)
+(global-set-key (kbd "M-t e") 'transpose-sexps)
+(global-set-key (kbd "M-t s") 'transpose-sentences)
+(global-set-key (kbd "M-t p") 'transpose-paragraphs)

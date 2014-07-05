@@ -8,6 +8,13 @@
 (defcustom *plugin* (concat my-emacs-dir  "plugin/")
   "Location of third-party files to be loaded at startup")
 
+(defmacro after-load (feature &rest body)
+  "After FEATURE is loaded, evaluate BODY."
+  (declare (indent defun))
+  `(eval-after-load ,feature
+     '(progn ,@body)))
+
+
 ;; Load all my plugins
 (defun load-paths()
   "Loads plugins from the path specified in *plugin*"
@@ -273,10 +280,8 @@ See also `with-temp-buffer'."
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward "\r" nil t)
-      (replace-match ""))
-  )
-)
+    (while (search-forward "\r" nil t) (replace-match ""))
+  ))
 
 ;; convert a buffer from Unix end of lines to DOS `^M' end of lines
 (defun unix-to-dos ()
@@ -284,10 +289,8 @@ See also `with-temp-buffer'."
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward "\n" nil t)
-      (replace-match "\r\n"))
-   )
-)
+    (while (search-forward "\n" nil t) (replace-match "\r\n"))
+   ))
 
 (defun dos2unix ()
   "dos2unix on current buffer."
@@ -548,16 +551,13 @@ See also `with-temp-buffer'."
 ;; Delete the current file
 ;;----------------------------------------------------------------------------
 (defun delete-this-file ()
-  "Delete the file associated with the current buffer."
+  "Delete the current file, and kill the buffer."
   (interactive)
-  (let (currentFile)
-    (setq currentFile (buffer-file-name))
-    (when (yes-or-no-p (concat "Really Delete File: " currentFile))
-      (kill-buffer (currentFile))
-      (delete-file currentFile)
-      (message (concat "Delete File: " currentFile))
-  ))
-)
+  (or (buffer-file-name) (error "No file is currently being edited"))
+  (when (yes-or-no-p (format "Really delete '%s'?"
+                             (file-name-nondirectory buffer-file-name)))
+    (delete-file (buffer-file-name))
+    (kill-this-buffer)))
 
 (defun delete-current-buffer-file ()
     "Removes file connected to current buffer and kills buffer."
@@ -1413,34 +1413,12 @@ File suffix is used to determine what program to run."
         (sort-subr nil 'forward-line 'end-of-line nil nil
                    (lambda (s1 s2) (eq (random 2) 0)))))))
 
-
-(defun build-ctags ()
-  (interactive)
-  (message "building project tags")
-  (let ((root (eproject-root)))
-    (shell-command (concat "ctags -R --exclude=db --exclude=test --exclude=.git --exclude=public -f " root "TAGS " root)))
-  (visit-project-tags)
-  (message "tags built successfully"))
-
-(defun build-gtags ()
-  (interactive)
-  (message "building gtags")
-  (let ((root (eproject-root)))
-    (shell-command (concat "(cd " root " && gtags)"))
-    (message "tags loaded")))
-
-(defun my-find-tag ()
-  (interactive)
-  (if (file-exists-p (concat (eproject-root) "TAGS"))
-      (visit-project-tags)
-    (build-ctags))
-  (etags-select-find-tag-at-point))
-
-(defun visit-project-tags ()
-  (interactive)
-  (let ((tags-file (concat (eproject-root) "TAGS")))
-    (visit-tags-table tags-file)
-    (message (concat "Loaded " tags-file))))
+(defun build-ctags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags -f %s/TAGS -R %s" dir-name (directory-file-name dir-name)))
+  )
 
 ;;; select between parens
 (defun select-in-parens ()
@@ -1520,11 +1498,32 @@ File suffix is used to determine what program to run."
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max)))
 
+
+(defun untabify-buffer ()
+  (interactive)
+  (untabify (point-min) (point-max)))
+
 ;; reindent the entire buffer
-(defun reindent-buffer ()
+(defun indent-buffer ()
   "Reindent the whole buffer."
   (interactive)
   (indent-region (point-min) (point-max)))
+
+(defun cleanup-buffer-safe ()
+  "Perform a bunch of safe operations on the whitespace content of a buffer.
+Does not indent buffer, because it is used for a before-save-hook, and that
+might be bad."
+  (interactive)
+  (untabify-buffer)
+  (delete-trailing-whitespace)
+  (set-buffer-file-coding-system 'utf-8))
+
+(defun cleanup-buffer ()
+  "Perform a bunch of operations on the whitespace content of a buffer.
+Including indent-buffer, which should not be called automatically on save."
+  (interactive)
+  (cleanup-buffer-safe)
+  (indent-buffer))
 
 (defun my/clean-buffer-formatting ()
   "Indent and clean up the buffer"
@@ -1616,7 +1615,7 @@ If REPOSITORY is specified, use that."
   (interactive)
   (browse-url
    (concat
-    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    "https://www.google.com/search?ie=utf-8&oe=utf-8&q="
     (url-hexify-string (if mark-active
          (buffer-substring (region-beginning) (region-end))
        (read-string "Search Google: "))))))
@@ -1838,3 +1837,139 @@ programming."
   "Make the window wider by one column. Useful when bound to a repeatable key combination."
   (interactive "p")
   (enlarge-window arg t))
+
+;;----------------------------------------------------------------------------
+;; Handier way to add modes to auto-mode-alist
+;;----------------------------------------------------------------------------
+(defun add-auto-mode (mode &rest patterns)
+  "Add entries to `auto-mode-alist' to use `MODE' for all given file `PATTERNS'."
+  (dolist (pattern patterns)
+    (add-to-list 'auto-mode-alist (cons pattern mode))))
+
+
+;;----------------------------------------------------------------------------
+;; Find the directory containing a given library
+;;----------------------------------------------------------------------------
+(autoload 'find-library-name "find-func")
+(defun directory-of-library (library-name)
+  "Return the directory in which the `LIBRARY-NAME' load file is found."
+  (file-name-as-directory (file-name-directory (find-library-name library-name))))
+
+
+;; {{ messge buffer things
+(defun clear-message-buffer (&optional num)
+  "Erase the content of the *Messages* buffer in emacs.
+    Keep the last num lines if argument num if given."
+  (interactive "p")
+  (let ((message-buffer (get-buffer "*Messages*"))
+        (old-buffer (current-buffer)))
+    (save-excursion
+      (if (buffer-live-p message-buffer)
+          (progn
+            (switch-to-buffer message-buffer)
+            (if (not (null num))
+                (progn
+                  (end-of-buffer)
+                  (dotimes (i num)
+                    (previous-line))
+                  (set-register t (buffer-substring (point) (point-max)))
+                  (erase-buffer)
+                  (insert (get-register t))
+                  (switch-to-buffer old-buffer))
+              (progn
+                (erase-buffer)
+                (switch-to-buffer old-buffer))))
+        (error "Message buffer doesn't exists!")
+        ))))
+;; }}
+
+;; {{ unique lines
+(defun uniquify-all-lines-region (start end)
+  "Find duplicate lines in region START to END keeping first occurrence."
+  (interactive "*r")
+  (save-excursion
+    (let ((end (copy-marker end)))
+      (while
+          (progn
+            (goto-char start)
+            (re-search-forward "^\\(.*\\)\n\\(\\(.*\n\\)*\\)\\1\n" end t))
+        (replace-match "\\1\n\\2")))))
+
+(defun uniquify-all-lines-buffer ()
+  "Delete duplicate lines in buffer and keep first occurrence."
+  (interactive "*")
+  (uniquify-all-lines-region (point-min) (point-max)))
+;; }}
+
+(defun recentf-ido-find-file ()
+  "Find a recent file using ido."
+  (interactive)
+  (let* ((recent-files (mapcar 'recentf--file-cons recentf-list))
+         (files (mapcar 'car recent-files))
+         (file (completing-read "Choose recent file: " files)))
+    (find-file (cdr (assoc file recent-files)))))
+
+(defun fc/kill-to-beginning-of-line ()
+  "Kill from the beginning of the line to point."
+  (interactive)
+  (kill-region (point-at-bol) (point)))
+
+(defun replace-word-at-point (from to)
+  "Replace word at point."
+  (interactive (let ((from (word-at-point)))
+     (list from (query-replace-read-to from "Replace" nil))))
+  (query-replace from to))
+
+;; delete all the trailing whitespaces and tabs across the current buffer
+(defun my-delete-trailing-whitespaces-and-untabify ()
+  "Delete all the trailing white spaces, and convert all tabs to multiple
+spaces across the current buffer."
+  (interactive "*")
+  (delete-trailing-whitespace)
+  (untabify (point-min) (point-max)))
+
+(defun indent-whole-buffer ()
+  (interactive)
+  (save-excursion
+    (mark-whole-buffer)
+    (indent-for-tab-command)))
+
+(defun toggle-indent-tabs-mode ()
+  "Set `indent-tabs-mode' to what it isn't"
+  (interactive)
+  (setq indent-tabs-mode (not indent-tabs-mode))
+  (if indent-tabs-mode
+    (message "`indent-tabs-mode' now on")
+  (message  "`indent-tabs-mode' now off")))
+
+; (global-set-key (kbd "M-SPC") 'fc/delete-space)
+(defun fc/delete-space ()
+  "Remove all space around point."
+  (interactive)
+  (let ((start (point)))
+    (skip-chars-backward " \t")
+    (when (> (current-column) 0)
+      (setq start (point)))
+    (skip-chars-forward " \t\n\r")
+    (delete-region start (point))))
+
+; (global-set-key (kbd "C-x r a") 'fc/add-rectangle)
+(defun fc/add-rectangle (start end)
+  "Add all the lines in the region-rectangle and put the result in the
+kill ring."
+  (interactive "r")
+  (let ((sum 0))
+    (mapc (lambda (line)
+            (string-match "-?[0-9.]+" line)
+            (setq sum (+ sum (string-to-number (match-string 0 line)))))
+          (extract-rectangle start end))
+    (kill-new (number-to-string sum))
+    (message "%s" sum)))
+
+; (global-set-key (kbd "C-c e") 'fc/eval-and-replace)
+(defun fc/eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (prin1 (eval (read (current-kill 0)))
+         (current-buffer)))

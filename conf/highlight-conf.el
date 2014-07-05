@@ -18,6 +18,7 @@
 ;;; Highlight search pattern ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight Symbol at point/cursor
 ; (add-site-lisp-load-path "highlight-symbol")
+; (autoload 'highlight-symbol-at-point "highlight-symbol" "" t)
 ; (eval-after-load "highlight-symbol"
 ;     '(progn
 ;       (highlight-symbol-mode 1)
@@ -26,6 +27,7 @@
 ;       (global-set-key [(shift f3)]   'highlight-symbol-prev)
 ;       (global-set-key [(meta f3)]    'highlight-symbol-query-replace)
 ;       ;;(global-set-key [(shift f3)]    'highlight-symbol-prev)
+;       (diminish 'highlight-symbol-mode)
 ;       ))
 
 ;; Highlight Global

@@ -41,11 +41,10 @@
 (global-rainbow-delimiters-mode)
 
 ;; show paren
-; (show-paren-mode 1) ; turn on paren match highlighting
 ; (setq show-paren-style 'parentheses)
 ; (setq show-paren-style 'expression) ; highlight entire bracket expression
 ; (setq show-paren-delay 0)        ; show matching paren immediately
-
+; (show-paren-mode 1) ; turn on paren match highlighting
 
 ;; Check parens
 ; turn on check-parens on a save

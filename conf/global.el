@@ -63,7 +63,6 @@
 ;; Indent before TAB
 (setq tab-always-indent 'complete)
 
-(which-func-mode t)                    ; show current function in modeline.
 (setq backup-by-copying-when-linked t) ; When making backups of link files.
 
 (setq confirm-nonexistent-file-or-buffer t)
@@ -92,5 +91,16 @@
 ;; Single space still ends a sentence
 (setq sentence-end-double-space nil)
 
-;; Always turn on whitespace mode
+;; Single dash starts a paragraph
+(setq paragraph-start "- \\|\f\\|[ \t]*$"
+      paragraph-separate "[\f\t ]*$")
+
+;; activate whitespace-mode to view all whitespace characters
 (whitespace-mode t)
+
+;; highlight current line
+(require 'hl-line)
+(global-hl-line-mode)
+
+(setq comment-style 'extra-line
+      comment-auto-fill-only-comments t)

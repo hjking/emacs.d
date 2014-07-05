@@ -54,22 +54,19 @@
 (put 'dired-find-alternate-file 'disabled nil)
 (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
 ;; Sort Directories First
-;; (setq dired-listing-switches "-aBhl  --group-directories-first")
+;; if it is not Windows, use the following listing switches
+(when (not (eq system-type 'windows-nt))
+  (setq dired-listing-switches "-lha --group-directories-first"))
 
 (add-hook 'dired-mode-hook
     '(lambda()
        (visual-line-mode 0) ;; unwrap lines.
-       ;; (linum-mode 0) ;; turn off line numbers.
-       (auto-revert-mode) ;; auto-refresh dired
-       (hl-line-mode)
        (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
        (define-key dired-mode-map [return] 'dired-find-file-other-window)
        (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)
        (define-key dired-mode-map [mouse-2] 'dired-find-file)
        (define-key dired-mode-map [mouse-3] 'dired-maybe-insert-subdir)
-       (define-key dired-mode-map (kbd "C-{") 'dired-narrow-window)
-    )
-)
+       (define-key dired-mode-map (kbd "C-{") 'dired-narrow-window)))
 
 (message "    >>>>> Loading [ dired-sort ] Customization ....")
 ;; sort
@@ -171,3 +168,10 @@
 ;;; dired-hacks
 (require 'dired-rainbow)
 (require 'dired-open)
+
+
+;;; ztree
+;; ztree-diff: Perform diff on two directories
+;; ztree-dir: a simple tree explorer
+(require 'ztree-diff)
+(require 'ztree-dir)

@@ -23,3 +23,4 @@
   (guide-key/add-local-highlight-command-regexp "org-"))
 (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
 
+(diminish 'guide-key-mode)

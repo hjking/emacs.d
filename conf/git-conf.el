@@ -16,7 +16,10 @@
 ;;
 (require 'magit)
 (require 'magit-svn)
+;; show file of specific version
 (autoload 'magit-status "magit" nil t)
+;; show the commit
+(autoload 'magit-show-commit "magit" "" t nil)
 (setq magit-process-connection-type nil)
 (setq magit-repo-dirs-depth 2)
 (setq magit-save-some-buffers nil)
@@ -32,8 +35,14 @@
 (defun magit-commit-mode-init ()
   (when (looking-at "\n")
     (open-line 1)))
-
 (add-hook 'git-commit-mode-hook 'magit-commit-mode-init)
+
+;; get git status of specified dir
+(defun magit-status-somedir ()
+  (interactive)
+  (let ((current-prefix-arg t))
+    (magit-status default-directory)))
+
 
 ;; close popup when commiting
 (defadvice git-commit-commit (after delete-window activate)
@@ -49,3 +58,25 @@
   (interactive)
   (browse-url "http://daemianmack.com/magit-cheatsheet.html"))
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(eval-after-load 'magit
+  '(progn
+     ;; Don't let magit-status mess up window configurations
+     ;; http://whattheemacsd.com/setup-magit.el-01.html
+     (defadvice magit-status (around magit-fullscreen activate)
+       (window-configuration-to-register :magit-fullscreen)
+       ad-do-it
+       (delete-other-windows))
+
+     (defun magit-quit-session ()
+       "Restores the previous window configuration and kills the magit buffer"
+       (interactive)
+       (kill-buffer)
+       (jump-to-register :magit-fullscreen))
+
+     (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)))
+
+(eval-after-load 'magit
+  '(progn
+     (require 'magit-key-mode)
+     ))

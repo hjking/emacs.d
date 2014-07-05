@@ -17,8 +17,11 @@
         ;; use YASnippet as a non-global minor mode
         (yas-reload-all)
 
+        ; (setq my-snippet-dir (concat my-site-lisp-dir "snippets/"))
+        ; (yas/load-directory my-snippet-dir)
         (setq my-snippet-dir (concat my-site-lisp-dir "snippets/"))
-        (yas/load-directory my-snippet-dir)
+        (if (and  (file-exists-p my-snippet-dir) (not (member my-snippet-dir yas/snippet-dirs)))
+            (add-to-list 'yas/snippet-dirs my-snippet-dir))
         ; (setq yas-snippet-dirs
         ;   (list"/home/eric/.emacs.d/lisp/yasnippet/snippets"
         ;        "/home/eric/Projects/DotEmacs/snippets"))

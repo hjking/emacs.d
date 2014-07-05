@@ -1,5 +1,4 @@
 
-
 ;;; Cygwin
 
 (add-to-list 'exec-path my-cygwin-bin-dir)
