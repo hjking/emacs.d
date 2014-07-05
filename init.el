@@ -941,6 +941,7 @@
 ;; History
 ;; Save a minibuffer input history
 (savehist-mode t)
+(setq savehist-file (concat my-cache-dir ".emacs-history"))
 (setq history-length t)
 (setq history-delete-duplicates t)
 (setq savehist-save-minibuffer-history 1)
