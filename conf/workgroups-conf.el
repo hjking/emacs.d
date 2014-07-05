@@ -9,6 +9,7 @@
 ;; autoload/autosave:
 ;; if you start Emacs as "emacs --daemon" - turn off autoloading of workgroups:
 (setq wg-use-default-session-file t)
+(setq wg-mode-line-display-on nil)
 ;; Set your own keyboard shortcuts to reload/save/switch WG:
 (global-set-key (kbd "<pause>")     'wg-reload-session)
 (global-set-key (kbd "C-S-<pause>") 'wg-save-session)

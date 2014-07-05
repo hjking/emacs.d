@@ -60,7 +60,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; helm-swoop
-(require 'helm-swoop)
+;; List match lines to another buffer, which is able to squeeze by any
+;; words you input. At the same time, the original buffer's cursor is
+;; jumping line to line according to moving up and down the line list
+
+; (require 'helm-swoop)
 
 (autoload 'helm-swoop "helm-swoop" nil t)
 (autoload 'helm-back-to-last-point "helm-swoop" nil t)

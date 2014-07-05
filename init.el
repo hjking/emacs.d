@@ -117,7 +117,7 @@
 (defvar section-weibo t)
 (defvar section-workgroups t)
 (defvar section-powerline nil)
-(defvar section-sml t)
+(defvar section-sml nil)
 
 (random t)
 
@@ -396,7 +396,7 @@
 (dash-enable-font-lock)
 
 ;; sams-lib
-(require 'sams-lib nil t)
+; (require 'sams-lib nil t)
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
@@ -672,7 +672,7 @@
 (add-to-list 'which-func-modes 'org-mode)
 
 ;; use inactive face for mode-line in non-selected windows
-(setq mode-line-in-non-selected-windows t)
+(setq mode-line-in-non-selected-windows nil)
 
 ;; set mode-line-format
 (load "mode-line-conf")
