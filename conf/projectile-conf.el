@@ -4,6 +4,8 @@
     (require 'projectile)
     (projectile-global-mode)
     (setq projectile-enable-caching t)  ;; enable caching
+    (setq projectile-cache-file (concat my-cache-dir "projectile.cache"))
+    (setq projectile-known-projects-file (concat my-cache-dir "projectile-bookmarks.eld"))
     ;; restore the recent window configuration of the target project
     (setq projectile-remember-window-configs t)
     ;; Action after running projectile-switch-project (C-c p s)

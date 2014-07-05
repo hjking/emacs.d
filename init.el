@@ -374,8 +374,6 @@
 (require 'jka-compr)
 (auto-compression-mode 1)
 
-;; display time
-(display-time-mode 1)
 ;; use 24-hour format
 (setq display-time-24hr-format t)
 (setq display-time-interval 10)
@@ -650,7 +648,6 @@
 
 
 ;; --[ Mode Line ]--------------------------------------------------------------
-;; (load "mode-line-conf")
 
 ;; mode-line-stats
 ;; Display CPU/Memory/Disk status on mode line
@@ -659,9 +656,26 @@
 
 ;; Show buffer size in mode-line
 (size-indication-mode 1)
+;; display time
+(display-time-mode 1)
+;; Enable or disable the display of the current line number
+(line-number-mode 1)
+;; Enable or disable the display of the current column number
+(column-number-mode 1)
+;; Enable or disable laptop battery information
+; (display-battery-mode 1)
+
+;; displays the current function name in the mode line
+(require 'which-func)
+(which-func-mode 1)
+(setq which-func-unknown "unknown")
+(add-to-list 'which-func-modes 'org-mode)
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows t)
+
+;; set mode-line-format
+(load "mode-line-conf")
 
 ;; [ powerline ]
 (when section-powerline
@@ -673,16 +687,20 @@
   (require 'smart-mode-line)
   (setq sml/position-percentage-format "%p")
   (setq sml/shorten-directory t)
-  (setq sml/name-width 15)
-  (sml/apply-theme 'dark)  ;; respectful
+  (setq sml/shorten-modes t)
+  (setq sml/name-width 25)
+  (setq sml/mode-width 'full)
+
+  (add-to-list 'sml/hidden-modes " AC")
+  (add-to-list 'sml/hidden-modes " SP")
+  (add-to-list 'sml/hidden-modes " Fill")
+  (add-to-list 'sml/hidden-modes " hs")
+  (add-to-list 'sml/hidden-modes " ing")
+  (add-to-list 'sml/hidden-modes " vl")
+  (add-to-list 'sml/hidden-modes " GG")
+  ; (sml/apply-theme 'dark)  ;; respectful/light
   (sml/setup)
   )
-
-;; displays the current function name in the mode line
-(require 'which-func)
-(which-func-mode 1)
-(setq which-func-unknown "unknown")
-(add-to-list 'which-func-modes 'org-mode)
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 

@@ -154,3 +154,7 @@
 	path = vendor/volatile-highlights
 	url = https://github.com/k-talo/volatile-highlights.el.git
 	ignore = dirty
+[submodule "vendor/helm-swoop"]
+	path = vendor/helm-swoop
+	url = https://github.com/ShingoFukuyama/helm-swoop.git
+	ignore = dirty
