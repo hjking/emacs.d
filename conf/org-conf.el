@@ -723,8 +723,11 @@ or nil if the current buffer isn't visiting a dayage"
 ;; org-toc is a utility to have an up-to-date table of contents
 ;; in the org files without exporting
 ;; add a TOC tag with command `org-set-tags-command`
-(require 'org-toc)
-(add-hook 'org-mode-hook 'org-toc-enable)
+; (eval-after-load "org-toc-autoloads"
+;   '(progn
+;      (if (require 'org-toc nil t)
+;          (add-hook 'org-mode-hook 'org-toc-enable)
+;        (warn "org-toc not found"))))
 
 
 ;; org-extension

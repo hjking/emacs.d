@@ -246,10 +246,8 @@
     (global-mode-string global-mode-string)
     "    "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; nyan-mode uses nyan cat as an alternative to %p
-    (:eval (when nyan-mode (list (nyan-create))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+    ;; nyan-mode uses nyan cat as an alternative to %p
+    ;(:eval (when nyan-mode (list (nyan-create))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ))
@@ -280,14 +278,21 @@
 (make-face 'mode-line-process-face)
 (make-face 'mode-line-80col-face)
 
-(set-face-attribute 'mode-line nil
-    :foreground "gray60" :background "gray20"
-    :inverse-video nil
-    :box '(:line-width 6 :color "gray20" :style nil))
-(set-face-attribute 'mode-line-inactive nil
-    :foreground "gray80" :background "gray40"
-    :inverse-video nil
-    :box '(:line-width 6 :color "gray40" :style nil))
+; (set-face-attribute 'mode-line nil
+;     :foreground "gray60" :background "gray20"
+;     :inverse-video nil
+;     :box '(:line-width 6 :color "gray20" :style nil))
+; (set-face-attribute 'mode-line-inactive nil
+;     :foreground "gray80" :background "gray40"
+;     :inverse-video nil
+;     :box '(:line-width 6 :color "gray40" :style nil))
+
+;; see http://www.gnu.org/software/emacs/manual/html_node/emacs/Standard-Faces.html
+; (set-face-background 'mode-line          "#4466aa")
+; (set-face-background 'mode-line-inactive "#99aaff")
+;; a box around the active mode-line
+; (custom-set-faces
+;    '(mode-line ((t (:box (:line-width 2 :color "red"))))))
 
 (set-face-attribute 'mode-line-read-only-face nil
     :inherit 'mode-line-face

@@ -668,8 +668,19 @@
 ;; displays the current function name in the mode line
 (require 'which-func)
 (which-func-mode 1)
-(setq which-func-unknown "unknown")
-(add-to-list 'which-func-modes 'org-mode)
+(which-function-mode)
+; (setq which-func-unknown "unknown")
+(setq which-func-unknown "n/a")
+; (add-to-list 'which-func-modes 'org-mode)
+; (add-to-list 'which-func-modes 'ruby-mode)
+; (add-to-list 'which-func-modes 'emacs-lisp-mode)
+; (add-to-list 'which-func-modes 'c-mode)
+; (add-to-list 'which-func-modes 'c++-mode)
+; (add-to-list 'which-func-modes 'python-mode)
+; (add-to-list 'which-func-modes 'perl-mode)
+; (add-to-list 'which-func-modes 'verilog-mode)
+; (add-to-list 'which-func-modes 'html-mode)
+; (add-to-list 'which-func-modes 'sh-mode)
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -682,6 +693,7 @@
     (add-site-lisp-load-path "powerline/")
     (load "powerline-conf"))
 
+;; [ Smart Mode Line ]
 (when section-sml
   (add-site-lisp-load-path "smart-mode-line/")
   (require 'smart-mode-line)
@@ -1409,8 +1421,7 @@
 
 
 ;; [ tabbar ]-------------------------------------------------------------------
-(when (require 'tabbar nil t)
-    (tabbar-mode t))
+(load "tabbar-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
 
