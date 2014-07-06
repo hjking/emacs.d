@@ -18,7 +18,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-record-commands t)
 (setq ido-max-directory-size 100000)
-(setq ido-auto-merge-work-directories-length 0)
+(setq ido-auto-merge-work-directories-length nil)
 ;; Show previously opened buffers in ido-switch-buffer
 (setq ido-use-virtual-buffers t)
 (setq ido-case-fold t)
@@ -36,6 +36,11 @@
 ;;
 (setq ido-file-extensions-order '(".org" ".txt" ".py" ".emacs" ".xml" ".el" ".ini" ".cfg" ".cnf"))
 (setq ido-default-file-method 'selected-window)
+
+;;; Set buffer separator in the mini buffer when press C-x b (ido-switch-buffer)
+;;; to new line instead of the character | so that it can be easy to read
+(setq ido-decorations
+      '("\n=> " "" "\n" "" "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; (require 'ido-hacks)

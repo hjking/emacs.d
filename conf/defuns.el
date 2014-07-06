@@ -1597,6 +1597,17 @@ If REPOSITORY is specified, use that."
     (and (= oldpos (point))
          (beginning-of-line))))
 
+;;; Better C-a
+(defun tmtxt/back-to-indentation-or-line-beginning ()
+  "Go back to indentation, or if already there, to the beginning
+of line."
+  (interactive)
+  (let ((pt (point)))
+    (beginning-of-line-text)
+    (when (eq pt (point))
+      (beginning-of-line))))
+(global-set-key (kbd "C-a") 'tmtxt/back-to-indentation-or-line-beginning)
+
 ;; Joining lines
 ;; https://github.com/rejeep/emacs/blob/master/rejeep-defuns.el#L150-L158
 (defun join-line-or-lines-in-region ()

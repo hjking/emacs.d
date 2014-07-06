@@ -57,6 +57,8 @@
 ;; if it is not Windows, use the following listing switches
 (when (not (eq system-type 'windows-nt))
   (setq dired-listing-switches "-lha --group-directories-first"))
+;; show sym link targets
+(setq dired-details-hide-link-targets nil)
 
 (add-hook 'dired-mode-hook
     '(lambda()
@@ -130,6 +132,7 @@
                   ;; hide my dot-files when hit M-o
                   (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
                   (setq dired-omit-size-limit 1000000)
+                  (define-key dired-mode-map (kbd "C-o") 'dired-omit-mode)
           ))
 ;;-------------------------------------------------------------------------
 

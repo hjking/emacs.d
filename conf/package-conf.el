@@ -4,18 +4,28 @@
   (setq step_no (1+ step_no))
   (require 'package)
 
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/")
-               t)
+  ; (add-to-list 'package-archives
+  ;              '("marmalade" . "http://marmalade-repo.org/packages/")
+  ;              t)
 
-  ;; under active development.
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/")
-               t)
+  ; ;; under active development.
+  ; (add-to-list 'package-archives
+  ;              '("melpa" . "http://melpa.milkbox.net/packages/")
+  ;              t)
   ;; stable
   ; (add-to-list 'package-archives
   ;              '("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
   ;              t)
+
+  (dolist (source '(("marmalade" . "http://marmalade-repo.org/packages/")
+                    ("elpa" . "http://tromey.com/elpa/")
+                    ;; stable
+                    ; ("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
+                    ;; TODO: Maybe, use this after emacs24 is released
+                    ;; (development versions of packages)
+                    ("melpa" . "http://melpa.milkbox.net/packages/")
+                    ))
+  (add-to-list 'package-archives source t))
 
   (when (< emacs-major-version 24)
       (add-to-list 'package-archives
@@ -44,6 +54,7 @@
     org-toc
     smooth-scrolling
     web-mode
+    web-beautify
     helm
     helm-projectile
     ggtags

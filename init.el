@@ -622,6 +622,7 @@
 ;       scroll-step                     0)
 (setq hscroll-step 2)
 (setq scroll-step 1) ;; keyboard scroll one line at a time
+(setq auto-window-vscroll nil)
 (setq redisplay-dont-pause t)
 (setq scroll-lock-mode 1)
 ;; scroll one line at a time (less "jumpy" than defaults)
