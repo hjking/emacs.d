@@ -54,7 +54,6 @@
     org-toc
     smooth-scrolling
     web-mode
-    web-beautify
     helm
     helm-projectile
     ggtags

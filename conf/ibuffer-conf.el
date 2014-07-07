@@ -50,6 +50,11 @@
       (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; display those buffers in the same window, not pop-up a new window
+(add-to-list 'same-window-buffer-names "*Help*")
+(add-to-list 'same-window-buffer-names "*Apropos*")
+
 ;;
 
 (eval-after-load 'ibuffer
@@ -73,11 +78,12 @@
             ("emacs"      (name . "\\*.*\\*"))
             ("Dirs"       (mode . dired-mode))
             ("Shell"      (mode . shell-script-mode))
-            ("HDL"    (or
+            ("HDL"        (or
                            (mode . verilog-mode)
                            (mode . vlog-mode)))
             ("C"          (or
                            (mode . c-mode)
+                           (mode . cc-mode)
                            (mode . c++-mode)))
             ("Elisp"      (or
                            (mode . emacs-lisp-mode)
@@ -92,6 +98,9 @@
             ("Music"      (name . "^EMMS Music Playlist$"))
             ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
             ("IRC"        (mode . erc-mode))
+            ("Markdown"
+                         (or
+                          (mode . markdown-mode)))
             ))))
 
     (setq ibuffer-saved-filters

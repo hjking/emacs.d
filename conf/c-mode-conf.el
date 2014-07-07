@@ -41,7 +41,7 @@
     (c-toggle-electric-state -1)
 
     (setq tab-width 4)
-    (setq indent-tabs-mode t) ; Pressing TAB should cause indentation
+    (setq indent-tabs-mode nil) ; Pressing TAB should cause indentation
     (setq c-indent-level 4)   ; A TAB is equivilent to four spaces
     (setq c-basic-offset 4)
     (setq c-continued-statement-offset 4)

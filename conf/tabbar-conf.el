@@ -39,14 +39,14 @@
   ;; 设置左边按钮外观：外框框边大小和颜色
   (set-face-attribute 'tabbar-button nil
                       :inherit 'tabbar-default
-                      :box '(:line-width 1 :color "#48A4D5")
+                      :box '(:line-width 2 :color "#48A4D5")
                       )
   ;; 设置当前tab外观：颜色，字体，外框大小和颜色
   (set-face-attribute 'tabbar-selected nil
                       :inherit 'tabbar-default
-                      :foreground "black"
+                      :foreground "red"
                       :background "#48A4D5"
-                      :box '(:line-width 2 :color "#48A4D5")
+                      :box '(:line-width 2 :color "#48A4D5" :style pressed-button)
                       ;; :overline "black"
                       ;; :underline "black"
                       :weight 'bold
@@ -54,7 +54,7 @@
   ;; 设置非当前tab外观：外框大小和颜色
   (set-face-attribute 'tabbar-unselected nil
                       :inherit 'tabbar-default
-                      :box '(:line-width 2 :color "black")
+                      :box '(:line-width 2 :color "black" :style released-button)
                       )
 
   ;; Change padding of the tabs

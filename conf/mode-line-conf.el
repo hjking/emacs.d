@@ -218,7 +218,7 @@
            ((buffer-modified-p)
             (propertize " ** " 'face 'mode-line-modified-face))
            (t "      ")))
-    "    "
+    "  "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ; emacsclient [default -- keep?]
     mode-line-client
@@ -232,12 +232,12 @@
     ; '(:eval (propertize "%m" 'face 'font-lock-string-face
     ;           'help-echo buffer-file-coding-system))
     ; "] "
-    "  %["
+    " %["
     (:propertize mode-name
                  face mode-line-mode-face)
     "%] "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    " ("
+    "("
     (:eval (propertize (format-mode-line minor-mode-alist)
                       'face 'mode-line-minor-mode-face))
     ") "
