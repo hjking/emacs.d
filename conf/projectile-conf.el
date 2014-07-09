@@ -19,6 +19,11 @@
     ; (defconst projectile-mode-line-lighter " P")
     ;; (diminish 'projectile-mode)
 
+    (with-executable 'ctags-exuberant
+      (setq-default
+       ;; Default to exuberant ctags.
+       projectile-tags-command "ctags-exuberant -Re %s"))
+
     ;; integrate perspective with projectile
     (require 'perspective)
     (persp-mode)

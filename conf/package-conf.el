@@ -59,6 +59,8 @@
     ggtags
     diminish
     ztree
+    gnuplot-mode
+    ; auto-complete-verilog
     )
   "A list of packages to ensure are installed at launch.")
 

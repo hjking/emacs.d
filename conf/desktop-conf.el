@@ -80,12 +80,12 @@
 ;; Better ifea: use 'ibuffer' to kill no need buffer, then save desktop
 
 ;; remove desktop after it's been read
-(add-hook 'desktop-after-read-hook
-      '(lambda ()
-         ;; desktop-remove clears desktop-dirname
-         (setq desktop-dirname-tmp desktop-dirname)
-         (desktop-remove)
-         (setq desktop-dirname desktop-dirname-tmp)))
+; (add-hook 'desktop-after-read-hook
+;       '(lambda ()
+;          ;; desktop-remove clears desktop-dirname
+;          (setq desktop-dirname-tmp desktop-dirname)
+;          (desktop-remove)
+;          (setq desktop-dirname desktop-dirname-tmp)))
 
 (defun saved-session ()
   (file-exists-p desktop-file-name))
@@ -112,8 +112,8 @@
     (desktop-save-in-desktop-dir)))
 
 ;; ask user whether to restore desktop at start-up
-(add-hook 'after-init-hook
-      '(lambda ()
-         (if (saved-session)
-         (if (y-or-n-p "Restore desktop? ")
-             (session-restore)))))
+; (add-hook 'after-init-hook
+;       '(lambda ()
+;          (if (saved-session)
+;          (if (y-or-n-p "Restore desktop? ")
+;              (session-restore)))))

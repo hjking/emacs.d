@@ -334,14 +334,37 @@
 
 ;; use clipboard, share with other applications
 (when (window-system)
-  (setq x-select-enable-primary t
-        x-select-enable-clipboard nil
+  (setq-default
+        x-select-enable-primary nil ; stops killing/yanking interacting with primary X11 selection
+        x-select-enable-clipboard t ; makes killing/yanking interact with clipboard X11 selection
+        mouse-drag-copy-region nil  ; stops selection with a mouse being immediately injected to the kill ring
         x-stretch-cursor t
         ;; middle button for paste
-        mouse-yank-at-point t))
+        mouse-yank-at-point t
+        ;; Active region should set primary X11 selection.
+        select-active-regions t
+        ;; Set middle mouse button to paste from primary X11 selection.
+        ))
+(global-set-key [mouse-2] 'mouse-yank-primary)
+;; Rebind to new clipboard functions when available.
+(when (fboundp 'clipboard-kill-region)
+  (global-set-key [remap kill-region] 'clipboard-kill-region))
+(when (fboundp 'clipboard-kill-ring-save)
+  (global-set-key [remap kill-ring-save] 'clipboard-kill-ring-save))
+(when (fboundp 'clipboard-yank)
+  (global-set-key [remap yank] 'clipboard-yank))
 
 ;; Save clipboard strings into kill ring before replacing them
 (setq save-interprogram-paste-before-kill t)
+
+;; either copies the current region to the system clipboard or,
+;; if no region is active, yanks the clipboard at point
+(defun clipboard-dwim ()
+  (interactive)
+  (if (region-active-p)
+      (clipboard-kill-ring-save (region-beginning) (region-end))
+    (clipboard-yank)))
+(global-set-key (kbd "C-c w") 'clipboard-dwim)
 
 (message "%d: >>>>> Loading [ Misc ] Customization ...." step_no)
 (setq step_no (1+ step_no))
@@ -926,31 +949,14 @@
 ;; --[ Buffer Handling ]-----------------------------------------------[ End ]--
 
 
-;; [ saveplace ]----------------------------------------------------------------
+;; [ session ]------------------------------------------------------------------
 ;; remembers your location in a file when saving files
-(when (require 'saveplace nil t)
-  (message "%d: >>>>> Loading [ saveplace ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
-  ;; automatically save place in each file
-  (setq-default save-place t)
-  ;; name of the file that records `save-place-alist' value
-  (setq save-place-file (concat my-cache-dir "emacs.places"))
-  ;; do not make backups of master save-place file
-  (setq save-place-version-control "never")
-  (define-key ctl-x-map "p" 'toggle-save-place-globally))
+(load "saveplace-conf")
 
 ;; History
-;; Save a minibuffer input history
-(savehist-mode t)
-(setq savehist-file (concat my-cache-dir ".emacs-history"))
-(setq history-length t)
-(setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-autosave-interval 180)
-(setq savehist-additional-variables
-      '(kill-ring
-        search-ring
-        regexp-search-ring))
+(load "savehist-conf")
+
+(load "recentf-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -963,38 +969,7 @@
 
 ;; --[ Indentation ]------------------------------------------------------------
 (when section-indentation
-    (message "%d: >>>>> Loading [ Indentation ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ;;;;;;;;;;;;;;
-    ;; electric.el
-    ;;  indent automatically (from 24.1)
-    (electric-indent-mode 1)
-    ;; set default tab char's display width to 4 spaces
-    (setq-default tab-width 4)
-    ;; set current buffer's tab char's display width to 4 spaces
-    (setq tab-width 4)
-    ;; Use spaces, not tabs
-    (setq-default indent-tabs-mode nil)
-    ;; a single space does end a sentence
-    (setq sentence-end-double-space nil)
-
-    (setq backward-delete-char-untabify nil)
-
-    ;; make tab key always call a indent command.
-    ;; (set-default tab-always-indent t)
-
-    ;; make tab key call indent command or insert tab character, depending on cursor position
-    (set-default tab-always-indent nil)
-
-    ;; make tab key do indent first then completion.
-    ;; (set-default tab-always-indent 'complete)
-
-    ;; `C-M-\' runs the command `indent-region' (which does the job of
-    ;; the imaginary command `unsuck-html-layout' in `html-mode')
-
-    (require 'indent-guide)
-    (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1)))
-)
+  (load "indent-conf"))
 ;; --[ Indentation ]---------------------------------------------------[ End ]--
 
 
@@ -1263,11 +1238,6 @@
 ;; [ goto change ]--------------------------------------------------------------
 (require 'goto-chg)
 ;; [ goto change ]-----------------------------------------------------[ End ]--
-
-
-;; [ recent files ]-------------------------------------------------------------
-(load "recentf-conf")
-;; [ recent files ]---------------------------------------------------[ End ]---
 
 
 ;; [ helm ]---------------------------------------------------------------------
@@ -1702,7 +1672,9 @@
     ;; Verilog mode
       (setq my-verilog-load-path (concat my-site-lisp-dir "verilog-mode/"))
       (add-site-lisp-load-path "verilog-mode/")
-      (load "verilog-conf"))
+      (load "verilog-conf")
+      ; (require 'auto-complete-verilog)
+      )
 
   (when section-vlog
       ;; Vlog mode: The verilog code maker
@@ -1720,7 +1692,7 @@
   ;; Systemc mode
   (autoload 'systemc-mode "systemc-mode" "Mode for SystemC files." t)
   ;; (add-hook 'systemc-mode-hook 'c++-mode-hook)
-  ; (require 'auto-complete-verilog)
+
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1832,10 +1804,24 @@
 (message ">>>>> Loading [ Comint Mode ] Customization ....")
 (add-hook 'comint-mode-hook
           '(lambda ()
+             ;; Scroll automatically on new output.
+             (setq comint-scroll-to-bottom-on-output 'others)
              (setq comint-scroll-show-maximum-output t)
-             (setq comint-input-ignoredups t)
-             (setq comint-input-ring-size 64)
-             (setq comint-buffer-maximum-size (expt 2 16))))
+             (setq comint-move-point-for-output 'others)
+             ;; Scroll buffer to bottom in active frame on input.
+             (setq comint-scroll-to-bottom-on-input 'this)
+             ;; Make the prompt read only.
+             (setq comint-prompt-read-only t)
+             (setq comint-input-ignoredups t) ;; Don't store duplicates in history.
+             (setq comint-input-ring-size 100) ;; Set a decent input history size.
+             (setq comint-buffer-maximum-size (expt 2 16))
+             ;;; (Bindings) ;;;
+             ;; Cycling through command history.
+             (define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
+             (define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
+             ;; Skip past prompt.
+             (define-key comint-mode-map [C-left] 'comint-bol)
+             ))
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;;; ================ ProgrammingModes End ================
