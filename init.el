@@ -402,6 +402,7 @@
 (setq display-time-interval 10)
 ;; display time, day and date
 (setq display-time-day-and-date t)
+(setq display-time-format "%R %y-%m-%d")
 (display-time)
 
 (message ">>>>> Loading [ Misc ] Customization Done")
@@ -1173,6 +1174,13 @@
 (setq vc-follow-symlinks t)
 ;; update VCS info on revert
 (setq auto-revert-check-vc-info t)
+(defadvice vc-next-action (before save-before-vc first activate)
+  "Save all buffers before any VC next-action function calls."
+  (hjking/save-all-file-buffers))
+
+(defadvice vc-diff (before save-before-vc-diff first activate)
+  "Save all buffers before vc-diff calls."
+  (hjking/save-all-file-buffers))
 
 ;; *** --- PCL-CVS
 (when section-cvs

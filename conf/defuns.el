@@ -1206,6 +1206,19 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   (interactive)
   (smart-split-helper nil))
 
+(defun hjking/save-all-file-buffers ()
+  "Saves every buffer associated with a file."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (with-current-buffer buf
+      (when (and (buffer-file-name) (buffer-modified-p))
+        (save-buffer)))))
+
+(defun hjking/kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
 ;; replace(refresh) current buffer text with the text of the visited file on disk
 (defun my-revert-buffer ()
   "Unconditionally revert current buffer."
@@ -1527,7 +1540,7 @@ File suffix is used to determine what program to run."
       (buffer-substring start end))))
 
 ;; Fix all indentation
-(defun hjking-fix-indentation ()
+(defun hjking/fix-indentation ()
     "indent whole buffer"
     (interactive)
     (delete-trailing-whitespace)
@@ -1536,17 +1549,27 @@ File suffix is used to determine what program to run."
     (untabify (point-min) (point-max)))
 
 
-(defun untabify-buffer ()
+(defun hjking/untabify-buffer ()
+  "For untabifying the entire buffer."
   (interactive)
   (untabify (point-min) (point-max)))
 
+(defun hjking/untabify-buffer-hook ()
+  "Adds a buffer-local untabify on save hook"
+  (interactive)
+  (add-hook
+   'after-save-hook
+   (lambda () (hjking/untabify-buffer))
+   nil
+   'true))
+
 ;; reindent the entire buffer
-(defun indent-buffer ()
+(defun hjking/indent-buffer ()
   "Reindent the whole buffer."
   (interactive)
   (indent-region (point-min) (point-max)))
 
-(defun cleanup-buffer-safe ()
+(defun hjking/cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
 Does not indent buffer, because it is used for a before-save-hook, and that
 might be bad."
@@ -1555,7 +1578,7 @@ might be bad."
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
 
-(defun cleanup-buffer ()
+(defun hjking/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
   (interactive)
@@ -1826,11 +1849,7 @@ programming."
         (progn
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (- x-int 1)))
-        )
-      )
-    )
-  )
-)
+        )))))
 
 ;; Increment Int
 (defun increment ()
@@ -1843,11 +1862,7 @@ programming."
         (progn
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (+ x-int 1)))
-        )
-      )
-    )
-  )
-)
+        )))))
 
 ;; let you quickly search a set of buffers that match a specific major mode
 (defun get-buffers-matching-mode (mode)
@@ -1989,6 +2004,10 @@ spaces across the current buffer."
   (if indent-tabs-mode
     (message "`indent-tabs-mode' now on")
   (message  "`indent-tabs-mode' now off")))
+
+(defun hjking/disable-tabs ()
+  "Disables tabs."
+  (setq indent-tabs-mode nil))
 
 ; (global-set-key (kbd "M-SPC") 'fc/delete-space)
 (defun fc/delete-space ()

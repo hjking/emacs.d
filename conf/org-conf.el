@@ -376,6 +376,7 @@
                                        (file-name-directory
                                         (directory-file-name org-directory)))))
 (setq org-export-with-section-numbers nil)
+(setq org-export-coding-system 'utf-8)
 (setq org-html-include-timestamps nil)
 ;; active Babel languages
 (org-babel-do-load-languages
