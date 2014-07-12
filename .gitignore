@@ -17,3 +17,7 @@
 /history
 
 /vendor/pde/lisp/tools/perldoc-cache.el
+
+/TAGS
+
+/eshell
