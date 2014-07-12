@@ -115,7 +115,7 @@
 (defvar section-wl nil)
 (defvar section-color-theme t)
 (defvar section-weibo t)
-(defvar section-workgroups t)
+(defvar section-workgroups nil)
 (defvar section-powerline nil)
 (defvar section-sml nil)
 
@@ -692,8 +692,6 @@
 
 ;; displays the current function name in the mode line
 (require 'which-func)
-(which-func-mode 1)
-(which-function-mode)
 ; (setq which-func-unknown "unknown")
 (setq which-func-unknown "n/a")
 ; (add-to-list 'which-func-modes 'org-mode)
@@ -706,6 +704,10 @@
 ; (add-to-list 'which-func-modes 'verilog-mode)
 ; (add-to-list 'which-func-modes 'html-mode)
 ; (add-to-list 'which-func-modes 'sh-mode)
+; (eval-after-load "which-func"
+;       '(setq which-func-modes '(java-mode c++-mode org-mode)))
+(which-func-mode 1)
+(which-function-mode 1)
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -736,7 +738,7 @@
   (add-to-list 'sml/hidden-modes " vl")
   (add-to-list 'sml/hidden-modes " GG")
   ; (sml/apply-theme 'dark)  ;; respectful/light
-  (sml/setup)
+  ; (sml/setup)
   )
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
@@ -2078,6 +2080,9 @@
 
 
 (load custom-file 'noerror)
+
+; (sml/apply-theme 'dark)  ;; respectful/light
+; (sml/setup)
 
 ;; (setq debug-on-error nil)
 (message ">>>>> Emacs startup time: %d seconds."

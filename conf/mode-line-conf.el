@@ -243,7 +243,8 @@
     ") "
     (:propertize mode-line-process
                  face mode-line-process-face)
-    (global-mode-string global-mode-string)
+    mode-line-misc-info
+    ; (global-mode-string global-mode-string)
     ; "  --"
     ; '(which-func-mode ("" which-func-format "--"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

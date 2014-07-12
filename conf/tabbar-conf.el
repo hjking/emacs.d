@@ -59,8 +59,7 @@
 
   ;; Change padding of the tabs
   ;; we also need to set separator to avoid overlapping tabs by highlighted tabs
-  (custom-set-variables
-   '(tabbar-separator (quote (0.5))))
+  (setq tabbar-separator '(0.5))
   ;; adding spaces
   (defun tabbar-buffer-tab-label (tab)
     "Return a label for TAB.
