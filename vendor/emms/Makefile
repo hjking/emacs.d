@@ -1,12 +1,11 @@
-EMACS=emacs
-SITEFLAG=--no-site-file
 GZIP=gzip
-ALLSOURCE=$(wildcard *.el)
-ALLCOMPILED=$(wildcard *.elc)
-SPECIAL=emms-auto.el emms-maint.el
-SOURCE=$(filter-out $(SPECIAL),$(ALLSOURCE))
-TARGET=$(patsubst %.el,%.elc,$(SOURCE))
 MAN1PAGES=emms-print-metadata.1
+DOCDIR=doc/
+LISPDIR=lisp
+SRCDIR=src
+
+ALLSOURCE=$(wildcard $(LISPDIR)/*.el)
+ALLCOMPILED=$(wildcard $(LISPDIR)/*.elc)
 
 DESTDIR=
 PREFIX=$(DESTDIR)/usr/local
@@ -14,52 +13,80 @@ INFODIR=$(PREFIX)/info
 MAN1DIR=$(PREFIX)/share/man/man1
 SITELISP=$(PREFIX)/share/emacs/site-lisp/emms
 
-INSTALLINFO = /usr/sbin/install-info --info-dir=$(INFODIR)
+GINSTALLINFO = /usr/bin/ginstall-info --info-dir=$(INFODIR)
+# For systems without ginstall-info
+INSTALLINFO = /usr/bin/install-info --info-dir=$(INFODIR)
+CHANGELOG_CMD = git log --pretty=medium --no-merges
 
-.PHONY: all install deb-install clean
-.PRECIOUS: %.elc %.info %.html
-all: $(TARGET) emms-auto.el emms.info
+# The currently released version of EMMS
+VERSION=4.0
 
-emms-auto.el: emms-auto.in $(SOURCE)
-	cp emms-auto.in emms-auto.el
-	-rm -f emms-auto.elc
-	@$(EMACS) -q $(SITEFLAG) -batch \
-		-l emms-maint.el \
-		-l emms-auto.el \
-		-f generate-autoloads \
-		$(shell pwd)/emms-auto.el .
+.PHONY: all install lisp docs deb-install clean
+.PRECIOUS: %.elc
+all: lisp docs
 
-%.elc: %.el
-	@$(EMACS) -q $(SITEFLAG) -batch \
-		-l emms-maint.el \
-		-f batch-byte-compile $<
+autoloads:
+	$(MAKE) -C $(LISPDIR) emms-auto.el
 
-%.info: %.texinfo
-	makeinfo --no-split $<
+lisp:
+	$(MAKE) -C $(LISPDIR)
 
-%.html: %.texinfo
-	makeinfo --html --no-split $<
+docs:
+	$(MAKE) -C $(DOCDIR)
 
-emms-print-metadata: emms-print-metadata.c
-	$(CC) -o $@ $< -I/usr/include/taglib -L/usr/lib -ltag_c
+emms-print-metadata: $(SRCDIR)/emms-print-metadata.c
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $(SRCDIR)/$@ $< `taglib-config --cflags --libs` -ltag_c
 
 install:
 	test -d $(SITELISP) || mkdir -p $(SITELISP)
-	[ -d $(INFODIR) ] || install -d $(INFODIR)
+	test -d $(INFODIR) || install -d $(INFODIR)
 	install -m 644 $(ALLSOURCE) $(SITELISP)
 	install -m 644 $(ALLCOMPILED) $(SITELISP)
-	install -m 0644 emms.info $(INFODIR)/emms
+	install -m 0644 $(DOCDIR)emms.info $(INFODIR)/emms
 	for p in $(MAN1PAGES) ; do $(GZIP) -9c $$p > $(MAN1DIR)/$$p.gz ; done
-	$(INSTALLINFO) emms.info
+	if [ -x /usr/bin/ginstall-info ]; then \
+		$(GINSTALLINFO) $(DOCDIR)emms.info; \
+	else \
+		$(INSTALLINFO) $(DOCDIR)emms.info; \
+	fi
 
 remove-info:
-	$(INSTALLINFO) --remove emms.info
-
-deb-install:
-	install -m 644 $(ALLSOURCE) $(SITELISP)
+	if [ -x /usr/bin/ginstall-info ]; then \
+		$(GINSTALLINFO) --remove $(DOCDIR)emms.info; \
+	else \
+		$(INSTALLINFO) --remove $(DOCDIR)emms.info; \
+	fi
 
 ChangeLog:
-	darcs changes > $@
+	$(CHANGELOG_CMD) > $@
 
 clean:
-	-rm -f *~ *.elc emms-auto.el emms.info emms.html emms-print-metadata
+	-rm -f *~ $(DOCDIR)emms.info $(DOCDIR)emms.html $(SRCDIR)/emms-print-metadata
+	$(MAKE) -C $(LISPDIR) clean
+
+dist: clean autoloads
+	git archive --format=tar --prefix=emms-$(VERSION)/ HEAD | \
+	  (cd .. && tar xf -)
+	rm -f ../emms-$(VERSION)/.gitignore
+	cp lisp/emms-auto.el ../emms-$(VERSION)/lisp
+	$(CHANGELOG_CMD) > ../emms-$(VERSION)/ChangeLog
+
+release: dist
+	(cd .. && tar -czf emms-$(VERSION).tar.gz \
+	    emms-$(VERSION) ; \
+	  zip -r emms-$(VERSION).zip emms-$(VERSION) && \
+	  gpg --detach emms-$(VERSION).tar.gz && \
+	  gpg --detach emms-$(VERSION).zip)
+
+upload:
+	(cd .. && echo "Directory: emms" | gpg --clearsign > \
+	    emms-$(VERSION).tar.gz.directive.asc && \
+	  cp emms-$(VERSION).tar.gz.directive.asc \
+	    emms-$(VERSION).zip.directive.asc && \
+	  echo open ftp://ftp-upload.gnu.org > upload.lftp ; \
+	  echo cd /incoming/ftp >> upload.lftp ; \
+	  echo mput emms-$(VERSION).zip* >> upload.lftp ; \
+	  echo mput emms-$(VERSION).tar.gz* >> upload.lftp ; \
+	  echo close >> upload.lftp ; \
+	  lftp -f upload.lftp ; \
+	  rm -f upload.lftp)

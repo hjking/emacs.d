@@ -1,3 +1,23 @@
+News since version 3.0:
+
+  - Add GNU FM support.
+  - Added mp4, m4a to the extensions handled by emms-info-libtag.
+  - Play tracks randomly.
+  - Extend MPD player support.
+  - Add pause-resume support for lyrics display.
+  - New implementation of emms-print-metadata.
+  - Support both XEmacs and Emacs to highlight playing lyrics.
+  - Add support for disc-number sorting of FLAC files.
+  - New function to allow custom browser track-formats to display
+    track duration.
+  - Drop support for emms-player-gstreamer, Last.fm.
+  - emms-player-mplayer: Remove code for loading movie subtitles
+    automatically by emms, since mplayer has an option
+    (`sub-fuzziness') controlling that.
+  - Support displaying lyrics in a dedicated buffer, to highlight playing lyric.
+  - Fix make install on Cygwin.
+  - Compilation errors cleanup.
+
 News since version 2.1:
 
   - Saving bookmarks in individual tracks is now supported.
@@ -37,13 +57,13 @@ News since version 2.1:
       emms-lastfm is loaded and active.
   - emms-playing-time supports different display styles now.
   - emms-lyrics: Now support lyrics auto-scrolling.
-  - emms-player-mplayer: capable of loading movie subtitles
+  - emms-player-mplayer: Capable of loading movie subtitles
     automatically now.
 
 News since version 2.0:
 
   - A new player that uses mpg321's remote mode is now available
-    (emms-player-mpg321-remote) - this allows seeking and copes with
+    (emms-player-mpg321-remote)--this allows seeking and copes with
     errors in files.
   - A metadata browser has been added in emms-browser.el.
   - Recording of the time a track was last played is now supported.
@@ -57,5 +77,5 @@ News since version 2.0:
 
 User-visible bug fixes:
 
-  - The emms-playlist-mode is now much faster
+  - The emms-playlist-mode is now much faster.
   - MP3s with errors are now playable when using the remote player.
