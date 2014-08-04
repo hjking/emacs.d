@@ -18,13 +18,24 @@
   ; (make-local-variable 'scroll-margin)
   (setq-default scroll-margin 0)
 )
+
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq term-buffer-maximum-size 50000)))
+
 (add-hook 'term-mode-hook 'term-mode-settings)
 (global-set-key "\M-t"              'multi-term)
 ; (global-set-key (kbd "C-x C-m") 'multi-term)
 ; (global-set-key (kbd "C-x m") 'multi-term-next)
 
-;; Likewise, yasnippet breaks the tab key.
-(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-
 ;; Don't try to enable autopair in term-mode, it remaps the return key!
-(add-hook 'term-mode-hook (lambda () (autopair-mode 0)))
+(add-hook 'term-mode-hook
+          (lambda ()
+            (yas-minor-mode -1)
+            (setq show-trailing-whitespace nil)
+            (autopair-mode 0)))
+
+;; yanking / pasting
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y") 'term-paste)))

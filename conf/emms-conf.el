@@ -13,23 +13,28 @@
   (if (file-directory-p "D:/Tools/MPlayer")
       (add-to-list 'exec-path "D:/Tools/MPlayer")
     (message "*** Warning!! Please install MPlayer first!!"))
-)
+  (setq emms-print-metadata-dir (concat my-emms-load-path "emms-print-metadata/"))
+  (if (file-directory-p emms-print-metadata-dir)
+    (add-to-list 'exec-path emms-print-metadata-dir))
+  )
 
 (require 'emms-setup)
-(emms-standard)
-(emms-default-players)
-(require 'emms-source-file)
-(require 'emms-source-playlist)
-(require 'emms-player-simple)
 (require 'emms-player-mplayer)
-(require 'emms-playlist-mode)
-(require 'emms-info)
-(require 'emms-cache)
-(require 'emms-mode-line)
-(require 'emms-playing-time)
-(require 'emms-score)
-(require 'emms-volume)
-(require 'emms-playlist-sort)
+(require 'emms-streams)
+(emms-all)
+(emms-default-players)
+; (require 'emms-source-file)
+; (require 'emms-source-playlist)
+; (require 'emms-player-simple)
+; (require 'emms-player-mplayer)
+; (require 'emms-playlist-mode)
+; (require 'emms-info)
+; (require 'emms-cache)
+; (require 'emms-mode-line)
+; (require 'emms-playing-time)
+; (require 'emms-score)
+; (require 'emms-volume)
+; (require 'emms-playlist-sort)
 (require 'emms-info-libtag)
 
 (emms-mode-line 1)
@@ -106,7 +111,7 @@
 
 ;; My music location
 (when win32p
-  (setq emms-source-file-default-directory "E:/Users/X220_02/Music/iTunes/iTunes Media/Music")
+  (setq emms-source-file-default-directory "F:/Music")
 )
 (when linuxp
   (setq emms-source-file-default-directory "~/Music")
@@ -131,9 +136,8 @@
 (setq emms-lyrics-dir my-emms-lyrics)
 (setq emms-lyrics-display-format "%s")
 
-
 ;; coding settings
-(setq emms-info-mp3info-coding-system 'gbk)
+(setq emms-info-mp3info-coding-system 'utf-8)
 (setq emms-cache-file-coding-system 'utf-8-emacs)
 (setq emms-history-file-coding-system emms-cache-file-coding-system)
 ;; (setq emms-i18n-default-coding-system '(no-conversion . no-conversion))
@@ -161,7 +165,9 @@
 (emms-player-set emms-player-mplayer 'regex "\\.ogg\\|\\.mp3\\|\\.wav\\|\\.mpg\\|\\.mpeg\\|\\.wmv\\|\\.wma\\|\\.mov\\|\\.avi\\|\\.divx\\|\\.ogm\\|\\.asf\\|\\.mkv\\|http://\\|mms://\\|\\.rm\\|\\.rmvb\\|\\.mp4\\|\\.flac\\|\\.vob\\|\\.m4a\\|\\.ape\\|\\.mpc")
 
 ;;>>>>>>
-
+(setq emms-stream-info-format-string "NS: %s"
+      emms-stream-default-action "play"
+      emms-stream-popup-default-height 120)
 
 ;; (when (fboundp 'emms-cache)
 ;;   (emms-cache 1))

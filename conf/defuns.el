@@ -1965,12 +1965,11 @@ programming."
 ;; }}
 
 (defun recentf-ido-find-file ()
-  "Find a recent file using ido."
+  "Find a recent file using Ido."
   (interactive)
-  (let* ((recent-files (mapcar 'recentf--file-cons recentf-list))
-         (files (mapcar 'car recent-files))
-         (file (completing-read "Choose recent file: " files)))
-    (find-file (cdr (assoc file recent-files)))))
+  (let ((f (ido-completing-read "Choose recent file: " recentf-list nil t)))
+    (when f
+      (find-file f))))
 
 (defun fc/kill-to-beginning-of-line ()
   "Kill from the beginning of the line to point."
@@ -2040,3 +2039,30 @@ kill ring."
   (backward-kill-sexp)
   (prin1 (eval (read (current-kill 0)))
          (current-buffer)))
+
+(defun remove-whitespace-inbetween ()
+  "Removes whitespace before and after the point."
+  (interactive)
+  (just-one-space -1))
+
+; (defun transpose-buffer (arg)
+;   "Transpose the buffers shown in two windows"
+;   (interactive "p")
+;   (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+;     (while (/= arg 0)
+;       (let ((this-win (window-buffer))
+;             next-win (window-buffer (funcall selector))))
+;         (set-window-buffer (selected-window) next-win)
+;         (set-window-buffer (funcall selector) this-win)
+;         (select-window (funcall selector)))
+;     (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+
+;; bing!
+(defun bing ()
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.bing.com/search?q="
+    (if mark-active
+        (buffer-substring (region-beginning) (region-end))
+      (read-string "Bing: ")))))

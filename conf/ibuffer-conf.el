@@ -101,6 +101,9 @@
             ("Markdown"
                          (or
                           (mode . markdown-mode)))
+            ("Web"          (or
+                           (mode . css-mode)
+                           (mode . web-mode)))
             ))))
 
     (setq ibuffer-saved-filters

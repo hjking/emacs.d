@@ -72,14 +72,14 @@
 (defvar section-emacs-server nil)
 (defvar section-org t)
 (defvar section-eproject nil)
-(defvar section-ecb nil)
+(defvar section-ecb t)
 (defvar section-session t)
-(defvar section-desktop t)
+(defvar section-desktop nil)
 (defvar section-muse nil)
 (defvar section-cvs nil)
 (defvar section-svn t)
 (defvar section-git t)
-(defvar section-emms nil)
+(defvar section-emms t)
 (defvar section-vm nil)
 (defvar section-ac nil)
 (defvar section-company nil)
@@ -947,8 +947,6 @@
 ;; Quickly switch between buffer with tab-complete
 ;; See "ido"
 ;;
-;; Save where i was in each file
-;; See saveplace
 ;; --[ Buffer Handling ]-----------------------------------------------[ End ]--
 
 
@@ -1497,8 +1495,8 @@
 
 ;; [ ecb ]----------------------------------------------------------------------
 (when section-ecb
-  (add-site-lisp-load-path "ecb-2.40/")
-  (add-site-lisp-info-path "ecb-2.40/info-help/")
+  ; (add-site-lisp-load-path "ecb-2.40/")
+  ; (add-site-lisp-info-path "ecb-2.40/info-help/")
   (load "ecb-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1863,19 +1861,12 @@
 ;; [ EMMS ]---------------------------------------------------------------------
 ;; Music player
 ;; set the location of the music player in Win
-(when win32p
-  (if (file-directory-p "D:/Tools/MPlayer")
-      (add-to-list 'exec-path "D:/Tools/MPlayer")
-    (message "*** Please install MPlayer first!!")))
 (when section-emms
     (setq my-emms-load-path (concat my-site-lisp-dir "emms/"))
-    (add-site-lisp-load-path "emms/")
-    (add-site-lisp-info-path "emms/")
-    (load "emms-conf"))
-
-(add-site-lisp-load-path "DoubanMusic/")
-(autoload 'douban-music "douban-music-mode" nil t)
-
+    (add-site-lisp-load-path "emms/lisp/")
+    (add-site-lisp-info-path "emms/doc/")
+    ; (load "emms-conf")
+    )
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
 
 

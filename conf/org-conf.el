@@ -418,7 +418,7 @@
           :components ("org-notes" "org-static")) ;combine "org-static" and "org-static" into one function call
         ("blog-org"
           :base-directory "~/org/blog/org/"
-          :publishing-directory "~/org/public_html/blog/source/"
+          :publishing-directory "~/org/public_html/blog/out/"
           :base-extension "org"
           :recursive t
           :auto-index t
@@ -434,7 +434,7 @@
           )
         ("blog-static"
           :base-directory "~/org/blog/org/"
-          :publishing-directory "~/org/public_html/blog/source/"
+          :publishing-directory "~/org/public_html/blog/out/"
           :recursive t
           :base-extension "css\\|js\\|bmp\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el\\|pl\\|mht\\|log\\|bin_\\|bat\\|tst\\|doc\\|docx\\|gz"
           :publishing-function org-publish-attachment )

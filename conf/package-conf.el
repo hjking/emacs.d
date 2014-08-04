@@ -60,6 +60,7 @@
     diminish
     ztree
     gnuplot-mode
+    ecb
     ; auto-complete-verilog
     )
   "A list of packages to ensure are installed at launch.")

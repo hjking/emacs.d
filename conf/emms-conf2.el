@@ -36,12 +36,12 @@
   "This advice to make `emms-playlist-sort-by-natural-order' execute after emms-play-directory-tree"
   (emms-playlist-sort-by-natural-order))
 
-(defadvice emms-history-load (after play-default activate)
-  "If after `emms-history-load', get empty playlist,
-play default music directory."
-  (when (not emms-player-playing-p)
-    (emms-play-now)
-    (message "Emms history load failed, load default music directory...")))
+;; (defadvice emms-history-load (after play-default activate)
+;;   "If after `emms-history-load', get empty playlist,
+;; play default music directory."
+;;   (when (not emms-player-playing-p)
+;;     (emms-play-now)
+;;     (message "Emms history load failed, load default music directory...")))
 
 (emms-standard)
 (emms-default-players)
@@ -109,7 +109,7 @@ play default music directory."
 
 ;; My music location
 (when win32p
-  (setq emms-source-file-default-directory "E:/Users/X220_02/Music/iTunes/iTunes Media/Music")
+  (setq emms-source-file-default-directory "F:/Music")
 )
 
 ;; Lyrics
@@ -176,8 +176,8 @@ mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
         (title (emms-track-get track 'info-title))
         (album (emms-track-get track 'info-album))
         (ptime (emms-track-get track 'info-playing-time)))
-    (if title 
-        (format 
+    (if title
+        (format
          "%-35s %-45s %-40s %5s:%-2s"
          (if artist artist "")
          (if title title "")
@@ -259,21 +259,21 @@ mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
 ;;                   (short-name (file-name-sans-extension
 ;;                                (file-name-nondirectory name)))
 ;;                   (title (or (emms-track-get track 'info-title) short-name))
-;;    
+;;
 ;;                   ;; last track
 ;;                   (ltrack xwl-emms-playlist-last-track)
 ;;                   (lartist (or (and ltrack (emms-track-get ltrack 'info-artist))
 ;;                                empty))
 ;;                   (lalbum (or (and ltrack (emms-track-get ltrack 'info-album))
 ;;                               empty))
-;;    
+;;
 ;;                   (same-album-p (and (not (string= lalbum empty))
 ;;                                      (string= album lalbum))))
 ;;              (format "%10s  %3d   %-20s%-60s%-35s%-15s%s"
 ;;                      (emms-last-played-format-date last-played)
 ;;                      play-count
 ;;                      artist
-;;    
+;;
 ;;                      ;; Combine indention, tracknumber, title.
 ;;                      (concat
 ;;                       (if same-album-p ; indention by album
@@ -287,12 +287,12 @@ mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
 ;;                         "")
 ;;                       title        ; title
 ;;                       )
-;;    
+;;
 ;;                      ;; album
 ;;                      (cond ((string= album empty) empty)
 ;;                            ;; (same-album-p "  ")
 ;;                            (t (concat "《" album "》")))
-;;    
+;;
 ;;                      (or year empty)
 ;;                      (if (or (> min 0)  (> sec 0))
 ;;                          (format "%02d:%02d" min sec)
@@ -309,17 +309,17 @@ mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
   "Return the filename the current play."
   (cdr (assoc 'name (emms-playlist-current-selected-track))))
 
-(defun emms-play-now()
-  "Play default music directory."
-  (interactive)
-  (emms-play-directory-tree emms-source-file-default-directory))
+;; (defun emms-play-now()
+;;   "Play default music directory."
+;;   (interactive)
+;;   (emms-play-directory-tree emms-source-file-default-directory))
 
 ;;
 (message ">>>>> Loading [ EMMS Key Binding ] ....")
 ;; global key-map
 ;; all global keys prefix is C-c e
 ;; compatible with emms-playlist mode keybindings
-;; you can view emms-playlist-mode.el to get details about 
+;; you can view emms-playlist-mode.el to get details about
 ;; emms-playlist mode keys map
 (global-set-key (kbd "C-c e s") 'emms-stop)
 (global-set-key (kbd "C-c e SPC") 'emms-pause)
@@ -367,4 +367,3 @@ mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
 (define-key emms-playlist-mode-map (kbd "s-n") 'emms-next)
 (define-key emms-playlist-mode-map (kbd "s-p") 'emms-previous)
 (define-key emms-playlist-mode-map (kbd "s-s") 'emms-shuffle)
-

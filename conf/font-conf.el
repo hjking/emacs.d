@@ -37,6 +37,6 @@ The `car' of each item is the font family, the `cdr' the preferred font size.")
                           :family (car font) :height (cdr font))))
   (-when-let (font (stante-first-existing-font stante-preferred-proportional-fonts))
     (set-face-attribute 'variable-pitch nil
-                        :family (car font) :height (cdr font))))
+                          :family (car font) :height (cdr font))))
 
 (stante-choose-best-fonts)

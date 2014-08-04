@@ -9,7 +9,7 @@
   (setq sh-indent-for-case-label '0)
   (setq sh-indent-for-case-alt '+))
 (add-hook 'sh-mode-hook 'my-shellscript-startup)
-(add-hook 'sh-set-shell-hook 'flymake-shell-load)
+;; (add-hook 'sh-set-shell-hook 'flymake-shell-load)
 
 ;; sh-mode
 (add-to-list 'auto-mode-alist '("/etc/profile"                  . sh-mode))
