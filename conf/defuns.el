@@ -1,11 +1,15 @@
 
 (message "%d: >>>>> Loading [ Functions ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-;; (defvar user-emacs-directory (or user-emacs-directory "~/.emacs.d/"))
+
+; (defvar user-emacs-directory (or user-emacs-directory "~/.emacs.d/"))
+; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
+;         "The Root directory of my .emacs.d")
+
 (defcustom *conf-root* (concat my-emacs-dir "conf/")
   "Location of configuration files to be loaded at startups")
 
-(defcustom *plugin* (concat my-emacs-dir  "plugin/")
+(defcustom *plugin* (concat my-emacs-dir  "vendor/")
   "Location of third-party files to be loaded at startup")
 
 (defmacro after-load (feature &rest body)
@@ -20,7 +24,6 @@
   `(when (executable-find (symbol-name ,executable))
      ,@body))
 
-;; Load all my plugins
 (defun load-paths()
   "Loads plugins from the path specified in *plugin*"
   (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
@@ -30,9 +33,8 @@
         (normal-top-level-add-subdirs-to-load-path)))
   (setq load-path (cons *conf-root* load-path)))
 
-;; Loads configuration files.
 (defun load-config()
-  "Loads configuration files from the path specified in *conf-root*"
+  "Loads all configuration files from the path specified in *conf-root*"
   (let ((*lst* (directory-files *conf-root* nil ".el$")))
     (mapc #'(lambda(x)
               (load-library (concat (subseq x 0 (- (length x) 3)) ""))) *lst*)))
@@ -78,7 +80,6 @@
 (defun append-path ( my-path )
     (setq load-path (append load-path (list (expand-file-name my-path)))))
 
-;; attempt to load a feature/library, failing silently
 (defun try-require (feature)
   "Attempt to load a library or module. Return true if the
 library given as argument is successfully loaded. If not, instead
@@ -97,8 +98,7 @@ of an error, just add the package to a list of missing packages."
         (message "    Checking for library `%s'... Missing" feature)
         (add-to-list 'missing-packages-list feature 'append))
       nil)
-  )
-)
+  ))
 
 ;;;###autoload
 (defun am-add-hooks (hooks function &optional append local)
@@ -165,31 +165,25 @@ See also `with-temp-buffer'."
 (defun my-open-dot-emacs ()
   "Opening `~/.emacs'."
   (interactive)
-  (find-file "~/.emacs")
-)
+  (find-file "~/.emacs"))
 
 ;;; === insert filename ===
 (defun my-insert-file-name ()
   "Insert the buffer-file-name at point."
   (interactive)
-  (insert buffer-file-name)
-)
+  (insert buffer-file-name))
 
 ;;; === insert date ===
 (defun my-insert-date-stamp ()
   "Insert a time stamp at point."
   (interactive)
-;;  (shell-command "date +'%Y-%B-%d' | tr -d '\n' " (quote (4)) nil) )
-  (insert (format-time-string "%Y-%m-%d" (current-time)))
-)
+  (insert (format-time-string "%Y-%m-%d" (current-time))))
 
 ;;; === insert date and time ===
 (defun my-insert-date-time-stamp ()
   "Insert date and time at point."
   (interactive)
-;;  (shell-command "date +'%Y-%B-%d (%H:%M)' | tr -d '\n' " (quote (4)) nil) )
-  (insert (format-time-string "%Y-%m-%d %3a %H:%M:%S" (current-time)))
-)
+  (insert (format-time-string "%Y-%m-%d %3a %H:%M:%S" (current-time))))
 
 (defun my-insert-date (prefix)
   "Insert the current date in ISO format. With prefix-argument,
@@ -200,8 +194,7 @@ See also `with-temp-buffer'."
                       ((equal prefix '(4)) "%Y-%m-%d %a")
                       ((equal prefix '(16)) "%Y-%m-%d %a %H:%M"))))
     (insert (format-time-string format))
-   )
-)
+   ))
 
 ;;; === insert-braces ===
 (defun my-insert-braces ()
@@ -211,9 +204,7 @@ See also `with-temp-buffer'."
     (execute-kbd-macro
       (if (and (eq major-mode 'cc-c++-mode) (not (looking-at ";")))
         "{};" "{}"
-      )
-    )
-  )
+      )))
   (backward-sexp 1)
   (if
     (save-excursion
@@ -225,8 +216,7 @@ See also `with-temp-buffer'."
 ;;    (c-indent-exp)
     (forward-char 1)
     (newline-and-indent)
-  )
-)
+  ))
 
 ;;;; Function Set for Copy
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -236,16 +226,22 @@ See also `with-temp-buffer'."
   (interactive "P")
   (let ((beg (line-beginning-position))
      (end (line-end-position arg)))
-  (copy-region-as-kill beg end))
-)
+  (copy-region-as-kill beg end)))
 
-(defun ew-copy-lines (arg)
-      "Copy lines (as many as prefix argument) in the kill ring"
-      (interactive "p")
-      (kill-ring-save (line-beginning-position)
-                      (line-beginning-position (+ 1 arg)))
-      (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+(defun my-copy-lines (arg)
+  "Copy lines (as many as prefix argument) in the kill ring"
+  (interactive "p")
+  (kill-ring-save (line-beginning-position)
+                  (line-beginning-position (+ 1 arg)))
+  (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
+
+(defun my-copy-line-or-region ()
+  "Copy current line, or current text selection."
+  (interactive)
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (kill-ring-save (line-beginning-position) (line-beginning-position 2))))
 
 ;;; === copy word ===
 (defun my-copy-word (&optional arg)
@@ -1627,8 +1623,7 @@ If REPOSITORY is specified, use that."
      (if (re-search-forward (concat "\\_<" (current-word) "\\_>") nil t)
          (match-beginning 0)
        cur))))
-(global-set-key (kbd "M-#")         'sacha/search-word-backward)
-(global-set-key '[M-*] 'sacha/search-word-forward)
+
 (defadvice search-for-keyword (around sacha activate)
   "Match in a case-insensitive way."
   (let ((case-fold-search t))
@@ -1737,14 +1732,6 @@ programming."
                :height 30
                :scroll-bar t
                :margin t)))
-
-
-(defun copy-line-or-region ()
-  "Copy current line, or current text selection."
-  (interactive)
-  (if (region-active-p)
-      (kill-ring-save (region-beginning) (region-end))
-    (kill-ring-save (line-beginning-position) (line-beginning-position 2))))
 
 (defun cut-line-or-region ()
   "Cut the current line, or current text selection."

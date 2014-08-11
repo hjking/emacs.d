@@ -174,14 +174,11 @@
   (setq default-directory "~/")
 
   ;; My Emacs home directory
-  ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
-  ;         "The Root directory of my .emacs.d")
+
   (defvar my-emacs-init-file (or load-file-name buffer-file-name))
   (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
       "The Root directory of my .emacs.d")
   ;; My site-lisp directory
-  ; (defvar my-site-lisp-dir (concat my-emacs-dir "plugin/")
-  ;     "This directory keeps Emacs Lisp packages")
   (defvar my-site-lisp-dir (concat my-emacs-dir "vendor/")
       "This directory keeps Emacs Lisp packages")
   ;; My configuration files directory
@@ -190,13 +187,13 @@
   ;; Personal configuration files
   (defvar my-personal-dir (concat my-emacs-dir "personal/")
       "This directory keeps my personal configuration")
+  ;; Directory for temporary file
   (defvar my-cache-dir (concat my-emacs-dir "cache/")
       "This directory keeps cache files")
   (unless (file-exists-p my-cache-dir)
       (make-directory my-cache-dir))
   (defmacro add-load-path (path)
       `(setq load-path (append (list, path) load-path)))
-  ;    `(add-to-list 'load-path path))
   (defmacro add-site-lisp-load-path (path)
       `(add-to-list 'load-path (concat my-site-lisp-dir, path)))
   (defmacro add-site-lisp-info-path (path)
@@ -1719,12 +1716,13 @@
 (when section-perl
     (setq perl-load-path (concat my-site-lisp-dir "cperl/"))
     (add-site-lisp-load-path "cperl/")
-    (load "cperl-conf")
+    (load "perl-conf")
 
-    (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
-    (add-site-lisp-load-path "pde/lisp/")
-    (add-site-lisp-info-path "pde/lisp/doc/")
-    (load "pde-load"))
+    ; (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
+    ; (add-site-lisp-load-path "pde/lisp/")
+    ; (add-site-lisp-info-path "pde/lisp/doc/")
+    ; (load "pde-load")
+    )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2028,6 +2026,7 @@
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
 (add-site-lisp-load-path "guide-key/")
+(add-site-lisp-load-path "guide-key-tip/")
 (load "guide-key-conf")
 ;; ---------------------------------------------------------------------[ End ]--
 

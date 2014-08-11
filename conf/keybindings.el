@@ -310,3 +310,6 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "M-t e") 'transpose-sexps)
 (global-set-key (kbd "M-t s") 'transpose-sentences)
 (global-set-key (kbd "M-t p") 'transpose-paragraphs)
+
+(global-set-key (kbd "M-#")         'sacha/search-word-backward)
+(global-set-key (kbd "M-*")         'sacha/search-word-forward)

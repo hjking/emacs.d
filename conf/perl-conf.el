@@ -24,10 +24,12 @@
   (setq gud-perldb-command-name "perl -w ") ; For warnings
   (setq tab-width 4)
   (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
-  (setq perl-indent-level 2)
-  (setq perl-tab-always-indent nil) ; Indent if at left margin, else tab
-  (setq perl-continued-statement-offset 2)
-  (setq perl-continued-brace-offset -2)
+  (setq cperl-indent-level 4)
+  (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
+  (setq cperl-continued-statement-offset 2)
+  (setq cperl-continued-brace-offset -2)
+  (set-face-background 'cperl-array-face "wheat")
+  (set-face-background 'cperl-hash-face "wheat")
 )
 (add-hook 'perl-mode-hook 'my-perl-startup)
 (add-hook 'cperl-mode-hook

@@ -50,3 +50,8 @@
 
 ;; Jumping to code
 (define-key emacs-lisp-mode-map (kbd "C-c .") 'find-function-at-point)
+
+(autoload 'turn-on-pretty-mode "pretty-mode")
+
+;; Paredit
+(load "paredit-mode-conf")

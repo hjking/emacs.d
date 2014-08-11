@@ -35,7 +35,7 @@
 
 (add-hook 'web-mode-hook
           (lambda ()
-            (flymake-html-load)
+            ;; (flymake-html-load)
             (flyspell-mode 1)
             (remove-hook 'yas-after-exit-snippet-hook
                          'web-mode-yasnippet-exit-hook t)

@@ -18,7 +18,6 @@
 (setq color-theme-solarized-path (concat my-site-lisp-dir "color-theme-solarized/"))
 (add-to-list 'load-path color-theme-solarized-path)
 (require 'color-theme-solarized)
-; (color-theme-solarized-dark)
 
 (setq color-theme-monokai-path (concat my-site-lisp-dir "color-theme-monokai/"))
 (add-to-list 'load-path color-theme-monokai-path)
@@ -27,7 +26,6 @@
 (setq color-theme-molokai-path (concat my-site-lisp-dir "color-theme-molokai/"))
 (add-to-list 'load-path color-theme-molokai-path)
 (add-to-list 'custom-theme-load-path color-theme-molokai-path)
-;; (load-theme 'molokai t)
 
 (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
 (add-to-list 'load-path color-theme-twilight-path)
@@ -36,31 +34,43 @@
 (setq color-theme-zenburn-path (concat my-site-lisp-dir "color-theme-zenburn/"))
 (add-to-list 'load-path color-theme-zenburn-path)
 (add-to-list 'custom-theme-load-path color-theme-zenburn-path)
-;; (load-theme 'zenburn t)
 
 (setq color-theme-cyberpunk-path (concat my-site-lisp-dir "color-theme-cyberpunk/"))
 (add-to-list 'load-path color-theme-cyberpunk-path)
 (add-to-list 'custom-theme-load-path color-theme-cyberpunk-path)
-(load-theme 'cyberpunk t)
 
 (setq color-theme-tangotango-path (concat my-site-lisp-dir "color-theme-tangotango/"))
 (add-to-list 'load-path color-theme-tangotango-path)
 (add-to-list 'custom-theme-load-path color-theme-tangotango-path)
-;; (load-theme 'tangotango t)
 
 (setq color-theme-wombat-path (concat my-site-lisp-dir "color-theme-wombat/"))
 (add-to-list 'load-path color-theme-wombat-path)
 (add-to-list 'custom-theme-load-path color-theme-wombat-path)
-;; (load-theme 'wombat t)
 
 (setq color-theme-mine-path (concat my-site-lisp-dir "color-theme-mine/"))
 (add-to-list 'load-path color-theme-mine-path)
 (require 'gentooish)
 (require 'hjking-color)
-;; (require 'color-theme-djui-light)
-;; (require 'color-theme-djui-dark)
+
 (require 'color-theme-drr)
 (require 'color-theme-wombat)
 (setq color-theme-dawn-night-path (concat my-site-lisp-dir "color-theme-dawn-night/"))
 (add-to-list 'load-path color-theme-dawn-night-path)
 (require 'color-theme-dawn-night)
+
+;;customize theme
+(setq color-theme-moe-path (concat my-site-lisp-dir "color-theme-moe/"))
+(add-to-list 'custom-theme-load-path color-theme-moe-path)
+(add-to-list 'load-path color-theme-moe-path)
+(require 'moe-theme)
+(setq moe-theme-mode-line-color 'orange)
+  ;; (Available colors: blue, orange, green ,magenta, yellow, purple, red, cyan, w/b.)
+
+;;;; pick a color theme
+;; (color-theme-solarized-dark)
+;; (load-theme 'wombat t)
+;; (load-theme 'tangotango t)
+(load-theme 'cyberpunk t)
+;; (load-theme 'zenburn t)
+;; (load-theme 'molokai t)
+; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'

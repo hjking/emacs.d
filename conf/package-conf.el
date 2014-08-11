@@ -4,19 +4,6 @@
   (setq step_no (1+ step_no))
   (require 'package)
 
-  ; (add-to-list 'package-archives
-  ;              '("marmalade" . "http://marmalade-repo.org/packages/")
-  ;              t)
-
-  ; ;; under active development.
-  ; (add-to-list 'package-archives
-  ;              '("melpa" . "http://melpa.milkbox.net/packages/")
-  ;              t)
-  ;; stable
-  ; (add-to-list 'package-archives
-  ;              '("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
-  ;              t)
-
   (dolist (source '(("marmalade" . "http://marmalade-repo.org/packages/")
                     ("elpa" . "http://tromey.com/elpa/")
                     ;; stable
@@ -61,6 +48,8 @@
     ztree
     gnuplot-mode
     ecb
+    ; evil
+    ; evil-nerd-commenter
     ; auto-complete-verilog
     )
   "A list of packages to ensure are installed at launch.")
