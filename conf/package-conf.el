@@ -23,6 +23,7 @@
   '(
     auto-complete
     auto-complete-c-headers
+    company
     stripe-buffer               ;; different background for even and odd lines
     expand-region
     smex
@@ -48,6 +49,7 @@
     ztree
     gnuplot-mode
     ecb
+    company-c-headers
     ; evil
     ; evil-nerd-commenter
     ; auto-complete-verilog

@@ -48,7 +48,8 @@
 ;; yes/no ==> y/n
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Delete trailing whitespace on every save
+;; Remove useless whitespace before saving a file
+(add-hook 'before-save-hook 'whitespace-cleanup)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; highlight trailing whitespaces in all modes

@@ -89,12 +89,13 @@
 
 ; (diminish 'dired-view-minor-mode)
 
-; (diminish 'drag-stuff-mode)
+(diminish 'drag-stuff-mode)
 
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)
 
 (diminish 'visual-line-mode)
+(diminish 'global-visual-line-mode)
 
 (eval-after-load 'highlight-symbol
   '(diminish 'highlight-symbol-mode))

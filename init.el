@@ -72,7 +72,7 @@
 (defvar section-emacs-server nil)
 (defvar section-org t)
 (defvar section-eproject nil)
-(defvar section-ecb t)
+(defvar section-ecb nil)
 (defvar section-session t)
 (defvar section-desktop nil)
 (defvar section-muse nil)
@@ -82,7 +82,7 @@
 (defvar section-emms t)
 (defvar section-vm nil)
 (defvar section-ac nil)
-(defvar section-company nil)
+(defvar section-company t)
 (defvar section-helm nil)
 (defvar section-icicles nil)
 (defvar section-scratch t)
@@ -99,8 +99,8 @@
 (defvar section-cygwin t)
 (defvar section-package t)
 (defvar section-tramp t)
-(defvar section-cedet t)
-(defvar section-cedet-1.1 nil)
+(defvar section-cedet nil)
+(defvar section-cedet-1.1 t)
 (defvar section-drag-stuff t)
 (defvar section-mmm-mode t)
 (defvar section-csv-mode t)
@@ -479,8 +479,8 @@
     (load "cedet-1.1-conf")
     ;; (load "cedet-conf")
 )
-(when section-cedet
-  (load "cedet-conf"))
+; (when section-cedet
+;   (load "cedet-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -927,7 +927,7 @@
 (require 'uniquify)
 ;; if open a same name buffer, then forward to same name buffer
 (setq uniquify-buffer-name-style 'post-forward)
-(setq uniquify-separator "/")
+(setq uniquify-separator ":")
 (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
 (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 (setq uniquify-non-file-buffer-names t)
@@ -1610,6 +1610,7 @@
          ("\\.rake$"                      . ruby-mode)
          ("\\.kick$"                      . ruby-mode)
          ("TODO\\'"                       . outline-mode)
+         ("\\.bat$"                       . dos-mode)
        )
        auto-mode-alist
      ))

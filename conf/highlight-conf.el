@@ -15,6 +15,9 @@
 ;; Get more highlight
 (require 'generic-x nil t)
 
+;; Highlight tabulations
+(setq-default highlight-tabs t)
+
 ;;; Highlight search pattern ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight Symbol at point/cursor
 (add-site-lisp-load-path "highlight-symbol")

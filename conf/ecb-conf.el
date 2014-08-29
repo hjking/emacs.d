@@ -66,8 +66,8 @@
     (ecb-show-ecb-windows)
     (delete-other-windows))
 
-    (add-to-list 'ecb-source-path '("~/.emacs.d/" ".emacs.d"))
-    (add-to-list 'ecb-source-path '("~/dotfiles" "dotfiles"))
+    ; (add-to-list 'ecb-source-path '("~/.emacs.d/" ".emacs.d"))
+    ; (add-to-list 'ecb-source-path '("~/dotfiles" "dotfiles"))
   )
 
 ;; C-c . g d  : switch directory window

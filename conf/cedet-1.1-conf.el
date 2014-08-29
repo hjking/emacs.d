@@ -1,5 +1,6 @@
 
 ;; Semantic
+;; go check semantic-load.el
 ;; (1)
 ;; (semantic-load-enable-minimum-features)
 ;; include semantic-idle-scheduler-mode,
@@ -16,21 +17,22 @@
 ;; decoration mode, and stickyfunc mode
 ;; (semantic-load-enable-gaudy-code-helpers)
 ;; include following
-;; 在类/函数等tag上方加一条蓝色的线
-;; (global-semantic-decoration-mode 1)
-;; 把当前函数名显示在buffer顶上
-;; (global-semantic-stickyfunc-mode 1)
-;; (semantic-idle-completions-mode 1)
+;;   在类/函数等tag上方加一条蓝色的线
+;;   global-semantic-decoration-mode 1)
+;;   把当前函数名显示在buffer顶上
+;;   global-semantic-stickyfunc-mode 1)
+;;   semantic-idle-completions-mode 1)
 
 ;; (4)
 ;; enables which-func-mode, that shows name of current function in status line
 (semantic-load-enable-excessive-code-helpers)
 ;; include semantic-highlight-func-mode, semantic-idle-tag-highlight-mode,
 ;; semantic-decoration-on-*-members, which-func-mode
-;; 用灰的底色把光标所在函数名高亮显示
+;; 用灰底色把光标所在函数名高亮显示
 ;; (global-semantic-highlight-func-mode 1)
 ;; 光标停留在一个变量上，整个函数内部用这个变量的地方都高亮了
 ;; (global-semantic-idle-tag-highlight-mode 1)
+
 
 ;; (5)
 ;; enables several modes, that are useful when you debugging Semantic
@@ -81,8 +83,8 @@
   (list ".." "../include" "../inc" "../common" "../public"
         "../.." "../../include" "../../inc" "../../common" "../../public"))
 
-;; ;; Enable SRecode
-(global-srecode-minor-mode 1)            ; Enable template insertion menu
+;; Enable SRecode
+; (global-srecode-minor-mode 1)            ; Enable template insertion menu
 
 ;; (defun my-c-mode-cedet-hook ()
 ;;     (local-set-key "." 'semantic-complete-self-insert)
@@ -95,7 +97,7 @@
 ;; (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
 
 ;; 在C++的头文件和实现文件间跳转
-(require 'eassist nil 'noerror)
+; (require 'eassist nil 'noerror)
 
 ;;  ;; gnu global support
 ;;  (when (cedet-gnu-global-version-check t)
@@ -114,13 +116,30 @@
 ;;--------------------------------------------------------------------
 ;; After 1.1
 ; ;; select which submodes we want to activate
-; (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
-; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-; (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-; (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-; (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
-; (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+
+(eval-after-load "semantic"
+   '(progn
+    ;; activates use of separate styles for tags decoration, defined in the `semantic-decoration-styles' list
+      (add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
+      ;; displays function interface in the minibuffer
+      (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+      ;; highlighting of local names that are the same as name of tag under cursor
+      (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
+      ;; caches parsing result for future use
+      ; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+      ;; automatic parsing of source code in the idle time
+      ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+      ;; activates mode when name of current tag will be shown in top line of buffer
+      ; (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+      ;; activates CEDET's context menu that is bound to right mouse button
+      ; (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+      ;; activates highlighting of first line for current tag (function, class, etc.)
+      ; (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+      ;; displaying of possible name completions in the idle time
+      ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
+      ;; automatic bookmarking of tags that you edited, so you can return to them later with the semantic-mrub-switch-tags command;
+      (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)))
+(global-semantic-stickyfunc-mode 0)
 
 ; ;; Activate semantic
 ; (semantic-mode 1)

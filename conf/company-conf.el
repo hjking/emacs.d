@@ -26,11 +26,12 @@
 
 (eval-after-load 'company
   '(progn
-     (add-to-list 'company-backends 'company-cmake)
      (add-to-list 'company-backends 'company-dabbrev t)
      (add-to-list 'company-backends 'company-ispell t)
      (add-to-list 'company-backends 'company-files t)
+     (add-to-list 'company-backends 'company-semantic t)
      ; (add-to-list 'company-backends 'company-cider)
+     (add-to-list 'company-backends 'company-c-headers)
      ;; can't work with TRAMP
      (setq company-backends (delete 'company-ropemacs company-backends))
      (setq company-backends (delete 'company-capf company-backends))
@@ -40,8 +41,8 @@
      (setq company-show-numbers t)
      (setq company-begin-commands '(self-insert-command))
      (setq company-idle-delay 0.2)
-     ;; (setq company-idle-delay t)
-     (setq company-clang-insert-arguments nil)
+     ; (setq company-idle-delay t)
+     ; (setq company-clang-insert-arguments nil)
 
      ; (setq company-idle-delay 0.3)
      (setq company-tooltip-limit 20)

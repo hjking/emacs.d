@@ -49,7 +49,7 @@
   ffip-project-root-function 'my-ffip-project-root-function
   ffip-find-options "-not -regex \".*\\(debug\\|release\\|svn\\|git\\).*\""
   ffip-limit 4096
-  ffip-patterns (nconc '("*.cpp" "*.h" "*.hpp" "*.c") ffip-patterns))
+  ffip-patterns (append '("*.cpp" "*.h" "*.hpp" "*.c") ffip-patterns))
 
 ;;
 ;; fiplr
