@@ -138,10 +138,6 @@
 	path = vendor/visual-regexp
 	url = https://github.com/benma/visual-regexp.el.git
 	ignore = dirty
-[submodule "vendor/guide-key"]
-	path = vendor/guide-key
-	url = https://github.com/kbkbkbkb1/guide-key.git
-	ignore = dirty
 [submodule "vendor/highlight-global"]
 	path = vendor/highlight-global
 	url = https://github.com/glen-dai/highlight-global.git

@@ -4,7 +4,8 @@
   (setq step_no (1+ step_no))
   (require 'package)
 
-  (dolist (source '(("marmalade" . "http://marmalade-repo.org/packages/")
+  (dolist (source '(
+                    ; ("marmalade" . "http://marmalade-repo.org/packages/")
                     ("elpa" . "http://tromey.com/elpa/")
                     ;; stable
                     ; ("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
@@ -21,8 +22,8 @@
 
   (defvar my-packages
   '(
-    auto-complete
-    auto-complete-c-headers
+    ; auto-complete
+    ; auto-complete-c-headers
     company
     stripe-buffer               ;; different background for even and odd lines
     expand-region
@@ -50,6 +51,8 @@
     gnuplot-mode
     ecb
     company-c-headers
+    guide-key
+    guide-key-tip
     ; evil
     ; evil-nerd-commenter
     ; auto-complete-verilog

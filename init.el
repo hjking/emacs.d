@@ -2026,8 +2026,6 @@
 
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
-(add-site-lisp-load-path "guide-key/")
-(add-site-lisp-load-path "guide-key-tip/")
 (load "guide-key-conf")
 ;; ---------------------------------------------------------------------[ End ]--
 
