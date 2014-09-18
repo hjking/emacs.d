@@ -46,5 +46,5 @@
 ;;; indentation
 (setq web-mode-markup-indent-offset 2) ;html indentation
 (setq web-mode-css-indent-offset 2) ;css indentation
-(setq web-mode-code-indent-offset 2)  ;script
+(setq web-mode-code-indent-offset 4)  ;script
 (setq web-mode-indent-style 2)    ;fix side effect for html indentation
