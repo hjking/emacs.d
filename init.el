@@ -658,6 +658,8 @@
 ;; Keep cursor away from edges when scrolling up/down
 (require 'smooth-scrolling)
 (setq smooth-scroll-margin 4)
+(setq scroll-conservatively 9999
+      scroll-preserve-screen-position t)
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
