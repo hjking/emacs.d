@@ -99,3 +99,6 @@
 
 (eval-after-load 'highlight-symbol
   '(diminish 'highlight-symbol-mode))
+
+(eval-after-load 'aggressive-indent
+  '(diminish 'aggressive-indent-mode))

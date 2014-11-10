@@ -30,3 +30,7 @@
 
 (require 'indent-guide)
 (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1)))
+
+;;; aggressive-indent-mode
+(global-aggressive-indent-mode 1)
+(add-to-list 'aggressive-indent-excluded-modes 'html-mode)

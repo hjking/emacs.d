@@ -12,7 +12,7 @@
 ;; (global-set-key (kbd "C-c c") 'ctrl-cc-map)
 
 (define-prefix-command 'ctrl-z-map)
-(global-set-key (kbd "C-z") 'ctrl-z-map)
+;; (global-set-key (kbd "C-z") 'ctrl-z-map)
 
 ;; Moving around more easily (default setting)
 ;;  (global-set-key [C-right] 'forward-word)

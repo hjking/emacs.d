@@ -5,13 +5,12 @@
   (require 'package)
 
   (dolist (source '(
-                    ; ("marmalade" . "http://marmalade-repo.org/packages/")
+                    ; ("marmalade" . "https://marmalade-repo.org/packages/")
                     ("elpa" . "http://tromey.com/elpa/")
-                    ;; stable
-                    ; ("melpa-stable" . "http://hiddencameras.milkbox.net/packages/")
-                    ;; TODO: Maybe, use this after emacs24 is released
+                    ;; stable melpa
+                    ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                     ;; (development versions of packages)
-                    ("melpa" . "http://melpa.milkbox.net/packages/")
+                    ("melpa" . "http://melpa.org/packages/")
                     ))
   (add-to-list 'package-archives source t))
 
@@ -56,6 +55,7 @@
     ; evil
     ; evil-nerd-commenter
     ; auto-complete-verilog
+    aggressive-indent
     )
   "A list of packages to ensure are installed at launch.")
 

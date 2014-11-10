@@ -36,9 +36,9 @@
 (add-site-lisp-load-path "rainbow-delimiters/")
 (require 'rainbow-delimiters)
 ;; enable in all programming-related modes (Emacs 24+)
-;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; use Emacs-wide
-(global-rainbow-delimiters-mode)
+;; (global-rainbow-delimiters-mode)
 
 ;; show paren
 ; (setq show-paren-style 'parentheses)
