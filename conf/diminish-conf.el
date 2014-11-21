@@ -95,7 +95,7 @@
 ;;  (diminish 'yas/minor-mode)
 
 (diminish 'visual-line-mode)
-(diminish 'global-visual-line-mode)
+;; (diminish 'global-visual-line-mode)
 
 (eval-after-load 'highlight-symbol
   '(diminish 'highlight-symbol-mode))

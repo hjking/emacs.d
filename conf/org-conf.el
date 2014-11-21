@@ -157,7 +157,6 @@
 (setq org-agenda-dim-blocked-tasks nil)
 ;; Compact the block agenda view
 (setq org-agenda-compact-blocks t)
-;; (define-key org-agenda-mode-map "Y" 'org-agenda-todo-yesterday)
 ;; Show all future entries for repeating tasks
 (setq org-agenda-repeating-timestamp-show-all t)
 ;; Agenda log mode items to display (closed and state changes by default)
@@ -189,82 +188,104 @@
 
 ;; org agenda custom commands
 (setq org-agenda-custom-commands
-           '(
-             ("c" "Desk Work" tags-todo "computer|laptop"
-               ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
-               ((concat org-directory "/computer.html"))) ;; export to file
-             ("C" . "Custom View")
-             ("Cf" "View Funny Things"
-               ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/fun/*.org")))))))
-             ;; overview of deadlines due within the next 60 days
-             ("d" "Upcoming deadlines" agenda ""
-               ((org-agenda-time-grid nil)
-                (org-deadline-warning-days 60)        ;; [1] shows all deadlines that fall due within the upcoming year
-                (org-agenda-entry-types '(:deadline))  ;; [2] looking for deadlines and nothing else so quite efficiently
-               ))
-             ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
-             ("g" . "GTD contexts")
-             ("gc" "Computer" tags-todo "computer")
-             ("ge" "Errands" tags-todo "errands")
-             ("gh" "Home" tags-todo "home")
-             ("go" "Office" tags-todo "office")
-             ("gp" "Phone" tags-todo "phone")
-             ;; a list of all tasks with the todo keyword STARTED
-             ("gw" todo "STARTED")
-             ("G" "GTD Block Agenda"
-               ((tags-todo "office|work")
-                (tags-todo "computer")
-                (tags-todo "phone")
-                (tags-todo "home")
-                (tags-todo "errands"))
-               nil                      ;; i.e., no local settings
-               ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
-             ;; block agenda views
-             ("h" . "HOME+Name tags searches") ; "h" prefix
-             ("ha" "Agenda and Home-related tasks"
-               ((agenda "")
-                (tags-todo "home")
-                (tags "garden")))
-             ("hc" tags "+home+child")
-             ("hl" tags "+home+love")
-             ("hp" tags "+home+parents")
-             ;; display next 10 entries with a 'NEXT' TODO keyword.
-             ("n" todo "NEXT"
-               ((org-agenda-max-entries 10)))
-             ("o" "View Office Schedule"
-               ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/work/*.org")))))))
-             ;; Priority
-             ("p" . "Priorities")
-             ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
-             ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
-             ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
-             ("Q" . "Custom queries of Archives and Publishments") ;; gives label to "Q"
-             ("Qa" "Archive search" search ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-             ("Qp" "Publish search" search ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/publish/*.org")))))
-             ("Qb" "Projects and Archive" search ""
-               ((org-agenda-text-search-extra-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-                     ;; searches both projects and archive directories
-             ("QA" "Archive tags search" org-tags-view ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-             ;; run a tags/property search on files other than the agenda files
-             ("r" "Reference material" tags ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/ref/*.org")))))
-             ("x" agenda)
-             ("y" agenda*)
-             ("w" "Weekly Review"
-                ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
-                                                ;; type "l" in the agenda to review logged items
-                (stuck "") ;; review stuck projects as designated by org-stuck-projects
-                (todo "MAYBE") ;; review maybe items
-                (todo "SOMEDAY") ;; review someday items
-                (todo "WAITING"))) ;; review waiting items
-             ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
-             ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
-             ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:', limiting the search to headlines that are also TODO items
-             ("U" tags-tree "+boss-urgent") ; global tags search for headlines marked :boss: but not :urgent:', but only in the current buffer and displaying the result as a sparse tree
-             ))
+      '(
+         ("c" "Desk Work" tags-todo "computer|laptop"
+           ((org-agenda-sorting-strategy '(priority-up effort-down))) ;; set local options
+           ((concat org-directory "/computer.html"))) ;; export to file
+         ("C" . "Custom View")
+         ("Cf" "View Funny Things"
+           ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/fun/*.org")))))))
+         ;; overview of deadlines due within the next 60 days
+         ("d" "Upcoming deadlines" agenda ""
+           ((org-agenda-time-grid nil)
+            (org-deadline-warning-days 60)        ;; [1] shows all deadlines that fall due within the upcoming year
+            (org-agenda-entry-types '(:deadline))  ;; [2] looking for deadlines and nothing else so quite efficiently
+           ))
+         ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
+         ("g" . "GTD contexts")
+         ("gc" "Computer" tags-todo "computer")
+         ("ge" "Errands" tags-todo "errands")
+         ("gh" "Home" tags-todo "home")
+         ("go" "Office" tags-todo "office")
+         ("gp" "Phone" tags-todo "phone")
+         ;; a list of all tasks with the todo keyword STARTED
+         ("gw" todo "STARTED")
+         ("G" "GTD Block Agenda"
+           ((tags-todo "office|work")
+            (tags-todo "computer")
+            (tags-todo "phone")
+            (tags-todo "home")
+            (tags-todo "errands"))
+           nil                      ;; i.e., no local settings
+           ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
+         ;; block agenda views
+         ("h" . "HOME+Name tags searches") ; "h" prefix
+         ("ha" "Agenda and Home-related tasks"
+           ((agenda "")
+            (tags-todo "home")
+            (tags "garden")))
+         ("hc" tags "+home+child")
+         ("hl" tags "+home+love")
+         ("hp" tags "+home+parents")
+         ;; display next 10 entries with a 'NEXT' TODO keyword.
+         ("n" todo "NEXT"
+           ((org-agenda-max-entries 10)))
+         ("o" "View Office Schedule"
+           ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/work/*.org")))))))
+         ;; Priority
+         ("p" . "Priorities")
+         ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
+         ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
+         ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
+         ("Q" . "Custom queries of Archives and Publishments") ;; gives label to "Q"
+         ("Qa" "Archive search" search ""
+           ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+         ("Qp" "Publish search" search ""
+           ((org-agenda-files (file-expand-wildcards (concat org-directory "/publish/*.org")))))
+         ("Qb" "Projects and Archive" search ""
+           ((org-agenda-text-search-extra-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+                 ;; searches both projects and archive directories
+         ("QA" "Archive tags search" org-tags-view ""
+           ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+         ;; run a tags/property search on files other than the agenda files
+         ("r" "Reference material" tags ""
+           ((org-agenda-files (file-expand-wildcards (concat org-directory "/ref/*.org")))))
+         ("x" agenda)
+         ("y" agenda*)
+         ("w" "Weekly Review"
+            ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
+                                            ;; type "l" in the agenda to review logged items
+            (stuck "") ;; review stuck projects as designated by org-stuck-projects
+            (todo "MAYBE") ;; review maybe items
+            (todo "SOMEDAY") ;; review someday items
+            (todo "WAITING"))) ;; review waiting items
+         ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
+         ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
+         ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:', limiting the search to headlines that are also TODO items
+         ("U" tags-tree "+boss-urgent") ; global tags search for headlines marked :boss: but not :urgent:', but only in the current buffer and displaying the result as a sparse tree
+         ))
+
+;; Make it easy to mark a task as done
+;; From http://pages.sachachua.com/.emacs.d/Sacha.html
+(defun sacha/org-agenda-done (&optional arg)
+  "Mark current TODO as done.
+This changes the line at point, all other lines in the agenda referring to
+the same tree node, and the headline of the tree node in the Org-mode file."
+  (interactive "P")
+  (org-agenda-todo "DONE"))
+;; Override the key definition for org-exit
+; (define-key org-agenda-mode-map "x" 'sacha/org-agenda-done)
+
+;; Capture something based on the agenda
+(defun sacha/org-agenda-new ()
+  "Create a new note or task at the current agenda item.
+Creates it at the same level as the previous task, so it's better to use
+this with to-do items than with projects or headings."
+  (interactive)
+  (org-agenda-switch-to)
+  (org-capture 0))
+;; New key assignment
+; (define-key org-agenda-mode-map "N" 'sacha/org-agenda-new)
 
 ;; clock
 (setq org-clock-persist 'history)
@@ -525,32 +546,48 @@
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
 (setq org-capture-templates
       (quote (
-              ("a" "Appointment" entry (file+headline (concat org-directory "/todo.org") "Calendar")
+              ("a" "Appointment"
+                   entry (file+headline (concat org-directory "/todo.org") "Calendar")
                    "** APPT: %^{Description} %^g %?  Added: %U\n   SCHEDULED: %t")
-              ("b" "Books to Read" entry (file+headline (concat org-directory "/books.org") "Books")
+              ("b" "Books to Read"
+                   entry (file+headline (concat org-directory "/books.org") "Books")
                    "** NEXT Read: %?\n   %i\n   %a")
-              ("d" "Diary" entry (file+datetree (concat org-directory "/diary.org"))
+              ("d" "Diary"
+                   entry (file+datetree (concat org-directory "/diary.org"))
                    "** %?\n  %U\n" :clock-in t :clock-resume t)
-              ("h" "Habit" entry (file (concat org-directory "/habit.org"))
+              ("g" "Today's Page"
+                   entry (file+headline (today-journal-file) "Today's Journal")
+                   "** Event: %?\n %i\n"
+                   :empty-lines 1)
+              ("h" "Habit"
+                   entry (file (concat org-directory "/habit.org"))
                    "** TODO %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
-              ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+              ("j" "Journal Entry"
+                   entry (file+datetree (concat org-directory "/journal.org"))
                    "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
-              ("l" "Log Time" entry (file+datetree (concat org-directory "/archive/log.org") )
-                   ;; "** %U - %^{Activity}  :TIME:")
+              ("l" "Log Time"
+                   entry (file+datetree (concat org-directory "/archive/log.org"))
                    "** %U - %a  :TIME:")
-              ("m" "Meeting" entry (file (concat org-directory "/todo.org"))
+              ("m" "Meeting"
+                   entry (file (concat org-directory "/todo.org"))
                    "** MEETING with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
-              ("n" "note" entry (file (concat org-directory "/notes.org"))
+              ("n" "Note"
+                   entry (file (concat org-directory "/notes.org"))
                    "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
-              ("p" "Phone call" entry (file (concat org-directory "/call.org"))
+              ("p" "Phone Call"
+                   entry (file (concat org-directory "/call.org"))
                    "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :PHONE:\n   SCHEDULED: %t\n   %U" :clock-in t :clock-resume t)
-              ("r" "Email Respond" entry (file (concat org-directory "/todo.org"))
+              ("r" "Email Respond"
+                   entry (file (concat org-directory "/todo.org"))
                    "** NEXT Email Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
-              ("s" "Reference" entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
+              ("s" "Reference"
+                   entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
                    "** %?\n  %i\n  %a")
-              ("t" "todo" entry (file (concat org-directory "/todo.org"))
+              ("t" "TODO"
+                   entry (file (concat org-directory "/todo.org"))
                    "** TODO %?\n   %U\n   %a\n" :clock-in t :clock-resume t)
-              ("w" "org-protocol" entry (file (concat org-directory "/refile.org"))
+              ("w" "org-protocol"
+                   entry (file (concat org-directory "/refile.org"))
                    "** TODO Review %c\n   %U\n" :immediate-finish t)
             )))
 
@@ -567,9 +604,64 @@
 (setq org-archive-mark-done nil)
 
 ;; get from http://almostobsolete.net/daypage.html
+;; and https://github.com/almost/org-daypage/blob/master/org-daypage.el
 ;; manage seperate day pages
 ;; {{{
 (setq daypage-path (concat org-directory "/days/"))
+
+(defun today-journal-file ()
+  "Return filename for today's  daypage."
+  (let ((daily-name (format-time-string "%Y-%m-%d")))
+    (expand-file-name (concat daypage-path daily-name ".org"))))
+
+(defun journal-file (&optional date)
+  "Return journal filename of a specified  day."
+  (let ((daily-name (format-time-string "%Y-%m-%d" date)))
+    (expand-file-name (concat daypage-path daily-name ".org"))))
+
+(defun open-new-journal-file (&optional date)
+  "Go to the day page if exists, else create one"
+  (interactive (list
+                (org-read-date "" 'totime nil nil
+                                (current-time) "")))
+  (setq date (or date (current-time)))
+  (setq filename (expand-file-name (concat daypage-path (format-time-string "%Y-%m-%d" date) ".org")))
+  (if (file-exists-p filename)
+      (find-file filename)
+      (progn
+        (find-file filename)
+        (insert (format-time-string "#+TITLE: Journal Entry - %Y-%m-%d (%A)\n\n"))
+        (insert (format-time-string "* %Y-%m-%d  %a\n" date)))
+  ))
+
+(defun open-today-journal-file ()
+  (interactive)
+  ; (find-file (today-journal-file))
+  (open-new-journal-file)
+  )
+
+(defun open-tomorrow-journal-file ()
+  (interactive)
+  (open-new-journal-file
+   (seconds-to-time (+ (time-to-seconds (daypage-date))
+                       86400))))
+
+(defun open-yesterday-journal-file ()
+  (interactive)
+  (open-new-journal-file
+   (seconds-to-time (- (time-to-seconds (daypage-date))
+                       86400))))
+
+(defun insert-journal-item ()
+  "Switches to the current daypage and inserts a top level heading and a timestamp"
+  (interactive)
+  (open-new-journal-file)
+  (end-of-buffer)
+  (if (not (bolp))
+      (insert "\n"))
+  ; (insert "** " (format-time-string "%R " (daypage-date)))
+  (insert "** " (format-time-string "%H:%M "))
+  )
 
 (defun find-daypage (&optional date)
   "Go to the day page for the specified date,
@@ -580,8 +672,7 @@
   (setq date (or date (current-time)))
   (find-file
        (expand-file-name
-        (concat daypage-path
-        (format-time-string "%Y-%m-%d" date) ".org"))))
+        (concat daypage-path (format-time-string "%Y-%m-%d" date) ".org"))))
 
 (defun daypage-date ()
   "Return the date for the daypage visited by the current buffer
@@ -595,39 +686,41 @@ or nil if the current buffer isn't visiting a dayage"
           (encode-time 0 0 0 (d 3) (d 2) (d 1)))
       nil)))
 
+(defun journal-file-insert ()
+  "Insert's the journal heading based on the file's name."
+  (interactive)
+  (when (string-match "\\(20[0-9][0-9]\\)-\\([0-9][0-9]\\)-\\([0-9][0-9]\\).org$" (buffer-name))
+    (let ((year  (string-to-number (match-string 1 (buffer-name))))
+          (month (string-to-number (match-string 2 (buffer-name))))
+          (day   (string-to-number (match-string 3 (buffer-name))))
+          (datim nil))
+      (setq datim (encode-time 0 0 0 day month year))
+      (insert (format-time-string "** @ %Y-%m-%d %H:%M" datim))
+      )))
+
 (defun daypage-next ()
   (interactive)
   (find-daypage
    (seconds-to-time (+ (time-to-seconds (daypage-date))
-                       86400)))
-  (run-hooks 'daypage-movement-hook))
+                       86400))))
 
 (defun daypage-prev ()
   (interactive)
   (find-daypage
    (seconds-to-time (- (time-to-seconds (daypage-date))
-                       86400)))
-  (run-hooks 'daypage-movement-hook))
+                       86400))))
 
 (defun daypage-next-week ()
   (interactive)
   (find-daypage
    (seconds-to-time (+ (time-to-seconds (daypage-date))
-                       (* 86400 7))))
-  (run-hooks 'daypage-movement-hook))
+                       (* 86400 7)))))
 
 (defun daypage-prev-week ()
   (interactive)
   (find-daypage
    (seconds-to-time (- (time-to-seconds (daypage-date))
-                       (* 86400 7))))
-  (run-hooks 'daypage-movement-hook))
-
-(defun todays-daypage ()
-  "Go straight to todays day page without prompting for a date."
-  (interactive)
-  (find-daypage)
-  (run-hooks 'daypage-movement-hook))
+                       (* 86400 7)))))
 
 (defun todays-daypage ()
   "Go straight to today's day page without prompting for a date."
@@ -639,25 +732,15 @@ or nil if the current buffer isn't visiting a dayage"
   (interactive)
   (find-daypage
    (seconds-to-time (- (time-to-seconds (current-time))
-                      86400)))
-  (run-hooks 'daypage-movement-hook))
-
-(defun daypage-new-item ()
-  "Switches to the current daypage and inserts a top level heading and a timestamp"
-  (interactive)
-  (todays-daypage)
-  (end-of-buffer)
-  (if (not (bolp))
-      (insert "\n"))
-  (insert "* <" (format-time-string "%Y-%m-%d %a" (daypage-date)) "> "))
+                      86400))))
 
 ;; show them in agenda view
 (add-to-list 'org-agenda-custom-commands
              '("Qe" "Notes of everyday" agenda ""
                ((org-agenda-files (list (expand-file-name daypage-path))))))
 
-(global-set-key "\C-con" 'todays-daypage)
-(global-set-key "\C-coN" 'find-daypage)
+; (global-set-key "\C-con" 'todays-daypage)
+; (global-set-key "\C-coN" 'find-daypage)
 ;; }}}
 
 (require 'org-checklist)
@@ -737,3 +820,7 @@ or nil if the current buffer isn't visiting a dayage"
 ;; Teach Smartparens about Org Mode markup
 ; (--each '("*" "/" "=" "~" "_" "+")
 ;   (sp-local-pair 'org-mode it it))
+
+(require 'org-journal)
+(setq org-journal-dir daypage-path)
+(setq org-journal-file-format "%Y-%m-%d")

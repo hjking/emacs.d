@@ -162,30 +162,30 @@ See also `with-temp-buffer'."
   (string= (downcase str1) (downcase str2)))
 
 ;; open my Emacs init file
-(defun my-open-dot-emacs ()
+(defun hjking/open-dot-emacs ()
   "Opening `~/.emacs'."
   (interactive)
   (find-file "~/.emacs"))
 
 ;;; === insert filename ===
-(defun my-insert-file-name ()
+(defun hjking/insert-file-name ()
   "Insert the buffer-file-name at point."
   (interactive)
   (insert buffer-file-name))
 
 ;;; === insert date ===
-(defun my-insert-date-stamp ()
+(defun hjking/insert-date-stamp ()
   "Insert a time stamp at point."
   (interactive)
   (insert (format-time-string "%Y-%m-%d" (current-time))))
 
 ;;; === insert date and time ===
-(defun my-insert-date-time-stamp ()
+(defun hjking/insert-date-time-stamp ()
   "Insert date and time at point."
   (interactive)
   (insert (format-time-string "%Y-%m-%d %3a %H:%M:%S" (current-time))))
 
-(defun my-insert-date (prefix)
+(defun hjking/insert-date (prefix)
   "Insert the current date in ISO format. With prefix-argument,
   add day of week. With two prefix arguments, add day of week and
   time."
@@ -197,7 +197,7 @@ See also `with-temp-buffer'."
    ))
 
 ;;; === insert-braces ===
-(defun my-insert-braces ()
+(defun hjking/insert-braces ()
   "Insert matched braces, leave point inside."
   (interactive "*")
   (let (blink-paren-function) ;nil it temporarily
@@ -221,14 +221,14 @@ See also `with-temp-buffer'."
 ;;;; Function Set for Copy
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; === copy line ===
-(defun my-copy-line (&optional arg)
+(defun hjking/copy-line (&optional arg)
   "Save current line into Kill-Ring without mark the line"
   (interactive "P")
   (let ((beg (line-beginning-position))
      (end (line-end-position arg)))
   (copy-region-as-kill beg end)))
 
-(defun my-copy-lines (arg)
+(defun hjking/copy-lines (arg)
   "Copy lines (as many as prefix argument) in the kill ring"
   (interactive "p")
   (kill-ring-save (line-beginning-position)
@@ -236,7 +236,7 @@ See also `with-temp-buffer'."
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
 
-(defun my-copy-line-or-region ()
+(defun hjking/copy-line-or-region ()
   "Copy current line, or current text selection."
   (interactive)
   (if (region-active-p)
@@ -244,7 +244,7 @@ See also `with-temp-buffer'."
     (kill-ring-save (line-beginning-position) (line-beginning-position 2))))
 
 ;;; === copy word ===
-(defun my-copy-word (&optional arg)
+(defun hjking/copy-word (&optional arg)
   "Copy word at point"
   (interactive "P")
   (let ((beg (progn (if (looking-back "[a-zA-Z0-9]" 1) (backward-word 1)) (point)))
@@ -253,7 +253,7 @@ See also `with-temp-buffer'."
 )
 
 ;;; === copy region ===
-(defun my-copy-paragraph (&optional arg)
+(defun hjking/copy-paragraph (&optional arg)
   "Copy paragraphe at point"
   (interactive "P")
   (let ((beg (progn (backward-paragraph 1) (point)))
@@ -272,17 +272,17 @@ See also `with-temp-buffer'."
 )
 
 ;;; === duplicate current line===
-(defun my-duplicate-line ()
+(defun hjking/duplicate-line ()
   "Duplicate current line."
   (interactive)
   (progn
-    (my-kill-ring-save-line) ; save line
+    (hjking/kill-ring-save-line) ; save line
     (save-excursion ; duplicate line
       (end-of-line)
       (insert "\n")
       (yank)
     )
-    (let ( (n (my-get-col)) ) ; move to new line, goto same column
+    (let ( (n (hjking/get-col)) ) ; move to new line, goto same column
       (forward-line +1)
       (move-to-column n)
     )
@@ -290,7 +290,7 @@ See also `with-temp-buffer'."
 )
 
 ;;; === delete current line ===
-(defun my-delete-line ()
+(defun hjking/delete-line ()
   "Delete current line."
   (interactive)
   (progn
@@ -299,7 +299,7 @@ See also `with-temp-buffer'."
 )
 
 ;;; === delete ^M ===
-(defun my-delete-crtl-M ()
+(defun hjking/delete-crtl-M ()
   "Delete all ^M (dos --> unix line endings)."
   (interactive)
   (progn
@@ -427,7 +427,7 @@ See also `with-temp-buffer'."
   (beginning-of-line 2) (transpose-lines 1) (beginning-of-line 0))
 
 ;;; === match paren ===
-(defun my-match-paren ()
+(defun hjking/match-paren ()
   "Move to the parenthesis matching the one under the cursor."
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
@@ -478,22 +478,22 @@ See also `with-temp-buffer'."
   (interactive)
   (message "Major-Mode:%s, Mode-Name:%s" major-mode mode-name))
 
-(defun my-wrap-mode-on ()
+(defun hjking/wrap-mode-on ()
   "Minor mode for making buffer not wrap long lines to next line."
   (interactive)
   (setq truncate-lines nil))
 
-(defun my-wrap-mode-off ()
+(defun hjking/wrap-mode-off ()
   "Minor mode for making buffer wrap long lines to next line."
   (interactive)
   (setq truncate-lines t))
 
-(defun my-toggle-wrap-mode ()
+(defun hjking/toggle-wrap-mode ()
   "Switch wrap mode from wrap to non-wrap, or vice-versa."
   (interactive)
   (if (eq truncate-lines nil)
-      (my-wrap-mode-off)
-    (my-wrap-mode-on)
+      (hjking/wrap-mode-off)
+    (hjking/wrap-mode-on)
   )
 )
 
@@ -506,7 +506,7 @@ See also `with-temp-buffer'."
   (and (fboundp symbol) (string-match ".*-mode$" (symbol-name symbol)))
 )
 
-(defun my-switch-major-mode (mode)
+(defun hjking/switch-major-mode (mode)
   "Switch major mode"
   (interactive
     (let ((fn switch-major-mode-last-mode) val)
@@ -544,7 +544,7 @@ See also `with-temp-buffer'."
   )
 
 ;;; === load .emacs.elc ===
-(defun my-reload-dotemacselc ()
+(defun hjking/reload-dotemacselc ()
   "Byte compiles and loads the .emacs.elc file."
   (interactive)
   (progn
@@ -553,7 +553,7 @@ See also `with-temp-buffer'."
   )
 )
 
-(defun my-autocompile-dotemacs nil
+(defun hjking/autocompile-dotemacs nil
   "Auto compile ~/.emacs when it's saved"
   (interactive)
   (require 'bytecomp)
@@ -563,10 +563,10 @@ See also `with-temp-buffer'."
     )
   )
 )
-;; (add-hook 'after-save-hook 'my-autocompile-dotemacs)
+;; (add-hook 'after-save-hook 'hjking/autocompile-dotemacs)
 
 ;;; === save-buffer-kill-buffer ===
-(defun my-save-buffer-kill-buffer (arg)
+(defun hjking/save-buffer-kill-buffer (arg)
   "Saves buffer, if necessary (with ARG, w/o asking), and then kills it."
   (interactive "P")
   (let ((buf (current-buffer)))
@@ -620,7 +620,7 @@ See also `with-temp-buffer'."
 )
 
 ;;; === kill-buffer-other-window ===
-(defun my-kill-buffer-other-window (arg)
+(defun hjking/kill-buffer-other-window (arg)
   "Kill the buffer in the ARGth other window, or the current buffer if no
 other window."
   (interactive "p")
@@ -632,8 +632,8 @@ other window."
   )
 )
 
-;;; === my-save-buffer-kill-frame ===
-(defun my-save-buffer-kill-frame (arg)
+;;; === hjking/save-buffer-kill-frame ===
+(defun hjking/save-buffer-kill-frame (arg)
   "Saves buffer, if necessary (with ARG, w/o asking), and then kills
 it and its frame."
   (interactive "P")
@@ -743,7 +743,7 @@ it and its frame."
      (interactive)
      (execute-command-on-current-dir ,command)))
 
-(defun my-file-executable-p (file)
+(defun hjking/file-executable-p (file)
   "Make sure the file FILE exists and is executable."
   (if file
     (if (file-executable-p file)
@@ -751,12 +751,12 @@ it and its frame."
         (message "WARNING: Can't find executable `%s'" file)
         ;; sleep 1 s so that you can read the warning
         (sit-for 1))
-    (error "my-file-executable-p: missing operand")
+    (error "hjking/file-executable-p: missing operand")
   )
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun my-make-directory-yes-or-no (dir)
+(defun hjking/make-directory-yes-or-no (dir)
   "Ask user to create the DIR, if it does not already exist."
   (if dir
     (if (not (file-directory-p dir))
@@ -765,7 +765,7 @@ it and its frame."
               (make-directory dir t)
             (error
              (concat "Cannot continue without directory `" dir "'"))))
-    (error "my-make-directory-yes-or-no: missing operand")
+    (error "hjking/make-directory-yes-or-no: missing operand")
   )
 )
 
@@ -898,7 +898,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   (define-key keymap key nil))
 
 ;;; === count characters in a region ===
-(defun my-count-words-in-region (beginPos endPos)
+(defun hjking/count-words-in-region (beginPos endPos)
   "Print number of words and chars in region."
   (interactive "r")
   (message "Counting ...")
@@ -954,7 +954,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     nil)
 )
 
-(defun my-rotate-text(arg)
+(defun hjking/rotate-text(arg)
   (interactive "p")
   (save-excursion
     (let ((x (wcy-rotate-text-aux arg)))
@@ -965,7 +965,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 ;;; ==== end of update number
 
 ;;; === save line ===
-(defun my-kill-ring-save-line ()
+(defun hjking/kill-ring-save-line ()
   "Add current line to kill-ring "
   (interactive)
   (progn
@@ -979,14 +979,14 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 )
 
 ;;; === open dired ===
-(defun my-dired-open-in-current-buffer ()
+(defun hjking/dired-open-in-current-buffer ()
   "Open the currently selected file/directory in the same buffer as this one."
   (interactive)
   (find-alternate-file (dired-get-filename))
 )
 
 ;;; === Set The Size and Position of Emacs Frames ===
-(defun my-arrange-frame (w h x y)
+(defun hjking/arrange-frame (w h x y)
   "Set the width, height, and x/y position of the current frame"
   (let ((frame (selected-frame)))
     (delete-other-windows)
@@ -994,10 +994,10 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     (set-frame-size frame w h)
   )
 )
-;; (my-arrange-frame 70 80 2 22)
+;; (hjking/arrange-frame 70 80 2 22)
 
 ;;; === add executable to some files ===
-(setq my-shebang-patterns
+(setq hjking/shebang-patterns
       (list "^#!/usr/.*/perl\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
             "^#!/usr/.*/python\\(\\( \\)\\|\\( .+ \\)\\)-w *.*"
             "^#!/usr/.*/sh"
@@ -1019,8 +1019,8 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
         (save-excursion
           (goto-char (point-min))
           ;; Always checks every pattern even after match. Inefficient but easy
-          (dolist (my-shebang-pat my-shebang-patterns)
-            (if (looking-at my-shebang-pat)
+          (dolist (hjking/shebang-pat hjking/shebang-patterns)
+            (if (looking-at hjking/shebang-pat)
               (if (= (shell-command
                 (concat "chmod u+x " (buffer-file-name)))
                  0)
@@ -1037,7 +1037,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 )
 
 ;; popup a terminal
-(defun my-popup-term ()
+(defun hjking/popup-term ()
   (interactive)
   (apply 'start-process "terminal" nil popup-terminal-command)
 )
@@ -1073,7 +1073,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
      )
 
 ;; insert 128-bit random number
-(defun my-insert-rand128 ()
+(defun hjking/insert-rand128 ()
   "Insert 128-bit random number (in hex) at point."
   (interactive)
   (shell-command
@@ -1082,14 +1082,14 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   )
 
 ;; note: may use delete-trailing-whitespace
-(defun my-delete-trailing-spaces ()
+(defun hjking/delete-trailing-spaces ()
   "Delete trailing spaces (or tabs) in all lines."
   (interactive)
   (progn
     (save-excursion
       (goto-line 1) (replace-regexp "[ \t]+$" "") ) ) )
 
-(defun my-nsplit-line (n)
+(defun hjking/nsplit-line (n)
   "Split line into pieces of length N."
   (interactive "nSplit into pieces of length n: ")
   (progn
@@ -1109,7 +1109,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 )
 
 ;;
-(defun my-count-matches-region (r)
+(defun hjking/count-matches-region (r)
   "Count occurences of REGEXP in region."
  (interactive "s Enter regexp: ") ; elips.ps.gz p.335
   (progn
@@ -1173,7 +1173,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       (insert-line-number (region-beginning) (region-end) (read-number "Start line: "))
     (insert-line-number (point-min) (point-max))))
 
-(defun my-create-scratch-buffer nil
+(defun hjking/create-scratch-buffer nil
   "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive)
   (let ((n 0)
@@ -1189,14 +1189,14 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     ;; (lisp-interactive-mode)
     ))
 
-(defun my-smart-split-helper(w)
+(defun hjking/smart-split-helper(w)
   "Helper function to split a given window into two, the first of which has
      80 columns."
   (if (> (window-width w) (* 2 81))
       (let ((w2 (split-window w 82 t)))
-        (my-smart-split-helper w2))))
+        (hjking/smart-split-helper w2))))
 
-(defun my-smart-split()
+(defun hjking/smart-split()
   "Split the frame into 80-column sub-windows, and make sure no window has
    fewer than 80 columns."
   (interactive)
@@ -1216,7 +1216,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;; replace(refresh) current buffer text with the text of the visited file on disk
-(defun my-revert-buffer ()
+(defun hjking/revert-buffer ()
   "Unconditionally revert current buffer."
   (interactive)
   ;; (flet ((yes-or-no-p (msg) t))
@@ -1224,7 +1224,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     (revert-buffer))
 )
 
-(defun my-revert-all-buffers()
+(defun hjking/revert-all-buffers()
   "Refreshes all open buffers from their respective files."
   (interactive)
   (dolist (buf (buffer-list))
@@ -1246,7 +1246,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
               (buffer-list))))
 
 ;; open file with sudo.
-(defun my-find-file-with-sudo()
+(defun hjking/find-file-with-sudo()
   "open a file with sudo"
   (interactive)
   (let ((fname (or buffer-file-name
@@ -1260,7 +1260,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       (find-alternate-file fname))))
 
 ;; Function to set up my default color combination.
-(defun my-set-colors()
+(defun hjking/set-colors()
   "Set my favorite color combination."
   (interactive)
   (if (or (eq window-system 'x)
@@ -1273,7 +1273,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 ;;----------------------------------------------------------------------------
 ;; Rename the current file
 ;;----------------------------------------------------------------------------
-(defun my-rename-file-and-buffer(new-name)
+(defun hjking/rename-file-and-buffer(new-name)
   "Renames both current buffer and file it's visiting to new-name."
   (interactive "sNew name: ")
   (let ((name (buffer-name))
@@ -1306,7 +1306,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
                                 name (file-name-nondirectory new-name)))))))
 
 ;;  Never understood why Emacs doesn't have this function, either.
-(defun my-move-buffer-file(dir)
+(defun hjking/move-buffer-file(dir)
   "Moves both current buffer and file it's visiting to DIR."
   (interactive "DNew directory: ")
   (let* ((name (buffer-name))
@@ -1327,7 +1327,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 
 
 ;; go to last edit position
-(defun my-goto-last-edit-pos ()
+(defun hjking/goto-last-edit-pos ()
   "Go to the last position where editing occurred."
   (interactive)
   (let ((undos buffer-undo-list))
@@ -1346,7 +1346,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 )
 
 ;;; === get column number ===
-(defun my-get-col ()
+(defun hjking/get-col ()
   "Return column number of point."
   (interactive)
   (save-excursion
@@ -1362,9 +1362,9 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 
 ;;; === go to char ===
 ;;;###autoload
-(defun my-go-to-char (n char)
+(defun hjking/go-to-char (n char)
   "Move forward to Nth occurence of CHAR.
-Typing `my-go-to-char-key' again will move forwad to the next Nth
+Typing `hjking/go-to-char-key' again will move forwad to the next Nth
 occurence of CHAR."
   (interactive "p\ncGo to Char:")
   (search-forward (string char) nil nil n)
@@ -1375,7 +1375,7 @@ occurence of CHAR."
 )
 
 ;;; === Goto column n ===
-(defun my-goto-column (n)
+(defun hjking/goto-column (n)
   "Goto column ARG, counting from column 0. Argument N is column number."
   (interactive "Goto Column: ")
   (move-to-column n)
@@ -1423,12 +1423,12 @@ File suffix is used to determine what program to run."
 )))
 
 ;; open my Gnus configuration file
-(defun my-open-dot-gnus ()
+(defun hjking/open-dot-gnus ()
     "Opening `~/.gnus’"
     (interactive)
     (find-file “~/.gnus”))
 
-(defun my-send-current-line-to-next-window ()
+(defun hjking/send-current-line-to-next-window ()
   "Send current line to next window"
   (interactive)
   (let ((current-line (buffer-substring-no-properties (point-at-bol) (point-at-eol)))
@@ -1546,22 +1546,13 @@ File suffix is used to determine what program to run."
 
 
 (defun hjking/untabify-buffer ()
-  "For untabifying the entire buffer."
+  "Convert all tabs in the buffer to multiple spaces. See `untabify`."
   (interactive)
   (untabify (point-min) (point-max)))
 
-(defun hjking/untabify-buffer-hook ()
-  "Adds a buffer-local untabify on save hook"
-  (interactive)
-  (add-hook
-   'after-save-hook
-   (lambda () (hjking/untabify-buffer))
-   nil
-   'true))
-
 ;; reindent the entire buffer
 (defun hjking/indent-buffer ()
-  "Reindent the whole buffer."
+  "Indent each nonblank line in the buffer. See `indent-region"
   (interactive)
   (indent-region (point-min) (point-max)))
 
@@ -1570,22 +1561,24 @@ File suffix is used to determine what program to run."
 Does not indent buffer, because it is used for a before-save-hook, and that
 might be bad."
   (interactive)
-  (untabify-buffer)
+  (hjking/untabify-buffer)
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
 
-(defun hjking/cleanup-buffer ()
+(defun hjking/cleanup-buffer ()"Indent each nonblank line in the buffer. See `indent-region"
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
   (interactive)
-  (cleanup-buffer-safe)
-  (indent-buffer))
+  (hjking/cleanup-buffer-safe)
+  (hjking/indent-buffer))
 
-(defun my/clean-buffer-formatting ()
+(defun hjking/cleanup-buffer-formatting ()
   "Indent and clean up the buffer"
   (interactive)
-  (indent-region (point-min) (point-max))
-  (whitespace-cleanup))
+  (hjking/indent-buffer)
+  (hjking/untabify-buffer)
+  (whitespace-cleanup)
+  (delete-trailing-whitespace))
 
 (defun cycle-windows()
     "cycle the buffer of the windows in cyclic ordering"
@@ -1635,7 +1628,7 @@ If REPOSITORY is specified, use that."
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-(defun my-shift-region (numcols)
+(defun hjking/shift-region (numcols)
   (setq region-start (region-beginning))
   (setq region-finish (region-end))
   (save-excursion
@@ -1644,7 +1637,7 @@ If REPOSITORY is specified, use that."
       (indent-rigidly region-start region-finish numcols))))
 
 ;; Smart home key
-(defun my-smart-beginning-of-line ()
+(defun hjking/smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line."
   (interactive "^")
   (let ((oldpos (point)))
@@ -1752,7 +1745,7 @@ programming."
 ;; print the key bindings in a tabular form
 ;; [from http://www-xray.ast.cam.ac.uk/~gmorris/dotemacs.html]
 
-(defun my-keytable (arg)
+(defun hjking/keytable (arg)
     "Print the key bindings in a tabular form."
     (interactive "sEnter a modifier string:")
     (with-output-to-temp-buffer "*Key table*"
@@ -1970,7 +1963,7 @@ programming."
   (query-replace from to))
 
 ;; delete all the trailing whitespaces and tabs across the current buffer
-(defun my-delete-trailing-whitespaces-and-untabify ()
+(defun hjking/delete-trailing-whitespaces-and-untabify ()
   "Delete all the trailing white spaces, and convert all tabs to multiple
 spaces across the current buffer."
   (interactive "*")
@@ -2068,3 +2061,23 @@ If `universal-argument' is called, copy only the dir path."
          fPath
        (file-name-directory fPath))))
   (message "File path copied."))
+
+(defun hjking/comment-or-uncomment-line (&optional lines)
+  "Comment current line. Argument gives the number of lines
+forward to comment"
+  (interactive "P")
+  (comment-or-uncomment-region
+   (line-beginning-position)
+   (line-end-position lines)))
+
+(defun hjking/comment-or-uncomment-region-or-line (&optional lines)
+  "If the line or region is not a comment, comments region
+if mark is active, line otherwise. If the line or region
+is a comment, uncomment."
+  (interactive "P")
+  (if mark-active
+      (if (< (mark) (point))
+          (comment-or-uncomment-region (mark) (point))
+        (comment-or-uncomment-region (point) (mark))
+        )
+    (hjking/comment-or-uncomment-line lines)))

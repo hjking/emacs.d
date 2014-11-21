@@ -1,4 +1,3 @@
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;   ____  __  __  __ _  ___ ___
 ;;  / __ \/__\/__\/ _` |/ __/ __|
@@ -61,7 +60,7 @@
 (defvar section-perl t)
 (defvar section-abbrevs t)
 (defvar section-dired t)
-(defvar section-calendar-diary t)
+(defvar section-calendar-diary nil)
 (defvar section-document-view nil)
 (defvar section-gnus nil)
 (defvar section-eshell t)
@@ -198,7 +197,7 @@
       `(add-to-list 'load-path (concat my-site-lisp-dir, path)))
   (defmacro add-site-lisp-info-path (path)
       `(add-to-list 'Info-default-directory-list (concat my-site-lisp-dir, path)))
-  (add-load-path my-emacs-dir)
+  ;; (add-load-path my-emacs-dir)
   (add-load-path my-site-lisp-dir)
   (add-load-path my-site-lisp-conf-dir)
   (add-load-path my-personal-dir)
@@ -276,9 +275,6 @@
 (setq personal-vars (concat my-personal-dir "personal.el"))
 (when (file-exists-p personal-vars)
   (load personal-vars))
-
-;; custom file: modified setting by menu bar
-(setq custom-file (concat my-personal-dir "my-custom.el"))
 
 ;; load all el files in personal dir
 ;; (when (file-exists-p my-personal-dir)
@@ -419,6 +415,9 @@
 ;; sams-lib
 ; (require 'sams-lib nil t)
 
+;; use-package
+(require 'use-package)
+
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
 
@@ -557,8 +556,10 @@
     (autoload 'rm-kill-ring-save "rect-mark"
       "Copy a rectangular region to the kill ring." t)
 
-    (require 'expand-region)
-    (global-set-key (kbd "C-=") 'er/expand-region)
+    ; (require 'expand-region)
+    ; (global-set-key (kbd "C-=") 'er/expand-region)
+    (use-package expand-region
+      :bind ("C-=" . er/expand-region))
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -998,8 +999,6 @@
 
 ;; --[ Calendar ]---------------------------------------------------------------
 (when section-calendar-diary
-    ;; (setq diary-file "~/.emacs.d/diary")
-    (setq diary-file (concat my-personal-dir "diary"))
     (load "calendar-conf"))
 ;; --[ Calendar ]------------------------------------------------------[ End ]--
 
@@ -1043,13 +1042,14 @@
 
 
 ;; [ TAG ]----------------------------------------------------------------------
-(load "ctags-conf")
+; (load "ctags-conf")
 
 ;; ggtags: Emacs frontend to GNU Global source code tagging system
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'cperl-mode 'python-mode)
-              (ggtags-mode 1))))
+; (add-hook 'c-mode-common-hook
+;           (lambda ()
+;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'cperl-mode 'python-mode)
+;               (ggtags-mode 1))))
+(setq tags-revert-without-query 1)
 ;; [ TAG ]-------------------------------------------------------------[ End ]--
 
 
@@ -1421,6 +1421,7 @@
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")
   (add-site-lisp-load-path "org-jekyll-mode/")
+  (add-site-lisp-load-path "org-journal/")
   (load "org-conf"))
 ;; [ org ]-------------------------------------------------------------[ End ]--
 
@@ -1848,6 +1849,19 @@
     ;; (global-set-key (kbd "C-S-z") 'redo)  ; CTRL+Shift+Z
     (global-set-key (kbd "M-z") 'undo)  ; ALT+Z
     (global-set-key (kbd "M-S-z") 'redo)  ; ALT+Shift+Z
+
+    ; (use-package undo-tree
+    ;   :init
+    ;   (progn
+    ;     (global-undo-tree-mode)
+    ;     (setq undo-tree-visualizer-timestamps t)
+    ;     (setq undo-tree-visualizer-diff t)
+    ;     (defalias 'redo 'undo-tree-redo)
+    ;     )
+    ;   :bind (
+    ;     ("M-z" . undo)
+    ;     ("M-S-z" . redo))
+    ;   )
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1958,7 +1972,7 @@
 
 
 ;; [ sr-speedbar ]--------------------------------------------------------------
-(load "sr-speedbar-conf")
+; (load "sr-speedbar-conf")
 ;; [ sr-speedbar ]-----------------------------------------------------[ End ]--
 
 
@@ -1966,6 +1980,11 @@
 (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
+
+
+(use-package miniedit
+  :commands minibuffer-edit
+  :init (miniedit-install))
 
 
 ;; --[ Help ]-------------------------------------------------------------------
@@ -2070,6 +2089,9 @@
 ;; [ diminish ]--------------------------------------------------------[ End ]--
 
 
+;; custom file: modified setting by menu bar
+(if (not custom-file)
+  (setq custom-file (concat my-personal-dir "my-custom.el")))
 (load custom-file 'noerror)
 
 ; (sml/apply-theme 'dark)  ;; respectful/light

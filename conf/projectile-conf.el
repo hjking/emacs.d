@@ -1,9 +1,11 @@
 ;; Projectile
-; (eval-after-load "projectile"
-;   '(progn
-    (require 'projectile)
+
+(use-package projectile
+  :init
+  (progn
     (projectile-global-mode)
-    (setq projectile-enable-caching t)  ;; enable caching
+    (setq projectile-completion-system 'default)
+    (setq projectile-enable-caching t)
     (setq projectile-cache-file (concat my-cache-dir "projectile.cache"))
     (setq projectile-known-projects-file (concat my-cache-dir "projectile-bookmarks.eld"))
     ;; restore the recent window configuration of the target project
@@ -18,6 +20,7 @@
     ;; (setq projectile-find-dir-includes-top-level t)
     ; (defconst projectile-mode-line-lighter " P")
     ;; (diminish 'projectile-mode)
+    ))
 
     (with-executable 'ctags-exuberant
       (setq-default

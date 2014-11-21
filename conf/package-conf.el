@@ -11,6 +11,7 @@
                     ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                     ;; (development versions of packages)
                     ("melpa" . "http://melpa.org/packages/")
+                    ;; ("org" . "http://orgmode.org/elpa/")
                     ))
   (add-to-list 'package-archives source t))
 
@@ -21,8 +22,7 @@
 
   (defvar my-packages
   '(
-    ; auto-complete
-    ; auto-complete-c-headers
+    use-package
     company
     stripe-buffer               ;; different background for even and odd lines
     expand-region
@@ -56,11 +56,12 @@
     ; evil-nerd-commenter
     ; auto-complete-verilog
     aggressive-indent
+    miniedit
     )
   "A list of packages to ensure are installed at launch.")
 
   ;; Auto install the required packages
-  ;; Source: https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el
+  ;; package-installed-p is from package.el and checks if a package is installed
   ;; Source: http://toumorokoshi.github.io/emacs-from-scratch-part-2-package-management.html
   ;; method to check if all packages are installed
   (defun packages-installed-p ()

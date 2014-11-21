@@ -29,7 +29,7 @@
 ;; If thing-at-point looks like something openable, default to it
 (setq ido-use-filename-at-point 'guess)
 (setq ido-use-url-at-point t)
-(setq ido-max-prospects 7)
+(setq ido-max-prospects 10)
 (setq ido-enable-tramp-completion nil)
 (setq ido-confirm-unique-completion nil)
 (setq ido-enable-prefix nil)

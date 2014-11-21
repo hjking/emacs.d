@@ -11,9 +11,9 @@
 ;; Created: Tue Aug  4 17:06:46 1987
 ;; Version: 0
 ;; Package-Requires: ()
-;; Last-Updated: Thu Dec 26 09:04:08 2013 (-0800)
+;; Last-Updated: Wed Jul 23 08:22:12 2014 (-0700)
 ;;           By: dradams
-;;     Update #: 1842
+;;     Update #: 1888
 ;; URL: http://www.emacswiki.org/header2.el
 ;; Doc URL: http://emacswiki.org/AutomaticFileHeaders
 ;; Keywords: tools, docs, maint, abbrev, local
@@ -52,7 +52,8 @@
 ;;   `header-sccs', `header-shell', `header-status', `header-title',
 ;;   `header-toc', `header-update-count', `header-url',
 ;;   `header-version', `headerable-file-p', `make-box-comment',
-;;   `make-divider', `make-revision', `register-file-header-action',
+;;   `make-divider', `make-revision', `nonempty-comment-end',
+;;   `nonempty-comment-start', `register-file-header-action',
 ;;   `section-comment-start', `true-mode-name', `uniquify-list',
 ;;   `update-file-name', `update-last-modified-date',
 ;;   `update-last-modifier', `update-lib-requires',
@@ -169,6 +170,15 @@
 ;;
 ;;; Change Log:
 ;;
+;; 2014/07/23 dadams
+;;     header-free-software: Updated per latest GNU boilerplate.
+;; 2014/01/13 dadams
+;;     Added: nonempty-comment-start, nonempty-comment-end.
+;;     Removed variables comment-start-p, comment-end-p.
+;;     header-multiline, header-code, header-eof, header-end-line, header-prefix-string:
+;;       Use nonempty-comment-end.
+;;     header-mode-line, header-end-line: Use nonempty-comment-start.
+;;     make-header: Remove let bindings of comment-start-p, comment-end-p.
 ;; 2013/07/22 dadams
 ;;     Added: header-pkg-requires, for ELPA/package.el.  Added to make-header-hook.
 ;; 2012/08/23 dadams
@@ -345,8 +355,6 @@
 
 
 ;; Quiet byte-compiler.
-(defvar comment-end-p)
-(defvar comment-start-p)
 (defvar c-style)
 (defvar explicit-shell-file-name)
  
@@ -458,20 +466,18 @@ file `header2.el' to do this."
   :type 'string :group 'Automatic-File-Header)
 
 (defcustom header-free-software
-  "This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 3, or
-\(at your option) any later version.
+  "This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; see the file COPYING.  If not, write to
-the Free Software Foundation, Inc., 51 Franklin Street, Fifth
-Floor, Boston, MA 02110-1301, USA."
+along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>."
 
   "*Text saying that this is free software"
   :type 'string :group 'Automatic-File-Header)
@@ -502,6 +508,14 @@ the function to call if the string is found near the start of the file.")
   "Mode-specific comment prefix string for use in headers.")
  
 ;;; Functions ----------------------------------------------
+
+(defsubst nonempty-comment-start ()
+  "Return `comment-start', or nil if it is an empty string."
+  (and (not (equal "" comment-start))  comment-start))
+
+(defsubst nonempty-comment-end ()
+  "Return `comment-end', or nil if it is an empty string."
+  (and (not (equal "" comment-end))  comment-end))
 
 (defsubst header-blank ()
   "Insert an empty comment to file header (after `header-prefix-string')."
@@ -605,13 +619,12 @@ Without this, `make-revision' inserts `header-history-label' after the header."
   (let ((header-multiline  header-free-software))
     (header-multiline)))
 
-;; Variable `comment-end-p' is free here.  It is bound in `make-header'.
 (defun header-multiline ()
   "Insert multiline comment.  The comment text is in `header-multiline'."
   (let ((lineno  1)
         beg end nb-lines)
     (beginning-of-line)
-    (if comment-end-p
+    (if (nonempty-comment-end)
         (insert "\n" comment-start)
       (header-blank)
       (insert header-prefix-string))
@@ -626,32 +639,29 @@ Without this, `make-revision' inserts `header-history-label' after the header."
       (forward-line 1)
       (setq lineno  (1+ lineno)))
     (goto-char end)
-    (when comment-end-p (insert "\n"))
+    (when (nonempty-comment-end) (insert "\n"))
     (insert comment-end)
     (insert "\n")
-    (unless comment-end-p
+    (unless (nonempty-comment-end)
       (header-blank)
       (header-end-line))))
 
-;; Variable `comment-end-p' is free here.  It is bound in `make-header'.
 (defsubst header-code ()
   "Insert \"Code: \" line."
-  (insert (concat (section-comment-start) "Code:" (and comment-end-p comment-end)
-                  "\n\n\n")))
+  (insert (concat (section-comment-start) "Code:" (nonempty-comment-end) "\n\n\n")))
 
-;; Variable `comment-end-p' is free here.  It is bound in `make-header'.
 (defsubst header-eof ()
   "Insert comment indicating end of file."
   (goto-char (point-max))
   (insert "\n")
-  (unless comment-end-p (header-end-line))
+  (unless (nonempty-comment-end) (header-end-line))
   (insert comment-start
           (concat (and (= 1 (length comment-start)) header-prefix-string)
                   (if (buffer-file-name)
                       (file-name-nondirectory (buffer-file-name))
                     (buffer-name))
                   " ends here"
-                  (if comment-end-p comment-end "\n"))))
+                  (or (nonempty-comment-end) "\n"))))
 
 (defsubst header-modification-date ()
   "Insert todays date as the time of last modification.
@@ -720,7 +730,6 @@ environment variable, the SHELL environment variable, or
                    "/bin/sh")
           "\n"))
 
-;; Variable `comment-start-p' is free here.  It is bound in `make-header'.
 (defun header-mode-line ()
   "Insert a \" -*- Mode: \" line."
   (let* ((mode-declaration  (concat " -*- Mode: " (true-mode-name)
@@ -737,7 +746,7 @@ environment variable, the SHELL environment variable, or
                            mode-declaration
                            (make-string (/ (- 78 md-length) 2)
                                         (aref comment-start 0))))
-                  (comment-start-p      ; Assume spaces fill the gaps.
+                  ((nonempty-comment-start) ; Assume spaces fill the gaps.
                    (concat comment-start
                            (make-string (/ (- 79 md-length
                                               (length comment-start)) 2)
@@ -749,14 +758,12 @@ environment variable, the SHELL environment variable, or
                            (make-string (/ (- 78 md-length) 2) ?\;))))
             "\n")))
 
-;; Variables `comment-start-p' and `comment-end-p' are free here.
-;; They are bound in `make-header'.
 (defsubst header-end-line ()
   "Insert a divider line."
-  (insert (cond (comment-end-p comment-end)
+  (insert (cond ((nonempty-comment-end))
                 ((and comment-start (= 1 (length comment-start)))
                  (make-string 70 (aref comment-start 0)))
-                (comment-start-p comment-start)
+                ((nonempty-comment-start))
                 (t (make-string 70 ?\;)))
           "\n"))
 
@@ -804,7 +811,6 @@ work even when the value has embedded spaces or other junk."
                            (or   (string-match "-mode" major-mode-name)
                                  (length major-mode-name))))))
 
-;; Variable `comment-end-p' is free here.  It is bound in `make-header'.
 (defun header-prefix-string ()
   "Return a mode-specific prefix string for use in headers.
 Is sensitive to language-dependent comment conventions."
@@ -825,7 +831,7 @@ Is sensitive to language-dependent comment conventions."
     ((and comment-start (= 3 (length comment-start)))
      (concat " " (list (aref comment-start 1)) " "))
 
-    ((and comment-start (not comment-end-p))
+    ((and comment-start  (not (nonempty-comment-end)))
 
      ;; Note: no comment end implies that the full comment-start must be
      ;; used on each line.
@@ -847,10 +853,7 @@ and end lines start and terminate block comments.  The body lines continue
 the comment."
   (interactive)
   (beginning-of-buffer)                 ; Leave mark at old location.
-  ;; Use `let*' because `header-prefix-string' refers to `comment-end-p'.
   (let* ((return-to             nil)    ; To be set by `make-header-hook'.
-         (comment-start-p       (and comment-start (not (string= "" comment-start))))
-         (comment-end-p         (and comment-end (not (string= "" comment-end))))
          (header-prefix-string  (header-prefix-string))) ; Cache result.
     (mapcar #'funcall make-header-hook)
     (when return-to (goto-char return-to))))

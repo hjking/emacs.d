@@ -1,9 +1,11 @@
 
 (message "%d: >>>>> Loading [ Calendar ] Customization ...." step_no)
 (setq step_no (1+ step_no))
+;; (setq diary-file "~/.emacs.d/diary")
+(setq diary-file (concat my-personal-dir "diary"))
 (setq calendar-load-hook
   '( lambda ()
-     (set-face-foreground 'diary-face "skyblue")
+     ;; (set-face-foreground 'diary-face "skyblue")
      (set-face-background 'holiday-face "slate blue")
      (set-face-foreground 'holiday-face "white")
    )

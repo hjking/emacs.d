@@ -6,17 +6,9 @@
 ;; Last Updated: 2012-04-13 10:24:00
 ;;
 
-(require 'ace-jump-mode)
-(define-key global-map (kbd "C-x SPC") 'ace-jump-mode)
-;; echo before jump
-(add-hook 'ace-jump-mode-before-jump-hook (lambda ()
-                                            (message "I am jumping")))
-; (eval-after-load "ace-jump-mode"
-;   '(ace-jump-mode-enable-mark-sync))
-
-;; use package
-;;(use-package ace-jump-mode
-;;  :bind ("C-x SPC" . ace-jump-mode))
+(use-package ace-jump-mode
+  :init (add-hook 'ace-jump-mode-before-jump-hook (lambda () (message "I am jumping")))
+  :bind ("C-x SPC" . ace-jump-mode))
 
 ;;If you also use viper mode :
 ;; (define-key viper-vi-global-user-map (kbd "SPC") 'ace-jump-mode)

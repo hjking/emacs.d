@@ -12,11 +12,17 @@
 
 ;; [ windmove ]-------------------------------------------------------------
 (message "    >>>>> Loading [ windmove ] Customizations ....")
-(require 'windmove)
-(global-set-key (kbd "C-<f2> <left>")  'windmove-left)
-(global-set-key (kbd "C-<f2> <right>") 'windmove-right)
-(global-set-key (kbd "C-<f2> <up>")    'windmove-up)
-(global-set-key (kbd "C-<f2> <down>")  'windmove-down)
+; (require 'windmove)
+; (global-set-key (kbd "C-<f2> <left>")  'windmove-left)
+; (global-set-key (kbd "C-<f2> <right>") 'windmove-right)
+; (global-set-key (kbd "C-<f2> <up>")    'windmove-up)
+; (global-set-key (kbd "C-<f2> <down>")  'windmove-down)
+(use-package windmove
+  :bind
+  (("C-<f2> <right>" . windmove-right)
+   ("C-<f2> <left>"  . windmove-left)
+   ("C-<f2> <up>"    . windmove-up)
+   ("C-<f2> <down>"  . windmove-down)))
 ;; use Meta key as prefix key
 ;;  (windmove-default-keybindings 'meta)
 ;; [ windmove ]----------------------------------------------------[ End ]--
