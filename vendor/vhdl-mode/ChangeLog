@@ -1,6 +1,41 @@
+2014-03-11  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el: Version 3.35.1 released.
+
+2013-07-08  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el
+	(vhdl-mode): fix `paragraph-start' setting.
+
+2013-04-02  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el
+	(vhdl-beautify-region): Include tabify/untabify.
+	(aput, adelete, aget): Add functions from obsolete assoc.el (Emacs 24.3).
+
+2013-03-26  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el
+	(vhdl-template-record): Fix indentation for record type declaration.
+	(vhdl-get-visible-signals): Scan declarative part of generate statements.
+	(vhdl-fix-statement-region): Not `for' in wait-statement.
+
+2012-11-28  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el
+	(top): Code cleanup: use `push' throughout. (reverted)
+	(top): Code cleanup: use `dolist' throughout. (reverted)
+	(vhdl-generate-makefile-1): Support for compilers with no unit-to-file
+	name mapping (create directory with dummy files).
+
+2012-11-22  Reto Zimmermann  <reto@gnu.org>
+
+	* vhdl-mode.el
+	(top): Partial sync of changes from GNU distribution, code cleanup.
+
 2012-11-21  Reto Zimmermann  <reto@gnu.org>
 
-	* vhdl-mode.el:
+	* vhdl-mode.el: Version 3.34.1 released.
 	(vhdl-actual-generic-name): Add option to derive actual generic name.
 	(vhdl-port-paste-signals): Replace formal by actual generics.
 
