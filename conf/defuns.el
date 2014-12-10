@@ -185,6 +185,12 @@ See also `with-temp-buffer'."
   (interactive)
   (insert (format-time-string "%Y-%m-%d %3a %H:%M:%S" (current-time))))
 
+;;; === insert current time ===
+(defun hjking/insert-time-stamp ()
+  "Insert current time at point."
+  (interactive)
+  (insert (format-time-string "%H:%M" (current-time))))
+
 (defun hjking/insert-date (prefix)
   "Insert the current date in ISO format. With prefix-argument,
   add day of week. With two prefix arguments, add day of week and
@@ -235,7 +241,6 @@ See also `with-temp-buffer'."
                   (line-beginning-position (+ 1 arg)))
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
-
 (defun hjking/copy-line-or-region ()
   "Copy current line, or current text selection."
   (interactive)
@@ -261,7 +266,7 @@ See also `with-temp-buffer'."
   (copy-region-as-kill beg end))
 )
 
-(defun copy-file-path ()
+(defun hjking/copy-file-path ()
   "Copy the current buffer's file path or dired path to kill-ring."
   (interactive)
   (if (equal major-mode 'dired-mode)
@@ -285,9 +290,7 @@ See also `with-temp-buffer'."
     (let ( (n (hjking/get-col)) ) ; move to new line, goto same column
       (forward-line +1)
       (move-to-column n)
-    )
-  )
-)
+    )))
 
 ;;; === delete current line ===
 (defun hjking/delete-line ()
@@ -295,8 +298,14 @@ See also `with-temp-buffer'."
   (interactive)
   (progn
     (beginning-of-line) (kill-line 1)
-  )
-)
+  ))
+
+(defun hjking/cut-line-or-region ()
+  "Cut the current line, or current text selection."
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-region (line-beginning-position) (line-beginning-position 2))))
 
 ;;; === delete ^M ===
 (defun hjking/delete-crtl-M ()
@@ -336,7 +345,7 @@ See also `with-temp-buffer'."
   (set-buffer-file-coding-system 'dos))
 
 ;; Behave like vi's o command
-(defun open-newline-below (arg)
+(defun hjking/open-newline-below (arg)
   "Move to the next line and then opens a line.
   See also `newline-and-indent'."
   (interactive "p")
@@ -347,7 +356,7 @@ See also `with-temp-buffer'."
     (indent-according-to-mode)))
 
 ;; Behave like vi's O command
-(defun open-newline-above (arg)
+(defun hjking/open-newline-above (arg)
   "Open a new line before the current one.
    See also `newline-and-indent'."
   (interactive "p")
@@ -1273,6 +1282,22 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
 ;;----------------------------------------------------------------------------
 ;; Rename the current file
 ;;----------------------------------------------------------------------------
+;; From http://emacsredux.com/blog/2013/05/04/rename-file-and-buffer/
+(defun rename-file-and-buffer ()
+     "Rename the current buffer and file it is visiting."
+     (interactive)
+     (let ((filename (buffer-file-name)))
+   (if (not (and filename (file-exists-p filename)))
+       (message "Buffer is not visiting a file!")
+     (let ((new-name (read-file-name "New name: " filename)))
+       (cond
+        ((vc-backend filename) (vc-rename-file filename new-name))
+        (t
+         (rename-file filename new-name t)
+         (rename-buffer new-name)
+         (set-visited-file-name new-name)
+         (set-buffer-modified-p nil)))))))
+
 (defun hjking/rename-file-and-buffer(new-name)
   "Renames both current buffer and file it's visiting to new-name."
   (interactive "sNew name: ")
@@ -1340,10 +1365,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
           )
         )
         (setq undos (cdr undos))
-      )
-    )
-  )
-)
+      ))))
 
 ;;; === get column number ===
 (defun hjking/get-col ()
@@ -1355,10 +1377,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
           (setq ncol (- opoint (point)))
 ;;          (message "col = %s" ncol)
           ncol
-    )
-  )
-)
-
+    )))
 
 ;;; === go to char ===
 ;;;###autoload
@@ -1382,7 +1401,7 @@ occurence of CHAR."
 )
 
 
-(defun run-current-file ()
+(defun hjking/run-current-file ()
   "Execute or compile the current file.
 For example, if the current buffer is the file x.pl,
 then it'll call “perl x.pl” in a shell.
@@ -1467,7 +1486,7 @@ File suffix is used to determine what program to run."
   )
 
 ;;; select between parens
-(defun select-in-parens ()
+(defun hjking/select-in-parens ()
   (interactive)
   (set-mark (point))
   (goto-match-paren 1))
@@ -1544,7 +1563,6 @@ File suffix is used to determine what program to run."
     (indent-region (point-min) (point-max) nil)
     (untabify (point-min) (point-max)))
 
-
 (defun hjking/untabify-buffer ()
   "Convert all tabs in the buffer to multiple spaces. See `untabify`."
   (interactive)
@@ -1587,15 +1605,6 @@ Including indent-buffer, which should not be called automatically on save."
         (let ((next-window-buffer (window-buffer (next-window window 0))))
             (set-window-buffer (next-window window 0) (window-buffer window))
             (set-window-buffer window next-window-buffer))) (butlast (window-list nil 0))))
-
-(defun sacha/package-install (package &optional repository)
-  "Install PACKAGE if it has not yet been installed.
-If REPOSITORY is specified, use that."
-  (unless (package-installed-p package)
-    (let ((package-archives (if repository
-                                (list (assoc repository package-archives))
-                              package-archives)))
-    (package-install package))))
 
 (defun sacha/search-word-backward ()
   "Find the previous occurrence of the current word."
@@ -1668,25 +1677,14 @@ of line."
              (join-line))))
         (t (call-interactively 'join-line))))
 
-;;; Google
-(defun google ()
-  "Google the selected region if any, display a query prompt otherwise."
-  (interactive)
-  (browse-url
-   (concat
-    "https://www.google.com/search?ie=utf-8&oe=utf-8&q="
-    (url-hexify-string (if mark-active
-         (buffer-substring (region-beginning) (region-end))
-       (read-string "Search Google: "))))))
-
 ;;; Percentage-buffer
-(defun goto-percent (pct)
+(defun hjking/goto-percent (pct)
   "Go to place in a buffer expressed in percentage."
   (interactive "nPercent: ")
   (goto-char (/ (* (point-max) pct) 100)))
 
 ;; Count total number of words in current buffer
-(defun count-words-buffer ()
+(defun hjking/count-words-buffer ()
   "Count total number of words in current buffer."
   (interactive)
   (let ((count 0))
@@ -1725,13 +1723,6 @@ programming."
                :height 30
                :scroll-bar t
                :margin t)))
-
-(defun cut-line-or-region ()
-  "Cut the current line, or current text selection."
-  (interactive)
-  (if (region-active-p)
-      (kill-region (region-beginning) (region-end))
-    (kill-region (line-beginning-position) (line-beginning-position 2))))
 
 (defun delete-enclosed-text ()
   "Delete texts between any pair of delimiters."
@@ -2036,6 +2027,17 @@ kill ring."
 ;         (set-window-buffer (funcall selector) this-win)
 ;         (select-window (funcall selector)))
 ;     (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+
+;;; Google
+(defun google ()
+  "Google the selected region if any, display a query prompt otherwise."
+  (interactive)
+  (browse-url
+   (concat
+    "https://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    (url-hexify-string (if mark-active
+         (buffer-substring (region-beginning) (region-end))
+       (read-string "Search Google: "))))))
 
 ;; bing!
 (defun bing ()

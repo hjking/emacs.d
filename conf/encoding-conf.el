@@ -1,5 +1,5 @@
 
-(message "%d: >>>>> Loading [ Enoding ] Customization ...." step_no)
+(message "%d: >>>>> Loading [ Encoding ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
 (defun locale-is-utf8-p ()

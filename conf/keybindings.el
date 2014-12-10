@@ -22,14 +22,14 @@
 (global-set-key [C-next]            'scroll-other-window)
 (global-set-key [C-prior]           'scroll-other-window-down)
 
-(global-set-key [C-backspace]       'my-delete-line)
-(global-set-key [C-delete]          'my-delete-line)
+(global-set-key [C-backspace]       'hjking/delete-line)
+(global-set-key [C-delete]          'hjking/delete-line)
 ;; switch in windows with arrow key
 ; (global-set-key (kbd "C-c <up>")    'windmove-up)
 ; (global-set-key (kbd "C-c <down>")  'windmove-down)
 ; (global-set-key (kbd "C-c <left>")  'windmove-left)
 ; (global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c SPC")     'my-goto-last-edit-pos)
+(global-set-key (kbd "C-c SPC")     'hjking/goto-last-edit-pos)
 ;; (global-set-key "\C-\\"             'compare-windows)
 (global-set-key (kbd "M-;")         'hippie-expand)
 ;; (global-set-key (kbd "M-/")         'dabbrev-expand) ;;(default)
@@ -40,16 +40,16 @@
 ;; unmark-region. If there's a better way, show me!
 (fset 'copy-word-under-cursor
    [?\C-\M-b ?\C-  ?\C-\M-f ?\C-x ?r ?s ?l ?\M-x ?t ?i ?: ?: ?t ?- ?u ?n ?m ?a ?r ?k ?- ?r ?e ?g ?i ?o ?n return])
-(global-set-key (kbd "C-' a")       'my-revert-buffer)
+(global-set-key (kbd "C-' a")       'hjking/revert-buffer)
 
-(global-set-key (kbd "C-c C-e b")       'my-copy-paragraph)
+(global-set-key (kbd "C-c C-e b")       'hjking/copy-paragraph)
 (global-set-key (kbd "C-c C-e c")       'copy-word-under-cursor)
 ;;Open the currently selected file / directory in the same buffer as this one.
-(global-set-key (kbd "C-c C-e d")       'my-dired-open-in-current-buffer) ;; not working
+(global-set-key (kbd "C-c C-e d")       'hjking/dired-open-in-current-buffer) ;; not working
 (global-set-key (kbd "C-c C-e i")       'indent-region)
 (global-set-key (kbd "C-c C-e u")       'uncomment-region)
 (global-set-key (kbd "C-c C-e v")       'view-file-other-window)
-(global-set-key (kbd "C-c C-e w")       'my-copy-word)
+(global-set-key (kbd "C-c C-e w")       'hjking/copy-word)
 (global-set-key (kbd "C-c e")       'eval-buffer)
 ;; find file at point
 (global-set-key (kbd "C-c f")       'find-file-at-point)  ;; ffap.el
@@ -61,14 +61,14 @@
 ;; (global-set-key (kbd "C-c i")       'his-imenu)
 
 ;; jump to char,similar to "f" in vim
-;; (global-set-key (kbd "C-c j")       'my-go-to-char)
+;; (global-set-key (kbd "C-c j")       'hjking/go-to-char)
 (global-set-key (kbd "C-c j")       'join-next-line)
 (global-set-key (kbd "C-c J")       'join-previous-line)
 ;(global-set-key (kbd "C-c k")      'browse-kill-ring) ;; (default)
 ;; load .emacs
-(global-set-key (kbd "C-c l")       'my-copy-line)
+(global-set-key (kbd "C-c l")       'hjking/copy-line)
 ;; switch mode
-;; (global-set-key (kbd "C-c m")       'my-switch-major-mode)
+;; (global-set-key (kbd "C-c m")       'hjking/switch-major-mode)
 (global-set-key (kbd "C-c n")       'mouse-tear-off-window)
 (global-set-key (kbd "C-c o")       'occur)
 ;; smart-compile: according to the extension to compile/run program
@@ -111,14 +111,14 @@
 ;; (global-set-key (kbd "C-z v")       'view-mode)
 
 ;; start a new line like vim o/O
-(global-set-key (kbd "C-c C-e o")         'open-newline-below)
-(global-set-key (kbd "C-c C-e O")         'open-newline-above)
+(global-set-key (kbd "C-c C-e o")         'hjking/open-newline-below)
+(global-set-key (kbd "C-c C-e O")         'hjking/open-newline-above)
 ;; switch window
 ;;  (global-set-key (kbd "C-o")         'other-window) ;; use "C-x o"
 ;; "C-x k" kill the buffer immediately
 (global-set-key (kbd "C-x k")       'kill-this-buffer)
 
-;; (global-set-key "\M-{"              'my-insert-braces)
+;; (global-set-key "\M-{"              'hjking/insert-braces)
 (global-set-key [M-delete]          'kill-word)
 (global-set-key (kbd "<C-M-up>")    'move-line-up)  ; FIXME M-Up multiply bound!
 (global-set-key (kbd "<C-M-down>")  'move-line-down)
@@ -135,7 +135,7 @@
 (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
 (global-set-key (kbd "M-J") 'join-line-or-lines-in-region)
 
-;;  (global-set-key "\M-r"              'my-copy-paragraph)
+;;  (global-set-key "\M-r"              'hjking/copy-paragraph)
 
 ;; Alt-S Alt-N for tagged searches
 (global-set-key "\M-s"              'tags-search)
@@ -151,7 +151,7 @@
 ;;; === Function Key ===
 ;; map Home and End keys to move within current line
 ;; (global-set-key [home]    'beginning-of-line)
-(global-set-key (kbd "<home>") 'my-smart-beginning-of-line)
+(global-set-key (kbd "<home>") 'hjking/smart-beginning-of-line)
 (global-set-key [end]     'end-of-line)
 ;; C-Home and C-End keys to move to beginning/end of buffer
 (global-set-key [\C-home]           'beginning-of-buffer)
@@ -162,8 +162,8 @@
 (global-set-key [S-f1]    'man)
 (global-set-key [f2]      'undo)
 (global-set-key [S-f2]    'save-buffer)
-(global-set-key [f3]      'redo)
-(global-set-key [S-f3]    'find-file)
+; (global-set-key [f3]      'redo)  highlight-symbol-at-point
+; (global-set-key [S-f3]    'find-file)
 (global-set-key [f4]      'browse-kill-ring)
 (global-set-key [S-f4]    'lpr-buffer)
 

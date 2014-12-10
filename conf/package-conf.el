@@ -57,6 +57,7 @@
     ; auto-complete-verilog
     aggressive-indent
     miniedit
+    ; plantuml-mode
     )
   "A list of packages to ensure are installed at launch.")
 

@@ -80,6 +80,7 @@
             ("Shell"      (mode . shell-script-mode))
             ("HDL"        (or
                            (mode . verilog-mode)
+                           (mode . vhdl-mode)
                            (mode . vlog-mode)))
             ("C"          (or
                            (mode . c-mode)

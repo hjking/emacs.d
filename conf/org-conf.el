@@ -26,11 +26,6 @@
 (defun my-org-mode-hook ()
   (setq truncate-lines t)  ;; Wrap long lines
   (visual-line-mode t)
-  ;; (flyspell-mode 1)
-  (require 'yasnippet)
-  (yas-minor-mode) ;; turn on yasnippet mode
-  (org-set-local 'yas/trigger-key [tab])
-  (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)
   (set (make-local-variable 'system-time-locale) "C"))
 
 (setq org-directory "~/org")
@@ -817,10 +812,38 @@ or nil if the current buffer isn't visiting a dayage"
 ;; org-extension
 (require 'org-extension)
 
-;; Teach Smartparens about Org Mode markup
-; (--each '("*" "/" "=" "~" "_" "+")
-;   (sp-local-pair 'org-mode it it))
 
-(require 'org-journal)
-(setq org-journal-dir daypage-path)
-(setq org-journal-file-format "%Y-%m-%d")
+;;;; Org Babel
+;; Enable yntax highlighting in src blocks
+(setq-default org-src-fontify-natively t)
+;; active Org-babel languages
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '(;; other Babel languages
+    (emacs-lisp . t)
+    (ditaa . t)
+    (dot . t)
+    (sh . t)
+    (plantuml . t)))
+
+;; generate pic without confirm
+(setq org-confirm-babel-evaluate nil)
+
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+(setq org-ditaa-jar-path
+      (expand-file-name "~/.emacs.d/scripts/ditaa.jar"))
+
+(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
+
+; Make babel results blocks lowercase
+(setq org-babel-results-keyword "RESULTS")
+
+(defun bh/display-inline-images ()
+  (condition-case nil
+      (org-display-inline-images)
+    (error nil)))
+
+(if (file-directory-p "D:/Program Files/Graphviz/bin")
+      (add-to-list 'exec-path "D:/Program Files/Graphviz/bin")
+    (message "*** Warning!! Please install Graphviz first!!"))

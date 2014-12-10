@@ -237,7 +237,7 @@
     (concat "cd " root-dir "Debug/ && make -j3 && cd " root-dir "Release/ && make -j3" )))
 
 ;; clang setup
-(require 'semantic-clang)
+;; (require 'semantic-clang)
 
 ;;; emacs-rc-cedet.el ends here
 

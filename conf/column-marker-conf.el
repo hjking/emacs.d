@@ -18,7 +18,7 @@
                 makefile-mode-hook
                 message-mode-hook
                 verilog-mode-hook
-                vlog-mode
+                vlog-mode-hook
                 texinfo-mode-hook))
   (add-hook hook (lambda ()
                    (interactive)

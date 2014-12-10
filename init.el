@@ -65,8 +65,8 @@
 (defvar section-gnus nil)
 (defvar section-eshell t)
 (defvar section-hdl t)
-(defvar section-verilog nil)
-(defvar section-vlog t)
+(defvar section-verilog t)
+(defvar section-vlog nil)
 (defvar section-vhdl nil)
 (defvar section-emacs-server nil)
 (defvar section-org t)
@@ -76,7 +76,7 @@
 (defvar section-desktop nil)
 (defvar section-muse nil)
 (defvar section-cvs nil)
-(defvar section-svn t)
+(defvar section-svn nil)
 (defvar section-git t)
 (defvar section-emms t)
 (defvar section-vm nil)
@@ -99,7 +99,7 @@
 (defvar section-package t)
 (defvar section-tramp t)
 (defvar section-cedet nil)
-(defvar section-cedet-1.1 t)
+(defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
 (defvar section-mmm-mode t)
 (defvar section-csv-mode t)
@@ -1358,7 +1358,7 @@
                     'c-mode-hook
                     'java-mode-hook
                     'js-mode-hook
-                    'vlog-mode-hook
+                    'verilog-mode-hook
                     'css-mode-hook))
   (add-hook hook 'hideshowvis-enable))
 ;; [ Hide-Show ]-------------------------------------------------------[ End ]--
@@ -1833,6 +1833,11 @@
              (define-key comint-mode-map [C-left] 'comint-bol)
              ))
 ;; --------------------------------------------------------------------[ End ]--
+
+
+;; plantuml-mode
+; (require 'plantuml-mode)
+;; (setq plantuml-jar-path (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
 
 ;;;; ================ ProgrammingModes End ================
 

@@ -31,7 +31,6 @@
 ;; Don't try to enable autopair in term-mode, it remaps the return key!
 (add-hook 'term-mode-hook
           (lambda ()
-            (yas-minor-mode -1)
             (setq show-trailing-whitespace nil)
             (autopair-mode 0)))
 

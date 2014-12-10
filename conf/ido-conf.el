@@ -7,7 +7,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'ido)
 (ido-mode 1)
-(ido-everywhere 1)
+(setq ido-everywhere t)
 ;; (setq ido-save-directory-list-file "~/.emacs.d/_ido_last")
 (setq ido-save-directory-list-file (concat my-cache-dir "ido_last"))
 ;; Allow the same buffer to be open in different frames

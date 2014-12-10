@@ -52,4 +52,9 @@
         (add-hook 'prog-mode-hook
                   '(lambda ()
                        (yas-minor-mode)))
+        (add-hook 'org-mode-hook
+                  '(lambda ()
+                       (yas-minor-mode)
+                       (org-set-local 'yas/trigger-key [tab])
+                       (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
 ))
