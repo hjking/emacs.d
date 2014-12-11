@@ -105,3 +105,5 @@
 
 (setq comment-style 'extra-line
       comment-auto-fill-only-comments t)
+
+(provide 'global-conf)

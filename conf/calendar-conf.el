@@ -57,3 +57,5 @@
 (require 'cal-china-x)
 (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
 (setq calendar-holidays cal-china-x-important-holidays)
+
+(provide 'calendar-conf)

@@ -40,3 +40,5 @@ The `car' of each item is the font family, the `cdr' the preferred font size.")
                           :family (car font) :height (cdr font))))
 
 (stante-choose-best-fonts)
+
+(provide 'font-conf)

@@ -124,3 +124,5 @@
 (setq helm-swoop-split-direction 'split-window-vertically)
 ;; If nil, you can slightly boost invoke speed in exchange for text color
 (setq helm-swoop-speed-or-color nil)
+
+(provide 'helm-conf)

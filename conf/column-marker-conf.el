@@ -29,4 +29,6 @@
 ;; use `C-c m' interactively to highlight with `column-marker-1-face'
 ;;  (global-set-key (kbd "C-c m") 'column-marker-1)
 
+(provide 'column-marker-conf)
+
 ;; EOF

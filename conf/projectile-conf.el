@@ -22,13 +22,14 @@
     ;; (diminish 'projectile-mode)
     ))
 
-    (with-executable 'ctags-exuberant
-      (setq-default
-       ;; Default to exuberant ctags.
-       projectile-tags-command "ctags-exuberant -Re %s"))
+    ; (with-executable 'ctags-exuberant
+    ;   (setq-default
+    ;    ;; Default to exuberant ctags.
+    ;    projectile-tags-command "ctags-exuberant -Re %s"))
 
-    ;; integrate perspective with projectile
-    (require 'perspective)
-    (persp-mode)
-    (require 'persp-projectile)
-    ; ))
+;; integrate perspective with projectile
+(require 'perspective)
+(persp-mode)
+(require 'persp-projectile)
+
+(provide 'projectile-conf)

@@ -377,6 +377,7 @@ this with to-do items than with projects or headings."
 ;;; org-babel
 ;; Use syntax highlighting ("fontification") in org-mode source blocks
 (setq org-src-fontify-natively t)
+;; the whole heading lines fontified
 (setq org-fontify-whole-heading-line t)
 (setq org-src-window-setup 'current-window)
 ;; Overwrite the current window with the agenda
@@ -847,3 +848,6 @@ or nil if the current buffer isn't visiting a dayage"
 (if (file-directory-p "D:/Program Files/Graphviz/bin")
       (add-to-list 'exec-path "D:/Program Files/Graphviz/bin")
     (message "*** Warning!! Please install Graphviz first!!"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'org-conf)

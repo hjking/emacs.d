@@ -7,9 +7,6 @@
 
 (message "%d: >>>>> Loading [ Verilog Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-;; load verilog mode only when needed
-(autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
-(add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
 ;; (setq auto-mode-alist (cons  '("\\.v\\'" . verilog-mode) auto-mode-alist))
 ;; any file in verilog mode should have their keywords colorized
 (add-hook 'verilog-mode-hook '(lambda () (font-lock-mode 1)))
@@ -43,3 +40,4 @@
                           (untabify (point-min) (point-max))
                           nil))))
 
+(provide 'verilog-conf)

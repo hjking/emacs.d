@@ -7,31 +7,43 @@
 ;;      http://www.emacswiki.org/emacs/AbbrevMode
 (message "%d: >>>>> Loading [ Abbrev Mode ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
-(setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
-;; save my abbreviations when file saved
-(setq save-abbrevs t)
-;; reads the abbreviations file on startup
-(if (file-exists-p abbrev-file-name)
-    (quietly-read-abbrev-file))
 
-;; ensure abbrev mode is always on in current buffer
-;; (abbrev-mode 1)
-;; turn on abbrev mode globally
-(setq-default abbrev-mode t)
+(use-package abbrev
+    :diminish abbrev-mode
+    :init
+    (progn
+        ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
+        (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
+        ;; save my abbreviations when file saved
+        (setq save-abbrevs t)
+        ;; reads the abbreviations file on startup
+        (if (file-exists-p abbrev-file-name)
+            (quietly-read-abbrev-file))
+        ;; ensure abbrev mode is always on in current buffer
+        ;; (abbrev-mode 1)
+        ;; turn on abbrev mode globally
+        (setq-default abbrev-mode t)
+        )
+    :config
+    (progn
+        (add-hook 'expand-load-hook
+            (lambda ()
+              (add-hook 'expand-expand-hook 'indent-according-to-mode)
+              (add-hook 'expand-jump-hook 'indent-according-to-mode)))
+        ;; abbrev-mode is on only in some modes
+        ;;  (dolist (hook '(erc-mode-hook
+        ;;                  emacs-lisp-mode-hook
+        ;;                  text-mode-hook))
+        ;;  (add-hook hook (lambda () (abbrev-mode 1))))
 
-;; abbrev-mode is on only in some modes
-;;  (dolist (hook '(erc-mode-hook
-;;                  emacs-lisp-mode-hook
-;;                  text-mode-hook))
-;;  (add-hook hook (lambda () (abbrev-mode 1))))
-
-(define-abbrev-table 'global-abbrev-table '(
-    ("afaict" "as far as I can tell" nil 1)
-    ("btw" "by the way" nil 3)
-    ("ewiki" "http://www.emacswiki.org/" nil 3)
-    ("pov" "point of view" nil 1)
-    ))
+        (define-abbrev-table 'global-abbrev-table '(
+            ("afaict" "as far as I can tell" nil 1)
+            ("btw" "by the way" nil 3)
+            ("ewiki" "http://www.emacswiki.org/" nil 3)
+            ("pov" "point of view" nil 1)
+            ))
+        )
+    )
 
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
@@ -88,4 +100,4 @@
 )
 ;; [ pabbrev ]---------------------------------------------------------[ End ]--
 
-
+(provide 'abbrevs-conf)

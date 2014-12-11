@@ -97,3 +97,4 @@
     (setq load-home-init-file t))
 
 (message ">>>>> Checking Environment... Done")
+(provide 'env-conf)

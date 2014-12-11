@@ -52,3 +52,4 @@
      (setq company-auto-complete nil)
      ))
 
+(provide 'company-conf)

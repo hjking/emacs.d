@@ -56,3 +56,5 @@
   ;;             (t
   ;;              "\r")))
 )
+
+(provide 'tramp-conf)

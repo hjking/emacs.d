@@ -102,3 +102,5 @@
 ;;  (highlight-parentheses-mode 1)
 ;;  )
 ;; [ highlight-parentheses ]-------------------------------------------[ End ]--
+
+(provide 'parens-conf)

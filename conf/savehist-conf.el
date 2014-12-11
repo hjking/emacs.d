@@ -11,3 +11,5 @@
       '(kill-ring
         search-ring
         regexp-search-ring))
+
+(provide 'savehist-conf)

@@ -46,3 +46,5 @@
 ;; update file headers automatically whenever you save a file
 (autoload 'auto-update-file-header "header2")
 (add-hook 'write-file-hooks     'auto-update-file-header)
+
+(provide 'header2-conf)

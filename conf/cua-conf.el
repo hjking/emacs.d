@@ -90,3 +90,5 @@
     (put 'mouse-set-point 'CUA 'move)
 
 )
+
+(provide 'cua-conf)

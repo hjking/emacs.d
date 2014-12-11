@@ -76,3 +76,5 @@
 ;; C-c . g h  : switch history window
 ;; C-c . g l  : switch last edit window
 ;; C-c . h    : help
+
+(provide 'ecb-conf)

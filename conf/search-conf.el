@@ -75,3 +75,5 @@
 ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
 
 (require 'isearch-extension)
+
+(provide 'search-conf)

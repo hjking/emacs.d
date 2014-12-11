@@ -178,3 +178,6 @@
 ;; ztree-dir: a simple tree explorer
 (require 'ztree-diff)
 (require 'ztree-dir)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'dired-conf)

@@ -137,4 +137,6 @@
               'text-mode-hook
               'haskell-mode-hook)
 
+(provide 'highlight-conf)
+
 ;; --[ Highlight ]-----------------------------------------------------[ End ]--

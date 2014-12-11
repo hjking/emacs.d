@@ -10,11 +10,6 @@
 
 ; (require 'ibuffer)
 
-;; replaces the functionality of list-buffers command
-(defalias 'list-buffers 'ibuffer)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(autoload 'ibuffer "ibuffer" "List buffers." t)
-
 (setq ibuffer-elide-long-columns t)
 (setq ibuffer-eliding-string "&")
 (setq ibuffer-filter-group-name-face 'font-lock-doc-face)
@@ -55,111 +50,112 @@
 (add-to-list 'same-window-buffer-names "*Help*")
 (add-to-list 'same-window-buffer-names "*Apropos*")
 
-;;
+(setq ibuffer-expert t)
+(setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-display-summary nil)
 
-(eval-after-load 'ibuffer
-  '(progn
+;; Use human readable Size column instead of original one
+(define-ibuffer-column size-h
+  (:name "Size" :inline t)
+  (cond
+   ((> (buffer-size) 1000000) (format "%7.3fM" (/ (buffer-size) 1000000.0)))
+   ((> (buffer-size) 1000) (format "%7.3fk" (/ (buffer-size) 1000.0)))
+   (t (format "%8d" (buffer-size)))))
 
-    (setq ibuffer-expert t)
-    (setq ibuffer-show-empty-filter-groups nil)
-    (setq ibuffer-display-summary nil)
+;; grouping
+(setq ibuffer-saved-filter-groups
+    (quote (("default"
+        ("emacs"      (name . "\\*.*\\*"))
+        ("Dirs"       (mode . dired-mode))
+        ("Shell"      (mode . shell-script-mode))
+        ("HDL"        (or
+                       (mode . verilog-mode)
+                       (mode . vhdl-mode)
+                       (mode . vlog-mode)))
+        ("C"          (or
+                       (mode . c-mode)
+                       (mode . cc-mode)
+                       (mode . c++-mode)))
+        ("Elisp"      (or
+                       (mode . emacs-lisp-mode)
+                       (mode . lisp-interaction-mode)))
+        ("Perl"       (mode . cperl-mode))
+        ("Python"     (mode . python-mode))
+        ("Org"        (or
+                       (name . "^\\*Calendar\\*$")
+                       (name . "^diary$")
+                       (mode . org-mode)
+                       (mode . org-agenda-mode)))
+        ("Music"      (name . "^EMMS Music Playlist$"))
+        ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
+        ("IRC"        (mode . erc-mode))
+        ("Markdown"
+                     (or
+                      (mode . markdown-mode)))
+        ("Web"          (or
+                       (mode . css-mode)
+                       (mode . web-mode)))
+        ))))
 
-    ;; Use human readable Size column instead of original one
-    (define-ibuffer-column size-h
-      (:name "Size" :inline t)
-      (cond
-       ((> (buffer-size) 1000000) (format "%7.3fM" (/ (buffer-size) 1000000.0)))
-       ((> (buffer-size) 1000) (format "%7.3fk" (/ (buffer-size) 1000.0)))
-       (t (format "%8d" (buffer-size)))))
+(setq ibuffer-saved-filters
+    '(("t" ((or (mode . latex-mode)
+                (mode . plain-tex-mode))))
+      ("c" ((or (mode . c-mode)
+                (mode . c++-mode))))
+      ("p" ((mode . cperl-mode)))
+      ("e" ((or (mode . emacs-lisp-mode)
+                (mode . lisp-interaction-mode))))
+      ("d" ((mode . dired-mode)))
+      ("s" ((mode . shell-mode)))
+      ("i" ((mode . image-mode)))
+      ("h" ((mode . html-mode)))
+      ("emacs" (or
+           (name . "^\\*scratch\\*$")
+           (name . "^\\*Messages\\*$")
+           (name . "^\\*Compile-Log\\*$")
+           (name . "^\\*Backtrace\\*$")
+           ))
+      ("gnus" ((or (mode . message-mode)
+                   (mode . mail-mode)
+                   (mode . gnus-group-mode)
+                   (mode . gnus-summary-mode)
+                   (mode . gnus-article-mode))))
+      ("pr" ((or (mode . emacs-lisp-mode)
+                 (mode . cperl-mode)
+                 (mode . c-mode)
+                 (mode . c++-mode)
+                 (mode . php-mode)
+                 (mode . java-mode)
+                 (mode . idl-mode)
+                 (mode . lisp-interaction-mode))))
+      ("m" ((mode . muse-mode)))
+      ("w" ((or (mode . emacs-wiki-mode)
+                (mode . muse-mode))))
+      ("*" ((name . "*")))
+      ))
 
-    ;; grouping
-    (setq ibuffer-saved-filter-groups
-        (quote (("default"
-            ("emacs"      (name . "\\*.*\\*"))
-            ("Dirs"       (mode . dired-mode))
-            ("Shell"      (mode . shell-script-mode))
-            ("HDL"        (or
-                           (mode . verilog-mode)
-                           (mode . vhdl-mode)
-                           (mode . vlog-mode)))
-            ("C"          (or
-                           (mode . c-mode)
-                           (mode . cc-mode)
-                           (mode . c++-mode)))
-            ("Elisp"      (or
-                           (mode . emacs-lisp-mode)
-                           (mode . lisp-interaction-mode)))
-            ("Perl"       (mode . cperl-mode))
-            ("Python"     (mode . python-mode))
-            ("Org"        (or
-                           (name . "^\\*Calendar\\*$")
-                           (name . "^diary$")
-                           (mode . org-mode)
-                           (mode . org-agenda-mode)))
-            ("Music"      (name . "^EMMS Music Playlist$"))
-            ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
-            ("IRC"        (mode . erc-mode))
-            ("Markdown"
-                         (or
-                          (mode . markdown-mode)))
-            ("Web"          (or
-                           (mode . css-mode)
-                           (mode . web-mode)))
-            ))))
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (unless (eq ibuffer-sorting-mode 'filename/process)
+                                  (ibuffer-do-sort-by-filename/process))
+            (ibuffer-switch-to-saved-filter-groups "default")
+            (setq truncate-lines t)))
 
-    (setq ibuffer-saved-filters
-        '(("t" ((or (mode . latex-mode)
-                    (mode . plain-tex-mode))))
-          ("c" ((or (mode . c-mode)
-                    (mode . c++-mode))))
-          ("p" ((mode . cperl-mode)))
-          ("e" ((or (mode . emacs-lisp-mode)
-                    (mode . lisp-interaction-mode))))
-          ("d" ((mode . dired-mode)))
-          ("s" ((mode . shell-mode)))
-          ("i" ((mode . image-mode)))
-          ("h" ((mode . html-mode)))
-          ("emacs" (or
-               (name . "^\\*scratch\\*$")
-               (name . "^\\*Messages\\*$")))
-          ("gnus" ((or (mode . message-mode)
-                       (mode . mail-mode)
-                       (mode . gnus-group-mode)
-                       (mode . gnus-summary-mode)
-                       (mode . gnus-article-mode))))
-          ("pr" ((or (mode . emacs-lisp-mode)
-                     (mode . cperl-mode)
-                     (mode . c-mode)
-                     (mode . c++-mode)
-                     (mode . php-mode)
-                     (mode . java-mode)
-                     (mode . idl-mode)
-                     (mode . lisp-interaction-mode))))
-          ("m" ((mode . muse-mode)))
-          ("w" ((or (mode . emacs-wiki-mode)
-                    (mode . muse-mode))))
-          ("*" ((name . "*")))
-          ))
+;;;###autoload
+(defun ywb-ibuffer-rename-buffer ()
+  (interactive)
+  (call-interactively 'ibuffer-update)
+  (let* ((buf (ibuffer-current-buffer))
+         (name (generate-new-buffer-name
+                (read-from-minibuffer "Rename buffer(to new name): "
+                                      (buffer-name buf)))))
+    (with-current-buffer buf
+      (rename-buffer name)))
+  (call-interactively 'ibuffer-update))
 
-    (add-hook 'ibuffer-mode-hook
-              (lambda ()
-                (unless (eq ibuffer-sorting-mode 'filename/process)
-                                      (ibuffer-do-sort-by-filename/process))
-                (ibuffer-switch-to-saved-filter-groups "default")
-                (setq truncate-lines t)))
+(define-key ibuffer-mode-map "r"  'ywb-ibuffer-rename-buffer)
+(define-key ibuffer-mode-map " "  'scroll-up)
 
-    ;;;###autoload
-    (defun ywb-ibuffer-rename-buffer ()
-      (interactive)
-      (call-interactively 'ibuffer-update)
-      (let* ((buf (ibuffer-current-buffer))
-             (name (generate-new-buffer-name
-                    (read-from-minibuffer "Rename buffer(to new name): "
-                                          (buffer-name buf)))))
-        (with-current-buffer buf
-          (rename-buffer name)))
-      (call-interactively 'ibuffer-update))
 
-    (define-key ibuffer-mode-map "r"  'ywb-ibuffer-rename-buffer)
-    (define-key ibuffer-mode-map " "  'scroll-up)
-  ))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(provide 'ibuffer-conf)

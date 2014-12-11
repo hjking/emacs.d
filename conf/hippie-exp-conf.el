@@ -60,6 +60,8 @@
       (setq case-fold-search old-case-fold-search)))
 
 )
+;; [ hippie-expand ]----------------------------------------------------[ End ]--
+
+(provide 'hippie-exp-conf)
 
 ;; EOF
-;; [ hippie-expand ]----------------------------------------------------[ End ]--

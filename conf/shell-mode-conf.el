@@ -24,3 +24,17 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
 ;; (add-hook 'shell-mode-hook 'my-shell-mode-hook-func)
 ;; (add-hook 'term-mode-hook 'my-shell-mode-hook-func)
+
+;; C-d to kill buffer if process is dead.
+
+(defun comint-delchar-or-eof-or-kill-buffer (arg)
+  (interactive "p")
+  (if (null (get-buffer-process (current-buffer)))
+      (kill-buffer)
+    (comint-delchar-or-maybe-eof arg)))
+
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (define-key shell-mode-map (kbd "C-d") 'comint-delchar-or-eof-or-kill-buffer)))
+
+(provide 'shell-mode-conf)

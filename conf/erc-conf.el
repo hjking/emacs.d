@@ -131,3 +131,5 @@
   (require 'erc-menu)
 
 )
+
+(provide 'erc-conf)

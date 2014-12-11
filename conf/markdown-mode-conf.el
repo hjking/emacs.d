@@ -1,9 +1,5 @@
 
 ;; Markdown file handling
-(setq auto-mode-alist
-      (cons '("\\.\\(md\\|markdown\\)\\'" . markdown-mode) auto-mode-alist))
-
-(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 
 (when win32p
   (setq exec-path (append exec-path '("D:/DEV/Python27/Scripts")))
@@ -59,3 +55,5 @@
         (error "No previous header")
       (goto-char previous-header)
       (goto-char (point-at-bol)))))
+
+(provide 'markdown-mode-conf)

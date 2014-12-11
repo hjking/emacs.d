@@ -25,3 +25,5 @@
                         ))
 ;; add key binding
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
+(provide 'recentf-conf)

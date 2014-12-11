@@ -59,12 +59,12 @@
 (require 'color-theme-dawn-night)
 
 ;;customize theme
-(setq color-theme-moe-path (concat my-site-lisp-dir "color-theme-moe/"))
-(add-to-list 'custom-theme-load-path color-theme-moe-path)
-(add-to-list 'load-path color-theme-moe-path)
-(require 'moe-theme)
-(setq moe-theme-mode-line-color 'orange)
-  ;; (Available colors: blue, orange, green ,magenta, yellow, purple, red, cyan, w/b.)
+; (setq color-theme-moe-path (concat my-site-lisp-dir "color-theme-moe/"))
+; (add-to-list 'custom-theme-load-path color-theme-moe-path)
+; (add-to-list 'load-path color-theme-moe-path)
+; (require 'moe-theme)
+; (setq moe-theme-mode-line-color 'orange)
+;   ;; (Available colors: blue, orange, green ,magenta, yellow, purple, red, cyan, w/b.)
 
 ;;;; pick a color theme
 ;; (color-theme-solarized-dark)
@@ -74,3 +74,5 @@
 ;; (load-theme 'zenburn t)
 ;; (load-theme 'molokai t)
 ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
+
+(provide 'color-theme-conf)

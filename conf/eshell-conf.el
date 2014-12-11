@@ -181,3 +181,4 @@
          (interactive "e")
          (ted-eshell-ls-find-file-at-point (event-point event))))))
 
+(provide 'eshell-conf)

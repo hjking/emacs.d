@@ -91,3 +91,4 @@
                           (untabify (point-min) (point-max))
                           nil))))
 
+(provide 'vlog-conf)

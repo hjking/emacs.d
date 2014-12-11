@@ -29,3 +29,5 @@
 ;;      ;; For subprocesses invoked via the shell
 ;;      ;; (e.g., "shell -c command")
 ;;      (setq shell-file-name explicit-shell-file-name)
+
+(provide 'cygwin-conf)

@@ -191,10 +191,10 @@
     " %n "
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     "("
-    (:propertize "%4l/" face mode-line-position-face)
+    (:propertize "%3l/" face mode-line-position-face)
     (:eval (get-lines-4-mode-line)) ;; total lines
     ":"
-    (:eval (propertize "%3c" 'face
+    (:eval (propertize "%2c" 'face
                        (if (>= (current-column) 80)
                            'mode-line-80col-face
                          'mode-line-position-face)))
@@ -327,3 +327,5 @@
 (set-face-attribute 'mode-line-80col-face nil
     :inherit 'mode-line-position-face
     :foreground "black" :background "#eab700")
+
+(provide 'mode-line-conf)

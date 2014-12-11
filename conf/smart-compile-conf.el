@@ -55,4 +55,6 @@
             "%n.sh"))
 )
 
+(provide 'smart-compile-conf)
+
 ;; EOF

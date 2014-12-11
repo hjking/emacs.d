@@ -74,9 +74,6 @@
        (kill-buffer)
        (jump-to-register :magit-fullscreen))
 
-     (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)))
-
-(eval-after-load 'magit
-  '(progn
+     (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
      (require 'magit-key-mode)
      ))

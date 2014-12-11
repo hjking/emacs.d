@@ -8,32 +8,21 @@
 (message "%d: >>>>> Loading [ Perl Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 
-(autoload 'cperl-mode "cperl-mode" "cperl mode" t)
-(defalias 'perl-mode 'cperl-mode)
-(add-to-list 'auto-mode-alist '("\\.\\([pP][Llm]\\|al\\)\\'" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-
-(define-key 'help-command "P" 'cperl-perldoc)
-
-(defun my-perl-startup ()
-  "Setup perl."
-  (interactive)
-  (local-set-key '[pause] 'perldb)
-  (setq gud-perldb-command-name "perl -w ") ; For warnings
-  (setq tab-width 4)
-  (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
-  (setq cperl-indent-level 4)
-  (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
-  (setq cperl-continued-statement-offset 2)
-  (setq cperl-continued-brace-offset -2)
-  (set-face-background 'cperl-array-face "wheat")
-  (set-face-background 'cperl-hash-face "wheat")
-)
-(add-hook 'perl-mode-hook 'my-perl-startup)
-(add-hook 'cperl-mode-hook
-  (lambda ()  (local-set-key (kbd "C-h f") 'cperl-perldoc)))
+; (defun my-perl-startup ()
+;   "Setup perl."
+;   (interactive)
+;   (local-set-key '[pause] 'perldb)
+;   (setq gud-perldb-command-name "perl -w ") ; For warnings
+;   (setq tab-width 4)
+;   (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
+;   (setq cperl-indent-level 4)
+;   (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
+;   (setq cperl-continued-statement-offset 2)
+;   (setq cperl-continued-brace-offset -2)
+;   (set-face-background 'cperl-array-face "wheat")
+;   (set-face-background 'cperl-hash-face "wheat")
+; )
+; (add-hook 'perl-mode-hook 'my-perl-startup)
 
 (eval-after-load "cperl-mode"
   '(progn
@@ -41,6 +30,17 @@
      cperl-merge-trailing-else nil
      cperl-continued-statement-offset 0
      cperl-extra-newline-before-brace t)
+      (local-set-key '[pause] 'perldb)
+    (setq gud-perldb-command-name "perl -w ") ; For warnings
+    (setq tab-width 4)
+    (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
+    (setq cperl-indent-level 4)
+    (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
+    (setq cperl-continued-statement-offset 2)
+    (setq cperl-continued-brace-offset -2)
+    (set-face-background 'cperl-array-face "wheat")
+    (set-face-background 'cperl-hash-face "wheat")
+
     (defun installed-perl-version ()
       (interactive)
       (let ((perl (executable-find "perl")))
@@ -58,4 +58,9 @@
                 (open-line 1)
                 (insert (concatenate 'string "use v" perl-version ";"))))
             (message "Couldn't determine perl version"))))
+    (add-hook 'cperl-mode-hook
+      (lambda ()  (local-set-key (kbd "C-h f") 'cperl-perldoc)))
+    (define-key 'help-command "P" 'cperl-perldoc)
     ))
+
+(provide 'perl-conf)

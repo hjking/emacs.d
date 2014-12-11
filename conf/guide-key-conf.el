@@ -27,3 +27,5 @@
 
 (require 'guide-key-tip)
 (setq guide-key-tip/enabled t)
+
+(provide 'guide-key-conf)

@@ -10,3 +10,5 @@
 (mmm-add-mode-ext-class 'html-mode "\\.php\\'" 'html-php)
 (autoload 'mmm-mode "mmm-mode" "Multiple Major Modes" t)
 (autoload 'mmm-parse-buffer "mmm-mode" "Automatic MMM-ification" t)
+
+(provide 'mmm-mode-conf)

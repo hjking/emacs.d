@@ -8,12 +8,6 @@
 (message "%d: >>>>> Loading [ Python Mode ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 
-(setq auto-mode-alist (cons '("\\.py\\'" . python-mode) auto-mode-alist))
-
-(setq interpreter-mode-alist (cons '("python" . python-mode) interpreter-mode-alist))
-
-(autoload 'python-mode "python-mode" "Python editing mode." t)
-
 (defun my-python-startup ()
   "Setup Python style."
   (interactive)
@@ -32,3 +26,5 @@
     (setq outline-regexp "def\\|class ")
   )
 )
+
+(provide 'python-conf)

@@ -53,9 +53,8 @@
 (eval-after-load "git-gutter"
   '(diminish 'git-gutter-mode))
 
-(eval-after-load "abbrev"
-  '(diminish 'abbrev-mode))
-; (diminish 'abbrev-mode "Abv")
+; (eval-after-load "abbrev"
+;   '(diminish 'abbrev-mode))
 
 (eval-after-load "volatile-highlights"
   '(diminish 'volatile-highlights-mode))
@@ -102,3 +101,9 @@
 
 (eval-after-load 'aggressive-indent
   '(diminish 'aggressive-indent-mode))
+
+(eval-after-load 'company
+  '(diminish 'company-mode))
+
+(eval-after-load 'indent-guide
+  '(diminish 'indent-guide-mode))

@@ -48,7 +48,6 @@
 ;   `(browse-kill-ring-settings))
 
 
-
 (use-package browse-kill-ring
   :init
   (progn
@@ -61,3 +60,5 @@
     (setq browse-kill-ring-separator-face 'separator-face)
     (setq browse-kill-ring-quit-action 'save-and-restore))
   )
+
+(provide 'kill-ring-conf)

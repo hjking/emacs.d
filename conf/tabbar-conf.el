@@ -77,3 +77,5 @@
                          (length (tabbar-view
                                   (tabbar-current-tabset)))))))))
   (tabbar-mode t))
+
+(provide 'tabbar-conf)

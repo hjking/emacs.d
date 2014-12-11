@@ -191,3 +191,5 @@
 
 ;; save scratch when exit emacs
 ;; (add-hook 'kill-emacs-hook (lambda () (save-scratch-data)))
+
+(provide 'scratch-conf)

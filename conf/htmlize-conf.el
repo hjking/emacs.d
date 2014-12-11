@@ -12,3 +12,5 @@
 (setq htmlize-convert-nonascii-to-entities nil)
 ;; key binding
 (global-set-key (kbd "M-P") 'htmlize-buffer)
+
+(provide 'htmlize-conf)

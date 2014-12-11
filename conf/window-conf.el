@@ -246,3 +246,5 @@
                 ))))))
 
 (global-set-key (kbd "C-x 4 r")  (quote roll-v-3))
+
+(provide 'window-conf)

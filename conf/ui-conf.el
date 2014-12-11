@@ -129,3 +129,5 @@
 
 ;; turns off the splash screen, straightly into the scratch buffer
 (setq inhibit-splash-screen t)
+
+(provide 'ui-conf)

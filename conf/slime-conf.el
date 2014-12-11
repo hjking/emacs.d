@@ -12,3 +12,5 @@
         (sbcl ("/usr/local/bin/sbcl"))))
      (global-set-key "\C-c \C-d d" 'slime-describe-symbol)
      (slime-setup)))
+
+(provide 'slime-conf)

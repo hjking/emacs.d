@@ -60,3 +60,5 @@
 (setq fiplr-ignored-globs '((directories (".git" ".svn"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))
 (global-set-key (kbd "C-x f") 'fiplr-find-file)
+
+(provide 'find-file-conf)
