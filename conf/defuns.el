@@ -983,16 +983,17 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       (setq beg (point))
       (end-of-line)
       (kill-new (buffer-substring beg (point)))
-    )
-  )
-)
+    )))
 
-;;; === open dired ===
 (defun hjking/dired-open-in-current-buffer ()
   "Open the currently selected file/directory in the same buffer as this one."
   (interactive)
-  (find-alternate-file (dired-get-filename))
-)
+  (find-alternate-file (dired-get-filename)))
+
+(defun hjking/open-dired-for-current-buffer ()
+  "open the directory of current buffer."
+    (interactive)
+    (if (buffer-file-name) (dired default-directory)))
 
 ;;; === Set The Size and Position of Emacs Frames ===
 (defun hjking/arrange-frame (w h x y)
@@ -1001,8 +1002,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
     (delete-other-windows)
     (set-frame-position frame x y)
     (set-frame-size frame w h)
-  )
-)
+  ))
 ;; (hjking/arrange-frame 70 80 2 22)
 
 ;;; === add executable to some files ===

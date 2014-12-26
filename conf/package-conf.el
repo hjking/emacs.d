@@ -56,6 +56,7 @@
   ; auto-complete-verilog
   aggressive-indent
   miniedit
+  org-trello
   ; plantuml-mode
   )
 "A list of packages to ensure are installed at launch.")

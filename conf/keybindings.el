@@ -244,21 +244,6 @@
 (define-key modi-map (kbd "h")  'highlight-frame-toggle) ;; C-x m h
 (define-key modi-map (kbd "H")  'clear-highlight-frame) ;; C-x m H
 
-;; helm
-(when section-helm
-  ; (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-  (global-set-key (kbd "C-x b") 'helm-mini)
-  ; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  ; (global-set-key (kbd "C-c h m") 'helm-man-woman)
-  ; (global-set-key (kbd "C-c h g") 'helm-do-grep)
-  ; (global-set-key (kbd "C-c h f") 'helm-find)
-  ; (global-set-key (kbd "C-c h l") 'helm-locate)
-  ; (global-set-key (kbd "C-c h o") 'helm-occur)
-  ; (global-set-key (kbd "C-c h r") 'helm-resume)
-  ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
-  )
-
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 
 ;; { smarter navigation to the beginning of a line

@@ -8,8 +8,7 @@
      ;; (set-face-foreground 'diary-face "skyblue")
      (set-face-background 'holiday-face "slate blue")
      (set-face-foreground 'holiday-face "white")
-   )
-)
+   ))
 ;; remove some holidays
 (setq holiday-bahai-holidays nil)       ; get rid of Baha'i holidays
 (setq holiday-general-holidays nil)     ; get rid of too U.S.-centric holidays
@@ -25,8 +24,7 @@
         (holiday-fixed 05 01 "Labor Day")
         ;; holidays with variable dates
         (holiday-float 5 0 2 "Mother's Day")
-        (holiday-float 6 0 3 "Father's Day"))
-)
+        (holiday-float 6 0 3 "Father's Day")))
 ;; user defined holidays
 (setq holiday-other-holidays nil)  ; default
 ;; mark dates of holidays in the calendar

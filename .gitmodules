@@ -70,10 +70,6 @@
 	path = vendor/multiple-cursors
 	url = https://github.com/magnars/multiple-cursors.el
 	ignore = dirty
-[submodule "vendor/find-file-in-project"]
-	path = vendor/find-file-in-project
-	url = https://github.com/technomancy/find-file-in-project.git
-	ignore = dirty
 [submodule "vendor/ido-ubiquitous"]
 	path = vendor/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
@@ -109,14 +105,6 @@
 [submodule "vendor/powerline"]
 	path = vendor/powerline
 	url = https://github.com/milkypostman/powerline.git
-	ignore = dirty
-[submodule "vendor/fiplr"]
-	path = vendor/fiplr
-	url = https://github.com/d11wtq/fiplr.git
-	ignore = dirty
-[submodule "vendor/grizzl"]
-	path = vendor/grizzl
-	url = https://github.com/d11wtq/grizzl.git
 	ignore = dirty
 [submodule "vendor/smart-mode-line"]
 	path = vendor/smart-mode-line

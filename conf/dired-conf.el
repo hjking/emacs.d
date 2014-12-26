@@ -33,8 +33,7 @@
            '("%Y-%m-%d %H:%M"
              "%Y-%m-%d %H:%M"))
     ;; use localized date/time format
-    (setq ls-lisp-use-localized-time-format t)
-)
+    (setq ls-lisp-use-localized-time-format t))
 
 ;; ls-lisp+
 (require 'ls-lisp+)
@@ -86,17 +85,6 @@
 ;;;
 ;;------- "T" compress dir to .tar.gz file
 (require 'dired-tar)
-;; no line wrap
-(defun my-dired-long-lines ()
-  (setq truncate-lines t))
-(add-hook 'dired-after-readin-hook 'my-dired-long-lines)
-;; C-x C-j open the directory of current buffer
-(global-set-key (kbd "C-x C-j")
-  (lambda ()
-    (interactive)
-    (if (buffer-file-name) (dired default-directory))
-  )
-)
 ;;-------------------------------------------------------------------------
 
 
@@ -111,6 +99,7 @@
                   ;; Set global variables here.  For example:
                   ;; (setq dired-guess-shell-gnutar "gtar")
                   ))
+
 ;;  DiredOmit Mode
 (add-hook 'dired-mode-hook
           (lambda ()

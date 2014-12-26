@@ -52,6 +52,7 @@
   (add-hook 'eshell-mode-hook
             (lambda ()
               (local-set-key (kbd "C-t") 'ted-eshell-C-t)))
+
   (defun ted-eshell-prompt ()
     (let ((user (or (getenv "USER") (user-login-name) "ted"))
           (host (car (split-string
@@ -59,6 +60,7 @@
                       "\\.")))
           (char (if (= (user-uid) 0) "#" ":")))
       (format "\n%s@%s%s " user host char)))
+
   (setq eshell-prompt-function 'ted-eshell-prompt)
   (setq eshell-prompt-regexp "^[^#:\n]*[#:] ")
 
@@ -69,29 +71,6 @@
             (lambda ()
               (local-set-key (kbd "s-p")
                              'eshell-previous-matching-input-from-input)))
-
-  (when (featurep 'xemacs)
-    (eval-after-load "esh-cmd"
-      '(defun eshell-find-alias-function (name)
-         "Check whether a function called `eshell/NAME' exists."
-         (let* ((sym (intern-soft (concat "eshell/" name)))
-                (file (symbol-file sym)))
-           ;; If the function exists, but is defined in an eshell module
-           ;; that's not currently enabled, don't report it as found
-           (if (and file
-                    (string-match "\\(em\\|esh\\)-\\(.*\\)\\(\\.el\\)?\\'" file))
-               (let ((module-sym
-                      (intern (file-name-sans-extension
-                               (file-name-nondirectory
-                                (concat "eshell-" (match-string 2 file)))))))
-                 (if (and (functionp sym)
-                          (or (null module-sym)
-                              (eshell-using-module module-sym)
-                              (memq module-sym (eshell-subgroups 'eshell))))
-                     sym))
-             ;; Otherwise, if it's bound, return it.
-             (if (functionp sym)
-                 sym))))))
 
   (setq eshell-aliases-file "~/.alias")
 
@@ -130,7 +109,7 @@
       (mapc 'find-file (mapcar 'expand-file-name
                                (eshell-flatten-list args))))
     0)
-    (defalias 'eshell/emacsclient 'eshell/emacs)
+  (defalias 'eshell/emacsclient 'eshell/emacs)
 
   (defun eshell/vi (file)
     "Open a file with Viper."

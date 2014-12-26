@@ -51,7 +51,7 @@
 (defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-ibuffer t)
-(defvar section-ido t)
+(defvar section-ido nil)
 (defvar section-windows t)
 (defvar section-ui t)
 (defvar section-coding t)
@@ -82,7 +82,7 @@
 (defvar section-vm nil)
 (defvar section-ac nil)
 (defvar section-company t)
-(defvar section-helm nil)
+(defvar section-helm t)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -101,14 +101,14 @@
 (defvar section-cedet nil)
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
-(defvar section-mmm-mode t)
+(defvar section-mmm-mode nil)
 (defvar section-csv-mode t)
 (defvar section-table nil)
 (defvar section-undo t)
 (defvar section-header t)
 (defvar section-irc nil)
 (defvar section-w3m nil)
-(defvar section-smex t)
+(defvar section-smex nil)
 (defvar section-slime t)
 (defvar section-cscope t)
 (defvar section-wl nil)
@@ -143,34 +143,6 @@
 (when section-loading-libraries
   (message "%d: >>>>> Loading [ Path ] ...." step_no)
   (setq step_no (1+ step_no))
-
-  (defconst win32p
-    (eq system-type 'windows-nt)
-    "Are we running on a WinTel system?")
-
-  (defconst cygwinp
-    (eq system-type 'cygwin)
-    "Are we running on a WinTel cygwin system?")
-
-  (defconst linuxp
-    (or (eq system-type 'gnu/linux)
-        (eq system-type 'linux))
-    "Are we running on a GNU/Linux system?")
-
-  (defconst unixp
-    (or linuxp
-      (eq system-type 'usg-unix-v)
-      (eq system-type 'berkeley-unix))
-    "Are we running unix")
-  (when linuxp
-    (message "We are in Linux Platform")
-    (setq my-home "/home/hongjin"))
-
-  (when linuxp
-    (add-to-list 'exec-path "~/bin"))
-
-  ;;set the default file path
-  (setq default-directory "~/")
 
   ;; My Emacs home directory
   (defvar my-emacs-init-file (or load-file-name buffer-file-name))
@@ -212,14 +184,9 @@
   ; (dolist (project (directory-files my-site-lisp-dir t "\\w+"))
   ;     (when (file-directory-p project)
   ;       (add-to-list 'load-path project)))
-  (when win32p
-  ;     (message "We are in Windows Platform")
-  ;     (setq my-home "F:/Kuaipan/Workspace/src")
-  ;     (setenv "HOME" my-home)
-  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
-    (setenv "PATH" (concat "D:/DEV/global/bin;" (getenv "PATH")))
-    (setq exec-path (append exec-path '("D:/DEV/global/bin")))
-  )
+
+  ;;set the default file path
+  (setq default-directory "~/")
 )
 ;; --[ Load Path ]-----------------------------------------------------[ End ]--
 
@@ -229,8 +196,23 @@
 (require 'init-compat)
 
 (when section-environment
-  (require 'env-conf))
+  (require 'env-conf)
 
+  (when win32p
+  ;     (message "We are in Windows Platform")
+  ;     (setq my-home "F:/Kuaipan/Workspace/src")
+  ;     (setenv "HOME" my-home)
+  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
+    (setenv "PATH" (concat "D:/DEV/global/bin;" (getenv "PATH")))
+    (setq exec-path (append exec-path '("D:/DEV/global/bin")))
+  )
+  (when linuxp
+    (message "We are in Linux Platform")
+    (setq my-home "/home/hongjin"))
+
+  (when linuxp
+    (add-to-list 'exec-path "~/bin"))
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -436,28 +418,28 @@
 
 ;; [ cedet ]--------------------------------------------------------------------
 (when section-cedet-1.1
-    (setq byte-compile-warnings nil)
-    (setq my-cedet-path (concat my-site-lisp-dir "cedet-1.1/"))
-    (setq my-cedet-comm-path (concat my-cedet-path "common/"))
-    (setq my-cedet-contrib-path (concat my-cedet-path "contrib/"))
-    (add-site-lisp-load-path "cedet-1.1/")
-    (add-site-lisp-load-path "cedet-1.1/common/")
-    (add-site-lisp-load-path "cedet-1.1/contrib/")
-    (add-site-lisp-load-path "cedet-1.1/ede")
-    (add-site-lisp-load-path "cedet-1.1/eieio")
-    (add-site-lisp-load-path "cedet-1.1/semantic")
-    (add-site-lisp-load-path "cedet-1.1/speedbar")
-    (add-site-lisp-load-path "cedet-1.1/srecode")
+  (setq byte-compile-warnings nil)
+  (setq my-cedet-path (concat my-site-lisp-dir "cedet-1.1/"))
+  (setq my-cedet-comm-path (concat my-cedet-path "common/"))
+  (setq my-cedet-contrib-path (concat my-cedet-path "contrib/"))
+  (add-site-lisp-load-path "cedet-1.1/")
+  (add-site-lisp-load-path "cedet-1.1/common/")
+  (add-site-lisp-load-path "cedet-1.1/contrib/")
+  (add-site-lisp-load-path "cedet-1.1/ede")
+  (add-site-lisp-load-path "cedet-1.1/eieio")
+  (add-site-lisp-load-path "cedet-1.1/semantic")
+  (add-site-lisp-load-path "cedet-1.1/speedbar")
+  (add-site-lisp-load-path "cedet-1.1/srecode")
 
-    (load-file (concat my-cedet-comm-path "cedet.el"))
+  (load-file (concat my-cedet-comm-path "cedet.el"))
 
-    ;; (add-to-list 'load-path my-cedet-path)
-    ;; (add-to-list 'load-path my-cedet-comm-path)
-    ;; (add-to-list 'load-path my-cedet-contrib-path)
+  ;; (add-to-list 'load-path my-cedet-path)
+  ;; (add-to-list 'load-path my-cedet-comm-path)
+  ;; (add-to-list 'load-path my-cedet-contrib-path)
 
-    ;; (load-file "cedet.el")
-    (load "cedet-1.1-conf")
-    ;; (load "cedet-conf")
+  ;; (load-file "cedet.el")
+  (load "cedet-1.1-conf")
+  ;; (load "cedet-conf")
 )
 ; (when section-cedet
 ;   (load "cedet-conf"))
@@ -514,33 +496,33 @@
 
 ;; --[ mark and region ]--------------------------------------------------------
 (when section-mark
-    (message "%d: >>>>> Loading [ Mark and Region ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ;; highlight marked region
-    ;; change buffer, or focus, disable the current buffer’s mark
-    (transient-mark-mode t)    ; highlight text selection
+  (message "%d: >>>>> Loading [ Mark and Region ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  ;; highlight marked region
+  ;; change buffer, or focus, disable the current buffer’s mark
+  (transient-mark-mode t)    ; highlight text selection
 
-    ;; delsel.el
-    (delete-selection-mode 1) ; delete seleted text when typing
-    ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
-    (setq set-mark-command-repeat-pop t)
-    (setq select-active-region t)
-    (setq delete-active-region 'kill)
+  ;; delsel.el
+  (delete-selection-mode 1) ; delete seleted text when typing
+  ;; C-u C-SPC C-SPC ... cycles through the buffer local mark ring
+  (setq set-mark-command-repeat-pop t)
+  (setq select-active-region t)
+  (setq delete-active-region 'kill)
 
-    ;;; rect-mark.el
-    (global-set-key (kbd "C-x r C-/") 'rm-set-mark)
-    (global-set-key (kbd "C-x r C-x") 'rm-exchange-point-and-mark)
-    (global-set-key (kbd "C-x r C-w") 'rm-kill-region)
-    (global-set-key (kbd "C-x r M-w") 'rm-kill-ring-save)
-    (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
-    (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
-    (autoload 'rm-kill-region "rect-mark" "Kill a rectangular region and save it in the kill ring." t)
-    (autoload 'rm-kill-ring-save "rect-mark" "Copy a rectangular region to the kill ring." t)
+  ;;; rect-mark.el
+  (global-set-key (kbd "C-x r C-/") 'rm-set-mark)
+  (global-set-key (kbd "C-x r C-x") 'rm-exchange-point-and-mark)
+  (global-set-key (kbd "C-x r C-w") 'rm-kill-region)
+  (global-set-key (kbd "C-x r M-w") 'rm-kill-ring-save)
+  (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
+  (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
+  (autoload 'rm-kill-region "rect-mark" "Kill a rectangular region and save it in the kill ring." t)
+  (autoload 'rm-kill-ring-save "rect-mark" "Copy a rectangular region to the kill ring." t)
 
-    ; (require 'expand-region)
-    ; (global-set-key (kbd "C-=") 'er/expand-region)
-    (use-package expand-region
-      :bind ("C-=" . er/expand-region))
+  ; (require 'expand-region)
+  ; (global-set-key (kbd "C-=") 'er/expand-region)
+  (use-package expand-region
+    :bind ("C-=" . er/expand-region))
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -580,20 +562,20 @@
 
 ;; --[ yanking ]----------------------------------------------------------------
 (when section-yanking
-    (message "%d: >>>>> Loading [ Yanking ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ;; auto-indent pasted code
-    (defadvice yank (after indent-region activate)
-      (if (member major-mode
-                  '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode
-                    objc-mode latex-mode plain-tex-mode python-mode))
-          (indent-region (region-beginning) (region-end) nil)))
+  (message "%d: >>>>> Loading [ Yanking ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  ;; auto-indent pasted code
+  (defadvice yank (after indent-region activate)
+    (if (member major-mode
+                '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode
+                  objc-mode latex-mode plain-tex-mode python-mode))
+        (indent-region (region-beginning) (region-end) nil)))
 
-    (defadvice yank-pop (after indent-region activate)
-      (if (member major-mode
-                  '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode
-                    objc-mode latex-mode plain-tex-mode python-mode))
-          (indent-region (region-beginning) (region-end) nil)))
+  (defadvice yank-pop (after indent-region activate)
+    (if (member major-mode
+                '(emacs-lisp-mode scheme-mode lisp-mode c-mode c++-mode
+                  objc-mode latex-mode plain-tex-mode python-mode))
+        (indent-region (region-beginning) (region-end) nil)))
 )
 ;; --[ yanking ]-------------------------------------------------------[ End ]--
 
@@ -647,9 +629,9 @@
 
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
-    (add-site-lisp-load-path "visual-regexp/")
-    (add-site-lisp-load-path "anzu/")
-    (require 'search-conf))
+  (add-site-lisp-load-path "visual-regexp/")
+  (add-site-lisp-load-path "anzu/")
+  (require 'search-conf))
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
 
 
@@ -686,8 +668,8 @@
 
 ;; [ powerline ]
 (when section-powerline
-    (add-site-lisp-load-path "powerline/")
-    (load "powerline-conf"))
+  (add-site-lisp-load-path "powerline/")
+  (load "powerline-conf"))
 
 ;; [ Smart Mode Line ]
 (when section-sml
@@ -801,8 +783,8 @@
 (setq my-backup-dir (concat my-emacs-dir "backup/"))
 (setq my-auto-save-dir (concat my-emacs-dir "auto-save/"))
 (dolist (dir (list my-backup-dir my-auto-save-dir))
-    (when (not (file-directory-p dir))
-      (make-directory dir t)))
+  (when (not (file-directory-p dir))
+    (make-directory dir t)))
 (add-to-list 'backup-directory-alist '(cons "." my-backup-dir))
 (setq auto-save-list-file-name (concat my-auto-save-dir "auto-save"))
 ; (setq auto-save-file-name-transforms '((".*" "auto-save-list" t))
@@ -933,7 +915,7 @@
 ;; --[ Window ]-----------------------------------------------------------------
 ;; use "C-c <--" back to previous window layout
 (when section-windows
-    (require 'window-conf))
+  (require 'window-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1098,24 +1080,25 @@
 
 
 ;; [ ido ]----------------------------------------------------------------------
+;; Replaced with helm
 (when section-ido
-    (add-site-lisp-load-path "ido-hacks/")
-    (add-site-lisp-load-path "ido-ubiquitous/")
-    (add-site-lisp-load-path "flx-ido/")
-    (add-site-lisp-load-path "ido-vertical-mode/")
-    (add-site-lisp-load-path "ido-at-point/")
-    (require 'ido-conf)
-    )
+  (add-site-lisp-load-path "ido-hacks/")
+  (add-site-lisp-load-path "ido-ubiquitous/")
+  (add-site-lisp-load-path "flx-ido/")
+  (add-site-lisp-load-path "ido-vertical-mode/")
+  (add-site-lisp-load-path "ido-at-point/")
+  (require 'ido-conf)
+  )
 ;; [ ido ]-------------------------------------------------------------[ End ]--
 
 
 ;; [ Table ]--------------------------------------------------------------------
 (when section-table
-    (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ; (require 'table nil t)
-    (autoload 'table-insert "table" "WYGIWYS table editor")
-    (add-hook 'text-mode-hook 'table-recognize))
+  (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
+  (setq step_no (1+ step_no))
+  ; (require 'table nil t)
+  (autoload 'table-insert "table" "WYGIWYS table editor")
+  (add-hook 'text-mode-hook 'table-recognize))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1183,8 +1166,15 @@
   ;; *** --- magit
   (add-site-lisp-load-path "magit/")
   (add-site-lisp-info-path "magit/")
-  (load "git-conf")
-  ; (eval-after-load 'magit '(require 'git-conf))
+
+  (autoload 'magit-status "magit" nil t)
+  (autoload 'magit-show "magit" "" t nil)
+  (autoload 'magit-show-commit "magit" "" t nil)
+  (global-set-key (kbd "M-g s") 'magit-status)
+  (global-set-key (kbd "M-g c") 'magit-cheat-sheet)
+  ; (global-set-key (kbd "C-x g") 'magit-status)
+
+  (eval-after-load 'magit '(require 'git-conf))
   )
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
@@ -1228,20 +1218,20 @@
 ;; [ helm ]---------------------------------------------------------------------
 ;; available for Emacs 22/23
 (when section-helm
-    ;; helm is new version of anything
-    ; (add-site-lisp-load-path "emacs-helm/")
-    ; (add-site-lisp-info-path "emacs-helm/doc/")
-    ;; helm-swoop
-    (add-site-lisp-load-path "helm-swoop/")
-    (require 'helm-conf))
+  ;; helm is new version of anything
+  ; (add-site-lisp-load-path "emacs-helm/")
+  ; (add-site-lisp-info-path "emacs-helm/doc/")
+  ;; helm-swoop
+  (add-site-lisp-load-path "helm-swoop/")
+  (require 'helm-conf))
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
 
 ;;;; ================ CategoryCompletion ================
 ;; [ icicles ]------------------------------------------------------------------
 (when section-icicles
-    (add-site-lisp-load-path "icicles/")
-    (require 'icicles-conf))
+  (add-site-lisp-load-path "icicles/")
+  (require 'icicles-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 ;; [ auto-complete ]------------------------------------------------------------
@@ -1277,9 +1267,9 @@
 ;; [ yasnippet ]----------------------------------------------------------------
 ;; available for Emacs 22/23
 (when section-yasnippet
-    (add-site-lisp-load-path "yasnippet/")
-    (add-site-lisp-info-path "yasnippet/doc/")
-    (require 'yasnippet-conf))
+  (add-site-lisp-load-path "yasnippet/")
+  (add-site-lisp-info-path "yasnippet/doc/")
+  (require 'yasnippet-conf))
 ;; [ yasnippet ]-------------------------------------------------------[ End ]--
 
 
@@ -1287,10 +1277,10 @@
 ;; find file or URL at point
 ;; Find file in Project
 ;; fiplr, find-file-in-project, ffap
-(require 'find-file-conf)
+; (require 'find-file-conf)
 
 ;; projectile
-; (require 'projectile-conf)
+(require 'projectile-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1304,10 +1294,10 @@
 ;; [ VM ]--------------------------------------------------------------[ End ]--
 
 
-;; [ Hide-Show ]----------------------------------------------------------------
+;; [ Folding ]------------------------------------------------------------------
+(message "%d: >>>>> Loading [ hideshow ] Customization ...." step_no)
+(setq step_no (1+ step_no))
 (when (require 'hideshow nil t)
-  (message "%d: >>>>> Loading [ hide-show ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
   (dolist (hook '(c++-mode-hook
                   c-mode-hook
                   emacs-lisp-mode-hook
@@ -1315,17 +1305,13 @@
                   python-mode-hook
                   sh-mode-hook
                   cperl-mode-hook))
-  (add-hook hook 'hs-minor-mode))
-  ;; (global-set-key [f1] ‘hs-toggle-hiding)
-)
+  (add-hook hook 'hs-minor-mode)))
 
+;;
 ;; hideshowvis
+;;
 (autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
-(autoload 'hideshowvis-minor-mode
-  "hideshowvis"
-  "Will indicate regions foldable with hideshow in the fringe."
-  'interactive)
-
+(autoload 'hideshowvis-minor-mode "hideshowvis" "Indicate regions foldable with hideshow in the fringe." 'interactive)
 (dolist (hook (list 'emacs-lisp-mode-hook
                     'c++-mode-hook
                     'lisp-mode-hook
@@ -1340,41 +1326,38 @@
                     'verilog-mode-hook
                     'css-mode-hook))
   (add-hook hook 'hideshowvis-enable))
-;; [ Hide-Show ]-------------------------------------------------------[ End ]--
 
-
-;; [ hide ]---------------------------------------------------------------------
-;; hide region
-(require 'hide-region)
-(global-set-key (kbd "C-c h r") 'hide-region-hide)
-(global-set-key (kbd "C-c h u") 'hide-region-unhide)
-
-;; hide lines
-(require 'hide-lines)
-(autoload 'hide-lines "hide-lines" "Hide lines based on a regexp" t)
-(global-set-key (kbd "C-c h l") 'hide-lines)
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ folding ]------------------------------------------------------------------
+;;
 ;; folding (hiding) parts of the text
-(require 'folding)
-;; if always use folding
-;; (if (load "folding" 'nomessage 'noerror)
-;;     (folding-mode-add-find-file-hook))
-
 ;; autoload when turn on `folding-mode'
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+; (message "%d: >>>>> Loading [ Folding ] Customization ...." step_no)
+; (setq step_no (1+ step_no))
+; (autoload 'folding-mode          "folding" "Folding mode" t)
+; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+; (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+; (dolist (hook (list 'emacs-lisp-mode-hook
+;                     'c++-mode-hook
+;                     'lisp-mode-hook
+;                     'ruby-mode-hook
+;                     'perl-mode-hook
+;                     'php-mode-hook
+;                     'python-mode-hook
+;                     'lua-mode-hook
+;                     'c-mode-hook
+;                     'java-mode-hook
+;                     'js-mode-hook
+;                     'verilog-mode-hook
+;                     'css-mode-hook))
+;   (add-hook hook 'turn-on-folding-mode))
 
-(folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
-(folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
-(folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
-(folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
-(folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
-(folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
-(folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)
+; (eval-after-load 'folding
+;   '((folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
+;     (folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
+;     (folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
+;     (folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
+;     (folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
+;     (folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
+;     (folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1401,17 +1384,17 @@
   (add-site-lisp-info-path "org/doc/")
   (add-site-lisp-load-path "org-jekyll-mode/")
   (add-site-lisp-load-path "org-journal/")
-  ; (load "org-conf")
+
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cb" 'org-iswitchb)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cl" 'org-store-link)
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
   (eval-after-load 'org '(require 'org-conf))
+  (require 'org-trello-conf)
   )
 ;; [ org ]-------------------------------------------------------------[ End ]--
-
-
-;; [ eproject ]-----------------------------------------------------------------
-(when section-eproject
-  (add-site-lisp-load-path "eproject/")
-  (load "eproject-conf"))
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ vi ]------------------------------------------------------------------------
@@ -1436,8 +1419,7 @@
 ;; [ erc ]-----------------------------------------------------------------------
 (when section-irc
     (require 'erc-conf)
-    (erc :server "irc.freenode.net" :port 6667 :nick "hjking")
-)
+    (erc :server "irc.freenode.net" :port 6667 :nick "hjking"))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1532,14 +1514,16 @@
          ("\\.ext\\'"                     . c-mode)
          ("\\.C\\'"                       . c++-mode)
          ("\\.cpp\\'"                     . c++-mode)
+         ("\\.cc\\'"                      . c++-mode)
          ("\\.h\\'"                       . c++-mode)
+         ;; java
          ("\\.java\\'"                    . java-mode)
          ;; python-mode
          ("\\.py\\'"                      . python-mode)
          ;; cperl-mode
          ("\\.PL$"                        . cperl-mode)
          ("\\.pl$"                        . cperl-mode)
-         ("\\.perl$"                      . cperl-mode) ; git source tree
+         ("\\.perl$"                      . cperl-mode)
          ("\\.pm$"                        . cperl-mode)
          ("\\.t$"                         . cperl-mode)
          ("\\.psgi$"                      . cperl-mode)
@@ -1561,8 +1545,6 @@
          ("\\.bin\\'"                     . hexl-mode)
          ;; php
          ("\\.php$"                       . php-mode)
-         ;; org-mode
-         ("\\.org$"                       . org-mode)
          (".ssh/config\\'"                . ssh-config-mode)
          ("sshd?_config\\'"               . ssh-config-mode)
          ("ChangeLog\\'"                  . change-log-mode)
@@ -1630,8 +1612,6 @@
 (setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
   (interactive)
-;;  (filladapt-mode t)
-;;  (flyspell-mode t)
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ;; --------------------------------------------------------------------[ End ]--
@@ -1675,7 +1655,6 @@
       (add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
       (autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
       (eval-after-load "verilog-mode" '(require 'verilog-conf))
-      ; (require 'auto-complete-verilog)
       )
 
   (when section-vlog
@@ -1704,7 +1683,6 @@
     (setq python-load-path (concat my-site-lisp-dir "python/"))
     (add-site-lisp-load-path "python/")
     (autoload 'python-mode "python-mode" "Python editing mode." t)
-    (require 'python-conf)
     (eval-after-load  "python-mode" '(require 'python-conf))
     )
 ;; --------------------------------------------------------------------[ End ]--
@@ -1718,7 +1696,7 @@
     (add-site-lisp-load-path "cperl/")
     (autoload 'cperl-mode "cperl-mode" "cperl mode" t)
     (defalias 'perl-mode 'cperl-mode)
-    (require 'perl-conf)
+    (eval-after-load  "cperl-mode" '(require 'perl-conf))
 
     ; (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
     ; (add-site-lisp-load-path "pde/lisp/")
@@ -1856,23 +1834,21 @@
     (setq undo-tree-visualizer-timestamps t)
     (setq undo-tree-visualizer-diff t)
     (defalias 'redo 'undo-tree-redo)
-    ;; (global-set-key (kbd "C-z") 'undo)  ; CTRL+Z
-    ;; (global-set-key (kbd "C-S-z") 'redo)  ; CTRL+Shift+Z
     (global-set-key (kbd "M-z") 'undo)  ; ALT+Z
     (global-set-key (kbd "M-S-z") 'redo)  ; ALT+Shift+Z
 
     ; (use-package undo-tree
+    ;   :diminish undo-tree-mode
     ;   :init
     ;   (progn
     ;     (global-undo-tree-mode)
     ;     (setq undo-tree-visualizer-timestamps t)
     ;     (setq undo-tree-visualizer-diff t)
-    ;     (defalias 'redo 'undo-tree-redo)
-    ;     )
+    ;     (defalias 'redo 'undo-tree-redo))
     ;   :bind (
     ;     ("M-z" . undo)
     ;     ("M-S-z" . redo))
-    ;   )
+    ; )
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1928,7 +1904,7 @@
 (when section-smex
     (setq my-smex-path (concat my-site-lisp-dir "smex/"))
     (add-site-lisp-load-path "smex/")
-    (load "smex-conf"))
+    (require 'smex-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 

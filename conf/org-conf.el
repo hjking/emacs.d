@@ -8,8 +8,6 @@
 (message "%d: >>>>> Loading [ org ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
-(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-
 (require 'org)
 ;; (require 'org-install)
 ;; (require 'org-faces)
@@ -17,11 +15,6 @@
 ;; (require 'org-publish)
 ;; (require 'org-agenda)
 ;; (require 'org-element)
-
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cl" 'org-store-link)
 
 (defun my-org-mode-hook ()
   (setq truncate-lines t)  ;; Wrap long lines
@@ -31,7 +24,6 @@
 (setq org-directory "~/org")
 ;; (setq org-directory (concat my-emacs-dir "org"))
 (setq org-default-notes-file (concat org-directory "/todo.org"))
-(setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
 
 (setq org-hide-leading-star t)
 (setq org-startup-folded nil)  ;; open org in unfolded view
@@ -45,27 +37,27 @@
 ;; !: record time when state changed
 ;; @: need to leave some comments
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t!)" "INPROGRESS(i!)" "NEXT(n!)" "STARTED(s!)" "MAYBE(m!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
-            (type "ACTION(a)" "ToBLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
+    (quote ((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+            (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
             (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
            )))
 
 (setq org-todo-keyword-faces
       (quote (("TODO"      . (:foreground "red"          :weight bold))
-              ("ToBLOG"    . (:foreground "red"          :weight bold))
+              ("DOING"     . (:foreground "olivedrab"    :weight bold))
               ("NEXT"      . (:foreground "orange"       :weight bold))
-              ("STARTED"   . (:foreground "magenta"      :weight bold))
-              ("DONE"      . (:foreground "forest green" :weight bold))
-              ("WAITING"   . (:foreground "orange"       :weight bold))
+              ("WAITING"   . (:foreground "sienna"       :weight bold))
               ("HOLD"      . (:foreground "magenta"      :weight bold))
-              ("SOMEDAY"   . (:foreground "magenta"      :weight bold))
-              ("CANCELLED" . (:foreground "forest green" :weight bold))
+              ("DONE"      . (:foreground "forest green" :weight bold))
+              ("DELEGATED" . (:foreground "dimgrey"      :weight bold))
+              ("CANCELLED" . shadow)
+              ("POSTPONED" . (:foreground "steelblue"    :weight bold))
               ("MEETING"   . (:foreground "forest green" :weight bold))
+              ("BLOG"      . (:foreground "red"          :weight bold))
               ("OPEN"      . (:foreground "red"          :weight bold))
-              ("CLOSED"    . (:foreground "forest green" :weight bold))
+              ("CLOSED"    . shadow)
               ("ARCHIVED"  . (:foreground "blue"         :weight bold))
-              ("INPROGRESS" . (:foreground "deep sky blue" :weight bold))
               ("PHONE"     . (:foreground "forest green" :weight bold)))))
 
 ;; Fast todo selection allows changing from any task todo state to any other state
@@ -95,6 +87,7 @@
                       ("NOTE" . ?n)
                       ("CANCELLED" . ?c)
                       ("FLAGGED" . ??)
+                      ("HOWTO" . ?t)
                       ("urgent" . ?u)
                       ("quantified" . ?q)))
 
@@ -199,12 +192,11 @@
          ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
          ("g" . "GTD contexts")
          ("gc" "Computer" tags-todo "computer")
+         ("gd" todo "DOING") ;; a list of all tasks with the todo keyword DOING
          ("ge" "Errands" tags-todo "errands")
          ("gh" "Home" tags-todo "home")
          ("go" "Office" tags-todo "office")
          ("gp" "Phone" tags-todo "phone")
-         ;; a list of all tasks with the todo keyword STARTED
-         ("gw" todo "STARTED")
          ("G" "GTD Block Agenda"
            ((tags-todo "office|work")
             (tags-todo "computer")
@@ -251,8 +243,7 @@
             ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
                                             ;; type "l" in the agenda to review logged items
             (stuck "") ;; review stuck projects as designated by org-stuck-projects
-            (todo "MAYBE") ;; review maybe items
-            (todo "SOMEDAY") ;; review someday items
+            (todo "NEXT") ;; review NEXT items
             (todo "WAITING"))) ;; review waiting items
          ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
          ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
@@ -283,6 +274,7 @@ this with to-do items than with projects or headings."
 ; (define-key org-agenda-mode-map "N" 'sacha/org-agenda-new)
 
 ;; clock
+(setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
 ;; Change task state to STARTED when clocking in
@@ -297,11 +289,9 @@ this with to-do items than with projects or headings."
       (quote (("CANCELLED" ("CANCELLED" . t))
               ("WAITING" ("WAITING" . t))
               ("HOLD" ("WAITING" . t) ("HOLD" . t))
-              ("SOMEDAY" ("WAITING" . t))
               (done ("WAITING") ("HOLD"))
               ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
               ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("STARTED" ("WAITING"))
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 ;; Let org-mode use ido
@@ -395,15 +385,6 @@ this with to-do items than with projects or headings."
 (setq org-export-with-section-numbers nil)
 (setq org-export-coding-system 'utf-8)
 (setq org-html-include-timestamps nil)
-;; active Babel languages
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((C . t)
-   (emacs-lisp . t)
-   (sh . t)
-   (perl . t)
-   (python .t)
-   ))
 (setq org-publish-project-alist
       '(
         ("org-note"
@@ -825,6 +806,8 @@ or nil if the current buffer isn't visiting a dayage"
     (ditaa . t)
     (dot . t)
     (sh . t)
+    (perl . t)
+    (python .t)
     (plantuml . t)))
 
 ;; generate pic without confirm
