@@ -2,7 +2,7 @@
 ;; Markdown file handling
 
 (when win32p
-  (setq exec-path (append exec-path '("D:/DEV/Python27/Scripts")))
+  (add-to-list 'exec-path "D:/DEV/Python27/Scripts")
   (defun markdown-custom ()
         "markdown-mode-hook"
         (setq markdown-command "markdown | D:/DEV/Python27/Scripts/markdown_py.bat"))

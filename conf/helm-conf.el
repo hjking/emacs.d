@@ -22,7 +22,7 @@
           helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
           helm-split-window-default-side 'other ;; open helm buffer in another window
           helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
-          helm-candidate-number-limit 100 ; limit the number of displayed canidates
+          helm-candidate-number-limit 500 ; limit the number of displayed canidates
           helm-M-x-requires-pattern 0     ; show all candidates when set to 0
           helm-boring-file-regexp-list
             '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
@@ -50,19 +50,22 @@
     ; (global-set-key (kbd "C-c h g") 'helm-do-grep)
     ; (global-set-key (kbd "C-c h f") 'helm-find)
     ; (global-set-key (kbd "C-c h l") 'helm-locate)
-    ; (global-set-key (kbd "C-c h o") 'helm-occur)
+    (global-set-key (kbd "C-c h o") 'helm-occur)
     ; (global-set-key (kbd "C-c h r") 'helm-resume)
     ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
 
     ;; I don't like the way switch-to-buffer uses history, since
     ;; that confuses me when it comes to buffers I've already
     ;; killed. Let's use ido instead.
-    (add-to-list 'helm-completing-read-handlers-alist
-                 '(switch-to-buffer . ido))
+    (add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . ido))
     ;; Unicode
-    (add-to-list 'helm-completing-read-handlers-alist
-                 '(insert-char . ido))
+    (add-to-list 'helm-completing-read-handlers-alist '(insert-char . ido))
 
+    (when (executable-find "curl")
+      (setq helm-google-suggest-use-curl-p t))
+
+    ;;; Save current position to mark ring
+    (add-hook 'helm-goto-line-before-hook 'helm-save-current-pos-to-mark-ring)
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; helm-swoop - quickly finding lines
     ;; List match lines to another buffer, which is able to squeeze by any
@@ -73,10 +76,8 @@
 
     (autoload 'helm-swoop "helm-swoop" nil t)
     (autoload 'helm-back-to-last-point "helm-swoop" nil t)
-    ; (global-set-key (kbd "M-i") 'helm-swoop)
-    ; (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
-    ; (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
-    ; (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
+    (global-set-key (kbd "C-c h o") 'helm-swoop)
+    (global-set-key (kbd "C-c s") 'helm-multi-swoop-all)
     (eval-after-load "helm-swoop"
       '(
         ;; When doing isearch, hand the word over to helm-swoop
@@ -96,8 +97,8 @@
         ;; Optional face for line numbers
         ;; Face name is `helm-swoop-line-number-face`
         (setq helm-swoop-use-line-number-face t)
-        ))
-    )
+    ))
+  )
   :bind (("C-c h" . helm-mini)
          ("M-x" . helm-M-x))
   )

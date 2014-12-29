@@ -199,12 +199,9 @@
   (require 'env-conf)
 
   (when win32p
-  ;     (message "We are in Windows Platform")
-  ;     (setq my-home "F:/Kuaipan/Workspace/src")
-  ;     (setenv "HOME" my-home)
-  ;     (setenv "PATH" (concat my-home ";" (getenv "PATH")))
-    (setenv "PATH" (concat "D:/DEV/global/bin;" (getenv "PATH")))
-    (setq exec-path (append exec-path '("D:/DEV/global/bin")))
+    ; (setenv "PATH" (concat "D:/DEV/global/bin;" (getenv "PATH")))
+    (add-to-list 'exec-path "D:/DEV/global/bin")
+    (add-to-list 'exec-path "D:/Program Files/Gow")
   )
   (when linuxp
     (message "We are in Linux Platform")
@@ -1029,9 +1026,7 @@
 
 ;; LongLines
 ;; automatically wrap long lines after the last word before ‘fill-column’
-; (autoload 'longlines-mode
-;   "longlines.el"
-;   "Minor mode for automatically wrapping long lines." t)
+; (autoload 'longlines-mode "longlines.el" Minor mode for wrapping long lines." t)
 ; (when (load "longlines" t)
 ;     (setq longlines-show-hard-newlines t))
 ;; (add-hook 'text-mode-hook 'longlines-mode)
@@ -1075,6 +1070,9 @@
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (autoload 'ibuffer "ibuffer" "List buffers." t)
   (eval-after-load 'ibuffer '(require 'ibuffer-conf))
+
+  ; (add-site-lisp-load-path "ace-jump-buffer/")
+  ; (require 'ace-jump-buffer)
   )
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
@@ -1854,8 +1852,7 @@
 
 
 ;; [ ace-jump ]-----------------------------------------------------------------
-(setq my-ace-jump-mode-load-path (concat my-site-lisp-dir "ace-jump-mode/"))
-(add-site-lisp-load-path "ace-jump-mode/")
+; (add-site-lisp-load-path "ace-jump-mode/")
 (load "ace-jump-conf")
 ;; --------------------------------------------------------------------[ End ]--
 

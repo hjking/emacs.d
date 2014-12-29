@@ -659,7 +659,7 @@ or nil if the current buffer isn't visiting a dayage"
     (if (and file
                (string= root-path (substring file 0 (length root-path)))
                (string-match "\\([0-9]\\{4\\}\\)-\\([0-9]\\{2\\}\\)-\\([0-9]\\{2\\}\\).org$" file))
-        (flet ((d (i) (string-to-number (match-string i file))))
+        (cl-flet ((d (i) (string-to-number (match-string i file))))
           (encode-time 0 0 0 (d 3) (d 2) (d 1)))
       nil)))
 

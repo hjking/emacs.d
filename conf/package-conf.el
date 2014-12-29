@@ -20,44 +20,46 @@
 (package-initialize)
 
 (defvar my-packages
-'(
-  use-package
-  company
-  stripe-buffer               ;; different background for even and odd lines
-  expand-region
-  smex
-  projectile
-  info+
-  indent-guide
-  dired+
-  dired-details
-  dired-details+
-  dired-sort-menu
-  dired-sort-menu+
-  smartparens
-  perspective
-  persp-projectile
-  zencoding-mode
-  org-toc
-  smooth-scrolling
-  web-mode
-  helm
-  helm-projectile
-  ; ggtags
-  diminish
-  ztree
-  gnuplot-mode
-  ecb
-  company-c-headers
-  guide-key
-  guide-key-tip
-  ; evil
-  ; evil-nerd-commenter
-  ; auto-complete-verilog
-  aggressive-indent
-  miniedit
-  org-trello
-  ; plantuml-mode
+  '(
+    use-package
+    company
+    stripe-buffer               ;; different background for even and odd lines
+    expand-region
+    smex
+    projectile
+    info+
+    indent-guide
+    dired+
+    dired-details
+    dired-details+
+    dired-sort-menu
+    dired-sort-menu+
+    smartparens
+    perspective
+    persp-projectile
+    zencoding-mode
+    org-toc
+    smooth-scrolling
+    web-mode
+    helm
+    helm-projectile
+    ; ggtags
+    diminish
+    ztree
+    gnuplot-mode
+    ecb
+    company-c-headers
+    guide-key
+    guide-key-tip
+    ; evil
+    ; evil-nerd-commenter
+    ; auto-complete-verilog
+    aggressive-indent
+    miniedit
+    org-trello
+    paredit
+    ace-window
+    ; plantuml-mode
   )
 "A list of packages to ensure are installed at launch.")
 

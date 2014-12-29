@@ -121,6 +121,8 @@
 ;; (setq default-frame-alist
 ;;     '((width . 100)
 ;;       (height . 30)
+;;       (left . 80)
+;;       (top . 20)
 ;;       (menu-bar-lines . 1)
 ;;      ))
 

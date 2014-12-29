@@ -70,12 +70,19 @@
 
 
 ;; --[ Switch Window ]----------------------------------------------------------
-(message "    >>>>> Loading [ Switch Window ] Customization ....")
-(add-site-lisp-load-path "switch-window/")
-(require 'switch-window)
-(global-set-key (kbd "C-x o") 'switch-window)
+; (message "    >>>>> Loading [ Switch Window ] Customization ....")
+; (add-site-lisp-load-path "switch-window/")
+; (require 'switch-window)
+; (global-set-key (kbd "C-x o") 'switch-window)
 ;; --------------------------------------------------------------------[ End ]--
 
+;;--------------- ace-window -----------------------------------------
+(add-site-lisp-load-path "ace-window/")
+(require 'ace-window)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(global-set-key (kbd "C-x o") 'ace-window)
+
+;;---------------------------------------------------------------------
 ; +----------+-----------+
 ; |          |           |
 ; |          |           |
