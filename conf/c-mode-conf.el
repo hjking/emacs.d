@@ -71,7 +71,7 @@
     ;; key binding
     ; (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
     (local-set-key "\C-m" 'newline-and-indent)
-    (local-set-key  (kbd "C-c o") 'ff-find-other-file)
+;    (local-set-key  (kbd "C-c o") 'ff-find-other-file)
 
     (define-key c-mode-base-map [(f7)] 'compile)
   )

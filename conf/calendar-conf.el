@@ -30,7 +30,7 @@
 ;; mark dates of holidays in the calendar
 (setq mark-holidays-in-calendar t)
 ;; set location
-(setq calendar-location-name "Beijing")
+(setq calendar-location-name "Wuhan")
 (setq calendar-remove-frame-by-deleting t)
 ;; week start with Mon
 (setq calendar-week-start-day 1)

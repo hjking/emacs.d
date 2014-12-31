@@ -144,22 +144,25 @@
   (message "%d: >>>>> Loading [ Path ] ...." step_no)
   (setq step_no (1+ step_no))
 
-  ;; My Emacs home directory
-  (defvar my-emacs-init-file (or load-file-name buffer-file-name))
-  (defvar my-emacs-dir (file-name-directory my-emacs-init-file)
-      "The Root directory of my .emacs.d")
-  ;; My site-lisp directory
-  (defvar my-site-lisp-dir (concat my-emacs-dir "vendor/")
-      "This directory keeps Emacs Lisp packages")
+  ;; Set up the base configuration directory
+  (defconst my-emacs-init-file (or load-file-name buffer-file-name))
+  (defconst my-emacs-dir (file-name-directory my-emacs-init-file)
+    "The Root directory of my .emacs.d")
+  ;; Manually installed/maintained elisp directory
+  (defconst my-site-lisp-dir (expand-file-name (concat my-emacs-dir "vendor/"))
+    "This directory keeps manually installed/maintained Emacs Lisp packages")
   ;; My configuration files directory
-  (defvar my-site-lisp-conf-dir (concat my-emacs-dir "conf/")
-      "This directory keeps my Emacs Lisp for packages")
+  (defconst my-site-lisp-conf-dir (expand-file-name (concat my-emacs-dir "conf/"))
+    "This directory keeps my Emacs Lisp for packages")
   ;; Personal configuration files
-  (defvar my-personal-dir (concat my-emacs-dir "personal/")
-      "This directory keeps my personal configuration")
+  (defconst my-personal-dir (expand-file-name (concat my-emacs-dir "personal/"))
+    "This directory keeps my personal configuration")
+  ;; Non-elisp scripts directory
+  (defconst my-scripts-dir (expand-file-name (concat my-emacs-dir "scripts/"))
+    "Directory for non-elisp scripts")
   ;; Directory for temporary file
-  (defvar my-cache-dir (concat my-emacs-dir "cache/")
-      "This directory keeps cache files")
+  (defconst my-cache-dir (expand-file-name (concat my-emacs-dir "cache/"))
+    "This directory keeps cache files")
   (unless (file-exists-p my-cache-dir)
       (make-directory my-cache-dir))
   (defmacro add-load-path (path)
@@ -1383,6 +1386,7 @@
   (add-site-lisp-load-path "org-jekyll-mode/")
   (add-site-lisp-load-path "org-journal/")
 
+  (setq org-directory "~/org")
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cb" 'org-iswitchb)
   (global-set-key "\C-cc" 'org-capture)
@@ -1819,7 +1823,7 @@
 
 ;; plantuml-mode
 ; (require 'plantuml-mode)
-;; (setq plantuml-jar-path (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+; (setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
 
 ;;;; ================ ProgrammingModes End ================
 

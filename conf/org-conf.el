@@ -17,11 +17,17 @@
 ;; (require 'org-element)
 
 (defun my-org-mode-hook ()
+  (interactive)
+  (setq normal-auto-fill-function
+        (lambda ()
+          (interactive)
+          (do-auto-fill)))
+  (setq fill-column 72)
+  (auto-fill-mode)
   (setq truncate-lines t)  ;; Wrap long lines
   (visual-line-mode t)
   (set (make-local-variable 'system-time-locale) "C"))
 
-(setq org-directory "~/org")
 ;; (setq org-directory (concat my-emacs-dir "org"))
 (setq org-default-notes-file (concat org-directory "/todo.org"))
 
@@ -37,7 +43,7 @@
 ;; !: record time when state changed
 ;; @: need to leave some comments
 (setq org-todo-keywords
-    (quote ((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+    (quote ((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
             (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
             (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
@@ -63,6 +69,14 @@
 ;; Fast todo selection allows changing from any task todo state to any other state
 ;; Changing a task state is done with C-c C-t KEY
 (setq org-use-fast-todo-selection t)
+;; Change state with S-Left and S-Right
+(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+ ;; Don't really use priorities, turn them off
+ (setq org-enable-priority-commands nil)
+
+ ;; Do single letter confirm of links
+ (setq org-confirm-elisp-link-function 'y-or-n-p)
 
 ;; Tags
 ;;  (@XXX) tags are mutually exclusive
@@ -71,37 +85,60 @@
 ;;  other tags are not mutually exclusive and multiple tags
 ;;    can appear on a single task
 ;; Tags with fast selection keys
-(setq org-tag-alist '((:startgroup nil)
+(setq org-tag-alist '(
+                      ;; where
+                      (:startgroup nil)
                       ("@home" . ?h)
-                      ("@errand" . ?e)
-                      ("@coding" . ?c)
-                      ("@phone" . ?p)
-                      ("@reading" . ?r)
                       ("@office" . ?o)
-                      ("@laptop" . ?l)
+                      ("@out" . ?O)
                       (:endgroup nil)
+                      ;; tools
+                      (:startgroup)
+                      ("@phone" . ?p)
+                      ("@laptop" . ?l)
+                      (:endgroup)
+                      ;; type
+                      (:startgroup)
+                      ("coding" . ?c)
+                      ("writing" . ?t)
+                      ("reading" . ?b)
+                      ("mail" . ?E)
+                      ("housework" . ?H)
+                      (:endgroup)
+                      ;; frequency
+                      (:startgroup)
+                      ("DAILY" . ?d)
                       ("WEEKLY" . ?w)
-                      ("HOMEWORK" . ?H)
+                      ("MONTHLY" . ?M)
+                      ("QUARTERLY" . ?q)
+                      ("YEARLY" . ?y)
+                      (:endgroup)
                       ("PERSONAL" . ?P)
                       ("WORK" . ?W)
                       ("NOTE" . ?n)
-                      ("CANCELLED" . ?c)
-                      ("FLAGGED" . ??)
-                      ("HOWTO" . ?t)
-                      ("urgent" . ?u)
-                      ("quantified" . ?q)))
+                      ("HOWTO" . ?H)
+                      ("errand" . ?e)
+                      ("urgent" . ?u)))
 
 ; Allow setting single tags without the menu
 (setq org-fast-tag-selection-single-key (quote expert))
 
+;; automatically assign tags to tasks based on state changes
+(setq org-todo-state-tags-triggers
+      (quote (("CANCELLED" ("CANCELLED" . t))
+              ("WAITING" ("WAITING" . t))
+              ("HOLD" ("WAITING" . t) ("HOLD" . t))
+              (done ("WAITING") ("HOLD"))
+              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+
 ;; Org Agenda
 ;; (setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
-;; (setq org-agenda-files (quote ("~/emacs.d/org")))
 ;; (setq org-agenda-files '("~/org/widgets.org" "~/org/clients.org"))
 ;; (setq org-agenda-files (append org-agenda-files
 ;;      (list (expand-file-name (concat org-directory "/days")))))
-(setq org-agenda-files (list (concat org-directory "/todo.org")
-                             (concat org-directory "/habit.org")
+(setq org-agenda-files (list (concat org-directory "/habit.org")
                              (concat org-directory "/personal.org")
                              (concat org-directory "/work/fabric.org")
                              (concat org-directory "/work/schedule.org")
@@ -112,7 +149,7 @@
 ;; How many days should the default agenda show?
 ;; (setq org-agenda-ndays (* 6 7))  ;; six weeks
 (setq org-agenda-ndays 'month)  ; a month
-;; Show all agenda dates - even if they are empty
+;; Not Show all agenda dates - even if they are empty
 (setq org-agenda-show-all-dates nil)
 ;; see deadlines in the agenda view 7 days before the due date
 (setq org-deadline-warning-days 7)
@@ -183,12 +220,15 @@
          ("C" . "Custom View")
          ("Cf" "View Funny Things"
            ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/fun/*.org")))))))
+         ("d" "Started Tasks" todo "DOING" ((org-agenda-todo-ignore-scheduled nil)
+                                            (org-agenda-todo-ignore-deadlines nil)
+                                            (org-agenda-todo-ignore-with-date nil)))
          ;; overview of deadlines due within the next 60 days
-         ("d" "Upcoming deadlines" agenda ""
-           ((org-agenda-time-grid nil)
-            (org-deadline-warning-days 60)        ;; [1] shows all deadlines that fall due within the upcoming year
-            (org-agenda-entry-types '(:deadline))  ;; [2] looking for deadlines and nothing else so quite efficiently
-           ))
+         ("l" "Upcoming deadlines" agenda "" ((org-agenda-time-grid nil)
+                                              ;; [1] shows all deadlines that fall due within the upcoming year
+                                              (org-deadline-warning-days 60)
+                                              ;; [2] looking for deadlines and nothing else so quite efficiently
+                                              (org-agenda-entry-types '(:deadline))))
          ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
          ("g" . "GTD contexts")
          ("gc" "Computer" tags-todo "computer")
@@ -197,26 +237,23 @@
          ("gh" "Home" tags-todo "home")
          ("go" "Office" tags-todo "office")
          ("gp" "Phone" tags-todo "phone")
-         ("G" "GTD Block Agenda"
-           ((tags-todo "office|work")
-            (tags-todo "computer")
-            (tags-todo "phone")
-            (tags-todo "home")
-            (tags-todo "errands"))
+         ("G" "GTD Block Agenda" ((tags-todo "office|work")
+                                  (tags-todo "computer")
+                                  (tags-todo "phone")
+                                  (tags-todo "home")
+                                  (tags-todo "errands"))
            nil                      ;; i.e., no local settings
            ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
          ;; block agenda views
          ("h" . "HOME+Name tags searches") ; "h" prefix
-         ("ha" "Agenda and Home-related tasks"
-           ((agenda "")
-            (tags-todo "home")
-            (tags "garden")))
+         ("ha" "Agenda and Home-related tasks" ((agenda "")
+                                                (tags-todo "home")
+                                                (tags "garden")))
          ("hc" tags "+home+child")
          ("hl" tags "+home+love")
          ("hp" tags "+home+parents")
          ;; display next 10 entries with a 'NEXT' TODO keyword.
-         ("n" todo "NEXT"
-           ((org-agenda-max-entries 10)))
+         ("n" todo "NEXT" ((org-agenda-max-entries 10)))
          ("o" "View Office Schedule"
            ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/work/*.org")))))))
          ;; Priority
@@ -242,9 +279,9 @@
          ("w" "Weekly Review"
             ((agenda "" ((org-agenda-ndays 7))) ;; review upcoming deadlines and appointments
                                             ;; type "l" in the agenda to review logged items
-            (stuck "") ;; review stuck projects as designated by org-stuck-projects
-            (todo "NEXT") ;; review NEXT items
-            (todo "WAITING"))) ;; review waiting items
+             (stuck "") ;; review stuck projects as designated by org-stuck-projects
+             (todo "NEXT") ;; review NEXT items
+             (todo "WAITING"))) ;; review waiting items
          ("W" todo-tree "WAITING") ; global search for TODO entries with 'WAITING' as the TODO keyword only in current buffer and displaying the result as a sparse tree
          ("u" tags "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:'
          ("v" tags-todo "+boss-urgent") ; global tags search for headlines marked ':boss:' but not ':urgent:', limiting the search to headlines that are also TODO items
@@ -274,25 +311,15 @@ this with to-do items than with projects or headings."
 ; (define-key org-agenda-mode-map "N" 'sacha/org-agenda-new)
 
 ;; clock
+(org-clock-persistence-insinuate)
 (setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
 (setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
 ;; Change task state to STARTED when clocking in
 (setq org-clock-in-switch-to-state "STARTED")
 ;; Save clock data and notes in the LOGBOOK drawer
 (setq org-clock-into-drawer t)
 ;; Removes clocked tasks with 0:00 duration
 (setq org-clock-out-remove-zero-time-clocks t)
-
-;; automatically assign tags to tasks based on state changes
-(setq org-todo-state-tags-triggers
-      (quote (("CANCELLED" ("CANCELLED" . t))
-              ("WAITING" ("WAITING" . t))
-              ("HOLD" ("WAITING" . t) ("HOLD" . t))
-              (done ("WAITING") ("HOLD"))
-              ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-              ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 ;; Let org-mode use ido
 (setq org-completion-use-ido t)
@@ -351,7 +378,7 @@ this with to-do items than with projects or headings."
             ("STYLE_ALL" . "habit"))))
 
 ;; To make org show leading stars use
-(setq org-hide-leading-stars nil)
+(setq org-hide-leading-stars t)
 ;; org-indent mode on by default at startup with the following setting:
 (setq org-startup-indented t)
 ;; hides blank lines between headings which keeps folded view nice and compact.
@@ -723,22 +750,23 @@ or nil if the current buffer isn't visiting a dayage"
 (require 'org-checklist)
 
 ; Enable habit tracking (and a bunch of other modules)
-(setq org-modules (quote (org-bbdb
+(setq org-modules (quote (
+                          ; org-bbdb
                           org-bibtex
                           org-crypt
                           org-gnus
                           org-id
                           org-info
-                          org-jsinfo
+                          ; org-jsinfo
                           org-habit
                           org-inlinetask
                           org-irc
-                          org-mew
-                          org-mhe
+                          ; org-mew
+                          ; org-mhe
                           org-protocol
-                          org-rmail
-                          org-vm
-                          org-wl
+                          ; org-rmail
+                          ; org-vm
+                          ; org-wl
                           org-w3m)))
 
 ; position the habit graph on the agenda to the right of the default
@@ -814,9 +842,9 @@ or nil if the current buffer isn't visiting a dayage"
 (setq org-confirm-babel-evaluate nil)
 
 (setq org-plantuml-jar-path
-      (expand-file-name "~/.emacs.d/scripts/plantuml.jar"))
+      (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
 (setq org-ditaa-jar-path
-      (expand-file-name "~/.emacs.d/scripts/ditaa.jar"))
+      (expand-file-name (concat my-scripts-dir "/ditaa.jar")))
 
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
 

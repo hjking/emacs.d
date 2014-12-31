@@ -70,7 +70,7 @@
 ;; switch mode
 ;; (global-set-key (kbd "C-c m")       'hjking/switch-major-mode)
 (global-set-key (kbd "C-c n")       'mouse-tear-off-window)
-(global-set-key (kbd "C-c o")       'occur)
+; (global-set-key (kbd "C-c o")       'occur)
 ;; smart-compile: according to the extension to compile/run program
 ;; when makefile existed, run "make" automaticlly
 (global-set-key (kbd "C-c p")       'smart-compile)
