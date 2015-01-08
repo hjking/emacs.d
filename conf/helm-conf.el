@@ -16,16 +16,16 @@
     ;; From https://gist.github.com/antifuchs/9238468
     (setq enable-recursive-minibuffers t
           helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
-          helm-quick-update t ; do not display invisible candidates
-          helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
-          helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
+          ; helm-quick-update t ; do not display invisible candidates
+          ; helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
+          ; helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
           helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
-          helm-split-window-default-side 'other ;; open helm buffer in another window
+          ; helm-split-window-default-side 'other ;; open helm buffer in another window. below/above
           helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
           helm-candidate-number-limit 500 ; limit the number of displayed canidates
           helm-M-x-requires-pattern 0     ; show all candidates when set to 0
-          helm-boring-file-regexp-list
-            '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
+          ; helm-boring-file-regexp-list
+          ;  '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
           helm-ff-file-name-history-use-recentf t
           helm-ff-skip-boring-files t
           helm-move-to-line-cycle-in-source t ; move to end or beginning of source
@@ -36,6 +36,7 @@
           helm-recentf-fuzzy-match t
           helm-M-x-fuzzy-match t            ; optional fuzzy matching for helm-M-x
     )
+    (helm-autoresize-mode 1)
     (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
     (helm-mode))
   :config
@@ -81,9 +82,9 @@
     (eval-after-load "helm-swoop"
       '(
         ;; When doing isearch, hand the word over to helm-swoop
-        (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+        ; (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
         ;; From helm-swoop to helm-multi-swoop-all
-        (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
+        ; (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
         ;; Save buffer when helm-multi-swoop-edit complete
         (setq helm-multi-swoop-edit-save t)
         ;; If this value is t, split window inside the current window
@@ -97,7 +98,7 @@
         ;; Optional face for line numbers
         ;; Face name is `helm-swoop-line-number-face`
         (setq helm-swoop-use-line-number-face t)
-    ))
+        ))
   )
   :bind (("C-c h" . helm-mini)
          ("M-x" . helm-M-x))

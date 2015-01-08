@@ -37,10 +37,9 @@
     smartparens
     perspective
     persp-projectile
-    zencoding-mode
     org-toc
     smooth-scrolling
-    web-mode
+    ; web-mode
     helm
     helm-projectile
     ; ggtags

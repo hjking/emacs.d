@@ -27,7 +27,7 @@
   (and window-system linuxp)
   "Are we running under X on a GNU/Linux system?")
 
-(defconst mac-p
+(defconst osxp
   (eq system-type 'darwin)
   "Are we running MAC")
 

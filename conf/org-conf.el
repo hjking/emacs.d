@@ -29,7 +29,16 @@
   (set (make-local-variable 'system-time-locale) "C"))
 
 ;; (setq org-directory (concat my-emacs-dir "org"))
-(setq org-default-notes-file (concat org-directory "/todo.org"))
+; (setq org-default-notes-file (concat org-directory "/todo.org"))
+(setq org-listen-read-watch-file (concat org-directory "/topics/listen-read-watch.org"))
+(defun hjking/org-reload ()
+  "Reload the org file for the current month - useful for a long
+  running emacs instance."
+  (interactive)
+  (setq org-default-notes-file
+          (concat org-directory "/gtd/"
+                  (downcase (format-time-string "%Y-%m.org")))))
+(hjking/org-reload)
 
 (setq org-hide-leading-star t)
 (setq org-startup-folded nil)  ;; open org in unfolded view
@@ -55,7 +64,7 @@
               ("NEXT"      . (:foreground "orange"       :weight bold))
               ("WAITING"   . (:foreground "sienna"       :weight bold))
               ("HOLD"      . (:foreground "magenta"      :weight bold))
-              ("DONE"      . (:foreground "forest green" :weight bold))
+              ("DONE"      . (:foreground "forest green" :weight bold :strike-through t))
               ("DELEGATED" . (:foreground "dimgrey"      :weight bold))
               ("CANCELLED" . shadow)
               ("POSTPONED" . (:foreground "steelblue"    :weight bold))
@@ -104,6 +113,7 @@
                       ("reading" . ?b)
                       ("mail" . ?E)
                       ("housework" . ?H)
+                      ("PURCHASE" . ?P)
                       (:endgroup)
                       ;; frequency
                       (:startgroup)
@@ -113,15 +123,21 @@
                       ("QUARTERLY" . ?q)
                       ("YEARLY" . ?y)
                       (:endgroup)
-                      ("PERSONAL" . ?P)
+                      ;; critical
+                      (:startgroup)
+                      ("urgent" . ?u)
+                      (:endgroup)
+                      ("PERSONAL" . ?m)
                       ("WORK" . ?W)
                       ("NOTE" . ?n)
                       ("HOWTO" . ?H)
                       ("errand" . ?e)
-                      ("urgent" . ?u)))
+                      ))
 
 ; Allow setting single tags without the menu
-(setq org-fast-tag-selection-single-key (quote expert))
+(setq org-fast-tag-selection-single-key 'expert)
+; Ignore hidden tags in Org Agenda tags-todo search
+(setq org-agenda-tags-todo-honor-ignore-options t)
 
 ;; automatically assign tags to tasks based on state changes
 (setq org-todo-state-tags-triggers
@@ -134,16 +150,16 @@
               ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
 ;; Org Agenda
-;; (setq org-agenda-files (file-expand-wildcards (concat org-directory "/*.org")))
-;; (setq org-agenda-files '("~/org/widgets.org" "~/org/clients.org"))
-;; (setq org-agenda-files (append org-agenda-files
-;;      (list (expand-file-name (concat org-directory "/days")))))
-(setq org-agenda-files (list (concat org-directory "/habit.org")
-                             (concat org-directory "/personal.org")
-                             (concat org-directory "/work/fabric.org")
-                             (concat org-directory "/work/schedule.org")
-                             (concat org-directory "/books.org")
-                             (concat org-directory "/call.org")))
+;; (setq org-agenda-files '("~/org/personal.org" "~/org/habit.org"))
+(setq org-agenda-files (append
+                        (list (concat org-directory "/habit.org")
+                              (concat org-directory "/personal.org")
+                              (concat org-directory "/call.org"))
+                        (file-expand-wildcards (concat org-directory "/work/*.org"))
+                        (file-expand-wildcards (concat org-directory "/gtd/*.org"))
+                        (file-expand-wildcards (concat org-directory "/topics/*.org"))
+                        ))
+
 ;; Use sticky agenda's so they persist
 (setq org-agenda-sticky t)
 ;; How many days should the default agenda show?
@@ -158,7 +174,7 @@
 ;; the agenda start on Monday, or better today?
 (setq org-agenda-start-on-weekday nil)
 ;; show entries from the Emacs diary
-(setq org-agenda-include-diary t)
+(setq org-agenda-include-diary nil)
 (setq org-agenda-diary-file (concat org-directory "/diary.org"))
 ;; any time strings in the heading are shown in the agenda
 (setq org-agenda-insert-diary-extract-time t)
@@ -186,31 +202,24 @@
 (setq org-agenda-repeating-timestamp-show-all t)
 ;; Agenda log mode items to display (closed and state changes by default)
 (setq org-agenda-log-mode-items (quote (closed state)))
-
 ;; Keep tasks with dates on the global todo lists
 (setq org-agenda-todo-ignore-with-date nil)
-
 ;; Keep tasks with deadlines on the global todo lists
-(setq org-agenda-todo-ignore-deadlines t)
-
+(setq org-agenda-todo-ignore-deadlines nil)
 ;; Keep tasks with scheduled dates on the global todo lists
-(setq org-agenda-todo-ignore-scheduled t)
-
+(setq org-agenda-todo-ignore-scheduled nil)
 ;; Keep tasks with timestamps on the global todo lists
 (setq org-agenda-todo-ignore-timestamp nil)
-
-;; Remove completed deadline tasks from the agenda view
-;; (setq org-agenda-skip-deadline-if-done t)
-
-;; Remove completed scheduled tasks from the agenda view
-;; (setq org-agenda-skip-scheduled-if-done t)
-
+; ;; Remove completed deadline tasks from the agenda view
+; (setq org-agenda-skip-deadline-if-done t)
+; ;; Remove completed scheduled tasks from the agenda view
+; (setq org-agenda-skip-scheduled-if-done t)
 ;; Remove completed items from search results
 (setq org-agenda-skip-timestamp-if-done t)
-
 ;; Include agenda archive files when searching for things
 (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
-
+;; Split up the search string on whitespace
+(setq org-agenda-search-view-always-boolean t)
 ;; org agenda custom commands
 (setq org-agenda-custom-commands
       '(
@@ -246,6 +255,10 @@
            ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
          ;; block agenda views
          ("h" . "HOME+Name tags searches") ; "h" prefix
+         ("hb" "Habits" tags-todo "STYLE=\"habit\""
+                ((org-agenda-overriding-header "Habits")
+                 (org-agenda-sorting-strategy
+                  '(todo-state-down effort-up category-keep))))
          ("ha" "Agenda and Home-related tasks" ((agenda "")
                                                 (tags-todo "home")
                                                 (tags "garden")))
@@ -320,7 +333,6 @@ this with to-do items than with projects or headings."
 (setq org-clock-into-drawer t)
 ;; Removes clocked tasks with 0:00 duration
 (setq org-clock-out-remove-zero-time-clocks t)
-
 ;; Let org-mode use ido
 (setq org-completion-use-ido t)
 (setq org-remember-templates
@@ -355,19 +367,6 @@ this with to-do items than with projects or headings."
       (save-excursion (org-goto-first-child)))
 (setq org-refile-target-verify-function 'my/verify-refile-target)
 
-;; Strike through DONE headlines
-(custom-set-faces
-  '(org-done ((t (:foreground "PaleGreen"
-                 :weight normal
-                 :strike-through t))))
- '(org-headline-done
-            ((((class color) (min-colors 16) (background dark))
-               (:foreground "LightSalmon" :strike-through t)))))
-
-;; To explicitly set only the strike-through attribute mentioned
-(set-face-attribute 'org-done nil :strike-through t)
-(set-face-attribute 'org-headline-done nil :strike-through t)
-
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
 ;; (setq org-tags-column 80)
 
@@ -382,23 +381,73 @@ this with to-do items than with projects or headings."
 ;; org-indent mode on by default at startup with the following setting:
 (setq org-startup-indented t)
 ;; hides blank lines between headings which keeps folded view nice and compact.
-(setq org-cycle-separator-lines 0)
+(setq org-cycle-separator-lines 2)
 ;; prevents creating blank lines before headings but allows list items to adapt to existing blank lines around the items:
-; (setq org-blank-before-new-entry (quote ((heading)
-;                                          (plain-list-item . auto))))
-(setq org-blank-before-new-entry (quote ((heading) (plain-list-item)))) ;; prevent auto blank lines
+(setq org-blank-before-new-entry (quote ((heading)
+                                         (plain-list-item . auto))))
 ;; Adding new tasks quickly without disturbing the current task content
 (setq org-insert-heading-respect-content nil)
 (setq org-startup-truncated nil)
 
-;;; org-babel
+;; Be smart about killing and moving; if there is a closed fold, act on the entire fold.
+(setq org-special-ctrl-a/e t)
+(setq org-special-ctrl-k t)
+(setq org-yank-adjusted-subtrees t)
+
+;; Follow links on return
+(setq org-return-follows-link t)
+
+;; Delete IDs when we clone an Entry
+(setq org-clone-delete-id t)
+
+;; Don't allow edits in folded space
+(setq org-catch-invisible-edits 'error)
+
+;;;; Org Babel
+;; Enable yntax highlighting in src blocks
+(setq-default org-src-fontify-natively t)
+;; active Org-babel languages
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '(;; other Babel languages
+    (emacs-lisp . t)
+    (ditaa . t)
+    (dot . t)
+    (sh . t)
+    (perl . t)
+    (python .t)
+    (plantuml . t)))
+
+;; generate pic without confirm
+(setq org-confirm-babel-evaluate nil)
 ;; Use syntax highlighting ("fontification") in org-mode source blocks
 (setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
 ;; the whole heading lines fontified
 (setq org-fontify-whole-heading-line t)
 (setq org-src-window-setup 'current-window)
 ;; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
+
+(setq org-plantuml-jar-path
+      (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
+(setq org-ditaa-jar-path
+      (expand-file-name (concat my-scripts-dir "/ditaa.jar")))
+
+(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
+
+; Make babel results blocks lowercase
+(setq org-babel-results-keyword "RESULTS")
+
+(defun bh/display-inline-images ()
+  (condition-case nil
+      (org-display-inline-images)
+    (error nil)))
+
+(if (file-directory-p "D:/Program Files/Graphviz/bin")
+      (add-to-list 'exec-path "D:/Program Files/Graphviz/bin")
+    (message "*** Warning!! Please install Graphviz first!!"))
+
 
 ;;; Publishing
 
@@ -553,9 +602,6 @@ this with to-do items than with projects or headings."
               ("a" "Appointment"
                    entry (file+headline (concat org-directory "/todo.org") "Calendar")
                    "** APPT: %^{Description} %^g %?  Added: %U\n   SCHEDULED: %t")
-              ("b" "Books to Read"
-                   entry (file+headline (concat org-directory "/books.org") "Books")
-                   "** NEXT Read: %?\n   %i\n   %a")
               ("d" "Diary"
                    entry (file+datetree (concat org-directory "/diary.org"))
                    "** %?\n  %U\n" :clock-in t :clock-resume t)
@@ -565,7 +611,7 @@ this with to-do items than with projects or headings."
                    :empty-lines 1)
               ("h" "Habit"
                    entry (file (concat org-directory "/habit.org"))
-                   "** TODO %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
+                   "** NEXT %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :REPEAT_TO_STATE: NEXT\n   :END:\n")
               ("j" "Journal Entry"
                    entry (file+datetree (concat org-directory "/journal.org"))
                    "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
@@ -574,7 +620,7 @@ this with to-do items than with projects or headings."
                    "** %U - %a  :TIME:")
               ("m" "Meeting"
                    entry (file (concat org-directory "/todo.org"))
-                   "** MEETING with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
+                   "** NEXT Meeting with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
               ("n" "Note"
                    entry (file (concat org-directory "/notes.org"))
                    "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
@@ -593,6 +639,12 @@ this with to-do items than with projects or headings."
               ("w" "org-protocol"
                    entry (file (concat org-directory "/refile.org"))
                    "** TODO Review %c\n   %U\n" :immediate-finish t)
+              ("l" "Listen" entry (file+headline org-listen-read-watch-file "Listen")
+                   "** NEXT %?")   ;; "** NEXT Read: %?\n   %i\n   %a"
+              ("r" "Read" entry (file+headline org-listen-read-watch-file "Read")
+                   "** NEXT %?")
+              ("w" "Watch" entry (file+headline org-listen-read-watch-file "Watch")
+                   "** NEXT %?")
             )))
 
 ;; Remove empty LOGBOOK drawers on clock out
@@ -809,56 +861,9 @@ or nil if the current buffer isn't visiting a dayage"
 (setq org-jekyll/org-mode-project-root "~/org/blog/org/")
 (setq org-jekyll/export-with-toc t)   ;; export content
 
-;; org-toc is a utility to have an up-to-date table of contents
-;; in the org files without exporting
-;; add a TOC tag with command `org-set-tags-command`
-; (eval-after-load "org-toc-autoloads"
-;   '(progn
-;      (if (require 'org-toc nil t)
-;          (add-hook 'org-mode-hook 'org-toc-enable)
-;        (warn "org-toc not found"))))
 
-
-;; org-extension
+;;;; org-extension
 (require 'org-extension)
-
-
-;;;; Org Babel
-;; Enable yntax highlighting in src blocks
-(setq-default org-src-fontify-natively t)
-;; active Org-babel languages
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '(;; other Babel languages
-    (emacs-lisp . t)
-    (ditaa . t)
-    (dot . t)
-    (sh . t)
-    (perl . t)
-    (python .t)
-    (plantuml . t)))
-
-;; generate pic without confirm
-(setq org-confirm-babel-evaluate nil)
-
-(setq org-plantuml-jar-path
-      (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
-(setq org-ditaa-jar-path
-      (expand-file-name (concat my-scripts-dir "/ditaa.jar")))
-
-(add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
-
-; Make babel results blocks lowercase
-(setq org-babel-results-keyword "RESULTS")
-
-(defun bh/display-inline-images ()
-  (condition-case nil
-      (org-display-inline-images)
-    (error nil)))
-
-(if (file-directory-p "D:/Program Files/Graphviz/bin")
-      (add-to-list 'exec-path "D:/Program Files/Graphviz/bin")
-    (message "*** Warning!! Please install Graphviz first!!"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'org-conf)

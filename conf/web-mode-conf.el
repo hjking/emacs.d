@@ -43,8 +43,17 @@
                          'web-mode-yasnippet-exit-hook t)
             ))
 
-;;; indentation
-(setq web-mode-markup-indent-offset 2) ;html indentation
-(setq web-mode-css-indent-offset 2) ;css indentation
-(setq web-mode-code-indent-offset 4)  ;script
-(setq web-mode-indent-style 2)    ;fix side effect for html indentation
+
+
+(eval-after-load 'web-mode
+  '(progn
+     ;;; indentation
+     (setq web-mode-markup-indent-offset 2) ;html indentation
+     (setq web-mode-css-indent-offset 2) ;css indentation
+     (setq web-mode-code-indent-offset 4)  ;script
+     (setq web-mode-indent-style 2)    ;fix side effect for html indentation
+     (add-to-list 'web-mode-imenu-regexp-list
+                  '(" \\(ng-[a-z]*\\)=\"\\([^\"]+\\)" 1 2 "="))
+     ))
+
+(provide 'web-mode-conf)

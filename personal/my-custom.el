@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Tue Jun 24 16:25:29 2014 (+0800)
+;; Last-Updated: Mon Jan  5 14:12:28 2015 (+0800)
 ;; Version:
-;;     Update #: 31
+;;     Update #: 33
 ;;
 ;;; Change Log:
 ;;
@@ -29,7 +29,11 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(column-number-mode t)
+ '(org-agenda-files
+   (quote
+    ("~/org/personal.org" "~/org/call.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org")))
  '(projectile-enable-idle-timer t)
+ '(session-use-package t nil (session))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -88,7 +88,7 @@
 (defvar section-c-mode t)
 (defvar section-markdown-mode t)
 (defvar section-elisp-mode t)
-(defvar section-html-mode t)
+(defvar section-html-mode nil)
 (defvar section-shell-mode t)
 (defvar section-defuns t)
 (defvar section-alias t)
@@ -631,7 +631,8 @@
 (when section-search
   (add-site-lisp-load-path "visual-regexp/")
   (add-site-lisp-load-path "anzu/")
-  (require 'search-conf))
+  (require 'search-conf)
+  )
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
 
 
@@ -1052,7 +1053,8 @@
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
-(setq fill-column 80)
+(setq-default fill-column 80
+              whitespace-line-column 80)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1224,7 +1226,8 @@
   ; (add-site-lisp-info-path "emacs-helm/doc/")
   ;; helm-swoop
   (add-site-lisp-load-path "helm-swoop/")
-  (require 'helm-conf))
+  (require 'helm-conf)
+  )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
 
@@ -1281,7 +1284,7 @@
 ; (require 'find-file-conf)
 
 ;; projectile
-(require 'projectile-conf)
+;; (require 'projectile-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1299,14 +1302,17 @@
 (message "%d: >>>>> Loading [ hideshow ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (when (require 'hideshow nil t)
-  (dolist (hook '(c++-mode-hook
-                  c-mode-hook
-                  emacs-lisp-mode-hook
-                  verilog-mode-hook
-                  python-mode-hook
-                  sh-mode-hook
-                  cperl-mode-hook))
-  (add-hook hook 'hs-minor-mode)))
+  ; (dolist (hook '(c++-mode-hook
+  ;                 c-mode-hook
+  ;                 emacs-lisp-mode-hook
+  ;                 verilog-mode-hook
+  ;                 python-mode-hook
+  ;                 sh-mode-hook
+  ;                 cperl-mode-hook))
+  ; (add-hook hook 'hs-minor-mode))
+  (add-hook 'prog-mode '(progn
+                      (hs-minor-mode 1)))
+  )
 
 ;;
 ;; hideshowvis
@@ -1614,6 +1620,7 @@
 (setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
   (interactive)
+  (whitespace-mode 1)
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ;; --------------------------------------------------------------------[ End ]--
@@ -1787,11 +1794,7 @@
   (add-to-list 'auto-mode-alist '("\\.html\\'"  . html-mode))
   (add-to-list 'auto-mode-alist '("\\.htm\\'"   . html-mode))
 
-  (require 'zencoding-mode)
-  (add-hook 'sgml-mode-hook 'zencoding-mode)
-  (add-hook 'html-mode-hook 'zencoding-mode)
-
-  (load "web-mode-conf")
+  ; (require 'web-mode-conf)
 )
 ;; --------------------------------------------------------------------[ End ]--
 

@@ -21,10 +21,6 @@
      (add-to-list 'load-path color-theme-solarized-path)
      (require 'color-theme-solarized)
 
-     (setq color-theme-monokai-path (concat my-site-lisp-dir "color-theme-monokai/"))
-     (add-to-list 'load-path color-theme-monokai-path)
-     (add-to-list 'custom-theme-load-path color-theme-monokai-path)
-
      (setq color-theme-molokai-path (concat my-site-lisp-dir "color-theme-molokai/"))
      (add-to-list 'load-path color-theme-molokai-path)
      (add-to-list 'custom-theme-load-path color-theme-molokai-path)

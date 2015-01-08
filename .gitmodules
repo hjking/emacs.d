@@ -6,10 +6,6 @@
 	path = vendor/color-theme-twilight
 	url = https://github.com/crafterm/twilight-emacs.git
 	ignore = dirty
-[submodule "vendor/color-theme-monokai"]
-	path = vendor/color-theme-monokai
-	url = https://github.com/lvillani/el-monokai-theme.git
-	ignore = dirty
 [submodule "vendor/color-theme-solarized"]
 	path = vendor/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git

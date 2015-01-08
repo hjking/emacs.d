@@ -52,6 +52,7 @@
         (add-hook 'prog-mode-hook
                   '(lambda ()
                        (yas-minor-mode)))
+        (add-hook 'markdown-mode 'yas-minor-mode)
         (add-hook 'org-mode-hook
                   '(lambda ()
                        (yas-minor-mode)
