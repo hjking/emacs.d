@@ -1466,8 +1466,7 @@
 
 ;; [ ecb ]----------------------------------------------------------------------
 (when section-ecb
-  ; (add-site-lisp-load-path "ecb-2.40/")
-  ; (add-site-lisp-info-path "ecb-2.40/info-help/")
+  ; (add-site-lisp-load-path "ecb/")
   (require 'ecb-conf))
 ;; --------------------------------------------------------------------[ End ]--
 

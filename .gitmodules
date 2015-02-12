@@ -138,3 +138,7 @@
 	path = vendor/helm-swoop
 	url = https://github.com/ShingoFukuyama/helm-swoop.git
 	ignore = dirty
+[submodule "vendor/ecb"]
+	path = vendor/ecb
+	url = https://github.com/ecb-home/ecb
+	ignore = dirty

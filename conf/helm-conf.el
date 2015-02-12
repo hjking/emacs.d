@@ -36,7 +36,7 @@
           helm-recentf-fuzzy-match t
           helm-M-x-fuzzy-match t            ; optional fuzzy matching for helm-M-x
     )
-    (helm-autoresize-mode 1)
+    ; (helm-autoresize-mode 1)
     (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
     (helm-mode))
   :config

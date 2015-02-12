@@ -58,8 +58,24 @@
 
 ;; make the fringe (gutter) smaller
 ;; the argument is a width in pixels (the default is 8)
-(if (fboundp 'fringe-mode)
-    (fringe-mode 4))
+; (if (fboundp 'fringe-mode)
+;     (fringe-mode 4))
+(defconst fringe-styles
+  '(("default" . nil)
+    ("no-fringes" . 0)
+    ("right-only" . (0 . nil))
+    ("left-only" . (nil . 0))
+    ("half-width" . (4 . 4))
+    ("minimal" . (1 . 1)))
+  "Alist mapping fringe mode names to fringe widths.
+Each list element has the form (NAME . WIDTH), where NAME is a
+mnemonic fringe mode name and WIDTH is one of the following:
+- nil, which means the default width (8 pixels).
+- a cons cell (LEFT . RIGHT), where LEFT and RIGHT are
+  respectively the left and right fringe widths in pixels, or
+  nil (meaning the default width).
+- a single integer, which specifies the pixel widths of both
+fringes.")
 
 ;; list of frame parameters for creating the initial frame
 ;;      (setq initial-frame-alist '((top . 0) (left . 0)))
