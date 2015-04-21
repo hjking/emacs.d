@@ -927,6 +927,7 @@
 
 
 ;; --[ Documentation ]----------------------------------------------------------
+;; displays information in the minibuffer about the thing at point.
 (message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)

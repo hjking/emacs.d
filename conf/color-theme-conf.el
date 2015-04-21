@@ -56,6 +56,10 @@
      (add-to-list 'load-path color-theme-dawn-night-path)
      (require 'color-theme-dawn-night)
 
+     (setq color-theme-material-path (concat my-site-lisp-dir "color-theme-material/"))
+     (add-to-list 'load-path color-theme-material-path)
+     (add-to-list 'custom-theme-load-path color-theme-material-path)
+
      ;;customize theme
      ; (setq color-theme-moe-path (concat my-site-lisp-dir "color-theme-moe/"))
      ; (add-to-list 'custom-theme-load-path color-theme-moe-path)
@@ -68,9 +72,10 @@
      ;; (color-theme-solarized-dark)
      ;; (load-theme 'wombat t)
      ;; (load-theme 'tangotango t)
-     (load-theme 'cyberpunk t)
+     ; (load-theme 'cyberpunk t)
      ;; (load-theme 'zenburn t)
      ;; (load-theme 'molokai t)
+     (load-theme 'material t)
      ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
 ))
 

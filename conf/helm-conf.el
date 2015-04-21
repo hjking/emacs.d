@@ -35,8 +35,17 @@
                                             ; useful in helm-mini that lists buffers
           helm-recentf-fuzzy-match t
           helm-M-x-fuzzy-match t            ; optional fuzzy matching for helm-M-x
+          helm-display-header-line nil      ; disable the header line
+          helm-autoresize-max-height 30
+          helm-autoresize-min-height 30
+
+          helm-mini-default-sources '(helm-source-buffers-list
+                                      helm-source-recentf
+                                      helm-source-bookmarks
+                                      helm-source-buffer-not-found)
     )
-    ; (helm-autoresize-mode 1)
+    ; (set-face-attribute 'helm-source-header nil :height 0.1)
+    ; (helm-autoresize-mode 1)    ; auto resizing window
     (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
     (helm-mode))
   :config
