@@ -8,13 +8,13 @@
 ;;;;;;  org-babel-sha1-hash org-babel-execute-subtree org-babel-execute-buffer
 ;;;;;;  org-babel-map-executables org-babel-map-call-lines org-babel-map-inline-src-blocks
 ;;;;;;  org-babel-map-src-blocks org-babel-open-src-block-result
-;;;;;;  org-babel-switch-to-session-with-code org-babel-switch-to-session
-;;;;;;  org-babel-initiate-session org-babel-load-in-session org-babel-insert-header-arg
-;;;;;;  org-babel-check-src-block org-babel-expand-src-block org-babel-execute-src-block
-;;;;;;  org-babel-pop-to-session-maybe org-babel-load-in-session-maybe
-;;;;;;  org-babel-expand-src-block-maybe org-babel-view-src-block-info
-;;;;;;  org-babel-execute-maybe org-babel-execute-safely-maybe) "ob-core"
-;;;;;;  "ob-core.el" "81e011c3c1419cbf51b1656694bf42f8")
+;;;;;;  org-babel-do-in-edit-buffer org-babel-switch-to-session-with-code
+;;;;;;  org-babel-switch-to-session org-babel-initiate-session org-babel-load-in-session
+;;;;;;  org-babel-insert-header-arg org-babel-check-src-block org-babel-expand-src-block
+;;;;;;  org-babel-execute-src-block org-babel-pop-to-session-maybe
+;;;;;;  org-babel-load-in-session-maybe org-babel-expand-src-block-maybe
+;;;;;;  org-babel-view-src-block-info org-babel-execute-maybe org-babel-execute-safely-maybe)
+;;;;;;  "ob-core" "ob-core.el" "27b1718c5a3754547f6de3163c7729c5")
 ;;; Generated autoloads from ob-core.el
 
 (autoload 'org-babel-execute-safely-maybe "ob-core" "\
@@ -88,7 +88,7 @@ Check for misspelled header arguments in the current code block.
 (autoload 'org-babel-insert-header-arg "ob-core" "\
 Insert a header argument selecting from lists of common args and values.
 
-\(fn)" t nil)
+\(fn &optional HEADER-ARG VALUE)" t nil)
 
 (autoload 'org-babel-load-in-session "ob-core" "\
 Load the body of the current source-code block.
@@ -118,6 +118,12 @@ with a prefix argument then this is passed on to
 Switch to code buffer and display session.
 
 \(fn &optional ARG INFO)" t nil)
+
+(autoload 'org-babel-do-in-edit-buffer "ob-core" "\
+Evaluate BODY in edit buffer if there is a code block at point.
+Return t if a code block was found at point, nil otherwise.
+
+\(fn &rest BODY)" nil (quote macro))
 
 (autoload 'org-babel-open-src-block-result "ob-core" "\
 If `point' is on a src block then open the results of the
@@ -229,7 +235,7 @@ Mark current src block.
 ;;;***
 
 ;;;### (autoloads (org-babel-describe-bindings) "ob-keys" "ob-keys.el"
-;;;;;;  "25a1e7a65f088c34d9576789abaaebc6")
+;;;;;;  "1fce4dfc8c9bc9770247390ec93adcef")
 ;;; Generated autoloads from ob-keys.el
 
 (autoload 'org-babel-describe-bindings "ob-keys" "\
@@ -240,7 +246,7 @@ Describe all keybindings behind `org-babel-key-prefix'.
 ;;;***
 
 ;;;### (autoloads (org-babel-lob-get-info org-babel-lob-execute-maybe)
-;;;;;;  "ob-lob" "ob-lob.el" "6452edf7fff14c5ebb5c1cece08ba833")
+;;;;;;  "ob-lob" "ob-lob.el" "dc5eea39f8ebcd4f8965f663f02abfa9")
 ;;; Generated autoloads from ob-lob.el
 
 (autoload 'org-babel-lob-execute-maybe "ob-lob" "\
@@ -258,7 +264,7 @@ Return a Library of Babel function call as a string.
 ;;;***
 
 ;;;### (autoloads (org-babel-tangle org-babel-tangle-file) "ob-tangle"
-;;;;;;  "ob-tangle.el" "1fc39a5a416a66ab63a506ccc0a122ff")
+;;;;;;  "ob-tangle.el" "c9a4c888ee47a00c4b16e7c06a9da2fb")
 ;;; Generated autoloads from ob-tangle.el
 
 (autoload 'org-babel-tangle-file "ob-tangle" "\
@@ -292,7 +298,7 @@ used to limit the exported source code blocks by language.
 ;;;;;;  org-search-view org-agenda-list org-batch-store-agenda-views
 ;;;;;;  org-store-agenda-views org-batch-agenda-csv org-batch-agenda
 ;;;;;;  org-agenda org-toggle-sticky-agenda) "org-agenda" "org-agenda.el"
-;;;;;;  (21562 65218))
+;;;;;;  (21953 39595))
 ;;; Generated autoloads from org-agenda.el
 
 (autoload 'org-toggle-sticky-agenda "org-agenda" "\
@@ -568,7 +574,7 @@ to override `appt-message-warning-time'.
 ;;;### (autoloads (org-archive-subtree-default-with-confirmation
 ;;;;;;  org-archive-subtree-default org-toggle-archive-tag org-archive-to-archive-sibling
 ;;;;;;  org-archive-subtree org-add-archive-files) "org-archive"
-;;;;;;  "org-archive.el" "9a54b246691497eb10c911c2c12f9742")
+;;;;;;  "org-archive.el" "dd008794802cf282283f2eaea0be6472")
 ;;; Generated autoloads from org-archive.el
 
 (autoload 'org-add-archive-files "org-archive" "\
@@ -584,9 +590,11 @@ The archive can be a certain top-level heading in the current file, or in
 a different file.  The tree will be moved to that location, the subtree
 heading be marked DONE, and the current time will be added.
 
-When called with prefix argument FIND-DONE, find whole trees without any
+When called with a single prefix argument FIND-DONE, find whole trees without any
 open TODO items and archive them (after getting confirmation from the user).
-If the cursor is not at a headline when this command is called, try all level
+When called with a double prefix argument, find whole trees with timestamps before
+today and archive them (after getting confirmation from the user).
+If the cursor is not at a headline when these commands are called, try all level
 1 trees.  If the cursor is on a headline, only try the direct children of
 this heading.
 
@@ -621,7 +629,7 @@ This command is set with the variable `org-archive-default-command'.
 
 ;;;***
 
-;;;### (autoloads (org-attach) "org-attach" "org-attach.el" "5ca6eaa6ba7fa7c7eddc8d339f2a2170")
+;;;### (autoloads (org-attach) "org-attach" "org-attach.el" "87e6c32edc4111854e92b00480f6c067")
 ;;; Generated autoloads from org-attach.el
 
 (autoload 'org-attach "org-attach" "\
@@ -633,7 +641,7 @@ Shows a list of commands and prompts for another key to execute a command.
 ;;;***
 
 ;;;### (autoloads (org-bbdb-anniversaries) "org-bbdb" "org-bbdb.el"
-;;;;;;  "5fed335fd36cec704d37da4b5f5d54a7")
+;;;;;;  "9c763cddfbb993fadd3201dfb83142cc")
 ;;; Generated autoloads from org-bbdb.el
 
 (autoload 'org-bbdb-anniversaries "org-bbdb" "\
@@ -644,8 +652,8 @@ Extract anniversaries from BBDB for display in the agenda.
 ;;;***
 
 ;;;### (autoloads (org-capture-import-remember-templates org-capture
-;;;;;;  org-capture-string) "org-capture" "org-capture.el" (21562
-;;;;;;  3391))
+;;;;;;  org-capture-string) "org-capture" "org-capture.el" (21953
+;;;;;;  39595))
 ;;; Generated autoloads from org-capture.el
 
 (autoload 'org-capture-string "org-capture" "\
@@ -692,7 +700,7 @@ Set `org-capture-templates' to be similar to `org-remember-templates'.
 ;;;;;;  org-clock-remove-overlays org-clock-display org-clock-sum
 ;;;;;;  org-clock-goto org-clock-cancel org-clock-out org-clock-in-last
 ;;;;;;  org-clock-in org-resolve-clocks) "org-clock" "org-clock.el"
-;;;;;;  "32564b628bbb84d0342715e3d7097a29")
+;;;;;;  "31fb247d73be8ef0f10b058807e0f204")
 ;;; Generated autoloads from org-clock.el
 
 (autoload 'org-resolve-clocks "org-clock" "\
@@ -756,16 +764,19 @@ each headline in the time range with point at the headline.  Headlines for
 which HEADLINE-FILTER returns nil are excluded from the clock summation.
 PROPNAME lets you set a custom text property instead of :org-clock-minutes.
 
-\(fn &optional TSTART TEND HEADLINE-FILTER PROPNAME)" t nil)
+\(fn &optional TSTART TEND HEADLINE-FILTER PROPNAME)" nil nil)
 
 (autoload 'org-clock-display "org-clock" "\
 Show subtree times in the entire buffer.
-If TOTAL-ONLY is non-nil, only show the total time for the entire file
-in the echo area.
+
+With one universal prefix argument, show the total time for
+today.  With two universal prefix arguments, show the total time
+for a custom range, entered at the prompt.  With three universal
+prefix arguments, show the total time in the echo area.
 
 Use \\[org-clock-remove-overlays] to remove the subtree times.
 
-\(fn &optional TOTAL-ONLY)" t nil)
+\(fn &optional ARG)" t nil)
 
 (autoload 'org-clock-remove-overlays "org-clock" "\
 Remove the occur highlights from the buffer.
@@ -821,7 +832,7 @@ Otherwise, return nil.
 ;;;### (autoloads (org-agenda-columns org-insert-columns-dblock org-dblock-write:columnview
 ;;;;;;  org-columns-number-to-string org-columns-compute org-columns
 ;;;;;;  org-columns-get-format-and-top-level org-columns-remove-overlays)
-;;;;;;  "org-colview" "org-colview.el" (21562 3391))
+;;;;;;  "org-colview" "org-colview.el" (21953 39608))
 ;;; Generated autoloads from org-colview.el
 
 (autoload 'org-columns-remove-overlays "org-colview" "\
@@ -885,7 +896,7 @@ Turn on or update column view in the agenda.
 ;;;***
 
 ;;;### (autoloads (org-check-version) "org-compat" "org-compat.el"
-;;;;;;  (21562 3391))
+;;;;;;  (21953 39595))
 ;;; Generated autoloads from org-compat.el
 
 (autoload 'org-check-version "org-compat" "\
@@ -909,22 +920,34 @@ tree can be found.
 
 ;;;***
 
-;;;### (autoloads (org-element-context org-element-at-point org-element-interpret-data)
-;;;;;;  "org-element" "org-element.el" "40b84110bb3b104027a4d7ca4fda8d30")
+;;;### (autoloads (org-element-context org-element-at-point org-element-cache-refresh
+;;;;;;  org-element-cache-reset org-element-interpret-data org-element-update-syntax)
+;;;;;;  "org-element" "org-element.el" "fb24e830f6df86a96975959e67d14086")
 ;;; Generated autoloads from org-element.el
+
+(autoload 'org-element-update-syntax "org-element" "\
+Update parser internals.
+
+\(fn)" t nil)
 
 (autoload 'org-element-interpret-data "org-element" "\
 Interpret DATA as Org syntax.
-
 DATA is a parse tree, an element, an object or a secondary string
-to interpret.
+to interpret.  Return Org syntax as a string.
 
-Optional argument PARENT is used for recursive calls.  It contains
-the element or object containing data, or nil.
+\(fn DATA)" nil nil)
 
-Return Org syntax as a string.
+(autoload 'org-element-cache-reset "org-element" "\
+Reset cache in current buffer.
+When optional argument ALL is non-nil, reset cache in all Org
+buffers.
 
-\(fn DATA &optional PARENT)" nil nil)
+\(fn &optional ALL)" t nil)
+
+(autoload 'org-element-cache-refresh "org-element" "\
+Refresh cache at position POS.
+
+\(fn POS)" nil nil)
 
 (autoload 'org-element-at-point "org-element" "\
 Determine closest element around point.
@@ -937,22 +960,19 @@ Possible types are defined in `org-element-all-elements'.
 Properties depend on element or object type, but always include
 `:begin', `:end', `:parent' and `:post-blank' properties.
 
-As a special case, if point is at the very beginning of a list or
-sub-list, returned element will be that list instead of the first
-item.  In the same way, if point is at the beginning of the first
-row of a table, returned element will be the table instead of the
-first row.
+As a special case, if point is at the very beginning of the first
+item in a list or sub-list, returned element will be that list
+instead of the item.  Likewise, if point is at the beginning of
+the first row of a table, returned element will be the table
+instead of the first row.
 
-If optional argument KEEP-TRAIL is non-nil, the function returns
-a list of elements leading to element at point.  The list's CAR
-is always the element at point.  The following positions contain
-element's siblings, then parents, siblings of parents, until the
-first element of current section.
+When point is at the end of the buffer, return the innermost
+element ending there.
 
-\(fn &optional KEEP-TRAIL)" nil nil)
+\(fn)" nil nil)
 
 (autoload 'org-element-context "org-element" "\
-Return closest element or object around point.
+Return smallest element or object around point.
 
 Return value is a list like (TYPE PROPS) where TYPE is the type
 of the element or object and PROPS a plist of properties
@@ -963,6 +983,9 @@ Possible types are defined in `org-element-all-elements' and
 object type, but always include `:begin', `:end', `:parent' and
 `:post-blank'.
 
+As a special case, if point is right after an object and not at
+the beginning of any other object, return that object.
+
 Optional argument ELEMENT, when non-nil, is the closest element
 containing point, as returned by `org-element-at-point'.
 Providing it allows for quicker computation.
@@ -972,7 +995,7 @@ Providing it allows for quicker computation.
 ;;;***
 
 ;;;### (autoloads (org-feed-show-raw-feed org-feed-goto-inbox org-feed-update
-;;;;;;  org-feed-update-all) "org-feed" "org-feed.el" "d29a33e181e81cddc70543c0ba8fdbe4")
+;;;;;;  org-feed-update-all) "org-feed" "org-feed.el" "7276e68d6993fe39cd340cbd5af3faed")
 ;;; Generated autoloads from org-feed.el
 
 (autoload 'org-feed-update-all "org-feed" "\
@@ -1000,7 +1023,7 @@ Show the raw feed buffer of a feed.
 ;;;***
 
 ;;;### (autoloads (org-footnote-normalize org-footnote-action) "org-footnote"
-;;;;;;  "org-footnote.el" "9906c2a4ea425a7c96d7c1371b2e35f9")
+;;;;;;  "org-footnote.el" "8993166fd3c05349a3031b75152b4ae4")
 ;;; Generated autoloads from org-footnote.el
 
 (autoload 'org-footnote-action "org-footnote" "\
@@ -1012,9 +1035,10 @@ When at a definition, jump to the references if they exist, offer
 to create them otherwise.
 
 When neither at definition or reference, create a new footnote,
-interactively.
+interactively if possible.
 
-With prefix arg SPECIAL, offer additional commands in a menu.
+With prefix arg SPECIAL, or when no footnote can be created,
+offer additional commands in a menu.
 
 \(fn &optional SPECIAL)" t nil)
 
@@ -1156,7 +1180,7 @@ Dispatch to the appropriate function to store a link to an IRC session.
 ;;;***
 
 ;;;### (autoloads (org-load-noerror-mustsuffix) "org-macs" "org-macs.el"
-;;;;;;  (21562 3391))
+;;;;;;  (21953 39595))
 ;;; Generated autoloads from org-macs.el
 
 (autoload 'org-load-noerror-mustsuffix "org-macs" "\
@@ -1167,7 +1191,7 @@ Load FILE with optional arguments NOERROR and MUSTSUFFIX.  Drop the MUSTSUFFIX a
 ;;;***
 
 ;;;### (autoloads (org-mobile-pull org-mobile-push) "org-mobile"
-;;;;;;  "org-mobile.el" "c2e770357d2065c4eba6fc96b5c17573")
+;;;;;;  "org-mobile.el" "74e62a65b33ac841139cfd3f5e0b2607")
 ;;; Generated autoloads from org-mobile.el
 
 (autoload 'org-mobile-push "org-mobile" "\
@@ -1186,7 +1210,7 @@ agenda view showing the flagged items.
 
 ;;;***
 
-;;;### (autoloads (org-plot/gnuplot) "org-plot" "org-plot.el" "62748a5b07b07d7afa43d16955d0b294")
+;;;### (autoloads (org-plot/gnuplot) "org-plot" "org-plot.el" "d127faa9ca32ef2814c5542901d23e1b")
 ;;; Generated autoloads from org-plot.el
 
 (autoload 'org-plot/gnuplot "org-plot" "\
@@ -1198,13 +1222,13 @@ line directly before or after the table.
 
 ;;;***
 
-;;;### (autoloads (orgtbl-to-orgtbl orgtbl-to-texinfo orgtbl-to-html
-;;;;;;  orgtbl-to-latex orgtbl-to-csv orgtbl-to-tsv orgtbl-to-generic
-;;;;;;  org-table-to-lisp orgtbl-mode org-table-toggle-formula-debugger
+;;;### (autoloads (orgtbl-ascii-plot orgtbl-to-orgtbl orgtbl-to-texinfo
+;;;;;;  orgtbl-to-html orgtbl-to-latex orgtbl-to-csv orgtbl-to-tsv
+;;;;;;  orgtbl-to-generic org-table-to-lisp orgtbl-mode org-table-toggle-formula-debugger
 ;;;;;;  org-table-toggle-coordinate-overlays org-table-edit-formulas
 ;;;;;;  org-table-iterate-buffer-tables org-table-recalculate-buffer-tables
-;;;;;;  org-table-iterate org-table-recalculate org-table-set-constants
-;;;;;;  org-table-eval-formula org-table-maybe-recalculate-line org-table-rotate-recalc-marks
+;;;;;;  org-table-iterate org-table-recalculate org-table-eval-formula
+;;;;;;  org-table-maybe-recalculate-line org-table-analyze org-table-rotate-recalc-marks
 ;;;;;;  org-table-maybe-eval-formula org-table-get-stored-formulas
 ;;;;;;  org-table-sum org-table-edit-field org-table-wrap-region
 ;;;;;;  org-table-convert org-table-paste-rectangle org-table-copy-region
@@ -1219,7 +1243,7 @@ line directly before or after the table.
 ;;;;;;  org-table-begin org-table-align org-table-export org-table-import
 ;;;;;;  org-table-convert-region org-table-create org-table-create-or-convert-from-region
 ;;;;;;  org-table-create-with-table\.el) "org-table" "org-table.el"
-;;;;;;  "9b6e8818ec6951cc97eba4e5d0822cef")
+;;;;;;  "3c552212688594ce7023f85d4896c1ce")
 ;;; Generated autoloads from org-table.el
 
 (autoload 'org-table-create-with-table\.el "org-table" "\
@@ -1255,7 +1279,9 @@ following values:
 
 '(4)     Use the comma as a field separator
 '(16)    Use a TAB as field separator
+'(64)    Prompt for a regular expression as field separator
 integer  When a number, use that many spaces as field separator
+regexp   When a regular expression, use it to match the separator
 nil      When nil, the command tries to be smart and figure out the
          separator in the following way:
          - when each line contains a TAB, assume TAB-separated material
@@ -1296,13 +1322,17 @@ Align the table at point by aligning all vertical bars.
 
 (autoload 'org-table-begin "org-table" "\
 Find the beginning of the table and return its position.
-With argument TABLE-TYPE, go to the beginning of a table.el-type table.
+With a non-nil optional argument TABLE-TYPE, return the beginning
+of a table.el-type table.  This function assumes point is on
+a table.
 
 \(fn &optional TABLE-TYPE)" nil nil)
 
 (autoload 'org-table-end "org-table" "\
 Find the end of the table and return its position.
-With argument TABLE-TYPE, go to the end of a table.el-type table.
+With a non-nil optional argument TABLE-TYPE, return the end of
+a table.el-type table.  This function assumes point is on
+a table.
 
 \(fn &optional TABLE-TYPE)" nil nil)
 
@@ -1331,16 +1361,22 @@ Before doing so, re-align the table if necessary.
 \(fn)" t nil)
 
 (autoload 'org-table-copy-down "org-table" "\
-Copy a field down in the current column.
-If the field at the cursor is empty, copy into it the content of
-the nearest non-empty field above.  With argument N, use the Nth
-non-empty field.  If the current field is not empty, it is copied
-down to the next row, and the cursor is moved with it.
-Therefore, repeating this command causes the column to be filled
-row-by-row.
+Copy the value of the current field one row below.
+
+If the field at the cursor is empty, copy the content of the
+nearest non-empty field above.  With argument N, use the Nth
+non-empty field.
+
+If the current field is not empty, it is copied down to the next
+row, and the cursor is moved with it.  Therefore, repeating this
+command causes the column to be filled row-by-row.
+
 If the variable `org-table-copy-increment' is non-nil and the
 field is an integer or a timestamp, it will be incremented while
-copying.  In the case of a timestamp, increment by one day.
+copying.  By default, increment by the difference between the
+value in the current field and the one in the field above.  To
+increment using a fixed integer, set `org-table-copy-increment'
+to a number.  In the case of a timestamp, increment by days.
 
 \(fn N)" t nil)
 
@@ -1444,16 +1480,24 @@ should be in the last line to be included into the sorting.
 
 The command then prompts for the sorting type which can be
 alphabetically, numerically, or by time (as given in a time stamp
-in the field).  Sorting in reverse order is also possible.
+in the field, or as a HH:MM value).  Sorting in reverse order is
+also possible.
 
 With prefix argument WITH-CASE, alphabetic sorting will be case-sensitive.
 
 If SORTING-TYPE is specified when this function is called from a Lisp
 program, no prompting will take place.  SORTING-TYPE must be a character,
-any of (?a ?A ?n ?N ?t ?T) where the capital letter indicate that sorting
-should be done in reverse order.
+any of (?a ?A ?n ?N ?t ?T ?f ?F) where the capital letters indicate that
+sorting should be done in reverse order.
 
-\(fn WITH-CASE &optional SORTING-TYPE)" t nil)
+If the SORTING-TYPE is ?f or ?F, then GETKEY-FUNC specifies
+a function to be called to extract the key.  It must return either
+a string or a number that should serve as the sorting key for that
+row.  It will then use COMPARE-FUNC to compare entries.  If GETKEY-FUNC
+is specified interactively, the comparison will be either a string or
+numeric compare based on the type of the first key in the table.
+
+\(fn WITH-CASE &optional SORTING-TYPE GETKEY-FUNC COMPARE-FUNC)" t nil)
 
 (autoload 'org-table-cut-region "org-table" "\
 Copy region in table to the clipboard and blank all relevant fields.
@@ -1497,7 +1541,7 @@ lines, in order to keep the table compact.
 If there is an active region, and both point and mark are in the same column,
 the text in the column is wrapped to minimum width for the given number of
 lines.  Generally, this makes the table more compact.  A prefix ARG may be
-used to change the number of desired lines.  For example, `C-2 \\[org-table-wrap]'
+used to change the number of desired lines.  For example, `C-2 \\[org-table-wrap-region]'
 formats the selected text to two lines.  If the region was longer than two
 lines, the remaining lines remain empty.  A negative prefix argument reduces
 the current number of lines by that amount.  The wrapped text is pasted back
@@ -1562,6 +1606,23 @@ of the new mark.
 
 \(fn &optional NEWCHAR)" t nil)
 
+(autoload 'org-table-analyze "org-table" "\
+Analyze table at point and store results.
+
+This function sets up the following dynamically scoped variables:
+
+ `org-table-column-name-regexp',
+ `org-table-column-names',
+ `org-table-current-begin-pos',
+ `org-table-current-line-types',
+ `org-table-current-ncol',
+ `org-table-dlines',
+ `org-table-hlines',
+ `org-table-local-parameters',
+ `org-table-named-field-locations'.
+
+\(fn)" nil nil)
+
 (autoload 'org-table-maybe-recalculate-line "org-table" "\
 Recompute the current line if marked for it, and if we haven't just done it.
 
@@ -1605,11 +1666,6 @@ it is already stored, or because it is a modified equation that should
 not overwrite the stored one.
 
 \(fn &optional ARG EQUATION SUPPRESS-ALIGN SUPPRESS-CONST SUPPRESS-STORE SUPPRESS-ANALYSIS)" t nil)
-
-(autoload 'org-table-set-constants "org-table" "\
-Set `org-table-formula-constants-local' in the current buffer.
-
-\(fn)" nil nil)
 
 (autoload 'org-table-recalculate "org-table" "\
 Recalculate the current table line by applying all stored formulas.
@@ -1659,6 +1715,9 @@ The `org-mode' table editor as a minor mode for use in other modes.
 
 \(fn &optional ARG)" t nil)
 
+(defvar orgtbl-exp-regexp "^\\([-+]?[0-9][0-9.]*\\)[eE]\\([-+]?[0-9]+\\)$" "\
+Regular expression matching exponentials as produced by calc.")
+
 (autoload 'org-table-to-lisp "org-table" "\
 Convert the table at point to a Lisp structure.
 The structure will be a list.  Each item is either the symbol `hline'
@@ -1669,68 +1728,105 @@ The table is taken from the parameter TXT, or from the buffer at point.
 
 (autoload 'orgtbl-to-generic "org-table" "\
 Convert the orgtbl-mode TABLE to some other format.
-This generic routine can be used for many standard cases.
-TABLE is a list, each entry either the symbol `hline' for a horizontal
-separator line, or a list of fields for that line.
-PARAMS is a property list of parameters that can influence the conversion.
-A third optional argument BACKEND can be used to convert the content of
-the cells using a specific export back-end.
 
-For the generic converter, some parameters are obligatory: you need to
-specify either :lfmt, or all of (:lstart :lend :sep).
+This generic routine can be used for many standard cases.
+
+TABLE is a list, each entry either the symbol `hline' for
+a horizontal separator line, or a list of fields for that
+line.  PARAMS is a property list of parameters that can
+influence the conversion.
 
 Valid parameters are:
 
-:splice     When set to t, return only table body lines, don't wrap
-            them into :tstart and :tend.  Default is nil.  When :splice
-            is non-nil, this also means that the exporter should not look
-            for and interpret header and footer sections.
+:backend, :raw
 
-:hline      String to be inserted on horizontal separation lines.
-            May be nil to ignore hlines.
+  Export back-end used as a basis to transcode elements of the
+  table, when no specific parameter applies to it.  It is also
+  used to translate cells contents.  You can prevent this by
+  setting :raw property to a non-nil value.
 
-:sep        Separator between two fields
-:remove-nil-lines Do not include lines that evaluate to nil.
+:splice
+
+  When non-nil, only convert rows, not the table itself.  This is
+  equivalent to setting to the empty string both :tstart
+  and :tend, which see.
+
+:skip
+
+  When set to an integer N, skip the first N lines of the table.
+  Horizontal separation lines do count for this parameter!
+
+:skipcols
+
+  List of columns that should be skipped.  If the table has
+  a column with calculation marks, that column is automatically
+  discarded beforehand.
+
+:hline
+
+  String to be inserted on horizontal separation lines.  May be
+  nil to ignore these lines altogether.
+
+:sep
+
+  Separator between two fields, as a string.
 
 Each in the following group may be either a string or a function
 of no arguments returning a string:
 
-:tstart     String to start the table.  Ignored when :splice is t.
-:tend       String to end the table.  Ignored when :splice is t.
-:lstart     String to start a new table line.
-:llstart    String to start the last table line, defaults to :lstart.
-:lend       String to end a table line
-:llend      String to end the last table line, defaults to :lend.
+:tstart, :tend
 
-Each in the following group may be a string, a function of one
-argument (the field or line) returning a string, or a plist
-mapping columns to either of the above:
+  Strings to start and end the table.  Ignored when :splice is t.
 
-:lfmt       Format for entire line, with enough %s to capture all fields.
-            If this is present, :lstart, :lend, and :sep are ignored.
-:llfmt      Format for the entire last line, defaults to :lfmt.
-:fmt        A format to be used to wrap the field, should contain
-            %s for the original field value.  For example, to wrap
-            everything in dollars, you could use :fmt \"$%s$\".
-            This may also be a property list with column numbers and
-            formats.  For example :fmt (2 \"$%s$\" 4 \"%s%%\")
-:hlstart :hllstart :hlend :hllend :hlsep :hlfmt :hllfmt :hfmt
-            Same as above, specific for the header lines in the table.
-            All lines before the first hline are treated as header.
-            If any of these is not present, the data line value is used.
+:lstart, :lend
+
+  Strings to start and end a new table line.
+
+:llstart, :llend
+
+  Strings to start and end the last table line.  Default,
+  respectively, to :lstart and :lend.
+
+Each in the following group may be a string or a function of one
+argument (either the cells in the current row, as a list of
+strings, or the current cell) returning a string:
+
+:lfmt
+
+  Format string for an entire row, with enough %s to capture all
+  fields.  When non-nil, :lstart, :lend, and :sep are ignored.
+
+:llfmt
+
+  Format for the entire last line, defaults to :lfmt.
+
+:fmt
+
+  A format to be used to wrap the field, should contain %s for
+  the original field value.  For example, to wrap everything in
+  dollars, you could use :fmt \"$%s$\".  This may also be
+  a property list with column numbers and format strings, or
+  functions, e.g.,
+
+    (:fmt (2 \"$%s$\" 4 (lambda (c) (format \"$%s$\" c))))
+
+:hlstart :hllstart :hlend :hllend :hsep :hlfmt :hllfmt :hfmt
+
+ Same as above, specific for the header lines in the table.
+ All lines before the first hline are treated as header.  If
+ any of these is not present, the data line value is used.
 
 This may be either a string or a function of two arguments:
 
-:efmt       Use this format to print numbers with exponentials.
-            The format should have %s twice for inserting mantissa
-            and exponent, for example \"%s\\\\times10^{%s}\".  This
-            may also be a property list with column numbers and
-            formats.  :fmt will still be applied after :efmt.
+:efmt
 
-In addition to this, the parameters :skip and :skipcols are always handled
-directly by `orgtbl-send-table'.  See manual.
+  Use this format to print numbers with exponential.  The format
+  should have %s twice for inserting mantissa and exponent, for
+  example \"%s\\\\times10^{%s}\".  This may also be a property
+  list with column numbers and format strings or functions.
+  :fmt will still be applied after :efmt.
 
-\(fn TABLE PARAMS &optional BACKEND)" nil nil)
+\(fn TABLE PARAMS)" nil nil)
 
 (autoload 'orgtbl-to-tsv "org-table" "\
 Convert the orgtbl-mode table to TAB separated material.
@@ -1745,92 +1841,86 @@ This does take care of the proper quoting of fields with comma or quotes.
 
 (autoload 'orgtbl-to-latex "org-table" "\
 Convert the orgtbl-mode TABLE to LaTeX.
-TABLE is a list, each entry either the symbol `hline' for a horizontal
-separator line, or a list of fields for that line.
-PARAMS is a property list of parameters that can influence the conversion.
-Supports all parameters from `orgtbl-to-generic'.  Most important for
-LaTeX are:
 
-:splice    When set to t, return only table body lines, don't wrap
-           them into a tabular environment.  Default is nil.
+TABLE is a list, each entry either the symbol `hline' for
+a horizontal separator line, or a list of fields for that line.
+PARAMS is a property list of parameters that can influence the
+conversion.  All parameters from `orgtbl-to-generic' are
+supported.  It is also possible to use the following ones:
 
-:fmt       A format to be used to wrap the field, should contain %s for the
-           original field value.  For example, to wrap everything in dollars,
-           use :fmt \"$%s$\".  This may also be a property list with column
-           numbers and formats.  For example :fmt (2 \"$%s$\" 4 \"%s%%\")
-           The format may also be a function that formats its one argument.
+:booktabs
 
-:efmt      Format for transforming numbers with exponentials.  The format
-           should have %s twice for inserting mantissa and exponent, for
-           example \"%s\\\\times10^{%s}\".  LaTeX default is \"%s\\\\,(%s)\".
-           This may also be a property list with column numbers and formats.
-           The format may also be a function that formats its two arguments.
+  When non-nil, use formal \"booktabs\" style.
 
-:llend     If you find too much space below the last line of a table,
-           pass a value of \"\" for :llend to suppress the final \\\\.
+:environment
 
-The general parameters :skip and :skipcols have already been applied when
-this function is called.
+  Specify environment to use, as a string.  If you use
+  \"longtable\", you may also want to specify :language property,
+  as a string, to get proper continuation strings.
 
 \(fn TABLE PARAMS)" nil nil)
 
 (autoload 'orgtbl-to-html "org-table" "\
 Convert the orgtbl-mode TABLE to HTML.
-TABLE is a list, each entry either the symbol `hline' for a horizontal
-separator line, or a list of fields for that line.
-PARAMS is a property list of parameters that can influence the conversion.
-Currently this function recognizes the following parameters:
 
-:splice    When set to t, return only table body lines, don't wrap
-           them into a <table> environment.  Default is nil.
+TABLE is a list, each entry either the symbol `hline' for
+a horizontal separator line, or a list of fields for that line.
+PARAMS is a property list of parameters that can influence the
+conversion.  All parameters from `orgtbl-to-generic' are
+supported.  It is also possible to use the following one:
 
-The general parameters :skip and :skipcols have already been applied when
-this function is called.  The function does *not* use `orgtbl-to-generic',
-so you cannot specify parameters for it.
+:attributes
+
+  Attributes and values, as a plist, which will be used in
+  <table> tag.
 
 \(fn TABLE PARAMS)" nil nil)
 
 (autoload 'orgtbl-to-texinfo "org-table" "\
-Convert the orgtbl-mode TABLE to TeXInfo.
-TABLE is a list, each entry either the symbol `hline' for a horizontal
-separator line, or a list of fields for that line.
-PARAMS is a property list of parameters that can influence the conversion.
-Supports all parameters from `orgtbl-to-generic'.  Most important for
-TeXInfo are:
+Convert the orgtbl-mode TABLE to Texinfo.
 
-:splice nil/t      When set to t, return only table body lines, don't wrap
-                   them into a multitable environment.  Default is nil.
+TABLE is a list, each entry either the symbol `hline' for
+a horizontal separator line, or a list of fields for that line.
+PARAMS is a property list of parameters that can influence the
+conversion.  All parameters from `orgtbl-to-generic' are
+supported.  It is also possible to use the following one:
 
-:fmt fmt           A format to be used to wrap the field, should contain
-                   %s for the original field value.  For example, to wrap
-                   everything in @kbd{}, you could use :fmt \"@kbd{%s}\".
-                   This may also be a property list with column numbers and
-                   formats.  For example :fmt (2 \"@kbd{%s}\" 4 \"@code{%s}\").
-                   Each format also may be a function that formats its one
-                   argument.
+:columns
 
-:cf \"f1 f2..\"    The column fractions for the table.  By default these
-                   are computed automatically from the width of the columns
-                   under org-mode.
-
-The general parameters :skip and :skipcols have already been applied when
-this function is called.
+  Column widths, as a string.  When providing column fractions,
+  \"@columnfractions\" command can be omitted.
 
 \(fn TABLE PARAMS)" nil nil)
 
 (autoload 'orgtbl-to-orgtbl "org-table" "\
 Convert the orgtbl-mode TABLE into another orgtbl-mode table.
+
+TABLE is a list, each entry either the symbol `hline' for
+a horizontal separator line, or a list of fields for that line.
+PARAMS is a property list of parameters that can influence the
+conversion.  All parameters from `orgtbl-to-generic' are
+supported.
+
 Useful when slicing one table into many.  The :hline, :sep,
-:lstart, and :lend provide orgtbl framing.  The default nil :tstart
-and :tend suppress strings without splicing; they can be set to
-provide ORGTBL directives for the generated table.
+:lstart, and :lend provide orgtbl framing.  :tstart and :tend can
+be set to provide ORGTBL directives for the generated table.
 
 \(fn TABLE PARAMS)" nil nil)
+
+(autoload 'orgtbl-ascii-plot "org-table" "\
+Draw an ascii bar plot in a column.
+With cursor in a column containing numerical values, this
+function will draw a plot in a new column.
+ASK, if given, is a numeric prefix to override the default 12
+characters width of the plot.  ASK may also be the
+\\[universal-argument] prefix, which will prompt for the width.
+
+\(fn &optional ASK)" t nil)
 
 ;;;***
 
 ;;;### (autoloads (org-timer-set-timer org-timer-item org-timer-change-times-in-region
-;;;;;;  org-timer org-timer-start) "org-timer" "org-timer.el" "54b0453041fa05a477a9da6054ed8b31")
+;;;;;;  org-timer org-timer-start) "org-timer" "org-timer.el" "9d49e9d50eb1f36a4ab176711617bb7c")
 ;;; Generated autoloads from org-timer.el
 
 (autoload 'org-timer-start "org-timer" "\
@@ -1870,14 +1960,14 @@ Insert a description-type item with the current timer value.
 \(fn &optional ARG)" t nil)
 
 (autoload 'org-timer-set-timer "org-timer" "\
-Prompt for a duration and set a timer.
+Prompt for a duration in minutes or hh:mm:ss and set a timer.
 
-If `org-timer-default-timer' is not zero, suggest this value as
+If `org-timer-default-timer' is not \"0\", suggest this value as
 the default duration for the timer.  If a timer is already set,
 prompt the user if she wants to replace it.
 
 Called with a numeric prefix argument, use this numeric value as
-the duration of the timer.
+the duration of the timer in minutes.
 
 Called with a `C-u' prefix arguments, use `org-timer-default-timer'
 without prompting the user for a duration.
@@ -1886,12 +1976,16 @@ With two `C-u' prefix arguments, use `org-timer-default-timer'
 without prompting the user for a duration and automatically
 replace any running timer.
 
+By default, the timer duration will be set to the number of
+minutes in the Effort property, if any.  You can ignore this by
+using three `C-u' prefix arguments.
+
 \(fn &optional OPT)" t nil)
 
 ;;;***
 
 ;;;### (autoloads (org-git-version org-release) "org-version" "org-version.el"
-;;;;;;  (21562 65320))
+;;;;;;  (21953 62521))
 ;;; Generated autoloads from org-version.el
 
 (autoload 'org-release "org-version" "\
@@ -1917,7 +2011,7 @@ The location of ODT styles.")
 ;;;;;;  org-run-like-in-org-mode turn-on-orgstruct++ turn-on-orgstruct
 ;;;;;;  orgstruct-mode org-global-cycle org-cycle org-mode org-clock-persistence-insinuate
 ;;;;;;  turn-on-orgtbl org-version org-babel-load-file org-babel-do-load-languages)
-;;;;;;  "org" "org.el" (21562 3391))
+;;;;;;  "org" "org.el" (21953 39608))
 ;;; Generated autoloads from org.el
 
 (autoload 'org-babel-do-load-languages "org" "\
@@ -1935,10 +2029,11 @@ file to byte-code before it is loaded.
 \(fn FILE &optional COMPILE)" t nil)
 
 (autoload 'org-version "org" "\
-Show the org-mode version in the echo area.
-With prefix argument HERE, insert it at point.
-When FULL is non-nil, use a verbose version string.
-When MESSAGE is non-nil, display a message with the version.
+Show the org-mode version.
+Interactively, or when MESSAGE is non-nil, show it in echo area.
+With prefix argument, or when HERE is non-nil, insert it at point.
+In non-interactive uses, a reduced version string is output unless
+FULL is given.
 
 \(fn &optional HERE FULL MESSAGE)" t nil)
 
@@ -2061,16 +2156,16 @@ call CMD.
 (autoload 'org-store-link "org" "\
 \\<org-mode-map>Store an org-link to the current location.
 This link is added to `org-stored-links' and can later be inserted
-into an org-buffer with \\[org-insert-link].
+into an Org buffer with \\[org-insert-link].
 
-For some link types, a prefix arg is interpreted.
-For links to Usenet articles, arg negates `org-gnus-prefer-web-links'.
-For file links, arg negates `org-context-in-file-links'.
+For some link types, a prefix ARG is interpreted.
+For links to Usenet articles, ARG negates `org-gnus-prefer-web-links'.
+For file links, ARG negates `org-context-in-file-links'.
 
-A double prefix arg force skipping storing functions that are not
+A double prefix ARG force skipping storing functions that are not
 part of Org's core.
 
-A triple prefix arg force storing a link for each line in the
+A triple prefix ARG force storing a link for each line in the
 active region.
 
 \(fn ARG)" t nil)
@@ -2140,7 +2235,7 @@ Call the customize function with org as argument.
 
 ;;;### (autoloads (org-ascii-publish-to-utf8 org-ascii-publish-to-latin1
 ;;;;;;  org-ascii-publish-to-ascii org-ascii-export-to-ascii org-ascii-export-as-ascii)
-;;;;;;  "ox-ascii" "ox-ascii.el" "8bba507846964285c7ecb40e66b6afe3")
+;;;;;;  "ox-ascii" "ox-ascii.el" "7009055e46700dbb68151c69c95e7e90")
 ;;; Generated autoloads from ox-ascii.el
 
 (autoload 'org-ascii-export-as-ascii "ox-ascii" "\
@@ -2241,9 +2336,9 @@ Return output file name.
 ;;;***
 
 ;;;### (autoloads (org-beamer-publish-to-pdf org-beamer-publish-to-latex
-;;;;;;  org-beamer-insert-options-template org-beamer-select-environment
-;;;;;;  org-beamer-export-to-pdf org-beamer-export-to-latex org-beamer-export-as-latex
-;;;;;;  org-beamer-mode) "ox-beamer" "ox-beamer.el" "6e708817388023e1e1df3de8f27188ce")
+;;;;;;  org-beamer-select-environment org-beamer-export-to-pdf org-beamer-export-to-latex
+;;;;;;  org-beamer-export-as-latex org-beamer-mode) "ox-beamer" "ox-beamer.el"
+;;;;;;  "fcf86747012a3c93318a8c76d7e6dae8")
 ;;; Generated autoloads from ox-beamer.el
 
 (autoload 'org-beamer-mode "ox-beamer" "\
@@ -2354,11 +2449,6 @@ aid, but the tag does not have any semantic meaning.
 
 \(fn)" t nil)
 
-(autoload 'org-beamer-insert-options-template "ox-beamer" "\
-Insert a settings template, to make sure users do this right.
-
-\(fn &optional KIND)" t nil)
-
 (autoload 'org-beamer-publish-to-latex "ox-beamer" "\
 Publish an Org file to a Beamer presentation (LaTeX).
 
@@ -2385,7 +2475,7 @@ Return output file name.
 
 ;;;### (autoloads (org-html-publish-to-html org-html-export-to-html
 ;;;;;;  org-html-convert-region-to-html org-html-export-as-html org-html-htmlize-generate-css)
-;;;;;;  "ox-html" "ox-html.el" "65604b7a2a80c70979b37eb44119d6f9")
+;;;;;;  "ox-html" "ox-html.el" "5fc66ebdbfcdb365f9829aeee3ea9cdf")
 ;;; Generated autoloads from ox-html.el
 
 (put 'org-html-head-include-default-style 'safe-local-variable 'booleanp)
@@ -2493,7 +2583,7 @@ Return output file name.
 
 ;;;### (autoloads (org-icalendar-combine-agenda-files org-icalendar-export-agenda-files
 ;;;;;;  org-icalendar-export-to-ics) "ox-icalendar" "ox-icalendar.el"
-;;;;;;  "74a493ca40404cb8fd648526fd898b6f")
+;;;;;;  "19a94da1c24f86d71442d4eddeca7bf6")
 ;;; Generated autoloads from ox-icalendar.el
 
 (autoload 'org-icalendar-export-to-ics "ox-icalendar" "\
@@ -2545,7 +2635,7 @@ The file is stored under the name chosen in
 
 ;;;### (autoloads (org-latex-publish-to-pdf org-latex-publish-to-latex
 ;;;;;;  org-latex-export-to-pdf org-latex-export-to-latex org-latex-convert-region-to-latex
-;;;;;;  org-latex-export-as-latex) "ox-latex" "ox-latex.el" "6277aa86c5275b5aae6c2c2d578a04fb")
+;;;;;;  org-latex-export-as-latex) "ox-latex" "ox-latex.el" "a0a2774cca9ba998c2c96498dc9c43e7")
 ;;; Generated autoloads from ox-latex.el
 
 (autoload 'org-latex-export-as-latex "ox-latex" "\
@@ -2670,8 +2760,9 @@ Return output file name.
 
 ;;;***
 
-;;;### (autoloads (org-md-export-to-markdown org-md-convert-region-to-md
-;;;;;;  org-md-export-as-markdown) "ox-md" "ox-md.el" "02d27e093680dff82b16ebedcda8cba8")
+;;;### (autoloads (org-md-publish-to-md org-md-export-to-markdown
+;;;;;;  org-md-convert-region-to-md org-md-export-as-markdown) "ox-md"
+;;;;;;  "ox-md.el" "aed5f0514558ef19cd7d064500334fd9")
 ;;; Generated autoloads from ox-md.el
 
 (autoload 'org-md-export-as-markdown "ox-md" "\
@@ -2730,10 +2821,21 @@ Return output file's name.
 
 \(fn &optional ASYNC SUBTREEP VISIBLE-ONLY)" t nil)
 
+(autoload 'org-md-publish-to-md "ox-md" "\
+Publish an org file to Markdown.
+
+FILENAME is the filename of the Org file to be published.  PLIST
+is the property list for the given project.  PUB-DIR is the
+publishing directory.
+
+Return output file name.
+
+\(fn PLIST FILENAME PUB-DIR)" nil nil)
+
 ;;;***
 
 ;;;### (autoloads (org-odt-convert org-odt-export-to-odt org-odt-export-as-odf-and-open
-;;;;;;  org-odt-export-as-odf) "ox-odt" "ox-odt.el" "688d009902f7a23ab86bb93a843abdf5")
+;;;;;;  org-odt-export-as-odf) "ox-odt" "ox-odt.el" "dc1cbff3d250945dc07382e984ccd766")
 ;;; Generated autoloads from ox-odt.el
 
 (put 'org-odt-preferred-output-format 'safe-local-variable 'stringp)
@@ -2796,7 +2898,7 @@ using `org-open-file'.
 ;;;***
 
 ;;;### (autoloads (org-org-publish-to-org org-org-export-to-org org-org-export-as-org)
-;;;;;;  "ox-org" "ox-org.el" "952b4282cdf7bddd86e2e7660934888f")
+;;;;;;  "ox-org" "ox-org.el" "145aafa32bb230b10f3d751f58667b46")
 ;;; Generated autoloads from ox-org.el
 
 (autoload 'org-org-export-as-org "ox-org" "\
@@ -2818,6 +2920,9 @@ first.
 When optional argument VISIBLE-ONLY is non-nil, don't export
 contents of hidden elements.
 
+When optional argument BODY-ONLY is non-nil, strip document
+keywords from output.
+
 EXT-PLIST, when provided, is a property list with external
 parameters overriding Org default settings, but still inferior to
 file-local settings.
@@ -2826,7 +2931,7 @@ Export is done in a buffer named \"*Org ORG Export*\", which will
 be displayed when `org-export-show-temporary-export-buffer' is
 non-nil.
 
-\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY EXT-PLIST)" t nil)
+\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t nil)
 
 (autoload 'org-org-export-to-org "ox-org" "\
 Export current buffer to an org file.
@@ -2847,13 +2952,16 @@ first.
 When optional argument VISIBLE-ONLY is non-nil, don't export
 contents of hidden elements.
 
+When optional argument BODY-ONLY is non-nil, strip document
+keywords from output.
+
 EXT-PLIST, when provided, is a property list with external
 parameters overriding Org default settings, but still inferior to
 file-local settings.
 
 Return output file name.
 
-\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY EXT-PLIST)" t nil)
+\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t nil)
 
 (autoload 'org-org-publish-to-org "ox-org" "\
 Publish an org file to org.
@@ -2870,7 +2978,7 @@ Return output file name.
 
 ;;;### (autoloads (org-publish-current-project org-publish-current-file
 ;;;;;;  org-publish-all org-publish) "ox-publish" "ox-publish.el"
-;;;;;;  "e9f7e2ede20ea11ead21108abf19db90")
+;;;;;;  "00f9feea8a4428e599e429136e990d7b")
 ;;; Generated autoloads from ox-publish.el
 
 (defalias 'org-publish-project 'org-publish)
@@ -2914,7 +3022,7 @@ the project.
 ;;;***
 
 ;;;### (autoloads (org-texinfo-convert-region-to-texinfo org-texinfo-publish-to-texinfo)
-;;;;;;  "ox-texinfo" "ox-texinfo.el" "ae3f8dd17715c8093138512ae3c347cc")
+;;;;;;  "ox-texinfo" "ox-texinfo.el" "1648d91d4d39e779443c416e4680fc24")
 ;;; Generated autoloads from ox-texinfo.el
 
 (autoload 'org-texinfo-publish-to-texinfo "ox-texinfo" "\
@@ -2940,7 +3048,7 @@ this command to convert it.
 
 ;;;### (autoloads (org-export-dispatch org-export-to-file org-export-to-buffer
 ;;;;;;  org-export-insert-default-template org-export-replace-region-by
-;;;;;;  org-export-string-as org-export-as) "ox" "ox.el" "abbaf953c164e76b9957d5ea22f805c8")
+;;;;;;  org-export-string-as org-export-as) "ox" "ox.el" "cfe1d1e32456aaf6f81d882d87ef49fc")
 ;;; Generated autoloads from ox.el
 
 (autoload 'org-export-as "ox" "\
