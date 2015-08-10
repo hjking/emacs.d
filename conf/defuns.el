@@ -2083,3 +2083,12 @@ is a comment, uncomment."
         (comment-or-uncomment-region (point) (mark))
         )
     (hjking/comment-or-uncomment-line lines)))
+
+(defun hjking/conditional-disable-modes ()
+  "check if an open file exceeds a certain size,
+  then some heavy modes are turned off"
+  (when (> (buffer-size) 2000000)
+    (flycheck-mode -1)))
+
+(add-hook 'c-mode-hook 'hjking/conditional-disable-modes)
+(add-hook 'c++-mode-hook 'hjking/conditional-disable-modes)

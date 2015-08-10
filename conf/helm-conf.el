@@ -54,6 +54,9 @@
     (global-set-key (kbd "M-y") 'helm-show-kill-ring)
     (global-set-key (kbd "C-x b") 'helm-mini)
     (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+    ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+    ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
     (global-set-key (kbd "C-c h") 'helm-command-prefix)
     (global-unset-key (kbd "C-x c"))
     ; (global-set-key (kbd "C-c h m") 'helm-man-woman)
@@ -63,6 +66,7 @@
     (global-set-key (kbd "C-c h o") 'helm-occur)
     ; (global-set-key (kbd "C-c h r") 'helm-resume)
     ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 
     ;; I don't like the way switch-to-buffer uses history, since
     ;; that confuses me when it comes to buffers I've already
@@ -109,8 +113,10 @@
         (setq helm-swoop-use-line-number-face t)
         ))
   )
-  :bind (("C-c h" . helm-mini)
-         ("M-x" . helm-M-x))
+  :bind (
+         ; ("C-c h" . helm-mini)
+         ; ("M-x" . helm-M-x)
+        )
   )
 
 (provide 'helm-conf)

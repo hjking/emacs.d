@@ -167,6 +167,7 @@
       (make-directory my-cache-dir))
   (defmacro add-load-path (path)
       `(setq load-path (append (list, path) load-path)))
+  (defun add-to-load-path (dir) (add-to-list 'load-path dir))
   (defmacro add-site-lisp-load-path (path)
       `(add-to-list 'load-path (concat my-site-lisp-dir, path)))
   (defmacro add-site-lisp-info-path (path)
@@ -601,7 +602,7 @@
 (setq scroll-margin 3)
 ; Scroll just one line when hitting bottom of window
 (setq scroll-conservatively 10000)
-(setq scroll-preserve-screen-position 1)
+(setq scroll-preserve-screen-position t)
 ; (setq scroll-preserve-screen-position 'always
 ;       scroll-conservatively           most-positive-fixnum
 ;       scroll-step                     0)
@@ -622,8 +623,6 @@
 ;; Keep cursor away from edges when scrolling up/down
 (require 'smooth-scrolling)
 (setq smooth-scroll-margin 4)
-(setq scroll-conservatively 9999
-      scroll-preserve-screen-position t)
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
@@ -1863,6 +1862,10 @@
 (load "ace-jump-conf")
 ;; --------------------------------------------------------------------[ End ]--
 
+
+;; [ avy ]----------------------------------------------------------------------
+(load "avy-conf")
+;; --------------------------------------------------------------------[ End ]--
 
 ;; [ EMMS ]---------------------------------------------------------------------
 ;; Music player
