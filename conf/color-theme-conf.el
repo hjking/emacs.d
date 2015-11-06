@@ -72,10 +72,10 @@
      ;; (color-theme-solarized-dark)
      ;; (load-theme 'wombat t)
      ;; (load-theme 'tangotango t)
-     ; (load-theme 'cyberpunk t)
+     (load-theme 'cyberpunk t)
      ;; (load-theme 'zenburn t)
      ;; (load-theme 'molokai t)
-     (load-theme 'material t)
+     ;; (load-theme 'material t)
      ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
 ))
 

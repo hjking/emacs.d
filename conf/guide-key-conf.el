@@ -1,8 +1,14 @@
 
 (use-package guide-key
-  :diminish guide-key-mode
+  :diminish ""
   :init
   (progn
+    ;; for org mode
+    (defun guide-key/my-hook-function-for-org-mode ()
+      (guide-key/add-local-guide-key-sequence "C-c")
+      (guide-key/add-local-guide-key-sequence "C-c C-x")
+      (guide-key/add-local-highlight-command-regexp "org-"))
+    (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode)
     (setq guide-key/guide-key-sequence '("C-x r" ;; rectangle, registers
                                          "C-x 4" ;; commands that operate in other window (buffer)
                                          "C-x 5" ;; commands that operate in other frame (window)
@@ -10,7 +16,6 @@
                                          "C-c"
                                          (outline-minor-mode "C-c @")))
     (setq guide-key/recursive-key-sequence-flag t)
-    (guide-key-mode 1)  ; Enable guide-key-mode
 
     ;; highlight only rectangle family commands when press "C-x r"
     ;; (setq guide-key/highlight-command-regexp "rectangle")
@@ -20,16 +25,10 @@
     (guide-key-mode 1))
   :config
   (progn
-    ;; for org mode
-    (defun guide-key/my-hook-function-for-org-mode ()
-      (guide-key/add-local-guide-key-sequence "C-c")
-      (guide-key/add-local-guide-key-sequence "C-c C-x")
-      (guide-key/add-local-highlight-command-regexp "org-"))
-    (add-hook 'org-mode-hook 'guide-key/my-hook-function-for-org-mode))
-    )
 
-
-(require 'guide-key-tip)
-(setq guide-key-tip/enabled t)
+    (use-package guide-key-tip
+      :init
+      (setq guide-key-tip/enabled t))
+  ))
 
 (provide 'guide-key-conf)

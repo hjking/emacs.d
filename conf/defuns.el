@@ -389,9 +389,7 @@ See also `with-temp-buffer'."
       ;; restore point to original column in moved line
       (forward-line -1)
       (forward-char col)
-    )
-  )
-)
+    )))
 
 (defun move-line-down ()
 	"Swap the current line with the line below."
@@ -1368,7 +1366,7 @@ FUN-LIST can be a symbol, also can be a list whose element is a symbol."
       ))))
 
 ;;; === get column number ===
-(defun hjking/get-col ()
+(defun hjking/get-col-num ()
   "Return column number of point."
   (interactive)
   (save-excursion
@@ -1942,10 +1940,14 @@ programming."
     (when f
       (find-file f))))
 
-(defun fc/kill-to-beginning-of-line ()
+(defun hjking/delete-to-beginning-of-line ()
   "Kill from the beginning of the line to point."
   (interactive)
   (kill-region (point-at-bol) (point)))
+
+(defun hjking/delete-to-end-of-buffer ()
+  (interactive)
+  (kill-region (point) (point-max)))
 
 (defun replace-word-at-point (from to)
   "Replace word at point."

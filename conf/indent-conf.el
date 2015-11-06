@@ -25,15 +25,22 @@
 ;; make tab key do indent first then completion.
 ;; (set-default tab-always-indent 'complete)
 
+;;; indent-guide
 ;; `C-M-\' runs the command `indent-region' (which does the job of
 ;; the imaginary command `unsuck-html-layout' in `html-mode')
 
-(require 'indent-guide)
-(add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1)))
+(use-package indent-guide
+  :init
+  (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1))))
 
 ;;; aggressive-indent-mode
-(global-aggressive-indent-mode 1)
-
-;; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+(use-package aggressive-indent
+  :disabled t
+  :diminish aggressive-indent-mode
+  :init
+  ; (global-aggressive-indent-mode 1)
+  ; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+  (add-hook 'prog-mode-hook #'aggressive-indent-mode)
+  (unbind-key "C-c C-q" aggressive-indent-mode-map))
 
 (provide 'indent-conf)

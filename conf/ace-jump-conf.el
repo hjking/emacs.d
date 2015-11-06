@@ -7,8 +7,9 @@
 ;;
 
 (use-package ace-jump-mode
-  :init (add-hook 'ace-jump-mode-before-jump-hook (lambda () (message "I am jumping")))
-  :bind ("C-x SPC" . ace-jump-mode))
+  :commands ace-jump-mode
+  :init
+  (bind-key "C-x SPC" 'ace-jump-mode))
 
 ;;If you also use viper mode :
 ;; (define-key viper-vi-global-user-map (kbd "SPC") 'ace-jump-mode)

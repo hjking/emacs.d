@@ -3,48 +3,45 @@
 (setq step_no (1+ step_no))
 
 ;; auto-insert/close bracket pairs
-;; (electric-pair-mode 1)
+(electric-pair-mode 1)
 
-;; smartparens
-;;
-(require 'smartparens-config)
-(smartparens-global-mode t)
+(use-package smartparens
+  :disabled t
+  :diminish smartparens-mode
+  :config
+  (smartparens-global-mode t)
+  (show-smartparens-global-mode t)
+  (use-package smartparens-config)
 
-;; highlights matching pairs
-(show-smartparens-global-mode t)
+  ; ;;; markdown-mode
+  ; (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+  ;   (sp-local-pair "*" "*" :bind "C-*")
+  ;   (sp-local-tag "2" "**" "**")
+  ;   (sp-local-tag "s" "```scheme" "```")
+  ;   (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
 
-(setq sp-base-key-bindings 'paredit)
-(setq sp-autoskip-closing-pair 'always)
-
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-
-;;; markdown-mode
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  (sp-local-pair "*" "*" :bind "C-*")
-  (sp-local-tag "2" "**" "**")
-  (sp-local-tag "s" "```scheme" "```")
-  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
-
-;;; lisp modes
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil :bind "C-("))
+  ; ;;; lisp modes
+  ; (sp-with-modes sp--lisp-modes
+  ;   (sp-local-pair "(" nil :bind "C-("))
+)
 
 ;;
 ;; rainbow-delimiters
 ;;
 ;; highlights parens, brackets, and braces according to their depth
 (add-site-lisp-load-path "rainbow-delimiters/")
-(require 'rainbow-delimiters)
 ;; enable in all programming-related modes (Emacs 24+)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 ;; use Emacs-wide
 ;; (global-rainbow-delimiters-mode)
 
 ;; show paren
 ; (setq show-paren-style 'parentheses)
 ; (setq show-paren-style 'expression) ; highlight entire bracket expression
-; (setq show-paren-delay 0)        ; show matching paren immediately
-; (show-paren-mode 1) ; turn on paren match highlighting
+(setq show-paren-delay 0) ; show matching paren immediately
+(show-paren-mode 1) ; turn on paren match highlighting
 
 ;; Check parens
 ; turn on check-parens on a save

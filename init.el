@@ -110,7 +110,7 @@
 (defvar section-w3m nil)
 (defvar section-smex nil)
 (defvar section-slime t)
-(defvar section-cscope t)
+(defvar section-cscope nil)
 (defvar section-wl nil)
 (defvar section-color-theme t)
 (defvar section-weibo t)
@@ -287,6 +287,8 @@
 
 (setq max-lisp-eval-depth 3000)
 (setq max-specpdl-size 10000)
+;; what to do with redefinitions during Advice de/activation
+(setq ad-redefinition-action 'accept)
 
 ;; Load global settings
 (require 'global-conf)
@@ -337,18 +339,19 @@
 ;; make the help, apropos and completion windows the right height for their contents
 (temp-buffer-resize-mode 1)
 
-;; enable the use of the command `narrow-to-region' without confirmation
-(put 'narrow-to-region 'disable nil)
-
-;; enable the use of the commands `downcase-region' and `upcase-region'
-;; without confirmation
-;; Enable conversion of the selected region to upper case using `C-x C-u`
-(put 'upcase-region 'disabled nil)
+;;; Enable disabled commands
 ;; Enable conversion of the selected region to lower case using `C-x C-l`
-(put 'downcase-region 'disabled nil)
-(put 'set-goal-column 'disable nil)
+(put 'downcase-region  'disabled nil)   ; Let downcasing work
+(put 'erase-buffer     'disabled nil)
+(put 'eval-expression  'disabled nil)   ; Let ESC-ESC work
+(put 'narrow-to-page   'disabled nil)   ; Let narrowing work
+;; enable the use of the command `narrow-to-region' without confirmation
+(put 'narrow-to-region 'disabled nil)   ; Let narrowing work
+(put 'set-goal-column  'disabled nil)
+;; Enable conversion of the selected region to upper case using `C-x C-u`
+(put 'upcase-region    'disabled nil)   ; Let upcasing work
 
-;; Not open new frame when WoMan
+;; Do Not open new frame when WoMan
 (setq woman-use-own-frame nil)
 (setq woman-fill-column 90)
 
@@ -380,7 +383,10 @@
 (eval-after-load "dash" '(dash-enable-font-lock))
 
 ;; use-package
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)                ;; if you use any :bind variant
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
@@ -407,12 +413,15 @@
 (when section-bookmark
   (message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
   (setq step_no (1+ step_no))
-  (require 'bookmark)
-  ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-  (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-  ;; each command that sets a bookmark will also save your bookmarks
-  (setq bookmark-save-flag t)
-  ;; (switch-to-buffer "*Bookmark List*")
+  (use-package bookmark
+    :defer t
+    :init
+    ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+    (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+    ;; each command that sets a bookmark will also save your bookmarks
+    (setq bookmark-save-flag t)
+    ;; (switch-to-buffer "*Bookmark List*")
+  )
 )
 ;; --[ Bookmark ]------------------------------------------------------[ End ]--
 
@@ -466,7 +475,7 @@
   (unless is-after-emacs-23
       partial-completion-mode 1)
   ;; auto-complete in minibuffer when execute M-x functions and variables
-  (icomplete-mode 1)
+  ; (icomplete-mode 1)
   ;; Ignore case when using completion for file names
   (setq read-file-name-completion-ignore-case t)
   ;; type SPACE to auto-complete in minibuffer
@@ -523,7 +532,8 @@
   ; (require 'expand-region)
   ; (global-set-key (kbd "C-=") 'er/expand-region)
   (use-package expand-region
-    :bind ("C-=" . er/expand-region))
+    :bind
+    ("C-=" . er/expand-region))
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -621,8 +631,14 @@
 ;; <pager> provides a better scrolling in Emacs
 
 ;; Keep cursor away from edges when scrolling up/down
-(require 'smooth-scrolling)
-(setq smooth-scroll-margin 4)
+(use-package smooth-scrolling
+  :init
+  (setq smooth-scroll-margin 5
+        scroll-conservatively 101
+        scroll-preserve-screen-position t
+        auto-window-vscroll nil)
+  :config
+  (setq scroll-margin 5))
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
@@ -654,11 +670,12 @@
 ; (display-battery-mode 1)
 
 ;; displays the current function name in the mode line
-(require 'which-func)
-; (setq which-func-unknown "unknown")
-(setq which-func-unknown "n/a")
-(which-func-mode 1)
-(which-function-mode 1)
+(use-package which-func
+  :init
+  (progn
+    (setq which-func-unknown "n/a")
+    (which-func-mode 1)
+    (which-function-mode 1)))
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -674,23 +691,18 @@
 ;; [ Smart Mode Line ]
 (when section-sml
   (add-site-lisp-load-path "smart-mode-line/")
-  (require 'smart-mode-line)
-  (setq sml/position-percentage-format "%p")
-  (setq sml/shorten-directory t)
-  (setq sml/shorten-modes t)
-  (setq sml/name-width 25)
-  (setq sml/mode-width 'full)
-
-  (add-to-list 'sml/hidden-modes " AC")
-  (add-to-list 'sml/hidden-modes " SP")
-  (add-to-list 'sml/hidden-modes " Fill")
-  (add-to-list 'sml/hidden-modes " hs")
-  (add-to-list 'sml/hidden-modes " ing")
-  (add-to-list 'sml/hidden-modes " vl")
-  (add-to-list 'sml/hidden-modes " GG")
-  ; (sml/apply-theme 'dark)  ;; respectful/light
-  ; (sml/setup)
-  )
+  (use-package smart-mode-line
+    :init
+    (progn
+      (setq sml/position-percentage-format "%p")
+      (setq sml/shorten-directory t)
+      (setq sml/shorten-modes t)
+      (setq sml/name-width 25)
+      (setq sml/mode-width 'full)
+      ; (sml/apply-theme 'dark)  ;; respectful/light
+      ; (sml/setup)
+  ))
+)
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -848,7 +860,10 @@
 ;; use 'compare-windows function
 
 ;; run `diff' in compilation-mode
-(autoload 'diff-mode "diff-mode" "Diff major mode" t)
+; (autoload 'diff-mode "diff-mode" "Diff major mode" t)
+(use-package diff-mode
+  :commands diff-mode
+)
 
 ;; use diff-mode- to enhance diff-mode
 ;;  ;; extensions to `diff-mode.el'
@@ -862,14 +877,18 @@
 ;;  (setq ediff-auto-refine-limit (* 2 14000))
 ;;
 ;; do everything in one frame
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-custom-diff-options "-u")
-;;
-;;  ;; split the window depending on the frame width
-;;  (setq ediff-split-window-function (lambda (&optional arg)
-;;                                      (if (> (frame-width) 160)
-;;                                          (split-window-horizontally arg)
-;;                                        (split-window-vertically arg))))
+(use-package ediff
+  :defer t
+  :init
+  (progn
+    ;; first we set some sane defaults
+    (setq-default
+     ediff-window-setup-function 'ediff-setup-windows-plain
+     ;; emacs is evil and decrees that vertical shall henceforth be horizontal
+     ediff-split-window-function 'split-window-horizontally
+     ediff-custom-diff-options "-u"
+     ediff-merge-split-window-function 'split-window-horizontally)))
+
 ;; --[ Compare File ]--------------------------------------------------[ End ]--
 
 
@@ -878,23 +897,24 @@
 (setq step_no (1+ step_no))
 
 ;; meaningful names for buffers with the same name
-(require 'uniquify)
-;; if open a same name buffer, then forward to same name buffer
-(setq uniquify-buffer-name-style 'post-forward)
-(setq uniquify-separator ":")
-(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
-(setq uniquify-non-file-buffer-names t)
+(use-package uniquify
+  :init
+    ;; if open a same name buffer, then forward to same name buffer
+    (setq uniquify-buffer-name-style 'post-forward)
+    (setq uniquify-separator ":")
+    (setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+    (setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+    (setq uniquify-non-file-buffer-names t))
 
 ;; use current buffer when read man
 (setq Man-notify-method 'pushy)
 
-;; better buffer switching
-(iswitchb-mode 1)
-;; prevent certain buffers from showing up in the completion list
-(setq iswitchb-buffer-ignore '("^ " "*Buffer"))
-;; prevent switching to another frame
-(setq iswitchb-default-method 'samewindow)
+; ;; better buffer switching
+; (iswitchb-mode 1)
+; ;; prevent certain buffers from showing up in the completion list
+; (setq iswitchb-buffer-ignore '("^ " "*Buffer"))
+; ;; prevent switching to another frame
+; (setq iswitchb-default-method 'samewindow)
 ;; Quickly switch between buffer with tab-complete
 ;; See "ido"
 ;;
@@ -928,10 +948,15 @@
 ;; --[ Documentation ]----------------------------------------------------------
 ;; displays information in the minibuffer about the thing at point.
 (message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-(autoload 'turn-on-eldoc-mode "eldoc" nil t)
-(dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook lisp-interaction-mode-hook))
-  (add-hook hook 'turn-on-eldoc-mode))
+(use-package "eldoc"
+  :diminish eldoc-mode
+  :commands turn-on-eldoc-mode
+  :defer t
+  :init
+  (progn
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
 ;; --[ Documentation ]-------------------------------------------------[ End ]--
 
 
@@ -1062,7 +1087,7 @@
 (when section-dired
   (add-site-lisp-load-path "dired/")
   (add-site-lisp-load-path "dired/dired-hacks/")
-  (eval-after-load 'dired '(require 'dired-conf))
+  (require 'dired-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1097,11 +1122,14 @@
 
 ;; [ Table ]--------------------------------------------------------------------
 (when section-table
-  (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
-  ; (require 'table nil t)
-  (autoload 'table-insert "table" "WYGIWYS table editor")
-  (add-hook 'text-mode-hook 'table-recognize))
+  (use-package table
+    :commands table-insert
+    :init
+    (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
+    (setq step_no (1+ step_no))
+    (add-hook 'text-mode-hook 'table-recognize))
+
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1144,10 +1172,8 @@
   (hjking/save-all-file-buffers))
 
 ;; *** --- PCL-CVS
-(when section-cvs
-  (when (require 'pcvs nil t)
-      (load "pcvs-conf")
-))
+(load "pcvs-conf")
+
 
 ;; *** --- Subversion
 (when section-svn
@@ -1202,8 +1228,10 @@
 ;; [ volatile-highlights ]-------------------------------------------------------
 ;; highlight changes made by commands such as undo, yank-pop, etc.
 (add-site-lisp-load-path "volatile-highlights/")
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+(use-package volatile-highlights
+  :defer t
+  :config
+  (volatile-highlights-mode t))
 ;; ---------------------------------------------------------------------[ End ]--
 
 
@@ -1214,7 +1242,7 @@
 
 
 ;; [ goto change ]--------------------------------------------------------------
-(require 'goto-chg)
+(use-package goto-chg)
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
 
@@ -1284,7 +1312,7 @@
 ; (require 'find-file-conf)
 
 ;; projectile
-;; (require 'projectile-conf)
+(require 'projectile-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1301,15 +1329,8 @@
 ;; [ Folding ]------------------------------------------------------------------
 (message "%d: >>>>> Loading [ hideshow ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-(when (require 'hideshow nil t)
-  ; (dolist (hook '(c++-mode-hook
-  ;                 c-mode-hook
-  ;                 emacs-lisp-mode-hook
-  ;                 verilog-mode-hook
-  ;                 python-mode-hook
-  ;                 sh-mode-hook
-  ;                 cperl-mode-hook))
-  ; (add-hook hook 'hs-minor-mode))
+(use-package hideshow
+  :init
   (add-hook 'prog-mode '(progn
                       (hs-minor-mode 1)))
   )
@@ -1317,9 +1338,11 @@
 ;;
 ;; hideshowvis
 ;;
-(autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
-(autoload 'hideshowvis-minor-mode "hideshowvis" "Indicate regions foldable with hideshow in the fringe." 'interactive)
-(dolist (hook (list 'emacs-lisp-mode-hook
+(use-package hideshowvis
+  :commands (hideshowvis-enable hideshowvis-minor-mode)
+  :init
+  (progn
+    (dolist (hook (list 'emacs-lisp-mode-hook
                     'c++-mode-hook
                     'lisp-mode-hook
                     'ruby-mode-hook
@@ -1332,7 +1355,9 @@
                     'js-mode-hook
                     'verilog-mode-hook
                     'css-mode-hook))
-  (add-hook hook 'hideshowvis-enable))
+      (add-hook hook 'hideshowvis-enable))
+    )
+  )
 
 ;;
 ;; folding (hiding) parts of the text
@@ -1369,6 +1394,8 @@
 
 
 ;; [ tabbar ]-------------------------------------------------------------------
+(message "%d: >>>>> Loading [ tabbar ] Customization ...." step_no)
+(setq step_no (1+ step_no))
 (require 'tabbar-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1489,8 +1516,12 @@
   ;; Drag word
   ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
   (add-site-lisp-load-path "drag-stuff/")
-  (require 'drag-stuff)
-  (drag-stuff-mode t))
+  (use-package drag-stuff
+    :config
+    (progn
+      (drag-stuff-mode t)
+      (add-to-list 'drag-stuff-except-modes 'org-mode)))
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1499,7 +1530,10 @@
 (when section-mmm-mode
     (add-site-lisp-load-path "mmm-mode/")
     (add-site-lisp-info-path "mmm-mode/")
-    (require 'mmm-mode-conf))
+    (use-package mmm-mode
+      :config
+      (setq mmm-global-mode 'maybe))
+    )
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;
@@ -1832,27 +1866,20 @@
 ;; [ undo ]---------------------------------------------------------------------
 (when section-undo
     (add-site-lisp-load-path "undo-tree/")
-    (require 'undo-tree)
-    ;; replace the standard Emacs' undo system
-    (global-undo-tree-mode)
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t)
-    (defalias 'redo 'undo-tree-redo)
-    (global-set-key (kbd "M-z") 'undo)  ; ALT+Z
-    (global-set-key (kbd "M-S-z") 'redo)  ; ALT+Shift+Z
 
-    ; (use-package undo-tree
-    ;   :diminish undo-tree-mode
-    ;   :init
-    ;   (progn
-    ;     (global-undo-tree-mode)
-    ;     (setq undo-tree-visualizer-timestamps t)
-    ;     (setq undo-tree-visualizer-diff t)
-    ;     (defalias 'redo 'undo-tree-redo))
-    ;   :bind (
-    ;     ("M-z" . undo)
-    ;     ("M-S-z" . redo))
-    ; )
+    (use-package undo-tree
+      :defer t
+      :diminish ""
+      :config
+      (progn
+        (setq undo-tree-visualizer-timestamps t)
+        (setq undo-tree-visualizer-diff t)
+        (global-undo-tree-mode t)
+        (defalias 'redo 'undo-tree-redo)
+        (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
+        (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
+      :bind (("M-z" . undo)
+             ("M-S-z" . redo)))
 )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1928,7 +1955,7 @@
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")
     (add-site-lisp-info-path "wl/doc/")
-    (require 'wl))
+    (use-package wl))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1948,20 +1975,28 @@
 ;; [ multiple-cursors ]---------------------------------------------------------
 ;; https://github.com/magnars/multiple-cursors.el
 (add-site-lisp-load-path "multiple-cursors/")
-(require 'multiple-cursors)
-;; Add a cursor to each line in an active region that spans multiple lines
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; Add multiple cursors not based on continuous lines, but based on keywords in the buffer
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+; (require 'multiple-cursors)
+; ;; Add a cursor to each line in an active region that spans multiple lines
+; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+; ;; Add multiple cursors not based on continuous lines, but based on keywords in the buffer
+; (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package multiple-cursors
+  :config
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
 ;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 
 ;; [ hungry-delete ]------------------------------------------------------------
 (add-site-lisp-load-path "hungry-delete/")
-(require 'hungry-delete)
-(global-hungry-delete-mode)
+(use-package hungry-delete
+  :defer t
+  :config
+  (global-hungry-delete-mode))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1971,7 +2006,7 @@
 
 
 ;; [ popwin ]-------------------------------------------------------------------
-(add-site-lisp-load-path "popwin/")
+; (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
 
@@ -1993,15 +2028,29 @@
 
   ;; [ show tip ]---------------------------------------------------------------
   (add-site-lisp-load-path "clippy/")
-  (require 'clippy)
+  (use-package clippy)
   ;; ------------------------------------------------------------------[ End ]--
 )
 ;; --[ Help ]----------------------------------------------------------[ End ]--
 
-(autoload 'turn-on-stripe-buffer-mode "stripe-buffer" "" nil)
-(autoload 'turn-on-stripe-table-mode "stripe-buffer" "" nil)
-(add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
-(add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+
+;;; stripe-buffer
+(use-package stripe-buffer
+  :commands (turn-on-stripe-buffer-mode turn-on-stripe-table-mode)
+  :defer t
+  :init
+  (progn
+    (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+    (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+    )
+  )
+
+
+;;; Smartscan
+;; makes M-n and M-p look for the symbol at point
+(use-package smartscan
+  :defer t
+  :config (global-smartscan-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====

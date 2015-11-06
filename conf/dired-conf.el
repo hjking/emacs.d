@@ -8,100 +8,40 @@
 (message "%d: >>>>> Loading [ Dired ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
-;;; dired-details
-;;;
-;;   ) - dired-details-show
-;;   ( - dired-details-hide
-(message "    >>>>> Loading [ dired-details ] Customization ....")
-;; (require 'dired-details)
-;; (dired-details-install)
-;; (setq dired-details-hidden-string "")
-;; dired-details+
-(require 'dired-details+) ;; auto load `dired-details'
+(use-package dired
+  :config
+  (progn
+    ;; Dired copy folders recursively without confirmation
+    (setq dired-recursive-copies 'always)
+    ;; Dired delete folders recursively after confirmation
+    (setq dired-recursive-deletes 'top)
+    ;; setting for view CVS
+    (setq cvs-dired-use-hook 'always)
+    ;; try to guess a default target directory
+    (setq dired-dwim-target t)
+    (setq dired-isearch-filenames t)
+    ;; enable the use of the command dired-find-alternate-file without confirmation
+    (put 'dired-find-alternate-file 'disabled nil)
+    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+    ;; Sort Directories First
+    ;; if it is not Windows, use the following listing switches
+    (when (not (eq system-type 'windows-nt))
+      (setq dired-listing-switches "-lha --group-directories-first"))
+    ;; show sym link targets
+    (setq dired-details-hide-link-targets nil)
 
-;;; ls-lisp
-;;;
-;; emulate insert-directory completely in Emacs Lisp
-(message "    >>>>> Loading [ ls-lisp ] Customization ....")
-(when (require 'ls-lisp nil t)
-    ;; disable the case sensitive sort of file names
-    (setq ls-lisp-ignore-case t)
-    ;; sort directories first in any ordering
-    (setq ls-lisp-dirs-first t)
-    ;; use ISO 8601 dates (on MS-Windows)
-    (setq ls-lisp-format-time-list
-           '("%Y-%m-%d %H:%M"
-             "%Y-%m-%d %H:%M"))
-    ;; use localized date/time format
-    (setq ls-lisp-use-localized-time-format t))
+    (add-hook 'dired-mode-hook
+        '(lambda()
+           (visual-line-mode 0) ;; unwrap lines.
+           (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
+           (define-key dired-mode-map [return] 'dired-find-file-other-window)
+           (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)
+           (define-key dired-mode-map [mouse-2] 'dired-find-file)
+           (define-key dired-mode-map [mouse-3] 'dired-maybe-insert-subdir)
+           (define-key dired-mode-map (kbd "C-{") 'dired-narrow-window)))
 
-;; ls-lisp+
-(require 'ls-lisp+)
-(require 'files+)
-
-
-;;; dired setting
-;; Dired copy folders recursively without confirmation
-(setq dired-recursive-copies 'always)
-;; Dired delete folders recursively after confirmation
-(setq dired-recursive-deletes 'top)
-;; setting for view CVS
-(setq cvs-dired-use-hook 'always)
-;; try to guess a default target directory
-(setq dired-dwim-target t)
-;; enable the use of the command dired-find-alternate-file without confirmation
-(put 'dired-find-alternate-file 'disabled nil)
-(define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-;; Sort Directories First
-;; if it is not Windows, use the following listing switches
-(when (not (eq system-type 'windows-nt))
-  (setq dired-listing-switches "-lha --group-directories-first"))
-;; show sym link targets
-(setq dired-details-hide-link-targets nil)
-
-(add-hook 'dired-mode-hook
-    '(lambda()
-       (visual-line-mode 0) ;; unwrap lines.
-       (define-key dired-mode-map [delete] 'dired-flag-file-deletion)
-       (define-key dired-mode-map [return] 'dired-find-file-other-window)
-       (define-key dired-mode-map [C-down-mouse-1] 'dired-mouse-find-file-other-window)
-       (define-key dired-mode-map [mouse-2] 'dired-find-file)
-       (define-key dired-mode-map [mouse-3] 'dired-maybe-insert-subdir)
-       (define-key dired-mode-map (kbd "C-{") 'dired-narrow-window)))
-
-(message "    >>>>> Loading [ dired-sort ] Customization ....")
-;; sort
-(require 'dired-sort)
-
-;; dired-sort-menu
-(add-hook 'dired-load-hook (lambda () (require 'dired-sort-menu)))
-(require 'dired-sort-menu+)
-
-;; ‘C-x C-q’ runs the command ‘wdired-change-to-wdired-mode’ to make a dired buffer editable.
-;; Commit changes to disk with ‘C-c C-c’
-
-
-;;; DiredTar
-;;;
-;;------- "T" compress dir to .tar.gz file
-(require 'dired-tar)
-;;-------------------------------------------------------------------------
-
-
-;;; dired-x setting
-;;;
-(message "    >>>>> Loading [ dired-x ] Customization ....")
-(require 'dired-x nil t)
-;; Load Dired X when Dired is loaded.
-(add-hook 'dired-load-hook
-          (lambda ()
-                  (load "dired-x")
-                  ;; Set global variables here.  For example:
-                  ;; (setq dired-guess-shell-gnutar "gtar")
-                  ))
-
-;;  DiredOmit Mode
-(add-hook 'dired-mode-hook
+    ;;  DiredOmit Mode
+    (add-hook 'dired-mode-hook
           (lambda ()
                   ;; Set buffer-local variables here.  For example:
                   (dired-omit-mode 1)
@@ -121,52 +61,78 @@
                   ;; hide my dot-files when hit M-o
                   (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
                   (setq dired-omit-size-limit 1000000)
-                  (define-key dired-mode-map (kbd "C-o") 'dired-omit-mode)
-          ))
-;;-------------------------------------------------------------------------
+                  (define-key dired-mode-map (kbd "C-o") 'dired-omit-mode)))
+
+    (when (eq system-type 'darwin)
+      (add-to-list 'dired-omit-extensions ".DS_STORE"))
+
+    ;; Load Dired X when Dired is loaded.
+    (use-package dired-x)
+
+    ;;; dired-details
+    ;;   ) - dired-details-show
+    ;;   ( - dired-details-hide
+    (use-package dired-details
+      :config
+      (progn
+        (dired-details-install)
+        (use-package dired-details+)))
+
+    ;; ls-lisp+
+    (use-package ls-lisp+)
+    (use-package files+)
+
+    ;; sort
+    (use-package dired-sort)
+
+    ;; dired-sort-menu
+    (add-hook 'dired-load-hook (lambda () (require 'dired-sort-menu)))
+    (use-package dired-sort-menu+)
+
+    ;;; dired+
+    (use-package dired+
+      :defer t)
 
 
-;;; dired-single setting
-(message "    >>>>> Loading [ dired-single ] Customization ....")
-(require 'dired-single)
-;;-------------------------------------------------------------------------
+    ;;; dired-view
+    (use-package dired-view
+      :defer t
+      :config
+      (progn
+        (add-hook 'dired-mode-hook 'dired-view-minor-mode-on)
+        ;; define keys to toggle it
+        (define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)
+        (define-key dired-mode-map (kbd ":") 'dired-view-minor-mode-dired-toggle)))
+
+    ;;; dired-isearch
+    (use-package dired-isearch
+      :config
+      (progn
+        (define-key dired-mode-map (kbd "C-s") 'dired-isearch-forward)
+        (define-key dired-mode-map (kbd "C-r") 'dired-isearch-backward)
+        (define-key dired-mode-map (kbd "ESC C-s") 'dired-isearch-forward-regexp)
+        (define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)))
+
+    ;;; dired-hacks
+    (use-package dired-rainbow)
+    (use-package dired-open)
+
+    ;;; ztree
+    ;; ztree-diff: Perform diff on two directories
+    ;; ztree-dir: a simple tree explorer
+    (use-package ztree-diff)
+    (use-package ztree-dir)
+
+    (use-package dired-single)
+
+    ;;; DiredTar
+    ;;;
+    ;;------- "T" compress dir to .tar.gz file
+    (use-package dired-tar)
+
+))
 
 
-;;; dired+
-;;;
-;;; "F" open all marked files
-;;; "* ." mark files by extensions
-(message "    >>>>> Loading [ dired+ ] Customization ....")
-(require 'dired+)
-
-
-;;; dired-view
-;;;
-;; Browse and select files using the first character of their names
-(message "    >>>>> Loading [ dired-view ] Customization ....")
-(require 'dired-view)
-(add-hook 'dired-mode-hook 'dired-view-minor-mode-on)
-;; define keys to toggle it
-(define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)
-(define-key dired-mode-map (kbd ":") 'dired-view-minor-mode-dired-toggle)
-
-;;; dired-isearch
-(require 'dired-isearch)
-(define-key dired-mode-map (kbd "C-s") 'dired-isearch-forward)
-(define-key dired-mode-map (kbd "C-r") 'dired-isearch-backward)
-(define-key dired-mode-map (kbd "ESC C-s") 'dired-isearch-forward-regexp)
-(define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)
-
-;;; dired-hacks
-(require 'dired-rainbow)
-(require 'dired-open)
-
-
-;;; ztree
-;; ztree-diff: Perform diff on two directories
-;; ztree-dir: a simple tree explorer
-(require 'ztree-diff)
-(require 'ztree-dir)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'dired-conf)

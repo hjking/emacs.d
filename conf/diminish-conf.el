@@ -1,6 +1,4 @@
 
-(require 'diminish)
-
 ;; Major modes abbrev --------------------------------------------------------
 (add-hook 'emacs-lisp-mode-hook
           (lambda () (setq mode-name "Elisp")))
@@ -107,3 +105,5 @@
 
 (eval-after-load 'indent-guide
   '(diminish 'indent-guide-mode))
+
+(diminish 'isearch-mode)

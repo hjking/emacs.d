@@ -2,6 +2,28 @@
 (message "%d: >>>>> Loading [ Key Bindings ] ...." step_no)
 (setq step_no (1+ step_no))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Main keymaps for personal bindings are:
+;;
+;;   C-x <letter>  primary map (has many defaults too)
+;;   C-c <letter>  secondary map (not just for mode-specific)
+;;   C-. <letter>  tertiary map
+;;
+;;   M-g <letter>  goto map
+;;   M-s <letter>  search map
+;;   M-o <letter>  markup map (even if only temporarily)
+;;
+;;   C-<capital letter>
+;;   M-<capital letter>
+;;
+;;   A-<anything>
+;;   M-A-<anything>
+;;
+;; Single-letter bindings still available:
+;;   C- ,'";:?<>|!#$%^&*`~ <tab>
+;;   M- ?#
+
 ;; binding in following ways:
 ;; (global-set-key (kbd "C-x C-b") 'ibuffer)  ;; recommend
 ;; (global-set-key "\C-x\C-b" 'ibuffer)   ;; modifier keys must be escaped with the backslash
@@ -287,14 +309,14 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 
 (global-set-key (kbd "M-t") nil) ;; Remove the old keybinding
-(global-set-key (kbd "M-t c") 'transpose-chars)
-(global-set-key (kbd "M-t w") 'transpose-words)
-(global-set-key (kbd "M-t t") 'transpose-words)
-(global-set-key (kbd "M-t M-t") 'transpose-words)
-(global-set-key (kbd "M-t l") 'transpose-lines)
-(global-set-key (kbd "M-t e") 'transpose-sexps)
-(global-set-key (kbd "M-t s") 'transpose-sentences)
-(global-set-key (kbd "M-t p") 'transpose-paragraphs)
+(global-set-key (kbd "M-t c")       'transpose-chars)
+(global-set-key (kbd "M-t w")       'transpose-words)
+(global-set-key (kbd "M-t t")       'transpose-words)
+(global-set-key (kbd "M-t M-t")     'transpose-words)
+(global-set-key (kbd "M-t l")       'transpose-lines)
+(global-set-key (kbd "M-t e")       'transpose-sexps)
+(global-set-key (kbd "M-t s")       'transpose-sentences)
+(global-set-key (kbd "M-t p")       'transpose-paragraphs)
 
 (global-set-key (kbd "M-#")         'sacha/search-word-backward)
 (global-set-key (kbd "M-*")         'sacha/search-word-forward)

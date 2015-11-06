@@ -41,7 +41,7 @@
 ;; highlight-frame-toggle: highlit/unhighlight the target
 ;; clear-highlight-frame: unhighlights all highlighted target
 (add-site-lisp-load-path "highlight-global")
-(require 'highlight-global)
+(use-package highlight-global)
 
 
 ;;; Highlight specified words ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

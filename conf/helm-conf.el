@@ -12,7 +12,10 @@
   :diminish helm-mode
   :init
   (progn
-    (require 'helm-config)
+    ;; (require 'helm-config)
+    (use-package helm-config
+      ; :bind ("C-c h" . helm-command-prefix)
+      )
     ;; From https://gist.github.com/antifuchs/9238468
     (setq enable-recursive-minibuffers t
           helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
@@ -23,7 +26,8 @@
           ; helm-split-window-default-side 'other ;; open helm buffer in another window. below/above
           helm-split-window-in-side-p t ;; open helm buffer inside current window, not occupy whole other window
           helm-candidate-number-limit 500 ; limit the number of displayed canidates
-          helm-M-x-requires-pattern 0     ; show all candidates when set to 0
+          helm-yas-display-key-on-candidate t
+          helm-M-x-requires-pattern nil     ; show all candidates when set to 0
           ; helm-boring-file-regexp-list
           ;  '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "\\.i$") ; do not show these files in helm buffer
           helm-ff-file-name-history-use-recentf t
@@ -44,16 +48,13 @@
                                       helm-source-bookmarks
                                       helm-source-buffer-not-found)
     )
+
     ; (set-face-attribute 'helm-source-header nil :height 0.1)
     ; (helm-autoresize-mode 1)    ; auto resizing window
     (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
     (helm-mode))
   :config
   (progn
-    (global-set-key (kbd "M-x") 'helm-M-x)  ;; replace smex
-    (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-    (global-set-key (kbd "C-x b") 'helm-mini)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)
     ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
     ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
     ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
@@ -67,6 +68,7 @@
     ; (global-set-key (kbd "C-c h r") 'helm-resume)
     ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
     (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 
     ;; I don't like the way switch-to-buffer uses history, since
     ;; that confuses me when it comes to buffers I've already
@@ -86,14 +88,23 @@
     ;; words you input. At the same time, the original buffer's cursor is
     ;; jumping line to line according to moving up and down the line list
 
-    ; (require 'helm-swoop)
-
-    (autoload 'helm-swoop "helm-swoop" nil t)
-    (autoload 'helm-back-to-last-point "helm-swoop" nil t)
-    (global-set-key (kbd "C-c h o") 'helm-swoop)
-    (global-set-key (kbd "C-c s") 'helm-multi-swoop-all)
-    (eval-after-load "helm-swoop"
-      '(
+    ; (autoload 'helm-swoop "helm-swoop" nil t)
+    ; (autoload 'helm-back-to-last-point "helm-swoop" nil t)
+    ; (global-set-key (kbd "C-c h o") 'helm-swoop)
+    ; (global-set-key (kbd "C-c s") 'helm-multi-swoop-all)
+    (use-package helm-swoop
+      :defer t
+      :bind
+      (("C-S-s"   . helm-swoop)
+       ("M-i"     . helm-swoop)
+       ("M-s s"   . helm-swoop)
+       ("M-s M-s" . helm-swoop)
+       ("M-I"     . helm-swoop-back-to-last-point)
+       ("C-c M-i" . helm-multi-swoop)
+       ("C-x M-i" . helm-multi-swoop-all)
+       )
+      :init
+      (progn
         ;; When doing isearch, hand the word over to helm-swoop
         ; (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
         ;; From helm-swoop to helm-multi-swoop-all
@@ -111,12 +122,21 @@
         ;; Optional face for line numbers
         ;; Face name is `helm-swoop-line-number-face`
         (setq helm-swoop-use-line-number-face t)
-        ))
+        )
+      :config
+      (progn
+        (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+        (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop))
+    )
   )
   :bind (
-         ; ("C-c h" . helm-mini)
-         ; ("M-x" . helm-M-x)
-        )
-  )
+    ("M-x"     . helm-M-x)  ;; replace smex
+    ("M-y"     . helm-show-kill-ring)
+    ("C-x b"   . helm-mini)
+    ("C-x C-f" . helm-find-files)
+    ; ("C-c h o" . helm-occur)
+    ; ("C-x C-b" . helm-buffers-list)
+    )
+)
 
 (provide 'helm-conf)

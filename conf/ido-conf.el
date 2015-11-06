@@ -56,8 +56,9 @@
 (defvar ido-cur-list nil)
 (defvar inherit-input-method nil)
 (defvar predicate nil)
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode 1)
+(use-package ido-ubiquitous
+  :config
+  (ido-ubiquitous-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Try out flx-ido for better flex matching between words
@@ -65,8 +66,8 @@
 ;; For example, if you want to select a file src/foo/bar.txt,
 ;; you only need to type in Ido prompt "sfb", short for (s)rc/(f)oo/(b)ar
 (defvar flx-ido-mode nil)
-(require 'flx-ido)
-(flx-ido-mode 1)
+(use-package flx-ido
+  :config (flx-ido-mode +1))
 ;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
 
@@ -120,9 +121,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ido-vertical-mode
 ;; Makes ido-mode display vertically.
-(require 'ido-vertical-mode)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+(use-package ido-vertical-mode
+  :config
+  (progn
+   (ido-vertical-mode)
+   (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ido-at-point

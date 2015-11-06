@@ -8,30 +8,41 @@
 (message "%d: >>>>> Loading [ header2 ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
 
-;; add a file header whenever you create a new file in some mode
-(autoload 'auto-make-header "header2")
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-(add-hook 'c-mode-hook          'auto-make-header)
-(add-hook 'c-mode-common-hook   'auto-make-header)
-(add-hook 'verilog-mode-hook    'auto-make-header)
-(add-hook 'vlog-mode-hook       'auto-make-header)
-(add-hook 'python-mode-hook     'auto-make-header)
-(add-hook 'cperl-mode-hook      'auto-make-header)
-(add-hook 'makefile-mode-hook   'auto-make-header)
-(add-hook 'sh-mode-hook         'auto-make-header)
+(use-package header2
+  :defer t
+  :commands (auto-update-file-header auto-make-header)
+  :init
+  (progn
+    ; (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+    (defconst hjking/auto-headers-hooks '(verilog-mode-hook
+                                          emacs-lisp-mode-hook
+                                          c-mode-hook
+                                          c-mode-common-hook
+                                          vlog-mode-hook
+                                          python-mode-hook
+                                          makefile-mode-hook
+                                          sh-mode-hook
+                                          cperl-mode-hook)
+      "List of hooks of major modes in which headers should be auto-inserted.")
 
-;; update file headers automatically whenever you save a file
-(autoload 'auto-update-file-header "header2")
-(add-hook 'write-file-hooks     'auto-update-file-header)
+    (defun hjking/turn-on-auto-headers ()
+      "Turn on auto headers only for specific modes."
+      (interactive)
+      (dolist (hook hjking/auto-headers-hooks)
+        (add-hook hook #'auto-make-header)))
 
-(eval-after-load 'header2
-  `(progn
-     (setq header-copyright-notice "Copyright (c) 2014, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
+    (defun hjking/turn-off-auto-headers ()
+      "Turn off auto headers only for specific modes."
+      (interactive)
+      (dolist (hook hjking/auto-headers-hooks)
+        (remove-hook hook #'auto-make-header)))
+
+     (add-hook 'write-file-hooks     'auto-update-file-header)
+     (setq header-copyright-notice "Copyright (c) 2015, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
      (setq header-author 'user-full-name)
      (setq header-file-name 'buffer-file-name)
      (setq header-creation-date 'current-time-string)
      (setq header-modification-author 'user-full-name)
-
      (setq make-header-hook '(
                               header-blank
                               header-copyright
@@ -46,6 +57,9 @@
                               header-history
                               header-code
                               header-eof))
-))
+     (hjking/turn-on-auto-headers)
+  )
+
+  )
 
 (provide 'header2-conf)

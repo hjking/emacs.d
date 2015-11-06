@@ -11,12 +11,6 @@
 
 
 ;; [ windmove ]-------------------------------------------------------------
-(message "    >>>>> Loading [ windmove ] Customizations ....")
-; (require 'windmove)
-; (global-set-key (kbd "C-<f2> <left>")  'windmove-left)
-; (global-set-key (kbd "C-<f2> <right>") 'windmove-right)
-; (global-set-key (kbd "C-<f2> <up>")    'windmove-up)
-; (global-set-key (kbd "C-<f2> <down>")  'windmove-down)
 (use-package windmove
   :bind
   (("C-<f2> <right>" . windmove-right)
@@ -30,11 +24,14 @@
 
 ;; buffer-move.el
 ;; Swap buffers without typing C-x b on each window
-(require 'buffer-move)
-(global-set-key (kbd "C-c C-b C-k")     'buf-move-up)
-(global-set-key (kbd "C-c C-b C-j")   'buf-move-down)
-(global-set-key (kbd "C-c C-b C-h")   'buf-move-left)
-(global-set-key (kbd "C-c C-b C-l")  'buf-move-right)
+(use-package buffer-move
+  :defer t
+  :bind
+  (("C-c C-b C-k" .    buf-move-up)
+   ("C-c C-b C-j" .  buf-move-down)
+   ("C-c C-b C-h" .  buf-move-left)
+   ("C-c C-b C-l" .  buf-move-right))
+  )
 
 
 ;;----------------------------------------------------------------------------
@@ -78,9 +75,12 @@
 
 ;;--------------- ace-window -----------------------------------------
 (add-site-lisp-load-path "ace-window/")
-(require 'ace-window)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(global-set-key (kbd "C-x o") 'ace-window)
+(use-package ace-window
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  :bind(
+  ("C-x o" . ace-window)
+  ))
 
 ;;---------------------------------------------------------------------
 ; +----------+-----------+

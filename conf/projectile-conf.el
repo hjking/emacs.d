@@ -1,12 +1,34 @@
 ;; Projectile
-(message "%d: >>>>> Loading [ projectile ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 (use-package projectile
-  :ensure projectile
+  :ensure t
+  :disabled t
   :diminish projectile-mode
+  :commands (projectile-ack
+               projectile-ag
+               projectile-compile-project
+               projectile-dired
+               projectile-grep
+               projectile-find-dir
+               projectile-find-file
+               projectile-find-tag
+               projectile-find-test-file
+               projectile-invalidate-cache
+               projectile-kill-buffers
+               projectile-multi-occur
+               projectile-project-root
+               projectile-recentf
+               projectile-regenerate-tags
+               projectile-replace
+               projectile-run-async-shell-command-in-root
+               projectile-run-shell-command-in-root
+               projectile-switch-project
+               projectile-switch-to-buffer
+               projectile-vc)
   :init
   (progn
+    (message "%d: >>>>> Loading [ projectile ] Customization ...." step_no)
+    (setq step_no (1+ step_no))
     ; (setq projectile-completion-system 'default)
     ;; with helm
     (setq projectile-completion-system 'helm)
@@ -36,16 +58,28 @@
   :config
   (progn
     ;; integrate perspective with projectile
-    (require 'perspective)
-    (persp-mode)
-    (require 'persp-projectile)
-    (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project))
-)
+    (use-package perspective
+      :config
+      (persp-mode))
 
-    ; (with-executable 'ctags-exuberant
-    ;   (setq-default
-    ;    ;; Default to exuberant ctags.
-    ;    projectile-tags-command "ctags-exuberant -Re %s"))
+    (use-package persp-projectile
+      :config
+      (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project))
 
+
+    (use-package helm-projectile
+      :disabled t
+      :commands (helm-projectile-switch-to-buffer
+                 helm-projectile-find-dir
+                 helm-projectile-dired-find-dir
+                 helm-projectile-recentf
+                 helm-projectile-find-file
+                 helm-projectile-grep
+                 helm-projectile
+                 helm-projectile-switch-project)
+      :init
+      (progn
+        (setq projectile-switch-project-action 'helm-projectile)))
+  ))
 
 (provide 'projectile-conf)

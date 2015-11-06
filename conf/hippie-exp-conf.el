@@ -41,10 +41,10 @@
         try-expand-whole-kill
         ))
 
-;; Full-line completion is *annoying*
-(setq hippie-expand-try-functions-list
-      (delq 'try-expand-line
-      hippie-expand-try-functions-list))
+  ;; Full-line completion is *annoying*
+  (setq hippie-expand-try-functions-list
+        (delq 'try-expand-line
+        hippie-expand-try-functions-list))
 
   ;; expand-function
   (defun my-hippie-expand (arg)

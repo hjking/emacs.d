@@ -5,7 +5,7 @@
 
 (dolist (source '(
                   ; ("marmalade" . "https://marmalade-repo.org/packages/")
-                  ("elpa" . "http://tromey.com/elpa/")
+                  ; ("elpa" . "http://tromey.com/elpa/")
                   ;; stable melpa
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                   ;; (development versions of packages)

@@ -5,15 +5,16 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-27 10:21:55
 
-(message "%d: >>>>> Loading [ smart-compile ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
-(require 'smart-compile nil t)
-; (autoload 'smart-compile "smart-compile" "" t)
-;;   %F  absolute pathname            ( /usr/local/bin/netscape.bin )
-;;   %f  file name without directory  ( netscape.bin )
-;;   %n  file name without extention  ( netscape )
-;;   %e  extention of file name       ( bin )
-(when (featurep 'smart-compile)
+(use-package smart-compile
+  ; (autoload 'smart-compile "smart-compile" "" t)
+  ;;   %F  absolute pathname            ( /usr/local/bin/netscape.bin )
+  ;;   %f  file name without directory  ( netscape.bin )
+  ;;   %n  file name without extention  ( netscape )
+  ;;   %e  extention of file name       ( bin )
+  :init
+  (progn
+    (message "%d: >>>>> Loading [ smart-compile ] Customizations ...." step_no)
+    (setq step_no (1+ step_no))
     (setq smart-compile-alist
         '(("\\.c$"          . "gcc -O2 -Wall -o %n %f")
           ("\\.[Cc]+[Pp]*$" . "g++ -o %n %f -g -pg")
@@ -53,7 +54,7 @@
             "%n.bat"
             "%n.csh"
             "%n.sh"))
-)
+))
 
 (provide 'smart-compile-conf)
 

@@ -151,6 +151,7 @@
 ;; initial-buffer-choice: t, open *scratch* buffer
 ;;      string, visit the spcified file or dir
 ;; (setq initial-buffer-choice "~/.emacs.d/org/todo.org")
+;; (setq initial-buffer-choice "~/")
 
 ;; controls the text that appears in the *scratch* buffer
 ;; (setq initial-scratch-message (ted-random-emacs-haiku))

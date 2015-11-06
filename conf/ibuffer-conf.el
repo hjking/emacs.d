@@ -67,11 +67,12 @@
     (quote (("default"
         ("emacs"      (name . "\\*.*\\*"))
         ("Dirs"       (mode . dired-mode))
-        ("Shell"      (mode . shell-script-mode))
-        ("HDL"        (or
-                       (mode . verilog-mode)
-                       (mode . vhdl-mode)
-                       (mode . vlog-mode)))
+        ("Shell"      (or (mode . term-mode)
+                          (mode . eshell-mode)
+                          (mode . shell-mode)))
+        ("HDL"        (or (mode . verilog-mode)
+                          (mode . vhdl-mode)
+                          (mode . vlog-mode)))
         ("C"          (or
                        (mode . c-mode)
                        (mode . cc-mode)

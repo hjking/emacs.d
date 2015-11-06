@@ -1,6 +1,8 @@
 
 ;; http://www.emacswiki.org/emacs/TabBarMode
-(when (require 'tabbar nil t)
+(use-package tabbar
+  :config
+  (progn
 
   ;; From https://gist.github.com/3demax/1264635
   ;; Tabbar settings
@@ -77,5 +79,6 @@
                          (length (tabbar-view
                                   (tabbar-current-tabset)))))))))
   (tabbar-mode t))
+)
 
 (provide 'tabbar-conf)

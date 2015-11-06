@@ -104,7 +104,7 @@
                       ;; tools
                       (:startgroup)
                       ("@phone" . ?p)
-                      ("@laptop" . ?l)
+                      ("@computer" . ?l)
                       (:endgroup)
                       ;; type
                       (:startgroup)
@@ -151,6 +151,7 @@
 
 ;; Org Agenda
 ;; (setq org-agenda-files '("~/org/personal.org" "~/org/habit.org"))
+;; (add-to-list 'org-agenda-files "~/org/personal.org")
 (setq org-agenda-files (append
                         (list (concat org-directory "/habit.org")
                               (concat org-directory "/personal.org")
@@ -403,9 +404,7 @@ this with to-do items than with projects or headings."
 ;; Don't allow edits in folded space
 (setq org-catch-invisible-edits 'error)
 
-;;;; Org Babel
-;; Enable yntax highlighting in src blocks
-(setq-default org-src-fontify-natively t)
+;;; Org Babel - lets the user run code inside an org-mode document
 ;; active Org-babel languages
 (org-babel-do-load-languages
   'org-babel-load-languages
@@ -428,6 +427,8 @@ this with to-do items than with projects or headings."
 (setq org-src-window-setup 'current-window)
 ;; Overwrite the current window with the agenda
 (setq org-agenda-window-setup 'current-window)
+; Make babel results blocks lowercase
+(setq org-babel-results-keyword "RESULTS")
 
 (setq org-plantuml-jar-path
       (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
@@ -435,9 +436,6 @@ this with to-do items than with projects or headings."
       (expand-file-name (concat my-scripts-dir "/ditaa.jar")))
 
 (add-hook 'org-babel-after-execute-hook 'bh/display-inline-images 'append)
-
-; Make babel results blocks lowercase
-(setq org-babel-results-keyword "RESULTS")
 
 (defun bh/display-inline-images ()
   (condition-case nil

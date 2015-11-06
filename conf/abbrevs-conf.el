@@ -9,41 +9,44 @@
 (setq step_no (1+ step_no))
 
 (use-package abbrev
-    :diminish abbrev-mode
-    :init
-    (progn
-        ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
-        (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
-        ;; save my abbreviations when file saved
-        (setq save-abbrevs t)
-        ;; reads the abbreviations file on startup
-        (if (file-exists-p abbrev-file-name)
-            (quietly-read-abbrev-file))
-        ;; ensure abbrev mode is always on in current buffer
-        ;; (abbrev-mode 1)
-        ;; turn on abbrev mode globally
-        (setq-default abbrev-mode t)
-        )
-    :config
-    (progn
-        (add-hook 'expand-load-hook
-            (lambda ()
-              (add-hook 'expand-expand-hook 'indent-according-to-mode)
-              (add-hook 'expand-jump-hook 'indent-according-to-mode)))
-        ;; abbrev-mode is on only in some modes
-        ;;  (dolist (hook '(erc-mode-hook
-        ;;                  emacs-lisp-mode-hook
-        ;;                  text-mode-hook))
-        ;;  (add-hook hook (lambda () (abbrev-mode 1))))
+  :commands abbrev-mode
+  :diminish abbrev-mode
+  :init
+  (progn
+    ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
+    (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
+    ;; save my abbreviations when file saved
+    (setq save-abbrevs t)
 
-        (define-abbrev-table 'global-abbrev-table '(
-            ("afaict" "as far as I can tell" nil 1)
-            ("btw" "by the way" nil 3)
-            ("ewiki" "http://www.emacswiki.org/" nil 3)
-            ("pov" "point of view" nil 1)
-            ))
-        )
+    ;; ensure abbrev mode is always on in current buffer
+    ;; (abbrev-mode 1)
+    ;; turn on abbrev mode globally
+    (setq-default abbrev-mode t)
     )
+  :config
+  (progn
+    ;; reads the abbreviations file on startup
+    (if (file-exists-p abbrev-file-name)
+        (quietly-read-abbrev-file))
+
+    (add-hook 'expand-load-hook
+              (lambda ()
+                (add-hook 'expand-expand-hook 'indent-according-to-mode)
+                (add-hook 'expand-jump-hook 'indent-according-to-mode)))
+    ;; abbrev-mode is on only in some modes
+    ;;  (dolist (hook '(erc-mode-hook
+    ;;                  emacs-lisp-mode-hook
+    ;;                  text-mode-hook))
+    ;;  (add-hook hook (lambda () (abbrev-mode 1))))
+
+    (define-abbrev-table 'global-abbrev-table '(
+        ("afaict" "as far as I can tell" nil 1)
+        ("btw" "by the way" nil 3)
+        ("ewiki" "http://www.emacswiki.org/" nil 3)
+        ("pov" "point of view" nil 1)
+        ))
+    )
+  )
 
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
@@ -59,9 +62,10 @@
 ;; [ dabbrev-expand-multiple ]--------------------------------------------------
 ;; extend standard Dynamic Abbreviation
 ;; show multiple candidates with tooltip
-(autoload 'dabbrev-expand-multiple "dabbrev-expand-multiple" "dynamic abbrev expansion for multiple selection" t)
-(eval-after-load 'dabbrev-expand-multiple
-  '(progn
+(use-package dabbrev-expand-multiple
+  :commands dabbrev-expand-multiple
+  :init
+  (progn
     (message "    >>>>> Loading [ DabbrevExpandMultiple ] Customization ....")
     ;; setting abbrev displayed at a time to five.
     (setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g" "q" "w" "e" "r" "t"))
@@ -90,13 +94,15 @@
 ;; analyse text during idle time, the abbreviations are always displayed!
 (message "    >>>>> Loading [ Predictive Abbreviation ] Customization ....")
 ; (when (require 'pabbrev nil t)
-(eval-after-load 'pabbrev
-  '(progn
+(use-package pabbrev
+  :diminish pabbrev-mode
+  :config
+  (progn
     ;; don't print messages while scavenging on idle timer
     (setq pabbrev-idle-timer-verbose nil)
     ;; tab completion with continual, as-you-type feedback
     (global-pabbrev-mode)
-    (diminish 'pabbrev-mode "Pabv"))
+    )
 )
 ;; [ pabbrev ]---------------------------------------------------------[ End ]--
 

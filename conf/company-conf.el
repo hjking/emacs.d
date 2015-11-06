@@ -18,40 +18,75 @@
 
 ; (require 'company)
 
-(add-hook 'prog-mode-hook 'global-company-mode)
-;; (add-hook 'after-init-hook 'global-company-mode)
-(global-set-key "\M-]" 'company-complete-common)
+; (add-hook 'prog-mode-hook 'global-company-mode)
+; ;; (add-hook 'after-init-hook 'global-company-mode)
+; (global-set-key "\M-]" 'company-complete-common)
 
-(setq company-require-match nil)
+; (setq company-require-match nil)
 
-(eval-after-load 'company
-  '(progn
-     (add-to-list 'company-backends 'company-dabbrev t)
-     (add-to-list 'company-backends 'company-ispell t)
-     (add-to-list 'company-backends 'company-files t)
-     (add-to-list 'company-backends 'company-semantic t)
-     ; (add-to-list 'company-backends 'company-cider)
-     ;; company-c-headers
-     (add-to-list 'company-backends 'company-c-headers)
-     ;; can't work with TRAMP
-     (delete 'company-ropemacs company-backends)
-     (delete 'company-capf company-backends)
-     (delete 'company-clang company-backends)
-     (delete 'company-semantic company-backends)
-     ;; I don't like the downcase word in company-dabbrev
-     ;; for languages use camel case naming convention
-     (setq company-dabbrev-downcase nil)
-     (setq company-show-numbers t)
-     (setq company-begin-commands '(self-insert-command))
-     (setq company-idle-delay 0.2)
-     ; (setq company-idle-delay t)
-     ; (setq company-clang-insert-arguments nil)
+; (eval-after-load 'company
+;   '(progn
+;      (add-to-list 'company-backends 'company-dabbrev t)
+;      (add-to-list 'company-backends 'company-ispell t)
+;      (add-to-list 'company-backends 'company-files t)
+;      (add-to-list 'company-backends 'company-semantic t)
+;      (add-to-list 'company-backends 'company-c-headers)
 
-     ; (setq company-idle-delay 0.3)
-     (setq company-tooltip-limit 20)
-     (setq company-minimum-prefix-length 2)
-     (setq company-echo-delay 0)
-     (setq company-auto-complete nil)
-     ))
+;      (delete 'company-ropemacs company-backends)
+;      (delete 'company-capf company-backends)
+;      (delete 'company-clang company-backends)
+;      (delete 'company-semantic company-backends)
+;      ;; I don't like the downcase word in company-dabbrev
+;      ;; for languages use camel case naming convention
+;      (setq company-dabbrev-downcase nil)
+;      (setq company-show-numbers t)
+;      (setq company-begin-commands '(self-insert-command))
+;      (setq company-idle-delay 0.2)
+;      ; (setq company-idle-delay t)
+;      ; (setq company-clang-insert-arguments nil)
+;      ; (setq company-idle-delay 0.3)
+;      (setq company-tooltip-limit 20)
+;      (setq company-minimum-prefix-length 2)
+;      (setq company-echo-delay 0)
+;      (setq company-auto-complete nil)
+;      ))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package company
+  :defer t
+  :diminish ""
+  :bind ("\M-]" . company-complete)
+  :init (add-hook 'prog-mode-hook 'company-mode)
+  :config
+  (progn
+    (setq company-idle-delay 0.1
+         ;; min prefix of 1 chars
+         company-minimum-prefix-length 1
+         company-selection-wrap-around t
+         company-show-numbers t
+         company-dabbrev-downcase nil
+         company-transformers '(company-sort-by-occurrence))
+    (setq company-tooltip-limit 20)
+    (setq company-minimum-prefix-length 2)
+    (setq company-echo-delay 0)
+    (setq company-auto-complete nil)
+    (setq company-begin-commands '(self-insert-command))
+    (add-to-list 'company-backends 'company-dabbrev t)
+    (add-to-list 'company-backends 'company-ispell t)
+    (add-to-list 'company-backends 'company-files t)
+    (add-to-list 'company-backends 'company-semantic t)
+    (add-to-list 'company-backends 'company-c-headers)
+
+    (delete 'company-ropemacs company-backends)
+    (delete 'company-capf company-backends)
+    (delete 'company-clang company-backends)
+    (delete 'company-semantic company-backends)
+
+    (bind-keys :map company-active-map
+               ("C-n" . company-select-next)
+               ("C-p" . company-select-previous)
+               ("C-d" . company-show-doc-buffer)
+               ("<tab>" . company-complete))))
 
 (provide 'company-conf)

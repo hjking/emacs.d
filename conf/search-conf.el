@@ -62,16 +62,18 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'isearch-extension)
+(use-package isearch-extension)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; anzu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'anzu)
-(global-anzu-mode +1)
-(diminish 'anzu-mode)
+(use-package anzu
+  :config
+  (global-anzu-mode +1)
+  :diminish ""
+  )
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
@@ -79,11 +81,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; visual-regexp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'visual-regexp)
 ;; (define-key global-map (kbd "C-c r") 'vr/replace)
 ;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
 ;; ;; if you use multiple-cursors, this is for you:
 ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-
+(use-package visual-regexp)
 
 (provide 'search-conf)
