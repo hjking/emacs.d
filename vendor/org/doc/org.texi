@@ -701,7 +701,7 @@ Using header arguments
 Specific header arguments
 
 * var::                         Pass arguments to code blocks
-* Results::                     Specify the type of results and how they will
+* results::                     Specify the type of results and how they will
                                 be collected and handled
 * file::                        Specify a path for file output
 * file-desc::                   Specify a description for file results
@@ -6512,7 +6512,7 @@ reset of the task @footnote{as recorded by the @code{LAST_REPEAT} property}
 will be shown.  More control over what time is shown can be exercised with
 the @code{CLOCK_MODELINE_TOTAL} property.  It may have the values
 @code{current} to show only the current clocking instance, @code{today} to
-show all time clocked on this tasks today (see also the variable
+show all time clocked on this task today (see also the variable
 @code{org-extend-today-until}), @code{all} to include all time, or
 @code{auto} which is the default@footnote{See also the variable
 @code{org-clock-modeline-total}.}.@* Clicking with @kbd{mouse-1} onto the
@@ -8616,9 +8616,10 @@ selected.
 @vindex org-agenda-category-filter-preset
 
 Filter the current agenda view with respect to the category of the item at
-point.  Pressing @code{<} another time will remove this filter.  You can add
-a filter preset through the option @code{org-agenda-category-filter-preset}
-(see below.)
+point.  Pressing @code{<} another time will remove this filter.  When called
+with a prefix argument exclude the category of the item at point from the
+agenda.  You can add a filter preset through the option
+@code{org-agenda-category-filter-preset} (see below.)
 
 @orgcmd{^,org-agenda-filter-by-top-headline}
 Filter the current agenda view and only display the siblings and the parent
@@ -10216,16 +10217,20 @@ export.
 
 @item @{@{@{date@}@}@}
 @itemx @{@{@{date(@var{FORMAT})@}@}@}
-@itemx @{@{@{time(@var{FORMAT})@}@}@}
-@itemx @{@{@{modification-time(@var{FORMAT})@}@}@}
 @cindex date, macro
+This macro refers to the @code{#+DATE} keyword. @var{FORMAT} is an optional
+argument to the @code{@{@{@{date@}@}@}} macro that will be used only if
+@code{#+DATE} is a single timestamp.  @var{FORMAT} should be a format string
+understood by @code{format-time-string}.
+
+@item @{@{@{time(@var{FORMAT})@}@}@}
+@itemx @{@{@{modification-time(@var{FORMAT})@}@}@}
 @cindex time, macro
 @cindex modification time, macro
-These macros refer to the @code{#+DATE} keyword, the current date, and the
-modification time of the file being exported, respectively.  @var{FORMAT}
-should be a format string understood by @code{format-time-string}.  Note that
-@var{FORMAT} is an optional argument to the @code{@{@{@{date@}@}@}} macro,
-and that it will only be used if @code{#+DATE} is a single timestamp.
+These macros refer to the date and time when the document is exported and to
+the modification date and time of the file being exported, respectively.
+@var{FORMAT} should be a format string understood by
+@code{format-time-string}.
 
 @item @{@{@{input-file@}@}@}
 @cindex input file, macro
@@ -10591,8 +10596,7 @@ toggle export options@footnote{It is also possible to use a less intrusive
 interface by setting @code{org-export-dispatch-use-expert-ui} to a
 non-@code{nil} value.  In that case, only a prompt is visible from the
 minibuffer.  From there one can still switch back to regular menu by pressing
-@key{?}.} from which it is possible to select an export format and to toggle
-export options.
+@key{?}.}.
 
 @table @asis
 @orgcmd{C-c C-e,org-export-dispatch}
@@ -14361,7 +14365,6 @@ however, override everything.
 @item @code{:html-todo-kwd-class-prefix}      @tab @code{org-html-todo-kwd-class-prefix}
 @item @code{:html-toplevel-hlevel}            @tab @code{org-html-toplevel-hlevel}
 @item @code{:html-use-infojs}                 @tab @code{org-html-use-infojs}
-@item @code{:html-use-unicode-chars}          @tab @code{org-html-use-unicode-chars}
 @item @code{:html-validation-link}            @tab @code{org-html-validation-link}
 @item @code{:html-viewport}                   @tab @code{org-html-viewport}
 @item @code{:html-xml-declaration}            @tab @code{org-html-xml-declaration}
@@ -14843,7 +14846,8 @@ of code block evaluation, @emph{both} the code and the results of code block
 evaluation, or @emph{none}.  For most languages, the default exports code.
 However, for some languages (e.g., @code{ditaa}) the default exports the
 results of code block evaluation.  For information on exporting code block
-bodies, see @ref{Literal examples}.
+bodies, see @ref{Literal examples}.  For information on exporting
+parts of Org documents, see @ref{Exporting}.
 
 The @code{:exports} header argument can be used to specify export
 behavior (note that these arguments are only relevant for code blocks, not
@@ -14943,7 +14947,7 @@ The @code{org-babel-tangle-jump-to-org} function provides this jumping from
 code to Org-mode functionality.  Two header arguments are required for
 jumping to work, first the @code{padline} (@ref{padline}) option must be set
 to true (the default setting), second the @code{comments} (@ref{comments})
-header argument must be set to @code{links}, which will insert comments into
+header argument must be set to @code{link}, which will insert comments into
 the source code buffer which point back to the original Org-mode file.
 
 @node Evaluating code blocks
@@ -14964,10 +14968,9 @@ and/or the name of the evaluated code block.  The default value of
 @code{org-babel-results-keyword}.
 
 By default, the evaluation facility is only enabled for Lisp code blocks
-specified as @code{emacs-lisp}.  However, source code blocks in many languages
-can be evaluated within Org mode (see @ref{Languages} for a list of supported
-languages and @ref{Structure of code blocks} for information on the syntax
-used to define a code block).
+specified as @code{emacs-lisp}.  See @ref{Languages} to enable other
+supported languages.  See @ref{Structure of code blocks} for information on
+the syntax used to define a code block.
 
 @kindex C-c C-c
 There are a number of ways to evaluate code blocks.  The simplest is to press
@@ -15336,7 +15339,7 @@ argument in lowercase letters.  The following header arguments are defined:
 
 @menu
 * var::                         Pass arguments to code blocks
-* Results::                     Specify the type of results and how they will
+* results::                     Specify the type of results and how they will
                                 be collected and handled
 * file::                        Specify a path for file output
 * file-desc::                   Specify a description for file results
@@ -15630,7 +15633,7 @@ Emacs Lisp, as shown in the following example.
 : (a b c)
 @end example
 
-@node Results
+@node results
 @subsubsection @code{:results}
 @cindex @code{:results}, src header argument
 
@@ -16467,7 +16470,7 @@ block body before execution.  Also see @ref{prologue}.
 The way in which results are handled depends on whether a session is invoked,
 as well as on whether @code{:results value} or @code{:results output} is
 used.  The following table shows the table possibilities.  For a full listing
-of the possible results header arguments see @ref{Results}.
+of the possible results header arguments see @ref{results}.
 
 @multitable @columnfractions 0.26 0.33 0.41
 @item @tab @b{Non-session} @tab @b{Session}

@@ -176,7 +176,7 @@ to the bullet that should be used when this item is demoted.
 For example,
 
  (setq org-list-demote-modify-bullet
-       '((\"+\" . \"-\") (\"-\" . \"+\") (\"*\" . \"+\")))
+       \\='((\"+\" . \"-\") (\"-\" . \"+\") (\"*\" . \"+\")))
 
 will make
 
@@ -622,11 +622,11 @@ point-at-bol:
 
 will get the following structure:
 
-\(\(1 0 \"- \"  nil \"[X]\" nil 97\)
- \(18 2 \"1. \"  nil nil nil 34\)
- \(34 2 \"5. \" \"5\" nil nil 55\)
- \(97 0 \"- \"  nil nil nil 131\)
- \(109 2 \"+ \" nil nil \"tag\" 131\)
+ ((1 0 \"- \"  nil \"[X]\" nil 97)
+  (18 2 \"1. \"  nil nil nil 34)
+  (34 2 \"5. \" \"5\" nil nil 55)
+  (97 0 \"- \"  nil nil nil 131)
+  (109 2 \"+ \" nil nil \"tag\" 131))
 
 Assume point is at an item."
   (save-excursion
@@ -2036,7 +2036,7 @@ previous item, plus ARGS extra arguments.
 
 FUNCTION is applied on items in reverse order.
 
-As an example, \(org-apply-on-list \(lambda \(result\) \(1+ result\)\) 0\)
+As an example, \(org-apply-on-list \(lambda \(result) \(1+ result)) 0)
 will return the number of items in the current list.
 
 Sublists of the list are skipped.  Cursor is always at the
@@ -2527,17 +2527,20 @@ With optional prefix argument ALL, do this for the whole buffer."
 	     (let* ((container
 		     (org-element-lineage
 		      context
-		      '(drawer center-block dynamic-block inlinetask plain-list
+		      '(drawer center-block dynamic-block inlinetask item
 			       quote-block special-block verse-block)))
-		    (beg (if container (org-element-property :begin container)
+		    (beg (if container
+			     (org-element-property :contents-begin container)
 			   (save-excursion
-			     (org-with-limited-levels (outline-previous-heading))
+			     (org-with-limited-levels
+			      (outline-previous-heading))
 			     (point)))))
 	       (or (cdr (assq beg cache))
 		   (save-excursion
 		     (goto-char beg)
 		     (let ((end
-			    (if container (org-element-property :end container)
+			    (if container
+				(org-element-property :contents-end container)
 			      (save-excursion
 				(org-with-limited-levels (outline-next-heading))
 				(point))))
@@ -2547,18 +2550,21 @@ With optional prefix argument ALL, do this for the whole buffer."
 			   (when (eq (org-element-type element) 'item)
 			     (push (org-element-property :structure element)
 				   structs)
-			     (goto-char (org-element-property
-					 :end
-					 (org-element-property :parent
-							       element))))))
+			     ;; Skip whole list since we have its
+			     ;; structure anyway.
+			     (while (setq element (org-element-lineage
+						   element '(plain-list)))
+			       (goto-char
+				(min (org-element-property :end element)
+				     end))))))
 		       ;; Cache count for cookies applying to the same
 		       ;; area.  Then return it.
 		       (let ((count
 			      (funcall count-boxes
 				       (and (eq (org-element-type container)
-						'plain-list)
+						'item)
 					    (org-element-property
-					     :contents-begin container))
+					     :begin container))
 				       structs
 				       recursivep)))
 			 (push (cons beg count) cache)
@@ -2946,13 +2952,13 @@ For example, the following list:
 
 will be parsed as:
 
-\(ordered
-  \(nil \"first item\"
-  \(unordered
-    \(nil \"sub-item one\"\)
-    \(nil \"[CBON] sub-item two\"\)\)
-  \"more text in first item\"\)
-  \(3 \"last item\"\)\)
+ (ordered
+  (nil \"first item\"
+  (unordered
+    (nil \"sub-item one\")
+    (nil \"[CBON] sub-item two\"))
+  \"more text in first item\")
+  (3 \"last item\"))
 
 Point is left at list end."
   (defvar parse-item)                   ;FIXME: Or use `cl-labels' or `letrec'.

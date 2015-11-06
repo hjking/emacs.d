@@ -3059,11 +3059,10 @@ Assume point is at the beginning of the link."
 	;; (e.g., insert [[shell:ls%20*.org]] instead of
 	;; [[shell:ls *.org]], which defeats Org's focus on
 	;; simplicity.
-	(setq raw-link (org-translate-link
-			(org-link-expand-abbrev
-			 (replace-regexp-in-string
-			  "[ \t]*\n[ \t]*" " "
-			  (org-match-string-no-properties 1)))))
+	(setq raw-link (org-link-expand-abbrev
+			(replace-regexp-in-string
+			 "[ \t]*\n[ \t]*" " "
+			 (org-match-string-no-properties 1))))
 	;; Determine TYPE of link and set PATH accordingly.  According
 	;; to RFC 3986, remove whitespaces from URI in external links.
 	;; In internal ones, treat indentation as a single space.
@@ -3116,36 +3115,52 @@ Assume point is at the beginning of the link."
       ;; In any case, deduce end point after trailing white space from
       ;; LINK-END variable.
       (save-excursion
-	(setq post-blank (progn (goto-char link-end) (skip-chars-forward " \t"))
-	      end (point))
-	;; Special "file" type link processing.  Extract opening
-	;; application and search option, if any.  Also normalize URI.
-	(when (string-match "\\`file\\(?:\\+\\(.+\\)\\)?\\'" type)
-	  (setq application (match-string 1 type) type "file")
-	  (when (string-match "::\\(.*\\)\\'" path)
-	    (setq search-option (match-string 1 path)
-		  path (replace-match "" nil nil path)))
-	  (setq path (replace-regexp-in-string "\\`/+" "/" path)))
-	(list 'link
-	      (list :type type
-		    :path path
-		    :raw-link (or raw-link path)
-		    :application application
-		    :search-option search-option
-		    :begin begin
-		    :end end
-		    :contents-begin contents-begin
-		    :contents-end contents-end
-		    :post-blank post-blank))))))
+	(setq post-blank
+	      (progn (goto-char link-end) (skip-chars-forward " \t")))
+	(setq end (point)))
+      ;; Special "file" type link processing.  Extract opening
+      ;; application and search option, if any.  Also normalize URI.
+      (when (string-match "\\`file\\(?:\\+\\(.+\\)\\)?\\'" type)
+	(setq application (match-string 1 type) type "file")
+	(when (string-match "::\\(.*\\)\\'" path)
+	  (setq search-option (match-string 1 path))
+	  (setq path (replace-match "" nil nil path)))
+	(setq path (replace-regexp-in-string "\\`///+" "/" path)))
+      ;; Translate link, if `org-link-translation-function' is set.
+      (let ((trans (and (functionp org-link-translation-function)
+			(funcall org-link-translation-function type path))))
+	(when trans
+	  (setq type (car trans))
+	  (setq path (cdr trans))))
+      (list 'link
+	    (list :type type
+		  :path path
+		  :raw-link (or raw-link path)
+		  :application application
+		  :search-option search-option
+		  :begin begin
+		  :end end
+		  :contents-begin contents-begin
+		  :contents-end contents-end
+		  :post-blank post-blank)))))
 
 (defun org-element-link-interpreter (link contents)
   "Interpret LINK object as Org syntax.
 CONTENTS is the contents of the object, or nil."
   (let ((type (org-element-property :type link))
-	(raw-link (org-element-property :raw-link link)))
-    (if (string= type "radio") raw-link
+	(path (org-element-property :path link)))
+    (if (string= type "radio") path
       (format "[[%s]%s]"
-	      raw-link
+	      (cond ((string= type "coderef") (format "(%s)" path))
+		    ((string= type "custom-id") (concat "#" path))
+		    ((string= type "file")
+		     (let ((app (org-element-property :application link))
+			   (opt (org-element-property :search-option link)))
+		       (concat type (and app (concat "+" app)) ":"
+			       path
+			       (and opt (concat "::" opt)))))
+		    ((string= type "fuzzy") path)
+		    (t (concat type ":" path)))
 	      (if contents (format "[%s]" contents) "")))))
 
 
@@ -3866,8 +3881,9 @@ position of point and CDR is nil."
 		(and dualp
 		     (let ((sec (org-match-string-no-properties 2)))
 		       (if (or (not sec) (not parsedp)) sec
-			 (org-element--parse-objects
-			  (match-beginning 2) (match-end 2) nil restrict)))))
+			 (save-match-data
+			   (org-element--parse-objects
+			    (match-beginning 2) (match-end 2) nil restrict))))))
 	       ;; Attribute a property name to KWD.
 	       (kwd-sym (and kwd (intern (concat ":" (downcase kwd))))))
 	  ;; Now set final shape for VALUE.
@@ -4026,30 +4042,30 @@ Assuming TREE is a variable containing an Org buffer parse tree,
 the following example will return a flat list of all `src-block'
 and `example-block' elements in it:
 
-  \(org-element-map tree '(example-block src-block) #'identity)
+  (org-element-map tree \\='(example-block src-block) #\\='identity)
 
 The following snippet will find the first headline with a level
 of 1 and a \"phone\" tag, and will return its beginning position:
 
-  \(org-element-map tree 'headline
-   \(lambda (hl)
-     \(and (= (org-element-property :level hl) 1)
-          \(member \"phone\" (org-element-property :tags hl))
-          \(org-element-property :begin hl)))
+  (org-element-map tree \\='headline
+   (lambda (hl)
+     (and (= (org-element-property :level hl) 1)
+          (member \"phone\" (org-element-property :tags hl))
+          (org-element-property :begin hl)))
    nil t)
 
 The next example will return a flat list of all `plain-list' type
 elements in TREE that are not a sub-list themselves:
 
-  \(org-element-map tree 'plain-list #'identity nil nil 'plain-list)
+  (org-element-map tree \\='plain-list #\\='identity nil nil \\='plain-list)
 
 Eventually, this example will return a flat list of all `bold'
 type objects containing a `latex-snippet' type object, even
 looking into captions:
 
-  \(org-element-map tree 'bold
-   \(lambda (b)
-     \(and (org-element-map b 'latex-snippet #'identity nil t) b))
+  (org-element-map tree \\='bold
+   (lambda (b)
+     (and (org-element-map b \\='latex-snippet #\\='identity nil t) b))
    nil nil nil t)"
   ;; Ensure TYPES and NO-RECURSION are a list, even of one element.
   (let* ((types (if (listp types) types (list types)))
@@ -4888,6 +4904,7 @@ This function assumes `org-element--cache' is a valid AVL tree."
 (defsubst org-element--cache-active-p ()
   "Non-nil when cache is active in current buffer."
   (and org-element-use-cache
+       org-element--cache
        (or (derived-mode-p 'org-mode) orgstruct-mode)))
 
 (defun org-element--cache-find (pos &optional side)
@@ -5600,7 +5617,8 @@ buffers."
   (interactive "P")
   (dolist (buffer (if all (buffer-list) (list (current-buffer))))
     (with-current-buffer buffer
-      (when (org-element--cache-active-p)
+      (when (and org-element-use-cache
+		 (or (derived-mode-p 'org-mode) orgstruct-mode))
 	(org-set-local 'org-element--cache
 		       (avl-tree-create #'org-element--cache-compare))
 	(org-set-local 'org-element--cache-objects (make-hash-table :test #'eq))
