@@ -97,7 +97,7 @@
 (defvar section-yasnippet t)
 (defvar section-cygwin t)
 (defvar section-package t)
-(defvar section-tramp t)
+(defvar section-tramp nil)
 (defvar section-cedet nil)
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
@@ -498,7 +498,8 @@
 
   (use-package miniedit
     :commands minibuffer-edit
-    :init (miniedit-install))
+    :init
+     (miniedit-install))
 
 )
 ;; --[ Minibuffer ]----------------------------------------------------[ End ]--
@@ -1096,10 +1097,11 @@
 ;; buffer switch
 (when section-ibuffer
   ;; replaces the functionality of list-buffers command
-  (defalias 'list-buffers 'ibuffer)
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (autoload 'ibuffer "ibuffer" "List buffers." t)
-  (eval-after-load 'ibuffer '(require 'ibuffer-conf))
+  ; (defalias 'list-buffers 'ibuffer)
+  ; (global-set-key (kbd "C-x C-b") 'ibuffer)
+  ; (autoload 'ibuffer "ibuffer" "List buffers." t)
+  ; (eval-after-load 'ibuffer '(require 'ibuffer-conf))
+  (require 'ibuffer-conf)
 
   ; (add-site-lisp-load-path "ace-jump-buffer/")
   ; (require 'ace-jump-buffer)

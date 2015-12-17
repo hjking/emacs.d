@@ -63,22 +63,18 @@
   (defvar ted-erc-identify t
     "Whether or not ERC should identify with NickServ on connect.")
 
-  (defun ted-freenode (autojoin)
+  (defun hjking-freenode (autojoin)
     (interactive (list (y-or-n-p "Autojoin channels? ")))
     (setq ted-erc-autojoin autojoin
           ted-erc-identify nil)
     (erc :server "irc.freenode.net"
          :port 8001
-         :nick "hober"
-         :password (cdr (assoc "hober" (cadr (assoc 'freenode erc-nickserv-passwords))))))
+         :nick "hjking"
+         :password (cdr (assoc "hjking" (cadr (assoc 'freenode erc-nickserv-passwords))))))
 
-  (defun ted-w3c-irc ()
+  (defun kinghom-gitter-irc ()
     (interactive)
-    (erc :server "irc.w3.org" :port 6665 :nick "hober"))
-
-  (defun ted-moz-irc ()
-    (interactive)
-    (erc :server "irc.mozilla.org" :port 6667 :nick "hober"))
+    (erc :server "irc.gitter.im" :port 6667 :nick "kinghom"))
 
   ;; highlight keywords or users which i'm interested
   (erc-match-mode 1)

@@ -10,6 +10,8 @@
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                   ;; (development versions of packages)
                   ("melpa" . "http://melpa.org/packages/")
+                  ; ("myelpa" . "~/.emacs.d/myelpa")
+                  ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
                   ;; ("org" . "http://orgmode.org/elpa/")
                   ))
 (add-to-list 'package-archives source t))
