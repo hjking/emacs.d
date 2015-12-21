@@ -86,7 +86,7 @@
 
 ; (diminish 'dired-view-minor-mode)
 
-(diminish 'drag-stuff-mode)
+; (diminish 'drag-stuff-mode)
 
 ;;  (diminish 'wrap-region-mode)
 ;;  (diminish 'yas/minor-mode)

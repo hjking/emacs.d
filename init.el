@@ -1054,21 +1054,13 @@
                                 (setq fill-column 80)
                                 (turn-on-auto-fill)))
 
-;; LongLines
-;; automatically wrap long lines after the last word before ‘fill-column’
-; (autoload 'longlines-mode "longlines.el" Minor mode for wrapping long lines." t)
-; (when (load "longlines" t)
-;     (setq longlines-show-hard-newlines t))
-;; (add-hook 'text-mode-hook 'longlines-mode)
-
-
 ;; visual-line-mode
 ;; wrap a line right before the window edge
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 ;; (global-visual-line-mode -1) ;; Disable wrapping lines at word boundaries
 (global-visual-line-mode t)
 ;; move around lines based on how they are displayed, rather than the actual line
-(setq line-move-visual t)
+(setq line-move-visual nil)
 ;; Enable/Disable visual-line mode in specific major modes. Enabling visual
 ;; line mode does word wrapping only at word boundaries
 ;; turn off
@@ -1519,6 +1511,7 @@
   ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
   (add-site-lisp-load-path "drag-stuff/")
   (use-package drag-stuff
+    :diminish ""
     :config
     (progn
       (drag-stuff-mode t)
