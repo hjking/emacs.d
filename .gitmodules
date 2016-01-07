@@ -142,3 +142,6 @@
 	path = vendor/ecb
 	url = https://github.com/ecb-home/ecb
 	ignore = dirty
+[submodule "vendor/smex"]
+	path = vendor/smex
+	url = https://github.com/nonsequitur/smex.git
