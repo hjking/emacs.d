@@ -51,7 +51,7 @@
 (defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-ibuffer t)
-(defvar section-ido nil)
+(defvar section-ido t)
 (defvar section-windows t)
 (defvar section-ui t)
 (defvar section-coding t)
@@ -82,7 +82,7 @@
 (defvar section-vm nil)
 (defvar section-ac nil)
 (defvar section-company t)
-(defvar section-helm t)
+(defvar section-helm nil)
 (defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -108,7 +108,7 @@
 (defvar section-header t)
 (defvar section-irc nil)
 (defvar section-w3m nil)
-(defvar section-smex nil)
+(defvar section-smex t)
 (defvar section-slime t)
 (defvar section-cscope nil)
 (defvar section-wl nil)
@@ -384,7 +384,8 @@
 
 ;; use-package
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package)
+  (setq use-package-verbose t))
 (require 'diminish)
 (require 'bind-key)                ;; if you use any :bind variant
 
@@ -675,7 +676,6 @@
   :init
   (progn
     (setq which-func-unknown "n/a")
-    (which-func-mode 1)
     (which-function-mode 1)))
 
 ;; use inactive face for mode-line in non-selected windows
@@ -1879,12 +1879,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ ace-jump ]-----------------------------------------------------------------
-; (add-site-lisp-load-path "ace-jump-mode/")
-(load "ace-jump-conf")
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ avy ]----------------------------------------------------------------------
 (load "avy-conf")
 ;; --------------------------------------------------------------------[ End ]--
@@ -1932,7 +1926,6 @@
 ;; remember recently and most frequently used commands
 (when section-smex
     (setq my-smex-path (concat my-site-lisp-dir "smex/"))
-    (add-site-lisp-load-path "smex/")
     (require 'smex-conf))
 ;; --------------------------------------------------------------------[ End ]--
 

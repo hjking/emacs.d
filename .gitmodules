@@ -38,17 +38,9 @@
 	path = vendor/drag-stuff
 	url = https://github.com/rejeep/drag-stuff.git
 	ignore = dirty
-[submodule "vendor/switch-window"]
-	path = vendor/switch-window
-	url = https://github.com/dimitri/switch-window.git
-	ignore = dirty
 [submodule "vendor/browse-kill-ring"]
 	path = vendor/browse-kill-ring
 	url = https://github.com/browse-kill-ring/browse-kill-ring.git
-	ignore = dirty
-[submodule "vendor/ace-jump-mode"]
-	path = vendor/ace-jump-mode
-	url = https://github.com/winterTTr/ace-jump-mode.git
 	ignore = dirty
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
@@ -145,3 +137,4 @@
 [submodule "vendor/smex"]
 	path = vendor/smex
 	url = https://github.com/nonsequitur/smex.git
+	ignore = dirty

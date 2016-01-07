@@ -117,6 +117,6 @@ Missing packages are installed automatically."
     (prelude-require-packages my-packages)))
 
 ;; run package installation
-(prelude-install-packages)
+; (prelude-install-packages)
 
 (provide 'package-conf)
