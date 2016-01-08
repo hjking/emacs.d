@@ -646,8 +646,8 @@
 
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
-  (add-site-lisp-load-path "visual-regexp/")
-  (add-site-lisp-load-path "anzu/")
+  ; (add-site-lisp-load-path "visual-regexp/")
+  ; (add-site-lisp-load-path "anzu/")
   (require 'search-conf)
   )
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
@@ -691,8 +691,9 @@
 
 ;; [ Smart Mode Line ]
 (when section-sml
-  (add-site-lisp-load-path "smart-mode-line/")
+  ; (add-site-lisp-load-path "smart-mode-line/")
   (use-package smart-mode-line
+    :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
     :init
     (progn
       (setq sml/position-percentage-format "%p")

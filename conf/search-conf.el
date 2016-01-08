@@ -70,12 +70,14 @@
 ;;; anzu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package anzu
+  :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
   :config
   (global-anzu-mode +1)
   :diminish ""
   )
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -85,6 +87,8 @@
 ;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
 ;; ;; if you use multiple-cursors, this is for you:
 ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-(use-package visual-regexp)
+(use-package visual-regexp
+  :load-path (lambda () (concat my-site-lisp-dir "visual-regexp/"))
+  )
 
 (provide 'search-conf)

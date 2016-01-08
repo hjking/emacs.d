@@ -66,16 +66,10 @@
 (global-set-key "\C-x_" 'split-window-vertically-instead)
 
 
-;; --[ Switch Window ]----------------------------------------------------------
-; (message "    >>>>> Loading [ Switch Window ] Customization ....")
-; (add-site-lisp-load-path "switch-window/")
-; (require 'switch-window)
-; (global-set-key (kbd "C-x o") 'switch-window)
-;; --------------------------------------------------------------------[ End ]--
-
 ;;--------------- ace-window -----------------------------------------
-(add-site-lisp-load-path "ace-window/")
+; (add-site-lisp-load-path "ace-window/")
 (use-package ace-window
+  :load-path (lambda () (concat my-site-lisp-dir "ace-window/"))
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :bind(
