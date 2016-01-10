@@ -55,7 +55,7 @@
     persp-projectile
     projectile
     ; smartparens
-    smex
+    ; smex
     smooth-scrolling
     stripe-buffer               ;; different background for even and odd lines
     ; web-mode
