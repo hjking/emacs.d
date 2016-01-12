@@ -134,9 +134,10 @@
   (setq
     eval-expression-debug-on-error t       ; debugger on errors in eval-expression
     stack-trace-on-error nil               ; backtrace of error on debug
-    debug-on-error t                       ; debugger on errors
     debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
     debug-on-signal nil)                   ; debug any/every error
+  ;; Keep debug-on-error on for stuff that is lazily loaded
+  (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 )
 
 ;; --[ Load Path ]--------------------------------------------------------------
@@ -522,20 +523,24 @@
   (setq delete-active-region 'kill)
 
   ;;; rect-mark.el
-  (global-set-key (kbd "C-x r C-/") 'rm-set-mark)
-  (global-set-key (kbd "C-x r C-x") 'rm-exchange-point-and-mark)
-  (global-set-key (kbd "C-x r C-w") 'rm-kill-region)
-  (global-set-key (kbd "C-x r M-w") 'rm-kill-ring-save)
-  (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
-  (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
-  (autoload 'rm-kill-region "rect-mark" "Kill a rectangular region and save it in the kill ring." t)
-  (autoload 'rm-kill-ring-save "rect-mark" "Copy a rectangular region to the kill ring." t)
+  (use-package rect-mark
+    :bind
+      ("C-x r C-/" . rm-set-mark)
+      ("C-x r C-x" . rm-exchange-point-and-mark)
+      ("C-x r C-w" . rm-kill-region)
+      ("C-x r M-w" . rm-kill-ring-save)
+    :init
+      (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
+      (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
+      (autoload 'rm-kill-region "rect-mark" "Kill a rectangular region and save it in the kill ring." t)
+      (autoload 'rm-kill-ring-save "rect-mark" "Copy a rectangular region to the kill ring." t)
+    )
 
   ; (require 'expand-region)
   ; (global-set-key (kbd "C-=") 'er/expand-region)
   (use-package expand-region
     :bind
-    ("C-=" . er/expand-region))
+      ("C-=" . er/expand-region))
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 

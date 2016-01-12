@@ -5,8 +5,6 @@
 ;; expanding from a fixed list
 ;; ref: http://ergoemacs.org/emacs/emacs_abbrev_mode.html
 ;;      http://www.emacswiki.org/emacs/AbbrevMode
-(message "%d: >>>>> Loading [ Abbrev Mode ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 (use-package abbrev
   :commands abbrev-mode
@@ -53,9 +51,11 @@
 
 ;; [ Dynamic Abbreviation ]-----------------------------------------------------
 ;; expanding from matching text found in a buffer
-(message "    >>>>> Loading [ Dynamic Abbrevs ] Customization ....")
-(setq dabbrev-case-fold-search     nil)
-(setq dabbrev-case-replace         nil)
+(use-package dabbrev-expand
+  :commands dabbrev-expand
+  :init
+    (setq dabbrev-case-fold-search     nil)
+    (setq dabbrev-case-replace         nil))
 ;; [ Dynamic Abbreviation ]--------------------------------------------[ End ]--
 
 
@@ -66,7 +66,6 @@
   :commands dabbrev-expand-multiple
   :init
   (progn
-    (message "    >>>>> Loading [ DabbrevExpandMultiple ] Customization ....")
     ;; setting abbrev displayed at a time to five.
     (setq dabbrev-expand-multiple-select-keys '("a" "s" "d" "f" "g" "q" "w" "e" "r" "t"))
     ;; The seconds in which tooltip is displayed.
@@ -92,7 +91,6 @@
 ;; [ pabbrev ]------------------------------------------------------------------
 ;; another abbreviation expansion
 ;; analyse text during idle time, the abbreviations are always displayed!
-(message "    >>>>> Loading [ Predictive Abbreviation ] Customization ....")
 ; (when (require 'pabbrev nil t)
 (use-package pabbrev
   :diminish pabbrev-mode
