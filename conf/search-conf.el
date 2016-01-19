@@ -72,7 +72,7 @@
 (use-package anzu
   :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
   :config
-  (global-anzu-mode +1)
+   (global-anzu-mode +1)
   :diminish ""
   )
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)

@@ -1,7 +1,6 @@
 ;; Projectile
 
 (use-package projectile
-  :ensure t
   :disabled t
   :diminish projectile-mode
   :commands (projectile-ack
@@ -61,11 +60,11 @@
     ;; integrate perspective with projectile
     (use-package perspective
       :config
-      (persp-mode))
+       (persp-mode))
 
     (use-package persp-projectile
       :config
-      (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project))
+       (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project))
 
 
     (use-package helm-projectile
