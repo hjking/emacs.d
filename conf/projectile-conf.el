@@ -31,7 +31,8 @@
     (setq step_no (1+ step_no))
     ; (setq projectile-completion-system 'default)
     ;; with helm
-    (setq projectile-completion-system 'helm)
+    ; (setq projectile-completion-system 'helm)
+    (setq projectile-completion-system 'ivy)
     (helm-projectile-on)
     (setq projectile-enable-caching t)
     (when win32p

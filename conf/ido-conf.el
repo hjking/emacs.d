@@ -122,6 +122,7 @@
 ;; ido-vertical-mode
 ;; Makes ido-mode display vertically.
 (use-package ido-vertical-mode
+  :disabled t
   :config
   (progn
    (ido-vertical-mode)

@@ -93,6 +93,7 @@
 ;; analyse text during idle time, the abbreviations are always displayed!
 ; (when (require 'pabbrev nil t)
 (use-package pabbrev
+  :disabled t
   :diminish pabbrev-mode
   :config
   (progn

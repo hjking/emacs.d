@@ -209,10 +209,10 @@
 (global-set-key [S-f12]   'kill-buffer-and-window)
 
 ;;; === misc ===
-(global-set-key "%"       'goto-match-paren)
-(global-set-key (kbd "C-*")     'isearch-forward-at-point)
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key "%"           'goto-match-paren)
+(global-set-key (kbd "C-*")   'isearch-forward-at-point)
+; (global-set-key (kbd "C-s")   'isearch-forward-regexp)
+(global-set-key (kbd "C-r")   'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 

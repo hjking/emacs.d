@@ -863,5 +863,17 @@ or nil if the current buffer isn't visiting a dayage"
 ;;;; org-extension
 (require 'org-extension)
 
+
+;;;; org-bullets
+(use-package org-bullets
+  :disabled t
+  :load-path (lambda () (concat my-site-lisp-dir "org-bullets/"))
+  :init
+   (setq org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇"))
+  :config
+   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  )
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'org-conf)

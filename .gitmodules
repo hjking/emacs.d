@@ -126,10 +126,6 @@
 	path = vendor/volatile-highlights
 	url = https://github.com/k-talo/volatile-highlights.el.git
 	ignore = dirty
-[submodule "vendor/helm-swoop"]
-	path = vendor/helm-swoop
-	url = https://github.com/ShingoFukuyama/helm-swoop.git
-	ignore = dirty
 [submodule "vendor/ecb"]
 	path = vendor/ecb
 	url = https://github.com/ecb-home/ecb
@@ -137,4 +133,16 @@
 [submodule "vendor/smex"]
 	path = vendor/smex
 	url = https://github.com/nonsequitur/smex.git
+	ignore = dirty
+[submodule "vendor/org-bullets"]
+	path = vendor/org-bullets
+	url = https://github.com/sabof/org-bullets.git
+	ignore = dirty
+[submodule "vendor/swiper"]
+	path = vendor/swiper
+	url = https://github.com/abo-abo/swiper.git
+	ignore = dirty
+[submodule "vendor/abo-smex"]
+	path = vendor/abo-smex
+	url = https://github.com/abo-abo/smex
 	ignore = dirty

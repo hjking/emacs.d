@@ -42,8 +42,8 @@
     gnuplot-mode
     guide-key
     guide-key-tip
-    helm
-    helm-projectile
+    ; helm
+    ; helm-projectile
     indent-guide
     info+
     miniedit

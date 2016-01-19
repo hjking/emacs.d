@@ -1125,10 +1125,7 @@
   (use-package table
     :commands table-insert
     :init
-    (message "%d: >>>>> Loading [ table ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    (add-hook 'text-mode-hook 'table-recognize))
-
+     (add-hook 'text-mode-hook 'table-recognize))
   )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1227,11 +1224,10 @@
 
 ;; [ volatile-highlights ]-------------------------------------------------------
 ;; highlight changes made by commands such as undo, yank-pop, etc.
-(add-site-lisp-load-path "volatile-highlights/")
 (use-package volatile-highlights
-  :defer t
+  :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
   :config
-  (volatile-highlights-mode t))
+   (volatile-highlights-mode t))
 ;; ---------------------------------------------------------------------[ End ]--
 
 
@@ -1248,15 +1244,48 @@
 
 ;; [ helm ]---------------------------------------------------------------------
 ;; available for Emacs 22/23
-(when section-helm
-  ;; helm is new version of anything
-  ; (add-site-lisp-load-path "emacs-helm/")
-  ; (add-site-lisp-info-path "emacs-helm/doc/")
-  ;; helm-swoop
-  (add-site-lisp-load-path "helm-swoop/")
-  (require 'helm-conf)
-  )
+; (when section-helm
+;   ;; helm is new version of anything
+;   ; (add-site-lisp-load-path "emacs-helm/")
+;   ; (add-site-lisp-info-path "emacs-helm/doc/")
+;   ;; helm-swoop
+;   (add-site-lisp-load-path "helm-swoop/")
+;   (require 'helm-conf)
+;   )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
+
+(use-package swiper
+  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
+  :bind ("C-s" . swiper)
+  )
+
+(use-package counsel
+  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
+  :bind (("M-x"     . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)
+         ("C-h f"  . counsel-describe-function)
+         ("C-h v"  . counsel-describe-variable)
+         ("C-h l"  . counsel-load-library)
+         ("C-h i"  . counsel-info-lookup-symbol)
+         ("C-h u"  . counsel-unicode-char))
+  )
+
+(use-package flx
+  :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))
+
+(use-package ivy
+  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
+  :init
+   (progn
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-re-builders-alist
+     '((ivy-switch-buffer . ivy--regex-plus)
+       (t . ivy--regex-fuzzy)))
+    (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
+    )
+  :bind  ("C-c C-r"  . ivy-resume)
+  :config  (ivy-mode 1)
+ )
 
 
 ;;;; ================ CategoryCompletion ================
