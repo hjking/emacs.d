@@ -115,10 +115,10 @@
 
   (setq erc-auto-query 'buffer)
 
-  (eval-after-load 'erc-track
-  (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT")
-        erc-track-switch-direction 'newest
-        erc-track-enable-keybindings t))
+  (with-eval-after-load 'erc-track
+    (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT")
+          erc-track-switch-direction 'newest
+          erc-track-enable-keybindings t))
 
   (require 'erc-services)
   (erc-nickserv-mode 1)

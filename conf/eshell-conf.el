@@ -120,44 +120,43 @@
 
   (defalias 'eshell/concat 'eshell/cat)
 
-  (eval-after-load "em-ls"
-    '(progn
-       (defvar ted-eshell-ls-keymap
-         (let ((map (make-sparse-keymap)))
-           (define-key map (kbd "RET")      'ted-eshell-ls-find-file-at-point)
-           (define-key map (kbd "<return>") 'ted-eshell-ls-find-file-at-point) ;%
-           (define-key map (if (featurep 'xemacs)
-                               (kbd "<button2>")
-                             (kbd "<mouse-2>"))
-             'pat-eshell-ls-find-file-at-mouse-click)
-           map))
+  (with-eval-after-load 'em-ls
+     (defvar ted-eshell-ls-keymap
+       (let ((map (make-sparse-keymap)))
+         (define-key map (kbd "RET")      'ted-eshell-ls-find-file-at-point)
+         (define-key map (kbd "<return>") 'ted-eshell-ls-find-file-at-point) ;%
+         (define-key map (if (featurep 'xemacs)
+                             (kbd "<button2>")
+                           (kbd "<mouse-2>"))
+           'pat-eshell-ls-find-file-at-mouse-click)
+         map))
 
-       (defadvice eshell-ls-decorated-name (after ted-electrify-ls activate)
-         "Eshell's `ls' now lets you click or RET on file names to open them."
-         (add-text-properties 0 (length ad-return-value)
-                              (list 'help-echo "RET, middle-click: visit this file"
-                                    'mouse-face 'highlight
-                                    'keymap ted-eshell-ls-keymap)
-                              ad-return-value)
-         ad-return-value)
+     (defadvice eshell-ls-decorated-name (after ted-electrify-ls activate)
+       "Eshell's `ls' now lets you click or RET on file names to open them."
+       (add-text-properties 0 (length ad-return-value)
+                            (list 'help-echo "RET, middle-click: visit this file"
+                                  'mouse-face 'highlight
+                                  'keymap ted-eshell-ls-keymap)
+                            ad-return-value)
+       ad-return-value)
 
-       (defun ted-eshell-ls-find-file-at-point (point)
-         "RET on Eshell's `ls' output to open files."
-         (interactive "d")
-         (find-file (buffer-substring-no-properties
-                     (previous-single-property-change point 'help-echo)
-                     (next-single-property-change point 'help-echo))))
+     (defun ted-eshell-ls-find-file-at-point (point)
+       "RET on Eshell's `ls' output to open files."
+       (interactive "d")
+       (find-file (buffer-substring-no-properties
+                   (previous-single-property-change point 'help-echo)
+                   (next-single-property-change point 'help-echo))))
 
-       ;; Not defined in Emacs.
-       (unless (fboundp 'event-point)
-         (defun event-point (event)
-           "Return the character position of mouse EVENT."
-           (posn-point (event-end event))))
+     ;; Not defined in Emacs.
+     (unless (fboundp 'event-point)
+       (defun event-point (event)
+         "Return the character position of mouse EVENT."
+         (posn-point (event-end event))))
 
-       (defun pat-eshell-ls-find-file-at-mouse-click (event)
-         "Middle click on Eshell's `ls' output to open files.
-       From Patrick Anderson via the EmacsWiki."
-         (interactive "e")
-         (ted-eshell-ls-find-file-at-point (event-point event))))))
+     (defun pat-eshell-ls-find-file-at-mouse-click (event)
+       "Middle click on Eshell's `ls' output to open files.
+     From Patrick Anderson via the EmacsWiki."
+       (interactive "e")
+       (ted-eshell-ls-find-file-at-point (event-point event)))))
 
 (provide 'eshell-conf)

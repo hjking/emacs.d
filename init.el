@@ -16,7 +16,7 @@
 ;; the interactive functions is used.
 ;;
 ;; If you want to set options which need to be evaluated after a package is
-;; loaded, you can use `eval-after-load'.
+;; loaded, you can use `with-eval-after-load'.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Let's Rock and Roll
@@ -83,7 +83,6 @@
 (defvar section-ac nil)
 (defvar section-company t)
 (defvar section-helm nil)
-(defvar section-icicles nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
 (defvar section-markdown-mode t)
@@ -127,15 +126,17 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
+(define-prefix-command 'hjking-map)
+(global-set-key (kbd "C-x m") 'hjking-map) ;; overriding the default binding to `compose-mail'
+
 (when section-debugging
 ;;;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
-  (setq
-    eval-expression-debug-on-error t       ; debugger on errors in eval-expression
-    stack-trace-on-error nil               ; backtrace of error on debug
-    debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
-    debug-on-signal nil)                   ; debug any/every error
+  (setq eval-expression-debug-on-error t       ; debugger on errors in eval-expression
+        stack-trace-on-error nil               ; backtrace of error on debug
+        debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
+        debug-on-signal nil)                   ; debug any/every error
   ;; Keep debug-on-error on for stuff that is lazily loaded
   (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 )
@@ -298,7 +299,8 @@
 (setq message-log-max t)
 
 ;; Load face+ after loading face
-(eval-after-load "faces" '(require 'faces+ nil t))
+(with-eval-after-load 'faces
+  (require 'faces+ nil t))
 
 (when section-scratch
     (require 'scratch-conf))
@@ -381,7 +383,8 @@
 
 ;; dash
 (require 'dash)
-(eval-after-load "dash" '(dash-enable-font-lock))
+(with-eval-after-load 'dash
+  (dash-enable-font-lock))
 
 ;; use-package
 (eval-when-compile
@@ -389,6 +392,8 @@
   (setq use-package-verbose t))
 (require 'diminish)
 (require 'bind-key)                ;; if you use any :bind variant
+
+(require 'hydra-conf)
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
@@ -416,13 +421,12 @@
   (message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
   (setq step_no (1+ step_no))
   (use-package bookmark
-    :defer t
     :init
-    ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-    (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-    ;; each command that sets a bookmark will also save your bookmarks
-    (setq bookmark-save-flag t)
-    ;; (switch-to-buffer "*Bookmark List*")
+      ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+      (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+      ;; each command that sets a bookmark will also save your bookmarks
+      (setq bookmark-save-flag t)
+      ;; (switch-to-buffer "*Bookmark List*")
   )
 )
 ;; --[ Bookmark ]------------------------------------------------------[ End ]--
@@ -524,11 +528,10 @@
 
   ;;; rect-mark.el
   (use-package rect-mark
-    :bind
-      ("C-x r C-/" . rm-set-mark)
-      ("C-x r C-x" . rm-exchange-point-and-mark)
-      ("C-x r C-w" . rm-kill-region)
-      ("C-x r M-w" . rm-kill-ring-save)
+    :bind (("C-x r C-/" . rm-set-mark)
+           ("C-x r C-x" . rm-exchange-point-and-mark)
+           ("C-x r C-w" . rm-kill-region)
+           ("C-x r M-w" . rm-kill-ring-save))
     :init
       (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
       (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
@@ -539,8 +542,7 @@
   ; (require 'expand-region)
   ; (global-set-key (kbd "C-=") 'er/expand-region)
   (use-package expand-region
-    :bind
-      ("C-=" . er/expand-region))
+    :bind ("C-=" . er/expand-region))
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -679,9 +681,8 @@
 ;; displays the current function name in the mode line
 (use-package which-func
   :init
-  (progn
     (setq which-func-unknown "n/a")
-    (which-function-mode 1)))
+  :config (which-function-mode 1))
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -699,13 +700,12 @@
   ; (add-site-lisp-load-path "smart-mode-line/")
   (use-package smart-mode-line
     :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
-    :init
-    (progn
-      (setq sml/position-percentage-format "%p")
-      (setq sml/shorten-directory t)
-      (setq sml/shorten-modes t)
-      (setq sml/name-width 25)
-      (setq sml/mode-width 'full)
+    :init (progn
+           (setq sml/position-percentage-format "%p")
+           (setq sml/shorten-directory t)
+           (setq sml/shorten-modes t)
+           (setq sml/name-width 25)
+           (setq sml/mode-width 'full)
       ; (sml/apply-theme 'dark)  ;; respectful/light
       ; (sml/setup)
   ))
@@ -869,8 +869,7 @@
 ;; run `diff' in compilation-mode
 ; (autoload 'diff-mode "diff-mode" "Diff major mode" t)
 (use-package diff-mode
-  :commands diff-mode
-)
+  :commands diff-mode)
 
 ;; use diff-mode- to enhance diff-mode
 ;;  ;; extensions to `diff-mode.el'
@@ -885,16 +884,14 @@
 ;;
 ;; do everything in one frame
 (use-package ediff
-  :defer t
-  :init
-  (progn
-    ;; first we set some sane defaults
-    (setq-default
-     ediff-window-setup-function 'ediff-setup-windows-plain
-     ;; emacs is evil and decrees that vertical shall henceforth be horizontal
-     ediff-split-window-function 'split-window-horizontally
-     ediff-custom-diff-options "-u"
-     ediff-merge-split-window-function 'split-window-horizontally)))
+  :init (progn
+         ;; first we set some sane defaults
+         (setq-default
+          ediff-window-setup-function 'ediff-setup-windows-plain
+          ;; emacs is evil and decrees that vertical shall henceforth be horizontal
+          ediff-split-window-function 'split-window-horizontally
+          ediff-custom-diff-options "-u"
+          ediff-merge-split-window-function 'split-window-horizontally)))
 
 ;; --[ Compare File ]--------------------------------------------------[ End ]--
 
@@ -934,7 +931,7 @@
 
 ;; History
 (require 'savehist-conf)
-
+;; recently opened files
 (require 'recentf-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -955,10 +952,9 @@
 ;; --[ Documentation ]----------------------------------------------------------
 ;; displays information in the minibuffer about the thing at point.
 (message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
-(use-package "eldoc"
+(use-package eldoc
   :diminish eldoc-mode
   :commands turn-on-eldoc-mode
-  :defer t
   :init
   (progn
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
@@ -1098,7 +1094,6 @@
   ; (defalias 'list-buffers 'ibuffer)
   ; (global-set-key (kbd "C-x C-b") 'ibuffer)
   ; (autoload 'ibuffer "ibuffer" "List buffers." t)
-  ; (eval-after-load 'ibuffer '(require 'ibuffer-conf))
   (require 'ibuffer-conf)
 
   ; (add-site-lisp-load-path "ace-jump-buffer/")
@@ -1200,7 +1195,8 @@
   (global-set-key (kbd "M-g c") 'magit-cheat-sheet)
   ; (global-set-key (kbd "C-x g") 'magit-status)
 
-  (eval-after-load 'magit '(require 'git-conf))
+  (with-eval-after-load 'magit
+    (require 'git-conf))
   )
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
@@ -1220,15 +1216,6 @@
 ;; highlight columns 75, 80, 100 in some modes
 (require 'column-marker-conf)
 ;; [ column-marker ]---------------------------------------------------[ End ]--
-
-
-;; [ volatile-highlights ]-------------------------------------------------------
-;; highlight changes made by commands such as undo, yank-pop, etc.
-(use-package volatile-highlights
-  :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
-  :config
-   (volatile-highlights-mode t))
-;; ---------------------------------------------------------------------[ End ]--
 
 
 ;; [ auto-header ]--------------------------------------------------------------
@@ -1263,11 +1250,16 @@
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :bind (("M-x"     . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
-         ("C-h f"  . counsel-describe-function)
-         ("C-h v"  . counsel-describe-variable)
-         ("C-h l"  . counsel-load-library)
-         ("C-h i"  . counsel-info-lookup-symbol)
-         ("C-h u"  . counsel-unicode-char))
+         ("C-h f"   . counsel-describe-function)
+         ("C-h v"   . counsel-describe-variable)
+         ("C-h l"   . counsel-load-library)
+         ("C-h i"   . counsel-info-lookup-symbol)
+         ("C-h u"   . counsel-unicode-char))
+  :config (progn
+           (with-eval-after-load 'org
+              (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
+           (with-eval-after-load 'org-agenda
+              (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
   )
 
 (use-package flx
@@ -1275,25 +1267,25 @@
 
 (use-package ivy
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :init
-   (progn
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-re-builders-alist
-     '((ivy-switch-buffer . ivy--regex-plus)
-       (t . ivy--regex-fuzzy)))
-    (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
-    )
-  :bind  ("C-c C-r"  . ivy-resume)
-  :config  (ivy-mode 1)
+  :init (progn
+          ;; show recently killed buffers when calling `ivy-switch-buffer'
+          (setq ivy-use-virtual-buffers t)
+          (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
+          (setq ivy-count-format "%d/%d ")
+          (setq ivy-re-builders-alist
+           '((ivy-switch-buffer . ivy--regex-plus)
+             (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
+          (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
+        )
+  :bind (("C-c C-r"  . ivy-resume)
+         ("C-x b"    . ivy-switch-buffer))
+  :config (progn
+           ;; Disable ido
+           (with-eval-after-load 'ido
+             (ido-mode -1))
+           (ivy-mode 1))
  )
 
-
-;;;; ================ CategoryCompletion ================
-;; [ icicles ]------------------------------------------------------------------
-(when section-icicles
-  (add-site-lisp-load-path "icicles/")
-  (require 'icicles-conf))
-;; --------------------------------------------------------------------[ End ]--
 
 ;; [ auto-complete ]------------------------------------------------------------
 ;; available for Emacs 22/23
@@ -1455,7 +1447,8 @@
   (global-set-key "\C-cl" 'org-store-link)
   (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
-  (eval-after-load 'org '(require 'org-conf))
+  (with-eval-after-load 'org
+    (require 'org-conf))
   (require 'org-trello-conf)
   )
 ;; [ org ]-------------------------------------------------------------[ End ]--
@@ -1544,9 +1537,10 @@
 
   ;; Drag word
   ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
-  (add-site-lisp-load-path "drag-stuff/")
+  ; (add-site-lisp-load-path "drag-stuff/")
   (use-package drag-stuff
     :diminish ""
+    :load-path (lambda () (concat my-site-lisp-dir "drag-stuff/"))
     :config
     (progn
       (drag-stuff-mode t)
@@ -1558,9 +1552,10 @@
 ;; [ mmm-mode ]-----------------------------------------------------------------
 ;; Multiple Major Modes coexist in one buffer
 (when section-mmm-mode
-    (add-site-lisp-load-path "mmm-mode/")
+    ; (add-site-lisp-load-path "mmm-mode/")
     (add-site-lisp-info-path "mmm-mode/")
     (use-package mmm-mode
+      :load-path (lambda () (concat my-site-lisp-dir "mmm-mode/"))
       :config
       (setq mmm-global-mode 'maybe))
     )
@@ -1656,11 +1651,6 @@
        auto-mode-alist
      ))
 
-(add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-
 
 ;; [ CSV Mode ]-----------------------------------------------------------------
 ;; major mode for editing comma-separated value files
@@ -1721,12 +1711,12 @@
 (when section-hdl
   (when section-verilog
     ;; Verilog mode
-      (setq my-verilog-load-path (concat my-site-lisp-dir "verilog-mode/"))
-      (add-site-lisp-load-path "verilog-mode/")
+      ; (setq my-verilog-load-path (concat my-site-lisp-dir "verilog-mode/"))
+      ; (add-site-lisp-load-path "verilog-mode/")
       ;; load verilog mode only when needed
-      (add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
-      (autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
-      (eval-after-load "verilog-mode" '(require 'verilog-conf))
+      ; (add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
+      ; (autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
+      (require 'verilog-conf)
       )
 
   (when section-vlog
@@ -1752,11 +1742,8 @@
 
 ;; [ Python Mode ]--------------------------------------------------------------
 (when section-python
-    (setq python-load-path (concat my-site-lisp-dir "python/"))
-    (add-site-lisp-load-path "python/")
-    (autoload 'python-mode "python-mode" "Python editing mode." t)
-    (eval-after-load  "python-mode" '(require 'python-conf))
-    )
+  (require 'python-conf)
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1764,11 +1751,7 @@
 ;; cperl-mode is preferred to perl-mode,
 ;; replace the standard perl-mode with cperl-mode
 (when section-perl
-    (setq perl-load-path (concat my-site-lisp-dir "cperl/"))
-    (add-site-lisp-load-path "cperl/")
-    (autoload 'cperl-mode "cperl-mode" "cperl mode" t)
-    (defalias 'perl-mode 'cperl-mode)
-    (eval-after-load  "cperl-mode" '(require 'perl-conf))
+    (require 'perl-conf)
 
     ; (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
     ; (add-site-lisp-load-path "pde/lisp/")
@@ -1784,7 +1767,8 @@
     (when linuxp
         (setq shell-file-name "/bin/bash"))
     ; (load "shell-mode-conf")
-    (eval-after-load 'shell '(require 'shell-mode-conf))
+    (with-eval-after-load 'shell
+      (require 'shell-mode-conf))
     )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1823,10 +1807,7 @@
 ;; [ Markdown Mode ]------------------------------------------------------------
 (when section-markdown-mode
     ;; Markdown mode - TAB for <pre></pre> block
-    (add-site-lisp-load-path "markdown-mode/")
-    (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)\\'"  . markdown-mode))
-    (autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
-    (eval-after-load "markdown-mode" '(require 'markdown-mode-conf))
+    (require 'markdown-mode-conf)
     )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1837,14 +1818,15 @@
     (add-site-lisp-load-path "slime/contrib/")
     (add-site-lisp-info-path "slime/doc")
     (autoload 'slime-selector "slime" t)
-    (eval-after-load "slime" '(require 'slime-conf))
+    (with-eval-after-load 'slime
+      (require 'slime-conf))
     )
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ Emacs Lisp Mode ]----------------------------------------------------------
 (when section-elisp-mode
-    (load "elisp-mode-conf"))
+    (require 'elisp-mode-conf))
 
 ;; Edebug
 (setq edebug-trace t)
@@ -1895,19 +1877,16 @@
 
 ;; [ undo ]---------------------------------------------------------------------
 (when section-undo
-    (add-site-lisp-load-path "undo-tree/")
-
     (use-package undo-tree
-      :defer t
+      :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
       :diminish ""
-      :config
-      (progn
-        (setq undo-tree-visualizer-timestamps t)
-        (setq undo-tree-visualizer-diff t)
-        (global-undo-tree-mode t)
-        (defalias 'redo 'undo-tree-redo)
-        (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
-        (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
+      :config (progn
+               (setq undo-tree-visualizer-timestamps t)
+               (setq undo-tree-visualizer-diff t)
+               (global-undo-tree-mode t)
+               (defalias 'redo 'undo-tree-redo)
+               (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
+               (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
       :bind (("M-z" . undo)
              ("M-S-z" . redo)))
 )
@@ -1915,7 +1894,7 @@
 
 
 ;; [ avy ]----------------------------------------------------------------------
-(load "avy-conf")
+(require 'avy-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 ;; [ EMMS ]---------------------------------------------------------------------
@@ -1928,12 +1907,6 @@
     ; (load "emms-conf")
     )
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
-
-
-;; --[ tree ]-------------------------------------------------------------------
-(add-site-lisp-load-path "tree/")
-(load "tree-conf")
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ epg ]--------------------------------------------------------------------
@@ -1997,8 +1970,6 @@
 
 ;; [ multiple-cursors ]---------------------------------------------------------
 ;; https://github.com/magnars/multiple-cursors.el
-(add-site-lisp-load-path "multiple-cursors/")
-; (require 'multiple-cursors)
 ; ;; Add a cursor to each line in an active region that spans multiple lines
 ; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 ; ;; Add multiple cursors not based on continuous lines, but based on keywords in the buffer
@@ -2006,20 +1977,19 @@
 ; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 ; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (use-package multiple-cursors
-  :config
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines))
+  :load-path (lambda () (concat my-site-lisp-dir "multiple-cursors/"))
+  :bind (("C->"         . mc/mark-next-like-this)
+         ("C-<"         . mc/mark-previous-like-this)
+         ("C-c C-<"     . mc/mark-all-like-this)
+         ("C-S-c C-S-c" . mc/edit-lines)))
 ;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 
 ;; [ hungry-delete ]------------------------------------------------------------
-(add-site-lisp-load-path "hungry-delete/")
 (use-package hungry-delete
-  :defer t
+  :load-path (lambda () (concat my-site-lisp-dir "hungry-delete/"))
   :config
-  (global-hungry-delete-mode))
+    (global-hungry-delete-mode))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -2050,8 +2020,8 @@
   (setq tooltip-delay 1)
 
   ;; [ show tip ]---------------------------------------------------------------
-  (add-site-lisp-load-path "clippy/")
-  (use-package clippy)
+  (use-package clippy
+    :load-path (lambda () (concat my-site-lisp-dir "clippy/")))
   ;; ------------------------------------------------------------------[ End ]--
 )
 ;; --[ Help ]----------------------------------------------------------[ End ]--
@@ -2060,19 +2030,15 @@
 ;;; stripe-buffer
 (use-package stripe-buffer
   :commands (turn-on-stripe-buffer-mode turn-on-stripe-table-mode)
-  :defer t
-  :init
-  (progn
-    (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
-    (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
-    )
+  :init  (progn
+          (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+          (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
   )
 
 
 ;;; Smartscan
 ;; makes M-n and M-p look for the symbol at point
 (use-package smartscan
-  :defer t
   :config (global-smartscan-mode t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

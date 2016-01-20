@@ -5,62 +5,46 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-16 14:39:27
 
-(message "%d: >>>>> Loading [ Perl Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+(use-package cperl-mode
+  :mode (("\\.\\([pP][Llm]\\|al\\)\\'"    . cperl-mode)
+         ("\\.PL$"                        . cperl-mode)
+         ("\\.pl$"                        . cperl-mode)
+         ("\\.perl$"                      . cperl-mode)
+         ("\\.pm$"                        . cperl-mode)
+         ("\\.t$"                         . cperl-mode)
+         ("\\.psgi$"                      . cperl-mode)
+         ("\\.comp$"                      . cperl-mode)
+         ("\\.pl\\'"                      . cperl-mode)
+         ("\\.perl\\'"                    . cperl-mode)
+         ("\\.\\([pP][Llm]\\|al\\)\\'"    . cperl-mode))
+  :interpreter ("perl" . cperl-mode)
+  :init (progn
+          (defalias 'perl-mode 'cperl-mode)
+          (setq cperl-autoindent-on-semi t
+                cperl-auto-newline t
+                cperl-clobber-lisp-bindings t
+                cperl-close-paren-offset -2
+                cperl-continued-statement-offset 2
+                cperl-electric-keywords t
+                cperl-electric-lbrace-space nil
+                cperl-electric-linefeed t
+                cperl-electric-parens nil
+                cperl-font-lock t
+                cperl-highlight-variables-indiscriminately t
+                cperl-indent-level 4
+                cperl-indent-parens-as-block t
+                cperl-merge-trailing-else nil
+                cperl-extra-newline-before-brace t
+                cperl-indent-region-fix-constructs nil
+                cperl-info-on-command-no-prompt t
+                cperl-invalid-face nil
+                cperl-lazy-help-time 5
+                cperl-continued-brace-offset -2
+                cperl-tab-always-indent t)))
 
-; (defun my-perl-startup ()
-;   "Setup perl."
-;   (interactive)
-;   (local-set-key '[pause] 'perldb)
-;   (setq gud-perldb-command-name "perl -w ") ; For warnings
-;   (setq tab-width 4)
-;   (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
-;   (setq cperl-indent-level 4)
-;   (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
-;   (setq cperl-continued-statement-offset 2)
-;   (setq cperl-continued-brace-offset -2)
-;   (set-face-background 'cperl-array-face "wheat")
-;   (set-face-background 'cperl-hash-face "wheat")
-; )
-; (add-hook 'perl-mode-hook 'my-perl-startup)
 
-(eval-after-load "cperl-mode"
-  '(progn
-    (setq
-     cperl-merge-trailing-else nil
-     cperl-continued-statement-offset 0
-     cperl-extra-newline-before-brace t)
-      (local-set-key '[pause] 'perldb)
-    (setq gud-perldb-command-name "perl -w ") ; For warnings
-    (setq tab-width 4)
-    (setq indent-tabs-mode nil)  ; Autoconvert tabs to spaces
-    (setq cperl-indent-level 4)
-    (setq cperl-tab-always-indent nil) ; Indent if at left margin, else tab
-    (setq cperl-continued-statement-offset 2)
-    (setq cperl-continued-brace-offset -2)
-    (set-face-background 'cperl-array-face "wheat")
-    (set-face-background 'cperl-hash-face "wheat")
-
-    (defun installed-perl-version ()
-      (interactive)
-      (let ((perl (executable-find "perl")))
-        (if perl
-            (shell-command-to-string (concatenate 'string perl " -e '($v = $]) =~ s/(?<!\\.)(?=(\\d{3})+$)/./g; print $v;'")))))
-    (defun use-installed-perl-version ()
-      (interactive)
-      (let ((perl-version (installed-perl-version)))
-        (if perl-version
-            (save-excursion
-              (beginning-of-buffer)
-              (let ((case-fold-search nil))
-                (re-search-forward "^use [a-z]" (point-max) t)
-                (beginning-of-line)
-                (open-line 1)
-                (insert (concatenate 'string "use v" perl-version ";"))))
-            (message "Couldn't determine perl version"))))
-    (add-hook 'cperl-mode-hook
-      (lambda ()  (local-set-key (kbd "C-h f") 'cperl-perldoc)))
-    (define-key 'help-command "P" 'cperl-perldoc)
-    ))
+; (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
+; (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
+; (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 
 (provide 'perl-conf)

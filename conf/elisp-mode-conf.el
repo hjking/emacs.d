@@ -55,3 +55,5 @@
 
 ;; Paredit
 (load "paredit-mode-conf")
+
+(provide 'elisp-mode-conf)

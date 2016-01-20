@@ -4,26 +4,26 @@
   :disabled t
   :diminish projectile-mode
   :commands (projectile-ack
-               projectile-ag
-               projectile-compile-project
-               projectile-dired
-               projectile-grep
-               projectile-find-dir
-               projectile-find-file
-               projectile-find-tag
-               projectile-find-test-file
-               projectile-invalidate-cache
-               projectile-kill-buffers
-               projectile-multi-occur
-               projectile-project-root
-               projectile-recentf
-               projectile-regenerate-tags
-               projectile-replace
-               projectile-run-async-shell-command-in-root
-               projectile-run-shell-command-in-root
-               projectile-switch-project
-               projectile-switch-to-buffer
-               projectile-vc)
+             projectile-ag
+             projectile-compile-project
+             projectile-dired
+             projectile-grep
+             projectile-find-dir
+             projectile-find-file
+             projectile-find-tag
+             projectile-find-test-file
+             projectile-invalidate-cache
+             projectile-kill-buffers
+             projectile-multi-occur
+             projectile-project-root
+             projectile-recentf
+             projectile-regenerate-tags
+             projectile-replace
+             projectile-run-async-shell-command-in-root
+             projectile-run-shell-command-in-root
+             projectile-switch-project
+             projectile-switch-to-buffer
+             projectile-vc)
   :init
   (progn
     (message "%d: >>>>> Loading [ projectile ] Customization ...." step_no)
@@ -31,7 +31,8 @@
     ; (setq projectile-completion-system 'default)
     ;; with helm
     ; (setq projectile-completion-system 'helm)
-    (setq projectile-completion-system 'ivy)
+    (with-eval-after-load 'ivy
+        (setq projectile-completion-system 'ivy))
     (helm-projectile-on)
     (setq projectile-enable-caching t)
     (when win32p

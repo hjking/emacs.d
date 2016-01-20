@@ -279,12 +279,11 @@
 
       (setq xwl-emms-playlist-last-track track))))
 
-(eval-after-load 'emms
-  '(progn
-     (setq xwl-emms-playlist-last-track nil
-           xwl-emms-playlist-last-indent "\\"
-           emms-track-description-function 'xwl-emms-track-description-function)
-     ))
+(with-eval-after-load 'emms
+  (setq xwl-emms-playlist-last-track nil
+       xwl-emms-playlist-last-indent "\\"
+       emms-track-description-function 'xwl-emms-track-description-function)
+  )
 
 ;; ,----
 ;; | bindings
@@ -529,7 +528,7 @@
 ;;                         urlencoded-title
 ;;                         "&lm=0")))
 ;;      (url-retrieve url1 'xwl-mp3-crawler-url1-callback (list title))))
-;;  
+;;
 ;;  (defun xwl-mp3-crawler-url1-callback (status title)
 ;;    (let (url2)
 ;;      (goto-char (point-min))
@@ -546,7 +545,7 @@
 ;;            '(";" " "))
 ;;      (url-retrieve url2 'xwl-mp3-crawler-url2-callback (list title))
 ;;      (kill-buffer (current-buffer))))
-;;  
+;;
 ;;  (defun xwl-mp3-crawler-url2-callback (status title)
 ;;    (let (url3)
 ;;      (goto-char (point-min))

@@ -128,8 +128,8 @@ fringes.")
        :foreground "cyan")
       (t :foreground "gray")))))
 
-(eval-after-load 'linum
-  `(linum-face-settings))
+(with-eval-after-load 'linum
+  (linum-face-settings))
 
 ;; (am-def-active-fun linum-mode linum-mode-active)
 

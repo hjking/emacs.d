@@ -7,8 +7,9 @@
 
 (use-package avy
   ; :bind ("M-SPC" . avy-goto-char)
-  :config
-  (progn
-    (setq avy-background t)
-    (setq avy-style 'at-full)
-    (setq avy-all-windows nil)))
+  :config (progn
+            (setq avy-background t)
+            (setq avy-style 'at-full)
+            (setq avy-all-windows nil)))
+
+(provide 'avy-conf)

@@ -146,3 +146,11 @@
 	path = vendor/abo-smex
 	url = https://github.com/abo-abo/smex
 	ignore = dirty
+[submodule "vendor/hl-anything"]
+	path = vendor/hl-anything
+	url = https://github.com/boyw165/hl-anything.git
+	ignore = dirty
+[submodule "vendor/hydra"]
+	path = vendor/hydra
+	url = https://github.com/abo-abo/hydra.git
+	ignore = dirty

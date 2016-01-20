@@ -5,8 +5,6 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2012-01-11 10:26:45
 ;;
-(message "%d: >>>>> Loading [ header2 ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 (use-package header2
   :defer t
@@ -38,7 +36,7 @@
         (remove-hook hook #'auto-make-header)))
 
      (add-hook 'write-file-hooks     'auto-update-file-header)
-     (setq header-copyright-notice "Copyright (c) 2015, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
+     (setq header-copyright-notice "Copyright (c) 2016, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
      (setq header-author 'user-full-name)
      (setq header-file-name 'buffer-file-name)
      (setq header-creation-date 'current-time-string)
@@ -58,8 +56,6 @@
                               header-code
                               header-eof))
      (hjking/turn-on-auto-headers)
-  )
-
-  )
+  ))
 
 (provide 'header2-conf)

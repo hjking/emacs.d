@@ -117,28 +117,27 @@
 ;; After 1.1
 ; ;; select which submodes we want to activate
 
-(eval-after-load "semantic"
-   '(progn
-    ;; activates use of separate styles for tags decoration, defined in the `semantic-decoration-styles' list
-      (add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
-      ;; displays function interface in the minibuffer
-      (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-      ;; highlighting of local names that are the same as name of tag under cursor
-      (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
-      ;; caches parsing result for future use
-      ; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-      ;; automatic parsing of source code in the idle time
-      ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-      ;; activates mode when name of current tag will be shown in top line of buffer
-      ; (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-      ;; activates CEDET's context menu that is bound to right mouse button
-      ; (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
-      ;; activates highlighting of first line for current tag (function, class, etc.)
-      ; (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-      ;; displaying of possible name completions in the idle time
-      ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
-      ;; automatic bookmarking of tags that you edited, so you can return to them later with the semantic-mrub-switch-tags command;
-      (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)))
+(with-eval-after-load 'semantic
+  ;; activates use of separate styles for tags decoration, defined in the `semantic-decoration-styles' list
+  (add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
+  ;; displays function interface in the minibuffer
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+  ;; highlighting of local names that are the same as name of tag under cursor
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-local-symbol-highlight-mode)
+  ;; caches parsing result for future use
+  ; (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+  ;; automatic parsing of source code in the idle time
+  ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+  ;; activates mode when name of current tag will be shown in top line of buffer
+  ; (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+  ;; activates CEDET's context menu that is bound to right mouse button
+  ; (add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+  ;; activates highlighting of first line for current tag (function, class, etc.)
+  ; (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+  ;; displaying of possible name completions in the idle time
+  ; (add-to-list 'semantic-default-submodes 'global-semantic-idle-completions-mode)
+  ;; automatic bookmarking of tags that you edited, so you can return to them later with the semantic-mrub-switch-tags command;
+  (add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode))
 (global-semantic-stickyfunc-mode 0)
 
 ; ;; Activate semantic

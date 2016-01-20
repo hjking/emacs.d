@@ -14,75 +14,75 @@
 (when (display-graphic-p)
   ; (eval-after-load "auto-complete"
   ;   '(diminish 'auto-complete-mode " Ⓐ"))
-  (eval-after-load "flymake"
-    '(diminish 'flymake-mode " Ⓕ"))
-  (eval-after-load "projectile"
-    '(diminish 'projectile-mode " Ⓟ"))
-  (eval-after-load "flyspell"
-    '(diminish 'flyspell-mode " Ⓢ"))
-  (eval-after-load "paredit"
-    '(diminish 'paredit-mode " (Ⓟ)"))
-  (eval-after-load "tagedit"
-    '(diminish 'tagedit-mode " Ⓣ"))
-  (eval-after-load "yasnippet"
-    '(diminish 'yas-minor-mode " Ⓨ"))
+  (with-eval-after-load "flymake"
+    (diminish 'flymake-mode " Ⓕ"))
+  (with-eval-after-load "projectile"
+    (diminish 'projectile-mode " Ⓟ"))
+  (with-eval-after-load "flyspell"
+    (diminish 'flyspell-mode " Ⓢ"))
+  (with-eval-after-load "paredit"
+    (diminish 'paredit-mode " (Ⓟ)"))
+  (with-eval-after-load "tagedit"
+    (diminish 'tagedit-mode " Ⓣ"))
+  (with-eval-after-load "yasnippet"
+    (diminish 'yas-minor-mode " Ⓨ"))
   )
 
 
 ;; Minor Mode (hidden) -------------------------------------------------------
-(eval-after-load "smartparens"
-  '(diminish 'smartparens-mode))
+(with-eval-after-load "smartparens"
+  (diminish 'smartparens-mode))
 
-(eval-after-load "hi-lock"
-  '(diminish 'hi-lock-mode))
+(with-eval-after-load "hi-lock"
+  (diminish 'hi-lock-mode))
 
-(eval-after-load "page-break-lines"
-  '(diminish 'page-break-lines-mode))
+(with-eval-after-load "page-break-lines"
+  (diminish 'page-break-lines-mode))
 
-(eval-after-load "rainbow-mode"
-  '(diminish 'rainbow-mode))
+(with-eval-after-load "rainbow-mode"
+  (diminish 'rainbow-mode))
 
-(eval-after-load "undo-tree"
-  '(diminish 'undo-tree-mode))
+(with-eval-after-load "undo-tree"
+  (diminish 'undo-tree-mode))
 
-(eval-after-load "helm-mode"
-  '(diminish 'helm-mode))
+(with-eval-after-load "helm-mode"
+  (diminish 'helm-mode))
 
-(eval-after-load "git-gutter"
-  '(diminish 'git-gutter-mode))
+(with-eval-after-load "git-gutter"
+  (diminish 'git-gutter-mode))
 
-; (eval-after-load "abbrev"
-;   '(diminish 'abbrev-mode))
+; (with-eval-after-load "abbrev"
+;   (diminish 'abbrev-mode))
 
-(eval-after-load "volatile-highlights"
-  '(diminish 'volatile-highlights-mode))
+(with-eval-after-load "volatile-highlights"
+  (diminish 'volatile-highlights-mode))
 
-(eval-after-load "outline"
-  '(diminish 'outline-minor-mode))
+(with-eval-after-load "outline"
+  (diminish 'outline-minor-mode))
 
-(eval-after-load "eldoc"
-  '(diminish 'eldoc-mode))
+(with-eval-after-load "eldoc"
+  (diminish 'eldoc-mode))
 
-(eval-after-load "guru-mode"
-  '(diminish 'guru-mode "G"))
+(with-eval-after-load "guru-mode"
+  (diminish 'guru-mode "G"))
 
-(eval-after-load "auto-revert"
-  '(diminish 'auto-revert-mode))
+(with-eval-after-load "auto-revert"
+  (diminish 'auto-revert-mode))
 
-(eval-after-load "workgroups2"
-  '(diminish 'workgroups-mode))
+(with-eval-after-load "workgroups2"
+  (diminish 'workgroups-mode))
 
-(eval-after-load "auto-fill"
-  '(diminish 'auto-fill-mode))
+(with-eval-after-load "auto-fill"
+  (diminish 'auto-fill-mode))
 
-(eval-after-load "magit"
-  '(diminish 'magit-auto-revert-mode))
+(with-eval-after-load "magit"
+  (diminish 'magit-auto-revert-mode))
 
-(eval-after-load "whitespace"
-  '(diminish 'whitespace-mode))
+(with-eval-after-load "whitespace"
+  (diminish 'whitespace-mode))
 
-(eval-after-load "guide-key"
-  '(diminish 'guide-key-mode))
+(with-eval-after-load "guide-key"
+  (diminish 'guide-key-mode))
 
 ; (diminish 'dired-view-minor-mode)
 
@@ -94,16 +94,16 @@
 (diminish 'visual-line-mode)
 ;; (diminish 'global-visual-line-mode)
 
-(eval-after-load 'highlight-symbol
-  '(diminish 'highlight-symbol-mode))
+(with-eval-after-load 'highlight-symbol
+  (diminish 'highlight-symbol-mode))
 
-(eval-after-load 'aggressive-indent
-  '(diminish 'aggressive-indent-mode))
+(with-eval-after-load 'aggressive-indent
+  (diminish 'aggressive-indent-mode))
 
-(eval-after-load 'company
-  '(diminish 'company-mode))
+(with-eval-after-load 'company
+  (diminish 'company-mode))
 
-(eval-after-load 'indent-guide
-  '(diminish 'indent-guide-mode))
+(with-eval-after-load 'indent-guide
+  (diminish 'indent-guide-mode))
 
 (diminish 'isearch-mode)

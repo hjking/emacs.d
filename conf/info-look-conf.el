@@ -15,4 +15,5 @@
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 
 ;; info+
-(eval-after-load "info" '(require 'info+))
+(with-eval-after-load 'info
+    (require 'info+))

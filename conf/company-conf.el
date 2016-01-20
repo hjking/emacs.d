@@ -22,37 +22,6 @@
 ; ;; (add-hook 'after-init-hook 'global-company-mode)
 ; (global-set-key "\M-]" 'company-complete-common)
 
-; (setq company-require-match nil)
-
-; (eval-after-load 'company
-;   '(progn
-;      (add-to-list 'company-backends 'company-dabbrev t)
-;      (add-to-list 'company-backends 'company-ispell t)
-;      (add-to-list 'company-backends 'company-files t)
-;      (add-to-list 'company-backends 'company-semantic t)
-;      (add-to-list 'company-backends 'company-c-headers)
-
-;      (delete 'company-ropemacs company-backends)
-;      (delete 'company-capf company-backends)
-;      (delete 'company-clang company-backends)
-;      (delete 'company-semantic company-backends)
-;      ;; I don't like the downcase word in company-dabbrev
-;      ;; for languages use camel case naming convention
-;      (setq company-dabbrev-downcase nil)
-;      (setq company-show-numbers t)
-;      (setq company-begin-commands '(self-insert-command))
-;      (setq company-idle-delay 0.2)
-;      ; (setq company-idle-delay t)
-;      ; (setq company-clang-insert-arguments nil)
-;      ; (setq company-idle-delay 0.3)
-;      (setq company-tooltip-limit 20)
-;      (setq company-minimum-prefix-length 2)
-;      (setq company-echo-delay 0)
-;      (setq company-auto-complete nil)
-;      ))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package company
   :defer t
   :diminish ""

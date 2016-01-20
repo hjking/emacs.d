@@ -116,8 +116,8 @@
   (dolist (command `(backward-delete-char-untabify delete-backward-char))
     (add-to-list 'ac-trigger-commands command)))
 
-(eval-after-load "auto-complete"
-  '(auto-complete-setting))
+(with-eval-after-load 'auto-complete
+  (auto-complete-setting))
 
 
 ;; auto-complete-c-headers

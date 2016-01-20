@@ -6,6 +6,14 @@
 ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")
 ;         "The Root directory of my .emacs.d")
 
+;; `with-eval-after-load' macro was introduced in emacs 24.4
+;; Below code makes this macro compatible with older versions of emacsen
+;; http://www.lunaryorn.com/2013/06/25/introducing-with-eval-after-load.html
+(unless (fboundp 'with-eval-after-load)
+  (defmacro with-eval-after-load (file &rest body)
+    `(eval-after-load ,file
+       `(funcall (function ,(lambda () ,@body))))))
+
 (defcustom *conf-root* (concat my-emacs-dir "conf/")
   "Location of configuration files to be loaded at startups")
 
@@ -1933,6 +1941,7 @@ programming."
   (uniquify-all-lines-region (point-min) (point-max)))
 ;; }}
 
+;; http://emacsredux.com/blog/2013/04/05/recently-visited-files/
 (defun recentf-ido-find-file ()
   "Find a recent file using Ido."
   (interactive)

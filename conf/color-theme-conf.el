@@ -11,8 +11,7 @@
 (setq color-theme-path (concat my-site-lisp-dir "color_theme/"))
 (add-to-list 'load-path color-theme-path)
 (require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
+(with-eval-after-load 'color-theme
      (color-theme-initialize)
      ;; (setq color-theme-is-global t)
      ;; (ignore-errors (color-theme-initialize))
@@ -77,6 +76,6 @@
      ;; (load-theme 'molokai t)
      ;; (load-theme 'material t)
      ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
-))
+)
 
 (provide 'color-theme-conf)

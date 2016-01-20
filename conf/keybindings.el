@@ -24,11 +24,6 @@
 ;;   C- ,'";:?<>|!#$%^&*`~ <tab>
 ;;   M- ?#
 
-;; binding in following ways:
-;; (global-set-key (kbd "C-x C-b") 'ibuffer)  ;; recommend
-;; (global-set-key "\C-x\C-b" 'ibuffer)   ;; modifier keys must be escaped with the backslash
-;; (global-set-key [?\C-x?\C-b] 'ibuffer) ;; use vector instead of a string
-
 ;;; === define prefix binding key ===
 (define-prefix-command 'ctrl-cc-map)
 ;; (global-set-key (kbd "C-c c") 'ctrl-cc-map)
@@ -46,11 +41,7 @@
 
 (global-set-key [C-backspace]       'hjking/delete-line)
 (global-set-key [C-delete]          'hjking/delete-line)
-;; switch in windows with arrow key
-; (global-set-key (kbd "C-c <up>")    'windmove-up)
-; (global-set-key (kbd "C-c <down>")  'windmove-down)
-; (global-set-key (kbd "C-c <left>")  'windmove-left)
-; (global-set-key (kbd "C-c <right>") 'windmove-right)
+
 (global-set-key (kbd "C-c SPC")     'hjking/goto-last-edit-pos)
 ;; (global-set-key "\C-\\"             'compare-windows)
 (global-set-key (kbd "M-;")         'hippie-expand)
@@ -256,15 +247,8 @@
 ;; Custom key map: modi-map
 ;; Source: http://stackoverflow.com/questions/1024374/how-can-i-make-c-p-an-emacs-prefix-key-for-develperlysense
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(define-prefix-command 'modi-map)
-(global-set-key (kbd "C-x m") 'modi-map) ;; overriding the default binding to `compose-mail'
-
-
-;; highlight-global
-; (global-set-key (kbd "M-H") 'highlight-frame-toggle)
-; (global-set-key (kbd "M-+") 'clear-highlight-frame)
-(define-key modi-map (kbd "h")  'highlight-frame-toggle) ;; C-x m h
-(define-key modi-map (kbd "H")  'clear-highlight-frame) ;; C-x m H
+; (define-prefix-command 'hjking-map)
+; (global-set-key (kbd "C-x m") 'hjking-map) ;; overriding the default binding to `compose-mail'
 
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 

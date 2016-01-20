@@ -5,39 +5,48 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2014-02-10 14:14:55
 
-(message "%d: >>>>> Loading [ Verilog Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
-;; (setq auto-mode-alist (cons  '("\\.v\\'" . verilog-mode) auto-mode-alist))
-;; any file in verilog mode should have their keywords colorized
-(add-hook 'verilog-mode-hook '(lambda () (font-lock-mode 1)))
-(setq verilog-indent-level             4
-      verilog-indent-level-module      4
-      verilog-indent-level-declaration 4
-      verilog-indent-level-behavioral  4
-      verilog-indent-level-directive   2
-      verilog-case-indent              4
-      verilog-auto-newline             t
-      verilog-auto-indent-on-newline   t
-      verilog-tab-always-indent        nil
-      verilog-auto-endcomments         t
-      verilog-minimum-comment-distance 40
-      verilog-indent-begin-after-if    t
-      verilog-auto-lineup              'declarations
-      verilog-highlight-p1800-keywords nil
-      ;; Personal
-      verilog-company                 "Linksprite Tech (Wuhan) Co.,Ltd"
-      verilog-linter             "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+."
-      verilog-compiler           "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+."
-      verilog-simulator          "vcs +v2k  -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+."
-      verilog-tool               "vcs +v2k  -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+."
-)
-
-;; Convert all tabs in region to multiple spaces
-(add-hook 'verilog-mode-hook
-          '(lambda ()
-              (add-hook 'local-write-file-hooks
-                        (lambda()
-                          (untabify (point-min) (point-max))
-                          nil))))
+(use-package verilog-mode
+  :load-path (lambda () (concat my-site-lisp-dir "verilog-mode/"))
+  :mode (("\\.[st]*v[hp]*\\'" . verilog-mode) ; .v, .sv, .svh, .tv, .vp
+         ("\\.psl\\'"         . verilog-mode)
+         ("\\.vinc\\'"        . verilog-mode))
+  :init
+   (progn
+    (setq verilog-indent-level             4)   ; 3
+    (setq verilog-indent-level-module      4)   ; 3
+    (setq verilog-indent-level-declaration 4)   ; 3
+    (setq verilog-indent-level-behavioral  4)   ; 3
+    (setq verilog-indent-level-directive   2)   ; 1
+    (setq verilog-case-indent              4)   ; 2
+    (setq verilog-auto-newline             nil) ; t
+    (setq verilog-auto-indent-on-newline   t)   ; t
+    (setq verilog-tab-always-indent        nil) ; t
+    (setq verilog-auto-endcomments         t)   ; t
+    (setq verilog-minimum-comment-distance 40)  ; 10
+    (setq verilog-highlight-p1800-keywords nil)
+    (setq verilog-indent-begin-after-if    t)   ; t
+    (setq verilog-auto-lineup              nil) ; 'declarations
+    (setq verilog-align-ifelse             nil) ; nil
+    (setq verilog-tab-to-comment           nil) ; nil
+    (setq verilog-date-scientific-format   t)   ; t
+    ;; Personal
+    (setq verilog-company     "Fiberhome Tech (Wuhan) Co.,Ltd")
+    (setq verilog-linter      "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
+    (setq verilog-compiler    "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
+    (setq verilog-simulator   "vcs +v2k  -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
+    (setq verilog-tool        "vcs +v2k  -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
+    )
+   :config
+   (progn
+    (add-hook 'verilog-mode-hook '(lambda () (font-lock-mode 1)))
+    ;; Convert all tabs in region to multiple spaces
+    (add-hook 'verilog-mode-hook
+              '(lambda ()
+                  (add-hook 'local-write-file-hooks
+                            (lambda()
+                              (untabify (point-min) (point-max))
+                              nil))))
+    )
+  )
 
 (provide 'verilog-conf)

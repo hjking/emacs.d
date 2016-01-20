@@ -18,34 +18,96 @@
 ;; Highlight tabulations
 (setq-default highlight-tabs t)
 
-;;; Highlight search pattern ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlight Anything
+(use-package hl-anything
+  :load-path (lambda () (concat my-site-lisp-dir "hl-anything/"))
+  :commands (hl-global-highlight-on hl-highlight-thingatpt-global hl-highlight-thingatpt-local)
+  :init (progn
+    (bind-key  "h"  'hydra-hl-anything/body hjking-map))
+  :config (progn
+    (hl-highlight-mode +1)
+    (hl-paren-mode +1)
+
+    (defun my/hl-anything (&optional arg)
+      "Wrapper function to call functions to highlight the thing at point either
+  globally or locally (when called with prefix `C-u')."
+      (interactive "p")
+      (if (eq arg 4)
+          (hl-highlight-thingatpt-local)
+        (hl-highlight-thingatpt-global)))
+
+    (defun my/unhl-anything (&optional arg)
+      "Wrapper function to call functions to unhighlight all either
+  globally or locally (when called with prefix `C-u')."
+      (interactive "p")
+      (if (eq arg 4)
+          (hl-unhighlight-all-local)
+        (hl-unhighlight-all-global)))
+
+    (defhydra hydra-hl-anything (:color red)
+      "hl-anything"
+      ("h" my/hl-anything             "hl-global")
+      ("H" (my/hl-anything 4)         "hl-local")
+      ("u" my/unhl-anything           "unhl-global" :color blue)
+      ("U" (my/unhl-anything 4)       "unhl-local" :color blue)
+      ("n" hl-find-next-thing         "next")
+      ("p" hl-find-prev-thing         "prev")
+      ("s" hl-save-highlights         "save" :color blue)
+      ("r" hl-restore-highlights      "restore" :color blue)
+      ("t" hl-global-highlight-on/off "toggle")
+      ("q" nil                        "cancel" :color blue))
+    )
+  )
+
+;; Highlight search pattern
+;; https://github.com/nschum/highlight-symbol.el
 ;; Highlight Symbol at point/cursor
-(add-site-lisp-load-path "highlight-symbol")
-(require 'highlight-symbol)
-(global-set-key [(control f3)] 'highlight-symbol-at-point)
-(global-set-key [f3]           'highlight-symbol-next)
-(global-set-key [(shift f3)]   'highlight-symbol-prev)
-(global-set-key [(meta f3)]    'highlight-symbol-query-replace)
-(eval-after-load "highlight-symbol"
-    '(progn
-      (highlight-symbol-mode)
-      (setq highlight-symbol-on-navigation-p t)
-      (setq highlight-symbol-idle-delay 0.5)
-      ))
+(use-package highlight-symbol
+  :load-path (lambda () (concat my-site-lisp-dir "highlight-symbol/"))
+  :commands (highlight-symbol-at-point highlight-symbol-query-replace)
+  ; :bind (([M-F3]     . highlight-symbol-at-point)
+  ;        ([F3]       . highlight-symbol-next)
+  ;        ([S-F3]     . highlight-symbol-prev)
+  ;        ([M-S-F3]   . highlight-symbol-query-replace))
+  :init (progn
+         (bind-key "a" 'highlight-symbol-at-point hjking-map) ;; C-x m a
+         (bind-key "n" 'highlight-symbol-next hjking-map) ;; C-x m n
+         (bind-key "p" 'highlight-symbol-prev hjking-map) ;; C-x m n
+         (bind-key "r" 'highlight-symbol-query-replace hjking-map) ;; C-x m r
+         (setq highlight-symbol-on-navigation-p t)
+         (setq highlight-symbol-idle-delay 0.5))
+  :config (highlight-symbol-mode)
+  )
 
 
 ;; Highlight Global
 ;; Source: https://github.com/glen-dai/highlight-global
 ;; highlights all matches accross ALL buffer.
-;; Multiple highlights are supported.
 ;; highlight-frame-toggle: highlit/unhighlight the target
-;; clear-highlight-frame: unhighlights all highlighted target
-(add-site-lisp-load-path "highlight-global")
-(use-package highlight-global)
+;; clear-highlight-frame:  unhighlights all highlighted target
+
+;; Alternative highlighting package when `hl-anything' has issues
+(when (not (featurep 'hl-anything))
+  (use-package highlight-global
+    :load-path (lambda () (concat my-site-lisp-dir "highlight-global/"))
+    :commands highlight-frame-toggle
+    :bind (("M-H"  .  highlight-frame-toggle)
+           ("M-+"  .  clear-highlight-frame))
+    :init (progn
+           (bind-key  "h"  'highlight-frame-toggle hjking-map) ;; C-x m h
+           (bind-key  "H"  'clear-highlight-frame hjking-map) ;; C-x m H
+           )
+    ))
+
+
+;; highlight changes made by commands such as undo, yank-pop, etc.
+(use-package volatile-highlights
+  :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
+  :config
+   (volatile-highlights-mode t))
 
 
 ;;; Highlight specified words ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; special words
 (setq keywords-critical-pattern
       "\\(BUGS\\|FIXME\\|[Tt][Oo][Dd][Oo]\\|XXX\\|[Ee][Rr][Rr][Oo][Rr]\\|[Mm][Ii][Ss][Ss][Ii][Nn][Gg]\\|[Ii][Nn][Vv][Aa][Ll][Ii][Dd]\\|[Ff][Aa][Ii][Ll][Ee][Dd]\\|[Cc][Oo][Rr][Rr][Uu][Pp][Tt][Ee][Dd]\\)")

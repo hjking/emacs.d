@@ -87,16 +87,14 @@
 ;;         ((emms-last-played-seconds-month) . "%d")
 ;;         ((emms-last-played-seconds-year)  . "%m/%d")
 ;;         (t                                . "%Y/%m/%d")))
-(eval-after-load "emms"
-  '(progn
-     (setq xwl-emms-playlist-last-track nil)
-     (setq xwl-emms-playlist-last-indent "\\")
-     ;; (setq emms-track-description-function 'kid-emms-info-track-description)
-     ;; (setq emms-track-description-function 'my-emms-info-track-description)
-     (setq emms-track-description-function 'bigclean-emms-info-track-description)
-     ;; (setq emms-track-description-function 'xwl-emms-track-description-function)
-
-     ))
+(with-eval-after-load 'emms
+  (setq xwl-emms-playlist-last-track nil)
+  (setq xwl-emms-playlist-last-indent "\\")
+  ;; (setq emms-track-description-function 'kid-emms-info-track-description)
+  ;; (setq emms-track-description-function 'my-emms-info-track-description)
+  (setq emms-track-description-function 'bigclean-emms-info-track-description)
+  ;; (setq emms-track-description-function 'xwl-emms-track-description-function)
+  )
 
 
 (setq emms-info-asynchronously nil)

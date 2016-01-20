@@ -64,8 +64,8 @@
   (add-hook 'artist-mode-init-hook 'artist-mode-init-hook-settings)
   (add-hook 'artist-mode-exit-hook 'artist-mode-exit-hook-settings))
 
-(eval-after-load "artist"
-  `(artist-conf))
+(with-eval-after-load 'artist
+  (artist-conf))
 ;;  `(artist-settings))
 
 (provide 'artist-conf)
