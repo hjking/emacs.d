@@ -71,13 +71,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package anzu
   :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
+  :init (progn
+         ; (bind-key  "r"  'anzu-query-replace hjking-map) ;; C-x m r
+       )
   :config
    (global-anzu-mode +1)
   :diminish ""
   )
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -87,8 +89,13 @@
 ;; (define-key global-map (kbd "C-c q") 'vr/query-replace)
 ;; ;; if you use multiple-cursors, this is for you:
 ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
-(use-package visual-regexp
-  :load-path (lambda () (concat my-site-lisp-dir "visual-regexp/"))
-  )
+(when (not (featurep 'anzu))
+  (use-package visual-regexp
+    :load-path (lambda () (concat my-site-lisp-dir "visual-regexp/"))
+    :init (progn
+           ; (bind-key  "r"  'vr/replace hjking-map) ;; C-x m r
+           ; (bind-key  "q"  'vr/query-replace hjking-map) ;; C-x m q
+           )
+  ))
 
 (provide 'search-conf)

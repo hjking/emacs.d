@@ -23,7 +23,7 @@
   :load-path (lambda () (concat my-site-lisp-dir "hl-anything/"))
   :commands (hl-global-highlight-on hl-highlight-thingatpt-global hl-highlight-thingatpt-local)
   :init (progn
-    (bind-key  "h"  'hydra-hl-anything/body hjking-map))
+         (bind-key  "h"  'hydra-hl-anything/body hjking-map))
   :config (progn
     (hl-highlight-mode +1)
     (hl-paren-mode +1)
@@ -65,10 +65,6 @@
 (use-package highlight-symbol
   :load-path (lambda () (concat my-site-lisp-dir "highlight-symbol/"))
   :commands (highlight-symbol-at-point highlight-symbol-query-replace)
-  ; :bind (([M-F3]     . highlight-symbol-at-point)
-  ;        ([F3]       . highlight-symbol-next)
-  ;        ([S-F3]     . highlight-symbol-prev)
-  ;        ([M-S-F3]   . highlight-symbol-query-replace))
   :init (progn
          (bind-key "a" 'highlight-symbol-at-point hjking-map) ;; C-x m a
          (bind-key "n" 'highlight-symbol-next hjking-map) ;; C-x m n

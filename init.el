@@ -674,8 +674,7 @@
 
 ;; displays the current function name in the mode line
 (use-package which-func
-  :init
-    (setq which-func-unknown "n/a")
+  :init (setq which-func-unknown "n/a")
   :config (which-function-mode 1))
 
 ;; use inactive face for mode-line in non-selected windows
@@ -1261,6 +1260,7 @@
 
 (use-package ivy
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
+  :diminish ""
   :init (progn
           ;; show recently killed buffers when calling `ivy-switch-buffer'
           (setq ivy-use-virtual-buffers t)
