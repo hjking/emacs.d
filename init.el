@@ -130,7 +130,7 @@
 (global-set-key (kbd "C-x m") 'hjking-map) ;; overriding the default binding to `compose-mail'
 
 (when section-debugging
-;;;; Debugging
+  ;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
   (setq eval-expression-debug-on-error t       ; debugger on errors in eval-expression
@@ -393,6 +393,7 @@
 (require 'diminish)
 (require 'bind-key)                ;; if you use any :bind variant
 
+;; hydra
 (require 'hydra-conf)
 
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
@@ -418,8 +419,6 @@
 
 ;; --[ Bookmark ]---------------------------------------------------------------
 (when section-bookmark
-  (message "%d: >>>>> Loading [ Bookmark ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
   (use-package bookmark
     :init
       ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
@@ -532,12 +531,8 @@
            ("C-x r C-x" . rm-exchange-point-and-mark)
            ("C-x r C-w" . rm-kill-region)
            ("C-x r M-w" . rm-kill-ring-save))
-    :init
-      (autoload 'rm-set-mark "rect-mark" "Set mark for rectangle." t)
-      (autoload 'rm-exchange-point-and-mark "rect-mark" "Exchange point and mark for rectangle." t)
-      (autoload 'rm-kill-region "rect-mark" "Kill a rectangular region and save it in the kill ring." t)
-      (autoload 'rm-kill-ring-save "rect-mark" "Copy a rectangular region to the kill ring." t)
-    )
+    :commands (rm-set-mark rm-exchange-point-and-mark rm-kill-region rm-kill-ring-save)
+  )
 
   ; (require 'expand-region)
   ; (global-set-key (kbd "C-=") 'er/expand-region)
@@ -646,8 +641,7 @@
         scroll-conservatively 101
         scroll-preserve-screen-position t
         auto-window-vscroll nil)
-  :config
-  (setq scroll-margin 5))
+)
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 

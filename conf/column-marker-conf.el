@@ -6,10 +6,9 @@
 ;; Last Updated: 2010-12-22 14:34:13
 
 (use-package column-marker
+  :disabled t
   :init
   (progn
-    (message "%d: >>>>> Loading [ column-marker ] Customizations ...." step_no)
-    (setq step_no (1+ step_no))
     (dolist (hook '(emacs-lisp-mode-hook
                     perl-mode-hook
                     python-mode-hok
