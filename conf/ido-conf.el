@@ -131,8 +131,8 @@
          (delq nil (mapcar
                     (lambda (x) (and (char-equal (string-to-char x) ?.) x))
                     ido-temp-list)))))
-    (add-hook 'ido-make-file-list-hook #'modi/ido-sort-mtime)
-    (add-hook 'ido-make-dir-list-hook  #'modi/ido-sort-mtime)
+    ; (add-hook 'ido-make-file-list-hook #'modi/ido-sort-mtime)
+    ; (add-hook 'ido-make-dir-list-hook  #'modi/ido-sort-mtime)
 
     ;; Bind `~` to go to homedir when in ido-find-file;
     ;; http://whattheemacsd.com/setup-ido.el-02.html
@@ -184,7 +184,9 @@
       (>=e "25.0"
            (bind-key "C-S-b" #'ido-bury-buffer-at-head ido-completion-map) ; emacs >= 25.0
            (bind-key "C-S-b" #'endless/ido-bury-buffer-at-head ido-completion-map))) ; emacs < 25.0
-    (add-hook 'ido-setup-hook #'ido-define-keys)))
+    ; (add-hook 'ido-setup-hook #'ido-define-keys)
+    )
+)
 
 (provide 'ido-conf)
 

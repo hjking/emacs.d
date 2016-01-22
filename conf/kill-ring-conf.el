@@ -1,13 +1,11 @@
 
-(message "%d: >>>>> Loading [ browse-kill-ring ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+;; browse-kill-ring
 
 (use-package browse-kill-ring
+  :load-path (lambda () (concat my-site-lisp-dir "browse-kill-ring/"))
   :commands browse-kill-ring
-  :config
-  (progn
+  :init (progn
     ; (global-set-key (kbd "s-y") 'browse-kill-ring)
-    (browse-kill-ring-default-keybindings) ;; M-y
     (setq browse-kill-ring-separator "\n--separator------------------------------")
     ;; temporarily highlight the inserted `kill-ring' entry
     (setq browse-kill-ring-highlight-inserted-item t)
@@ -15,6 +13,9 @@
     (defface separator-face '((t (:foreground "Blueviolet" :weight bold))) nil)
     (setq browse-kill-ring-separator-face 'separator-face)
     (setq browse-kill-ring-quit-action 'save-and-restore)
+    )
+  :config (progn
+    (browse-kill-ring-default-keybindings) ;; M-y
     )
   )
 

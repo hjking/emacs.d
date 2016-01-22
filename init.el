@@ -51,14 +51,14 @@
 (defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-ibuffer t)
-(defvar section-ido t)
+(defvar section-ido nil)
 (defvar section-windows t)
 (defvar section-ui t)
 (defvar section-coding t)
 (defvar section-indentation t)
 (defvar section-python t)
 (defvar section-perl t)
-(defvar section-abbrevs t)
+(defvar section-abbrevs nil)
 (defvar section-dired t)
 (defvar section-calendar-diary nil)
 (defvar section-document-view nil)
@@ -101,7 +101,6 @@
 (defvar section-cedet-1.1 nil)
 (defvar section-drag-stuff t)
 (defvar section-mmm-mode nil)
-(defvar section-csv-mode t)
 (defvar section-table nil)
 (defvar section-undo t)
 (defvar section-header t)
@@ -754,8 +753,6 @@
 
 
 ;; --[ Saving File ]------------------------------------------------------------
-(message "%d: >>>>> Loading [ Saving File ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;; make file executable when saving
 ;; (add-hook 'after-save-hook
 ;;           'executable-make-buffer-file-executable-if-script-p)
@@ -948,8 +945,7 @@
 (use-package eldoc
   :diminish eldoc-mode
   :commands turn-on-eldoc-mode
-  :init
-  (progn
+  :init (progn
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
     (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
     (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
@@ -957,16 +953,25 @@
 
 
 ;; --[ Compilation ]------------------------------------------------------------
-(message "%d: >>>>> Loading [ Compilation ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;; highlight and parse the whole compilation output as soon as it arrives
 (setq compile-auto-highlight t)
+
+;; Turn off trailing space notification
+(add-hook 'compilation-mode-hook '(lambda () (setq show-trailing-whitespace nil)))
+
 ;; display compiler error message, check key bindings:
 ;; first-error / next-error / previous-error
+(require 'ansi-color)
 (defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; smart-compile
+(require 'smart-compile-conf)
+
 ;; --[ Compilation ]---------------------------------------------------[ End ]--
 
 
@@ -1083,14 +1088,7 @@
 ;; [ ibuffer ]------------------------------------------------------------------
 ;; buffer switch
 (when section-ibuffer
-  ;; replaces the functionality of list-buffers command
-  ; (defalias 'list-buffers 'ibuffer)
-  ; (global-set-key (kbd "C-x C-b") 'ibuffer)
-  ; (autoload 'ibuffer "ibuffer" "List buffers." t)
   (require 'ibuffer-conf)
-
-  ; (add-site-lisp-load-path "ace-jump-buffer/")
-  ; (require 'ace-jump-buffer)
   )
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
@@ -1125,7 +1123,6 @@
 
 ;; [ kill-ring ]----------------------------------------------------------------
 ;; enhance kill ring function
-(add-site-lisp-load-path "browse-kill-ring/")
 (require 'kill-ring-conf)
 ;; [ kill-ring ]-------------------------------------------------------[ End ]--
 
@@ -1156,6 +1153,13 @@
   "Save all buffers before vc-diff calls."
   (hjking/save-all-file-buffers))
 
+;; *** --- Change Log
+;; don't make a new entry, when the last entry was made by you and on the same date
+(setq add-log-always-start-new-record nil)
+;; adds the file's version number to the change log entry
+(setq change-log-version-info-enabled t)
+
+
 ;; *** --- PCL-CVS
 (load "pcvs-conf")
 
@@ -1166,14 +1170,8 @@
       (load "psvn-conf")
 ))
 
-;; *** --- Change Log
-;; don't make a new entry, when the last entry was made by you and on the same date
-(setq add-log-always-start-new-record nil)
-;; adds the file's version number to the change log entry
-(setq change-log-version-info-enabled t)
 
-;;
-;; Git
+;; *** --- Git
 (when section-git
   (add-site-lisp-load-path "git-modes/")
 
@@ -1193,11 +1191,6 @@
   )
 
 ;; [ Version Control ]-------------------------------------------------[ End ]--
-
-
-;; [ smart-compile ]------------------------------------------------------------
-(require 'smart-compile-conf)
-;; [ smart-compile ]---------------------------------------------------[ End ]--
 
 
 ;; [ highlight ]----------------------------------------------------------------
@@ -1342,37 +1335,39 @@
 
 
 ;; [ Folding ]------------------------------------------------------------------
-(message "%d: >>>>> Loading [ hideshow ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 (use-package hideshow
-  :init
-  (add-hook 'prog-mode '(progn
-                      (hs-minor-mode 1)))
-  )
+  :init (progn
+         (add-hook 'prog-mode '(progn
+                                (hs-minor-mode 1))))
+  :config (progn
+           (setq hs-isearch-open 'code) ; default 'code, options: 'comment, t, nil
+           (setq hs-special-modes-alist
+                  '((c-mode      "{" "}" "/[*/]" nil nil)
+                    (c++-mode    "{" "}" "/[*/]" nil nil)))
 
-;;
-;; hideshowvis
-;;
-(use-package hideshowvis
-  :commands (hideshowvis-enable hideshowvis-minor-mode)
-  :init
-  (progn
-    (dolist (hook (list 'emacs-lisp-mode-hook
-                    'c++-mode-hook
-                    'lisp-mode-hook
-                    'ruby-mode-hook
-                    'perl-mode-hook
-                    'php-mode-hook
-                    'python-mode-hook
-                    'lua-mode-hook
-                    'c-mode-hook
-                    'java-mode-hook
-                    'js-mode-hook
-                    'verilog-mode-hook
-                    'css-mode-hook))
-      (add-hook hook 'hideshowvis-enable))
-    )
-  )
+           ;; hideshowvis
+           (use-package hideshowvis
+             :commands (hideshowvis-enable hideshowvis-minor-mode)
+             :init (progn
+                ; (dolist (hook (list 'emacs-lisp-mode-hook
+                ;                     'c++-mode-hook
+                ;                     'lisp-mode-hook
+                ;                     'ruby-mode-hook
+                ;                     'perl-mode-hook
+                ;                     'php-mode-hook
+                ;                     'python-mode-hook
+                ;                     'lua-mode-hook
+                ;                     'c-mode-hook
+                ;                     'java-mode-hook
+                ;                     'js-mode-hook
+                ;                     'verilog-mode-hook
+                ;                     'css-mode-hook))
+                ;   (add-hook hook 'hideshowvis-enable)))
+                (add-hook 'prog-mode '(progn
+                                       (hideshowvis-minor-mode 1)))
+                )
+           )
+  ))
 
 ;;
 ;; folding (hiding) parts of the text
@@ -1409,8 +1404,6 @@
 
 
 ;; [ tabbar ]-------------------------------------------------------------------
-(message "%d: >>>>> Loading [ tabbar ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 (require 'tabbar-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1434,15 +1427,7 @@
   (add-site-lisp-load-path "org-jekyll-mode/")
   (add-site-lisp-load-path "org-journal/")
 
-  (setq org-directory "~/org")
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cb" 'org-iswitchb)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cl" 'org-store-link)
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-
-  (with-eval-after-load 'org
-    (require 'org-conf))
+  (require 'org-conf)
   (require 'org-trello-conf)
   )
 ;; [ org ]-------------------------------------------------------------[ End ]--
@@ -1478,13 +1463,6 @@
 (when section-tramp
     (require 'tramp-conf))
 ;; --------------------------------------------------------------------[ End ]---
-
-
-;; [ rot13 ]---------------------------------------------------------------------
-;; perform Caesar ciphers
-(when (require 'rot13 nil t)
-    (load "rot13-conf"))
-;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ doc-view ]-----------------------------------------------------------------
@@ -1550,8 +1528,8 @@
     (add-site-lisp-info-path "mmm-mode/")
     (use-package mmm-mode
       :load-path (lambda () (concat my-site-lisp-dir "mmm-mode/"))
-      :config
-      (setq mmm-global-mode 'maybe))
+      :init
+       (setq mmm-global-mode 'maybe))
     )
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1648,15 +1626,12 @@
 
 ;; [ CSV Mode ]-----------------------------------------------------------------
 ;; major mode for editing comma-separated value files
-(when section-csv-mode
-  (message "%d: >>>>> Loading [ CSV Mode ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
-  (autoload 'csv-mode "csv-mode" "Major mode for editing comma-separated value files." t)
-  (add-auto-mode 'csv-mode "\\.[Cc][Ss][Vv]\\'")
-  (autoload 'csv-nav-mode "csv-nav-mode" "Major mode for navigating comma-separated value files." t)
-  ;; field separators: a list of *single-character* strings
-  (setq csv-separators '("," ";" "|" " "))
-  )
+(use-package csv-mode
+  :mode ("\\.[Cc][Ss][Vv]\\'")
+  :init (progn
+         ;; field separators: a list of *single-character* strings
+         (setq csv-separators '("," ";" "|" " ")))
+)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1757,13 +1732,13 @@
 
 ;; [ Shell Mode ]---------------------------------------------------------------
 ;; invoke a shell
-(when section-shell-mode
-    (when linuxp
-        (setq shell-file-name "/bin/bash"))
-    ; (load "shell-mode-conf")
-    (with-eval-after-load 'shell
-      (require 'shell-mode-conf))
-    )
+; (when section-shell-mode
+;     (when linuxp
+;         (setq shell-file-name "/bin/bash"))
+;     ; (load "shell-mode-conf")
+;     (with-eval-after-load 'shell
+;       (require 'shell-mode-conf))
+;     )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1927,7 +1902,6 @@
 ;; Smart M-x
 ;; remember recently and most frequently used commands
 (when section-smex
-    (setq my-smex-path (concat my-site-lisp-dir "smex/"))
     (require 'smex-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -2069,6 +2043,7 @@
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
 (require 'guide-key-conf)
+(require 'which-key-conf)
 ;; ---------------------------------------------------------------------[ End ]--
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

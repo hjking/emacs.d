@@ -13,8 +13,6 @@
   ;;   %e  extention of file name       ( bin )
   :init
   (progn
-    (message "%d: >>>>> Loading [ smart-compile ] Customizations ...." step_no)
-    (setq step_no (1+ step_no))
     (setq smart-compile-alist
         '(("\\.c$"          . "gcc -O2 -Wall -o %n %f")
           ("\\.[Cc]+[Pp]*$" . "g++ -o %n %f -g -pg")
@@ -54,7 +52,7 @@
             "%n.bat"
             "%n.csh"
             "%n.sh"))
-))
+  ))
 
 (provide 'smart-compile-conf)
 

@@ -2103,3 +2103,28 @@ is a comment, uncomment."
 
 (add-hook 'c-mode-hook 'hjking/conditional-disable-modes)
 (add-hook 'c++-mode-hook 'hjking/conditional-disable-modes)
+
+;; ROT13 cipher, replaces a letter with the letter 13 letters
+;; after it in the alphabet.
+(defvar rot13-translate-table
+  (let ((str (make-string 127 0)) (i 0))
+    (while (< i 127)
+      (aset str i i) (setq i (1+ i)))
+    (setq i 0)
+    (while (< i 26)
+      (aset str (+ i ?a) (+ (% (+ i 13) 26) ?a))
+      (aset str (+ i ?A) (+ (% (+ i 13) 26) ?A))
+      (setq i (1+ i))) str)
+  "String table for rot 13 translation.")
+
+(defun rot13-string (string)
+  "Return Rot13 encryption of STRING."
+  (with-temp-buffer
+    (insert string)
+    (rot13-region (point-min) (point-max))
+    (buffer-string)))
+
+(defun rot13-region (start end)
+  "Rot13 encrypt the region between START and END in current buffer."
+  (interactive "r")
+  (translate-region start end rot13-translate-table))

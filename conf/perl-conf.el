@@ -17,7 +17,9 @@
          ("\\.pl\\'"                      . cperl-mode)
          ("\\.perl\\'"                    . cperl-mode)
          ("\\.\\([pP][Llm]\\|al\\)\\'"    . cperl-mode))
-  :interpreter ("perl" . cperl-mode)
+  :interpreter (("perl"     . cperl-mode)
+                ("perl5"    . cperl-mode)
+                ("miniperl" . cperl-mode))
   :init (progn
           (defalias 'perl-mode 'cperl-mode)
           (setq cperl-autoindent-on-semi t

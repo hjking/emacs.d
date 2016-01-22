@@ -26,21 +26,22 @@
   :defer t
   :diminish ""
   :bind ("\M-]" . company-complete)
-  :init (add-hook 'prog-mode-hook 'company-mode)
+  :init (progn
+         (setq company-idle-delay 0.1
+               ;; min prefix of 1 chars
+               company-minimum-prefix-length 1
+               company-selection-wrap-around t
+               company-show-numbers t
+               company-dabbrev-downcase nil
+               company-transformers '(company-sort-by-occurrence))
+         (setq company-tooltip-limit 20)
+         (setq company-minimum-prefix-length 2)
+         (setq company-echo-delay 0)
+         (setq company-auto-complete nil)
+         (setq company-begin-commands '(self-insert-command))
+         (add-hook 'prog-mode-hook 'company-mode))
   :config
   (progn
-    (setq company-idle-delay 0.1
-         ;; min prefix of 1 chars
-         company-minimum-prefix-length 1
-         company-selection-wrap-around t
-         company-show-numbers t
-         company-dabbrev-downcase nil
-         company-transformers '(company-sort-by-occurrence))
-    (setq company-tooltip-limit 20)
-    (setq company-minimum-prefix-length 2)
-    (setq company-echo-delay 0)
-    (setq company-auto-complete nil)
-    (setq company-begin-commands '(self-insert-command))
     (add-to-list 'company-backends 'company-dabbrev t)
     (add-to-list 'company-backends 'company-ispell t)
     (add-to-list 'company-backends 'company-files t)

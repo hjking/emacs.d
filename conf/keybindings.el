@@ -86,7 +86,6 @@
 ; (global-set-key (kbd "C-c o")       'occur)
 ;; smart-compile: according to the extension to compile/run program
 ;; when makefile existed, run "make" automaticlly
-(global-set-key (kbd "C-c p")       'smart-compile)
 (global-set-key (kbd "C-c q")       'comment-region)
 ;; switch in the windows
 ;; Replace sexp under cursor with sexp previously copied into register

@@ -1,7 +1,7 @@
 
 (use-package smex
   :disabled t
-  :load-path my-smex-path
+  :load-path :load-path (lambda () (concat my-site-lisp-dir "smex/"))
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)
          ("C-c C-c M-x" . execute-extended-command))

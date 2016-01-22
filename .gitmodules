@@ -154,3 +154,7 @@
 	path = vendor/hydra
 	url = https://github.com/abo-abo/hydra.git
 	ignore = dirty
+[submodule "vendor/which-key"]
+	path = vendor/which-key
+	url = https://github.com/justbur/emacs-which-key
+	ignore = dirty

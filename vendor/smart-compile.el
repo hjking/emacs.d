@@ -1,16 +1,16 @@
 ;;; smart-compile.el --- an interface to `compile'
 
-;; Copyright (C) 1998-2009  by Seiji Zenitani
+;; Copyright (C) 1998-2015  by Seiji Zenitani
 
 ;; Author: Seiji Zenitani <zenitani@mac.com>
-;; $Id$
+;; Version: 20151112
 ;; Keywords: tools, unix
 ;; Created: 1998-12-27
 ;; Compatibility: Emacs 21 or later
-;; URL(en): http://homepage.mac.com/zenitani/comp-e.html
-;; URL(jp): http://homepage.mac.com/zenitani/elisp-j.html#smart-compile
+;; URL(en): https://github.com/zenitani/elisp/blob/master/smart-compile.el
+;; URL(jp): http://th.nao.ac.jp/MEMBER/zenitani/elisp-j.html#smart-compile
 
-;; Contributors: Sakito Hisakura
+;; Contributors: Sakito Hisakura, Greg Pfell
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@
 (defgroup smart-compile nil
   "An interface to `compile'."
   :group 'processes
-  :prefix "smarct-compile")
+  :prefix "smart-compile")
 
 (defcustom smart-compile-alist '(
   (emacs-lisp-mode    . (emacs-lisp-byte-compile))
@@ -63,16 +63,27 @@
   ("\\.tex\\'"        . (tex-file))
   ("\\.texi\\'"       . "makeinfo %f")
   ("\\.mp\\'"         . "mptopdf %f")
-  ("\\.pl\\'"         . "perl -cw %f")
-  ("\\.rb\\'"         . "ruby -cw %f")
-)  "List of compile commands. In argument,
-some keywords beginning with '%' will be replaced by:
+  ("\\.pl\\'"         . "perl %f")
+  ("\\.py\\'"         . "python %f")
+  ("\\.rb\\'"         . "ruby %f")
+;;  ("\\.pl\\'"         . "perl -cw %f") ; syntax check
+;;  ("\\.rb\\'"         . "ruby -cw %f") ; syntax check
+)  "Alist of filename patterns vs corresponding format control strings.
+Each element looks like (REGEXP . STRING) or (MAJOR-MODE . STRING).
+Visiting a file whose name matches REGEXP specifies STRING as the
+format control string.  Instead of REGEXP, MAJOR-MODE can also be used.
+The compilation command will be generated from STRING.
+The following %-sequences will be replaced by:
 
   %F  absolute pathname            ( /usr/local/bin/netscape.bin )
   %f  file name without directory  ( netscape.bin )
   %n  file name without extension  ( netscape )
   %e  extension of file name       ( bin )
 
+  %o  value of `smart-compile-option-string'  ( \"user-defined\" ).
+
+If the second item of the alist element is an emacs-lisp FUNCTION,
+evaluate FUNCTION instead of running a compilation command.
 "
    :type '(repeat
            (cons
@@ -91,7 +102,10 @@ some keywords beginning with '%' will be replaced by:
   ("%n" . (file-name-sans-extension
            (file-name-nondirectory (buffer-file-name))))
   ("%e" . (or (file-name-extension (buffer-file-name)) ""))
-  ))
+  ("%o" . smart-compile-option-string)
+;;   ("%U" . (user-login-name))
+  )
+  "Alist of %-sequences for format control strings in `smart-compile-alist'.")
 (put 'smart-compile-replace-alist 'risky-local-variable t)
 
 (defvar smart-compile-check-makefile t)
@@ -102,44 +116,41 @@ some keywords beginning with '%' will be replaced by:
   :type 'string
   :group 'smart-compile)
 
-;; (defvar smart-compile-command nil)
-;; (make-variable-buffer-local 'smart-compile-command)
-;; (put 'smart-compile-command 'safe-local-variable 'stringp)
+(defcustom smart-compile-option-string ""
+  "The option string that replaces %o.  The default is empty."
+  :type 'string
+  :group 'smart-compile)
+
 
 ;;;###autoload
-(defun smart-compile ()
+(defun smart-compile (&optional arg)
   "An interface to `compile'.
 It calls `compile' or other compile function,
 which is defined in `smart-compile-alist'."
-  (interactive)
+  (interactive "p")
   (let ((name (buffer-file-name))
         (not-yet t))
     
     (if (not name)(error "cannot get filename."))
+;;     (message (number-to-string arg))
 
     (cond
 
      ;; local command
-     ((and (local-variable-p 'compile-command)
+     ;; The prefix 4 (C-u M-x smart-compile) skips this section
+     ;; in order to re-generate the compile-command
+     ((and (not (= arg 4)) ; C-u M-x smart-compile
+           (local-variable-p 'compile-command)
            compile-command)
       (call-interactively 'compile)
       (setq not-yet nil)
       )
 
-;;      ;; use template string
-;;      ((and (local-variable-p 'smart-compile-command)
-;;            smart-compile-command)
-;;       (set (make-local-variable 'compile-command)
-;;            (smart-compile-string smart-compile-command))
-;;       (call-interactively 'compile)
-;;       (setq not-yet nil)
-;;       )
-
      ;; make?
      ((and smart-compile-check-makefile
            (or (file-readable-p "Makefile")
                (file-readable-p "makefile")))
-      (if (y-or-n-p "Makefile is found. Try 'make'? ")
+      (if (y-or-n-p "Makefile is found.  Try 'make'? ")
           (progn
             (set (make-local-variable 'compile-command) "make ")
             (call-interactively 'compile)
@@ -198,21 +209,21 @@ which is defined in `smart-compile-alist'."
 
     ))
 
-(defun smart-compile-string (arg)
+(defun smart-compile-string (format-string)
   "Document forthcoming..."
   (if (and (boundp 'buffer-file-name)
            (stringp buffer-file-name))
       (let ((rlist smart-compile-replace-alist)
             (case-fold-search nil))
         (while rlist
-          (while (string-match (caar rlist) arg)
-            (setq arg
+          (while (string-match (caar rlist) format-string)
+            (setq format-string
                   (replace-match
-                   (eval (cdar rlist)) t nil arg)))
+                   (eval (cdar rlist)) t nil format-string)))
           (setq rlist (cdr rlist))
           )
         ))
-  arg)
+  format-string)
 
 (provide 'smart-compile)
 

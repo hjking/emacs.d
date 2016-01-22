@@ -1,7 +1,6 @@
 ;; Projectile
 
 (use-package projectile
-  :disabled t
   :diminish projectile-mode
   :commands (projectile-ack
              projectile-ag
@@ -24,20 +23,24 @@
              projectile-switch-project
              projectile-switch-to-buffer
              projectile-vc)
-  :init
-  (progn
-    (message "%d: >>>>> Loading [ projectile ] Customization ...." step_no)
-    (setq step_no (1+ step_no))
-    ; (setq projectile-completion-system 'default)
+  :init (progn
+    (projectile-global-mode 1)
+    ; (setq projectile-keymap-prefix (kbd "C-c C-p"))
+    ; (setq projectile-completion-system 'default) ; ido
     ;; with helm
     ; (setq projectile-completion-system 'helm)
     (with-eval-after-load 'ivy
         (setq projectile-completion-system 'ivy))
-    (helm-projectile-on)
     (setq projectile-enable-caching t)
     (when win32p
         ;; enable external indexing
         (setq projectile-indexing-method 'alien))
+    ;; Don't consider my home dir as a project
+    (add-to-list 'projectile-ignored-projects `,(concat (getenv "HOME") "/"))
+    (dolist (item '(".SOS" "nobackup"))
+      (add-to-list 'projectile-globally-ignored-directories item))
+    (dolist (item '("GTAGS" "GRTAGS" "GPATH"))
+      (add-to-list 'projectile-globally-ignored-files item))
     (setq projectile-cache-file (concat my-cache-dir "projectile.cache"))
     (setq projectile-known-projects-file (concat my-cache-dir "projectile-bookmarks.eld"))
     ;; restore the recent window configuration of the target project
@@ -54,10 +57,10 @@
     ;; probably also want to set
     ;; (setq projectile-find-dir-includes-top-level t)
     ; (defconst projectile-mode-line-lighter " P")
-    (projectile-global-mode)
+
     )
-  :config
-  (progn
+  :config (progn
+    (projectile-global-mode)
     ;; integrate perspective with projectile
     (use-package perspective
       :config
@@ -67,20 +70,21 @@
       :config
        (define-key projectile-mode-map (kbd "s-s") 'projectile-persp-switch-project))
 
-
-    (use-package helm-projectile
-      :disabled t
-      :commands (helm-projectile-switch-to-buffer
-                 helm-projectile-find-dir
-                 helm-projectile-dired-find-dir
-                 helm-projectile-recentf
-                 helm-projectile-find-file
-                 helm-projectile-grep
-                 helm-projectile
-                 helm-projectile-switch-project)
-      :init
-      (progn
-        (setq projectile-switch-project-action 'helm-projectile)))
+    (with-eval-after-load 'helm
+      (use-package helm-projectile
+        :disabled t
+        :commands (helm-projectile-switch-to-buffer
+                   helm-projectile-find-dir
+                   helm-projectile-dired-find-dir
+                   helm-projectile-recentf
+                   helm-projectile-find-file
+                   helm-projectile-grep
+                   helm-projectile
+                   helm-projectile-switch-project)
+        :init (progn
+          (setq projectile-switch-project-action 'helm-projectile))
+        :config (progn
+          (helm-projectile-on))))
   ))
 
 (provide 'projectile-conf)

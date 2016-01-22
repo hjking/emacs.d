@@ -22,6 +22,18 @@
 )
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on t)
+
+;; highlight some text based on regexp, like OK
+(add-hook 'shell-mode-hook (lambda () (highlight-regexp "\\[OK\\]" "hi-green-b")))
+
+;; Every line representing a path to a file will be colorized
+;; and made clickable, so that you can jump to that file and
+;; that line, like in compilation-mode
+(add-hook 'shell-mode-hook 'compilation-shell-minor-mode)
+
+;; Make URLs clickable
+(add-hook 'shell-mode-hook (lambda () (goto-address-mode )))
+
 ;; (add-hook 'shell-mode-hook 'my-shell-mode-hook-func)
 ;; (add-hook 'term-mode-hook 'my-shell-mode-hook-func)
 
