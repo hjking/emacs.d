@@ -20,14 +20,14 @@
     (setq verilog-case-indent              4)   ; 2
     (setq verilog-auto-newline             nil) ; t
     (setq verilog-auto-indent-on-newline   t)   ; t
-    (setq verilog-tab-always-indent        nil) ; t
+    (setq verilog-tab-always-indent        t) ; t
     (setq verilog-auto-endcomments         t)   ; t
     (setq verilog-minimum-comment-distance 40)  ; 10
     (setq verilog-highlight-p1800-keywords nil)
     (setq verilog-indent-begin-after-if    t)   ; t
     (setq verilog-auto-lineup              nil) ; 'declarations
-    (setq verilog-align-ifelse             nil) ; nil
-    (setq verilog-tab-to-comment           nil) ; nil
+    (setq verilog-align-ifelse             t) ; nil
+    (setq verilog-tab-to-comment           t) ; nil
     (setq verilog-date-scientific-format   t)   ; t
     ;; Personal
     (setq verilog-company     "Fiberhome Tech (Wuhan) Co.,Ltd")

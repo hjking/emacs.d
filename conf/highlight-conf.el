@@ -18,45 +18,55 @@
 ;; Highlight tabulations
 (setq-default highlight-tabs t)
 
+(use-package hi-lock
+  :init
+   ;; Don't scan the file beyond 1000 characters to look for the Hi-Lock patterns.
+   (setq hi-lock-file-patterns-range 1000)
+  :config
+   (global-hi-lock-mode 1))
+
 ;; Highlight Anything
 (use-package hl-anything
   :load-path (lambda () (concat my-site-lisp-dir "hl-anything/"))
-  :commands (hl-global-highlight-on hl-highlight-thingatpt-global hl-highlight-thingatpt-local)
+  :commands (hl-global-highlight-on
+             hl-highlight-thingatpt-global
+             hl-highlight-thingatpt-local)
   :init (progn
-         (bind-key  "h"  'hydra-hl-anything/body hjking-map))
+         (bind-key  "h"  'hydra-hl-anything/body hjking-map)
+
+         (defun my/hl-anything (&optional arg)
+             "Wrapper function to call functions to highlight the thing at point either
+         globally or locally (when called with prefix `C-u')."
+             (interactive "p")
+             (if (eq arg 4)
+                 (hl-highlight-thingatpt-local)
+               (hl-highlight-thingatpt-global)))
+
+         (defun my/unhl-anything (&optional arg)
+             "Wrapper function to call functions to unhighlight all either
+         globally or locally (when called with prefix `C-u')."
+             (interactive "p")
+             (if (eq arg 4)
+                 (hl-unhighlight-all-local)
+               (hl-unhighlight-all-global)))
+
+         (defhydra hydra-hl-anything (:color red)
+           "hl-anything"
+           ("h" my/hl-anything             "hl-global")
+           ("H" (my/hl-anything 4)         "hl-local")
+           ("u" my/unhl-anything           "unhl-global" :color blue)
+           ("U" (my/unhl-anything 4)       "unhl-local" :color blue)
+           ("n" hl-find-next-thing         "next")
+           ("p" hl-find-prev-thing         "prev")
+           ("s" hl-save-highlights         "save" :color blue)
+           ("r" hl-restore-highlights      "restore" :color blue)
+           ("t" hl-global-highlight-on/off "toggle")
+           ("q" nil                        "cancel" :color blue))
+         )
   :config (progn
-    (hl-highlight-mode +1)
-    (hl-paren-mode +1)
-
-    (defun my/hl-anything (&optional arg)
-      "Wrapper function to call functions to highlight the thing at point either
-  globally or locally (when called with prefix `C-u')."
-      (interactive "p")
-      (if (eq arg 4)
-          (hl-highlight-thingatpt-local)
-        (hl-highlight-thingatpt-global)))
-
-    (defun my/unhl-anything (&optional arg)
-      "Wrapper function to call functions to unhighlight all either
-  globally or locally (when called with prefix `C-u')."
-      (interactive "p")
-      (if (eq arg 4)
-          (hl-unhighlight-all-local)
-        (hl-unhighlight-all-global)))
-
-    (defhydra hydra-hl-anything (:color red)
-      "hl-anything"
-      ("h" my/hl-anything             "hl-global")
-      ("H" (my/hl-anything 4)         "hl-local")
-      ("u" my/unhl-anything           "unhl-global" :color blue)
-      ("U" (my/unhl-anything 4)       "unhl-local" :color blue)
-      ("n" hl-find-next-thing         "next")
-      ("p" hl-find-prev-thing         "prev")
-      ("s" hl-save-highlights         "save" :color blue)
-      ("r" hl-restore-highlights      "restore" :color blue)
-      ("t" hl-global-highlight-on/off "toggle")
-      ("q" nil                        "cancel" :color blue))
-    )
+           (hl-highlight-mode +1)
+           (hl-paren-mode +1)
+           )
   )
 
 ;; Highlight search pattern
@@ -64,7 +74,10 @@
 ;; Highlight Symbol at point/cursor
 (use-package highlight-symbol
   :load-path (lambda () (concat my-site-lisp-dir "highlight-symbol/"))
-  :commands (highlight-symbol-at-point highlight-symbol-query-replace)
+  :commands (highlight-symbol-at-point
+             highlight-symbol-next
+             highlight-symbol-prev
+             highlight-symbol-query-replace)
   :init (progn
          (bind-key "a" 'highlight-symbol-at-point hjking-map) ;; C-x m a
          (bind-key "n" 'highlight-symbol-next hjking-map) ;; C-x m n
@@ -85,10 +98,12 @@
 ;; Alternative highlighting package when `hl-anything' has issues
 (when (not (featurep 'hl-anything))
   (use-package highlight-global
+    :disabled t
     :load-path (lambda () (concat my-site-lisp-dir "highlight-global/"))
-    :commands highlight-frame-toggle
-    :bind (("M-H"  .  highlight-frame-toggle)
-           ("M-+"  .  clear-highlight-frame))
+    :commands (highlight-frame-toggle
+               clear-highlight-frame)
+    ; :bind (("M-H"  .  highlight-frame-toggle)
+    ;        ("M-+"  .  clear-highlight-frame))
     :init (progn
            (bind-key  "h"  'highlight-frame-toggle hjking-map) ;; C-x m h
            (bind-key  "H"  'clear-highlight-frame hjking-map) ;; C-x m H

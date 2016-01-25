@@ -1,6 +1,7 @@
 
 (when (featurep 'org)
     (use-package org-trello
+      :disabled t
       ; (custom-set-variables '(org-trello-files '((concat org-directory "/trello/work.org")
       ;                                            (concat org-directory "/trello/personal.org")
       ;                                            (concat org-directory "/trello/blog.org")

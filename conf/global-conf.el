@@ -75,8 +75,6 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-(global-hi-lock-mode 1)
-
 ;; Echo commands I haven’t finished quicker than the default of 1 second
 (setq echo-keystrokes 0.1)
 

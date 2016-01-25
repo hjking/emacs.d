@@ -239,6 +239,8 @@
 ;; http://emacser.com/eval-after-load.htm
 (require 'eval-after-load)
 
+(require 'hjking-mode)
+
 ;; [ package ]------------------------------------------------------------------
 ;; Packages managment
 (when section-package
@@ -1038,6 +1040,7 @@
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
 ;; (setq-default truncate-lines t)
+(bind-key "C-x t" #'toggle-truncate-lines hjking-mode-map)
 
 ;; insert a [line ending] after the last word that occurs
 ;; before the value of option ‘fill-column’
