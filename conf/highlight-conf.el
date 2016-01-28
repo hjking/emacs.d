@@ -52,10 +52,10 @@
 
          (defhydra hydra-hl-anything (:color red)
            "hl-anything"
-           ("h" my/hl-anything             "hl-global")
-           ("H" (my/hl-anything 4)         "hl-local")
-           ("u" my/unhl-anything           "unhl-global" :color blue)
-           ("U" (my/unhl-anything 4)       "unhl-local" :color blue)
+           ("H" my/hl-anything             "hl-global")
+           ("h" (my/hl-anything 4)         "hl-local")
+           ("U" my/unhl-anything           "unhl-global" :color blue)
+           ("u" (my/unhl-anything 4)       "unhl-local" :color blue)
            ("n" hl-find-next-thing         "next")
            ("p" hl-find-prev-thing         "prev")
            ("s" hl-save-highlights         "save" :color blue)

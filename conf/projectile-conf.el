@@ -2,6 +2,10 @@
 
 (use-package projectile
   :diminish projectile-mode
+  :bind (("C-c p f" . projectile-find-file)
+         ("C-c p d" . projectile-find-dir)
+         ("C-c p g" . projectile-grep)
+         ("C-c p p" . projectile-find-file))
   :commands (projectile-ack
              projectile-ag
              projectile-compile-project
@@ -24,9 +28,9 @@
              projectile-switch-to-buffer
              projectile-vc)
   :init (progn
-    (projectile-global-mode 1)
-    ; (setq projectile-keymap-prefix (kbd "C-c C-p"))
-    ; (setq projectile-completion-system 'default) ; ido
+    ; (projectile-global-mode 1)
+    (setq projectile-keymap-prefix (kbd "C-c p"))
+    ; (setq projectile-completion-system 'default) ; ido/grizzl/ido-flx
     ;; with helm
     ; (setq projectile-completion-system 'helm)
     (with-eval-after-load 'ivy
@@ -35,12 +39,6 @@
     (when win32p
         ;; enable external indexing
         (setq projectile-indexing-method 'alien))
-    ;; Don't consider my home dir as a project
-    (add-to-list 'projectile-ignored-projects `,(concat (getenv "HOME") "/"))
-    (dolist (item '(".SOS" "nobackup"))
-      (add-to-list 'projectile-globally-ignored-directories item))
-    (dolist (item '("GTAGS" "GRTAGS" "GPATH"))
-      (add-to-list 'projectile-globally-ignored-files item))
     (setq projectile-cache-file (concat my-cache-dir "projectile.cache"))
     (setq projectile-known-projects-file (concat my-cache-dir "projectile-bookmarks.eld"))
     ;; restore the recent window configuration of the target project
@@ -60,6 +58,12 @@
 
     )
   :config (progn
+    ;; Don't consider my home dir as a project
+    (add-to-list 'projectile-ignored-projects `,(concat (getenv "HOME") "/"))
+    (dolist (item '(".SOS" "nobackup"))
+      (add-to-list 'projectile-globally-ignored-directories item))
+    (dolist (item '("GTAGS" "GRTAGS" "GPATH"))
+      (add-to-list 'projectile-globally-ignored-files item))
     (projectile-global-mode)
     ;; integrate perspective with projectile
     (use-package perspective

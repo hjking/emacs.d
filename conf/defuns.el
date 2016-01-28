@@ -1964,14 +1964,6 @@ programming."
      (list from (query-replace-read-to from "Replace" nil))))
   (query-replace from to))
 
-;; delete all the trailing whitespaces and tabs across the current buffer
-(defun hjking/delete-trailing-whitespaces-and-untabify ()
-  "Delete all the trailing white spaces, and convert all tabs to multiple
-spaces across the current buffer."
-  (interactive "*")
-  (delete-trailing-whitespace)
-  (untabify (point-min) (point-max)))
-
 (defun indent-whole-buffer ()
   (interactive)
   (save-excursion

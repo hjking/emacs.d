@@ -21,7 +21,6 @@
     (setq ido-create-new-buffer 'always)
     (setq ido-enable-regexp t)
     (setq ido-completion-buffer-all-completions t)
-    (setq ido-enable-flex-matching t)
     (setq ido-record-commands t)
     (setq ido-max-directory-size 100000)
     ;; Show previously opened buffers in ido-switch-buffer

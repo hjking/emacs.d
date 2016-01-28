@@ -2041,8 +2041,6 @@
 ; (guru-global-mode +1)
 ; (setq guru-warn-only t)
 
-;; (global-set-key (kbd "C-c t") 'my-delete-trailing-whitespaces-and-untabify)
-
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
 (require 'guide-key-conf)
