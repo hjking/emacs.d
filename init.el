@@ -104,8 +104,8 @@
 (defvar section-table nil)
 (defvar section-undo t)
 (defvar section-header t)
-(defvar section-irc nil)
-(defvar section-w3m nil)
+(defvar section-irc t)
+(defvar section-w3m t)
 (defvar section-smex t)
 (defvar section-slime t)
 (defvar section-cscope nil)
@@ -700,9 +700,10 @@
            (setq sml/shorten-modes t)
            (setq sml/name-width 25)
            (setq sml/mode-width 'full)
-      ; (sml/apply-theme 'dark)  ;; respectful/light
-      ; (sml/setup)
-  ))
+           (setq sml/theme 'respectful)  ;; respectful/light/dark
+           )
+    :config (sml/setup)
+  )
 )
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
@@ -1457,8 +1458,7 @@
 
 ;; [ erc ]-----------------------------------------------------------------------
 (when section-irc
-    (require 'erc-conf)
-    (erc :server "irc.freenode.net" :port 6667 :nick "hjking"))
+    (require 'erc-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1897,7 +1897,7 @@
     (setq my-w3m-path (concat my-site-lisp-dir "emacs-w3m/"))
     (add-site-lisp-load-path "emacs-w3m/")
     (add-site-lisp-info-path "emacs-w3m/doc/")
-    (load "w3m-conf"))
+    (require 'w3m-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1958,6 +1958,7 @@
 
 ;; [ hungry-delete ]------------------------------------------------------------
 (use-package hungry-delete
+  :disabled t
   :load-path (lambda () (concat my-site-lisp-dir "hungry-delete/"))
   :config
     (global-hungry-delete-mode))
@@ -1999,11 +2000,13 @@
 
 
 ;;; stripe-buffer
+;;; Use different background colors for even and odd lines.
 (use-package stripe-buffer
   :commands (turn-on-stripe-buffer-mode turn-on-stripe-table-mode)
   :init  (progn
-          (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
-          (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
+          ; (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+          ; (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+          )
   )
 
 
@@ -2094,7 +2097,10 @@
 ; (sml/apply-theme 'dark)  ;; respectful/light
 ; (sml/setup)
 
-;; (setq debug-on-error nil)
+(setq debug-on-error t
+      debug-on-quit t
+      stack-trace-on-error '(buffer-read-only))
+
 (message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))
 

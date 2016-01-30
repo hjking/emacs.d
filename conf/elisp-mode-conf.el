@@ -54,6 +54,6 @@
 (autoload 'turn-on-pretty-mode "pretty-mode")
 
 ;; Paredit
-(load "paredit-mode-conf")
+; (load "paredit-mode-conf")
 
 (provide 'elisp-mode-conf)

@@ -27,7 +27,7 @@
     (setq verilog-indent-begin-after-if    t)   ; t
     ; (setq verilog-auto-lineup              nil) ; 'declarations
     (setq verilog-align-ifelse             t) ; nil
-    (setq verilog-tab-to-comment           t) ; nil
+    (setq verilog-tab-to-comment           nil) ; t
     (setq verilog-date-scientific-format   t)   ; t
     ;; Personal
     (setq verilog-company     "Fiberhome Tech (Wuhan) Co.,Ltd")

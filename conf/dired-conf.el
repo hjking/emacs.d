@@ -63,6 +63,9 @@
                   (setq dired-omit-size-limit 1000000)
                   (define-key dired-mode-map (kbd "C-o") 'dired-omit-mode)))
 
+    (when (featurep 'stripe-buffer)
+      (add-hook 'org-mode-hook 'stripe-listify-buffer)) ; turn-on-stripe-buffer-mode
+
     (when (eq system-type 'darwin)
       (add-to-list 'dired-omit-extensions ".DS_STORE"))
 

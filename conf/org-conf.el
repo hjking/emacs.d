@@ -12,13 +12,24 @@
   ;; (require 'org-publish)
   ;; (require 'org-agenda)
   ;; (require 'org-element)
+  :bind (("C-c a"     . org-agenda)
+         ("C-c c"     . org-capture))
   :commands (org-agenda org-iswitchb org-capture org-store-link)
-  :mode ("\\.\\(org\\|org_archive\\|txt\\)$")
+  :mode ("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode)
   :init (progn
     (setq org-directory "~/org")
     ;; (setq org-directory (concat my-emacs-dir "org"))
     ; (setq org-default-notes-file (concat org-directory "/todo.org"))
-    (setq org-listen-read-watch-file (concat org-directory "/topics/listen-read-watch.org"))
+    (setq hjking-listen-read-watch-org-file (concat org-directory "/topics/listen-read-watch.org")
+          hjking-todo-org-file (concat org-directory "/todo.org")
+          hjking-diary-org-file (concat org-directory "/topics/diary.org")
+          hjking-habit-org-file (concat org-directory "/topics/habit.org")
+          hjking-call-org-file (concat org-directory "/topics/call.org")
+          hjking-note-org-file (concat org-directory "/topics/notes.org")
+          hjking-refile-org-file (concat org-directory "/refile.org")
+          hjking-journal-org-file (concat org-directory "/topics/journal.org")
+          hjking-reference-org-file (concat org-directory "/ref/reference.org")
+          )
 
     (setq org-hide-leading-star t)
     (setq org-startup-folded nil)  ;; open org in unfolded view
@@ -40,11 +51,11 @@
 
     (setq org-todo-keyword-faces
           (quote (("TODO"      . (:foreground "red"          :weight bold))
-                  ("DOING"     . (:foreground "olivedrab"    :weight bold))
+                  ("DOING"     . (:foreground "forest green" :weight bold))
                   ("NEXT"      . (:foreground "orange"       :weight bold))
                   ("WAITING"   . (:foreground "sienna"       :weight bold))
                   ("HOLD"      . (:foreground "magenta"      :weight bold))
-                  ("DONE"      . (:foreground "forest green" :weight bold :strike-through t))
+                  ("DONE"      . (:foreground "olivedrab"    :weight bold :strike-through t))
                   ("DELEGATED" . (:foreground "dimgrey"      :weight bold))
                   ("CANCELLED" . shadow)
                   ("POSTPONED" . (:foreground "steelblue"    :weight bold))
@@ -88,12 +99,15 @@
                           (:endgroup)
                           ;; type
                           (:startgroup)
-                          ("coding" . ?c)
-                          ("writing" . ?t)
-                          ("reading" . ?b)
-                          ("mail" . ?E)
-                          ("housework" . ?H)
-                          ("PURCHASE" . ?P)
+                          ("@coding" . ?c)
+                          ("@documentation" . ?d)
+                          ("@writing" . ?t)
+                          ("@reading" . ?b)
+                          ("@meeting" . ?f)
+                          ("@email" . ?E)
+                          ("@break" . ?b)
+                          ("@housework" . ?h)
+                          ("@shopping" . ?P)
                           (:endgroup)
                           ;; frequency
                           (:startgroup)
@@ -132,10 +146,9 @@
     ;; Org Agenda
     ;; (setq org-agenda-files '("~/org/personal.org" "~/org/habit.org"))
     ;; (add-to-list 'org-agenda-files "~/org/personal.org")
+    ;; (setq org-agenda-files (directory-files org-directory t "\.org$"))
     (setq org-agenda-files (append
-                            (list (concat org-directory "/habit.org")
-                                  (concat org-directory "/personal.org")
-                                  (concat org-directory "/call.org"))
+                            (list (concat org-directory "/personal.org"))
                             (file-expand-wildcards (concat org-directory "/work/*.org"))
                             (file-expand-wildcards (concat org-directory "/gtd/*.org"))
                             (file-expand-wildcards (concat org-directory "/topics/*.org"))
@@ -156,7 +169,7 @@
     (setq org-agenda-start-on-weekday nil)
     ;; show entries from the Emacs diary
     (setq org-agenda-include-diary nil)
-    (setq org-agenda-diary-file (concat org-directory "/diary.org"))
+    (setq org-agenda-diary-file hjking-diary-org-file)
     ;; any time strings in the heading are shown in the agenda
     (setq org-agenda-insert-diary-extract-time t)
     (setq org-agenda-span 2)
@@ -575,55 +588,70 @@
 
     ;; Capture
     ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+    ;; %t: timestamp with date     %T: timestamp with date and time
+    ;; %u: inactive timestamp with date     %U: inactive timestamp with date and time
+    ;; %i: Initial content, the region when capture is called while the region is active.
+    ;; %a: Annotation, normally the link created with org-store-link
+    ;; %A: Like %a, but prompt for the description part
+    ;; %^g: Prompt for tags, with completion on tags in target file
+    ;; %^t: Like %t, but prompt for date. Similarly %^T, %^u, %^U
+    ;; %^{prompt}: prompt the user for a string and replace this sequence with it
+    ;; %?: After completing the template, position cursor here
     (setq org-capture-templates
-          (quote (
-                  ("a" "Appointment"
-                       entry (file+headline (concat org-directory "/todo.org") "Calendar")
-                       "** APPT: %^{Description} %^g %?  Added: %U\n   SCHEDULED: %t")
-                  ("d" "Diary"
-                       entry (file+datetree (concat org-directory "/diary.org"))
-                       "** %?\n  %U\n" :clock-in t :clock-resume t)
-                  ("g" "Today's Page"
-                       entry (file+headline (today-journal-file) "Today's Journal")
-                       "** Event: %?\n %i\n"
-                       :empty-lines 1)
-                  ("h" "Habit"
-                       entry (file (concat org-directory "/habit.org"))
-                       "** NEXT %?\n   %U\n   %a\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :REPEAT_TO_STATE: NEXT\n   :END:\n")
-                  ("j" "Journal Entry"
-                       entry (file+datetree (concat org-directory "/journal.org"))
-                       "** %^{Heading}\n  %U\n" :clock-in t :clock-resume t)
-                  ("l" "Log Time"
-                       entry (file+datetree (concat org-directory "/archive/log.org"))
-                       "** %U - %a  :TIME:")
-                  ("m" "Meeting"
-                       entry (file (concat org-directory "/todo.org"))
-                       "** NEXT Meeting with %? :MEETING:\n   SCHEDULED: %t\n  %U" :clock-in t :clock-resume t)
-                  ("n" "Note"
-                       entry (file (concat org-directory "/notes.org"))
-                       "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
-                  ("p" "Phone Call"
-                       entry (file (concat org-directory "/call.org"))
-                       "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :PHONE:\n   SCHEDULED: %t\n   %U" :clock-in t :clock-resume t)
-                  ("r" "Email Respond"
-                       entry (file (concat org-directory "/todo.org"))
-                       "** NEXT Email Respond to %:from on %:subject\n  SCHEDULED: %t\n  %U\n  %a\n" :clock-in t :clock-resume t :immediate-finish t)
-                  ("s" "Reference"
-                       entry (file+headline (concat org-directory "/ref/reference.org") "Reference")
-                       "** %?\n  %i\n  %a")
-                  ("t" "TODO"
-                       entry (file (concat org-directory "/todo.org"))
-                       "** TODO %?\n   %U\n   %a\n" :clock-in t :clock-resume t)
-                  ("w" "org-protocol"
-                       entry (file (concat org-directory "/refile.org"))
-                       "** TODO Review %c\n   %U\n" :immediate-finish t)
-                  ("l" "Listen" entry (file+headline org-listen-read-watch-file "Listen")
-                       "** NEXT %?")   ;; "** NEXT Read: %?\n   %i\n   %a"
-                  ("r" "Read" entry (file+headline org-listen-read-watch-file "Read")
-                       "** NEXT %?")
-                  ("w" "Watch" entry (file+headline org-listen-read-watch-file "Watch")
-                       "** NEXT %?")
-                )))
+          '(
+            ("a" "Appointment"
+                 entry (file+headline hjking-todo-org-file "Calendar")
+                 "** APPT: %^{Description}  Added: %U %^g\n   SCHEDULED: %^t")
+            ("b" "Break"
+                 entry (file hjking-todo-org-file)
+                 "** Break SCHEDULED: %^U :@break:"    :clock-in t :clock-resume t)
+            ("d" "Diary"
+                 entry (file+datetree hjking-diary-org-file)
+                 "** %U\n%?" :clock-in t :clock-resume t)
+            ("g" "Today's Page"
+                 entry (file+headline (today-journal-file) "Today's Journal")
+                 "** Event: %? %U\n %i\n"
+                 :empty-lines 1)
+            ("h" "Habit"
+                 entry (file hjking-habit-org-file)
+                 "** TODO %?\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
+            ("j" "Journal Entry"
+                 entry (file+datetree hjking-journal-org-file)
+                 "** %^{Heading}\n   Logged on %U\n" :clock-in t :clock-resume t)
+            ("l" "Log Time"
+                 entry (file+datetree (concat org-directory "/archive/log.org"))
+                 "** %U - %a  :TIME:")
+            ("L" "Listen"
+                 entry (file+headline hjking-listen-read-watch-org-file "Listen")
+                 "** NEXT Listen %? :@music:")   ;; "** NEXT Read: %?\n   %i\n   %a"
+            ("m" "Meeting"
+                 entry (file+headline hjking-todo-org-file "Meeting")
+                 "** %^{Subject} :@meeting:MEETING:\n   SCHEDULED: %^T\n   With: %^{Guests} @ %^{Location}\n   Description: %?" :clock-in t :clock-resume t)
+            ("n" "Note"
+                 entry (file hjking-note-org-file)
+                 "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
+            ("p" "Phone Call"
+                 entry (file hjking-call-org-file)
+                 "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :@phone:PHONE:\n   SCHEDULED: %^T" :clock-in t :clock-resume t)
+            ("r" "Email Reply"
+                 entry (file hjking-todo-org-file)
+                 "** NEXT Email Reply %? :@email:\n  SCHEDULED: %^t\n" :clock-in t :clock-resume t)
+            ("R" "Read"
+                 entry (file+headline hjking-listen-read-watch-org-file "Read")
+                 "** NEXT Read %? :@book:")
+            ("s" "Reference"
+                 entry (file+headline hjking-reference-org-file "Reference")
+                 "** %?\n  %i\n  %a")
+            ("t" "TODO"
+                 entry (file hjking-todo-org-file)
+                 "** TODO %?\n   %^T\n" :clock-in t :clock-resume t)
+            ("w" "org-protocol"
+                 entry (file hjking-refile-org-file)
+                 "** TODO Review %c\n   %U\n" :immediate-finish t)
+            ("W" "Watch"
+                 entry (file+headline hjking-listen-read-watch-org-file "Watch")
+                 "** NEXT Watch %? :@movie:")
+            ))
 
     ;; Remove empty LOGBOOK drawers on clock out
     (defun bh/remove-empty-drawer-on-clock-out ()
@@ -807,36 +835,20 @@
     ;; color
     (setq org-priority-faces
       '((?A . (:background "red"        :foreground "white"     :weight bold))
-        (?B . (:background "DarkOrange" :foreground "white"     :weight bold))
-        (?C . (:background "yellow"     :foreground "DarkGreen" :weight bold))
+        (?B . (:background "yellow"     :foreground "black"     :weight bold))
+        (?C . (:background "DarkOrange" :foreground "DarkGreen" :weight bold))
         (?D . (:background "DodgerBlue" :foreground "black"     :weight bold))
         (?E . (:background "SkyBlue"    :foreground "black"     :weight bold))
     ))
 
-    ;;; Dependence
-    ;; if sub-item not DONE, item can not set to DONE
-    ;; (setq org-enforce-todo-dependencies t)
-    ;;
-    ;; if the former item not DONE, the next can not set to DONE
-    ;; use :PROPERTIES:
-    ;;     :ORDERED: t
-    ;;     :END:
-
-
     ;; org-mode-hok
     (defun my-org-mode-hook ()
       (interactive)
-      (setq normal-auto-fill-function
-            (lambda ()
-              (interactive)
-              (do-auto-fill)))
       (setq fill-column 72)
       (auto-fill-mode)
       (setq truncate-lines t)  ;; Wrap long lines
-      (visual-line-mode t)
-      (set (make-local-variable 'system-time-locale) "C"))
+      (visual-line-mode t))
     (add-hook 'org-mode-hook 'my-org-mode-hook)
-    (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
     )
 
@@ -848,7 +860,10 @@
       (setq org-default-notes-file
               (concat org-directory "/gtd/"
                       (downcase (format-time-string "%Y-%m.org")))))
-    (hjking/org-reload)
+    ; (hjking/org-reload)
+
+    (when (featurep 'stripe-buffer)
+      (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
 
     (use-package org-checklist)
 
