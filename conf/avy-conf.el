@@ -6,10 +6,11 @@
 ;;
 
 (use-package avy
+  :commands (avy-goto-word-or-subword-1 avy-goto-char)
   ; :bind ("M-SPC" . avy-goto-char)
-  :config (progn
-            (setq avy-background t)
-            (setq avy-style 'at-full)
-            (setq avy-all-windows nil)))
+  :init (progn
+         (setq avy-background t)
+         (setq avy-style 'at-full)
+         (setq avy-all-windows nil)))
 
 (provide 'avy-conf)

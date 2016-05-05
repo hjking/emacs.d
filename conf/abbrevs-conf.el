@@ -14,7 +14,7 @@
     ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
     (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
     ;; save my abbreviations when file saved
-    (setq save-abbrevs t)
+    (setq save-abbrevs 'silently) ; t
 
     ;; ensure abbrev mode is always on in current buffer
     ;; (abbrev-mode 1)
@@ -63,7 +63,8 @@
 ;; extend standard Dynamic Abbreviation
 ;; show multiple candidates with tooltip
 (use-package dabbrev-expand-multiple
-  :commands dabbrev-expand-multiple
+  :commands (dabbrev-expand-multiple)
+  :bind ("M-/" . dabbrev-expand-multiple)
   :init
   (progn
     ;; setting abbrev displayed at a time to five.

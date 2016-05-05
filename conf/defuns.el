@@ -1484,13 +1484,6 @@ File suffix is used to determine what program to run."
         (sort-subr nil 'forward-line 'end-of-line nil nil
                    (lambda (s1 s2) (eq (random 2) 0)))))))
 
-(defun build-ctags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "ctags -f %s/TAGS -R %s" dir-name (directory-file-name dir-name)))
-  )
-
 ;;; select between parens
 (defun hjking/select-in-parens ()
   (interactive)
@@ -1840,6 +1833,20 @@ programming."
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (+ x-int 1)))
         )))))
+
+(defun increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun decrement-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 
 ;; let you quickly search a set of buffers that match a specific major mode
 (defun get-buffers-matching-mode (mode)

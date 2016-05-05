@@ -44,9 +44,9 @@
 
 (global-set-key (kbd "C-c SPC")     'hjking/goto-last-edit-pos)
 ;; (global-set-key "\C-\\"             'compare-windows)
-(global-set-key (kbd "M-;")         'hippie-expand)
+; (global-set-key (kbd "M-;")         'hippie-expand)
 ;; (global-set-key (kbd "M-/")         'dabbrev-expand) ;;(default)
-(global-set-key (kbd "M-/")         'dabbrev-expand-multiple) ;; extend dabbrev-expand
+; (global-set-key (kbd "M-/")         'dabbrev-expand-multiple) ;; extend dabbrev-expand
 
 ;; Copy sexp under cursor into register. Somewhat of a hack since
 ;; marked region remains active following copy. Macro will call

@@ -16,14 +16,8 @@
 
 (setq backward-delete-char-untabify nil)
 
-;; make tab key always call a indent command.
-;; (set-default tab-always-indent t)
-
-;; make tab key call indent command or insert tab character, depending on cursor position
-(set-default tab-always-indent nil)
-
-;; make tab key do indent first then completion.
-;; (set-default tab-always-indent 'complete)
+;; smart tab behavior - indent or complete
+(setq tab-always-indent 'complete)
 
 ;;; indent-guide
 ;; `C-M-\' runs the command `indent-region' (which does the job of

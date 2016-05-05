@@ -17,7 +17,7 @@
 ;; Do case-sensitive tag searches
 (setq tags-case-fold-search nil) ;; t=case-insensitive, nil=case-sensitive
 ;; Don't warn when TAGS files are large
-(setq large-file-warning-threshold nil)
+(setq large-file-warning-threshold 50000000)  ;; nil
 
 (when *is-a-mac*
   ; Mac's default ctags does not support -e option
@@ -93,6 +93,13 @@
 ; (add-hook 'after-save-hook 'my-auto-update-tags-when-save)
 ; (add-hook 'c++-mode-hook 'my-setup-develop-environment)
 ; (add-hook 'c-mode-hook 'my-setup-develop-environment)
+
+(defun build-ctags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags -f %s -e -R %s" path-to-ctags (directory-file-name dir-name)))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; gtags

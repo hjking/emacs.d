@@ -132,12 +132,13 @@
   ;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
-  (setq eval-expression-debug-on-error t       ; debugger on errors in eval-expression
+  ;; Turn on debugging, it will be turned off at the end.
+  (setq
+        debug-on-error t
+        debug-on-quit t
+        eval-expression-debug-on-error t       ; debugger on errors in eval-expression
         stack-trace-on-error nil               ; backtrace of error on debug
-        debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
         debug-on-signal nil)                   ; debug any/every error
-  ;; Keep debug-on-error on for stuff that is lazily loaded
-  (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 )
 
 ;; --[ Load Path ]--------------------------------------------------------------
@@ -664,11 +665,11 @@
 
 ;; Show buffer size in mode-line
 (size-indication-mode 1)
-;; display time
+;; display time in your mode-line
 (display-time-mode 1)
-;; Enable or disable the display of the current line number
+;; Enable or disable the display of the current line number in your mode-line
 (line-number-mode 1)
-;; Enable or disable the display of the current column number
+;; Enable or disable the display of the current column number in your mode-line
 (column-number-mode 1)
 ;; Enable or disable laptop battery information
 ; (display-battery-mode 1)
@@ -2097,9 +2098,11 @@
 ; (sml/apply-theme 'dark)  ;; respectful/light
 ; (sml/setup)
 
-(setq debug-on-error t
-      debug-on-quit t
+(setq debug-on-error nil
+      debug-on-quit nil
       stack-trace-on-error '(buffer-read-only))
+
+; (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 
 (message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))
