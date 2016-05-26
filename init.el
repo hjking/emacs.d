@@ -1846,6 +1846,11 @@
 ; (require 'plantuml-mode)
 ; (setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
 
+
+;; Graphviz dot mode for emacs
+(add-site-lisp-load-path "graphviz-dot-mode/")
+(require 'graphviz-dot-mode)
+
 ;;;; ================ ProgrammingModes End ================
 
 ;; [ undo ]---------------------------------------------------------------------
