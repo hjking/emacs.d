@@ -65,8 +65,8 @@
 (defvar section-gnus nil)
 (defvar section-eshell t)
 (defvar section-hdl t)
-(defvar section-verilog t)
-(defvar section-vlog nil)
+(defvar section-verilog nil)
+(defvar section-vlog t)
 (defvar section-vhdl nil)
 (defvar section-emacs-server nil)
 (defvar section-org t)
@@ -1694,8 +1694,8 @@
 
   (when section-vlog
       ;; Vlog mode: The verilog code maker
-      (setq my-vlog-load-path (concat my-site-lisp-dir "vlog-mode/"))
-      (add-site-lisp-load-path "vlog-mode/")
+      ; (setq my-vlog-load-path (concat my-site-lisp-dir "vlog-mode/"))
+      ; (add-site-lisp-load-path "vlog-mode/")
       (require 'vlog-conf))
 
   (when section-vhdl
@@ -2052,7 +2052,7 @@
 
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
-(require 'guide-key-conf)
+; (require 'guide-key-conf)
 (require 'which-key-conf)
 ;; ---------------------------------------------------------------------[ End ]--
 

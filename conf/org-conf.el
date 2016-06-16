@@ -863,6 +863,7 @@
     ; (hjking/org-reload)
 
     (when (featurep 'stripe-buffer)
+      (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
       (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
 
     (use-package org-checklist)

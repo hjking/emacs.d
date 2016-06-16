@@ -20,7 +20,7 @@
     (setq verilog-case-indent              4)   ; 2
     (setq verilog-auto-newline             nil) ; t
     (setq verilog-auto-indent-on-newline   t)   ; t
-    (setq verilog-tab-always-indent        t)   ; t
+    (setq verilog-tab-always-indent        nil)   ; t
     (setq verilog-auto-endcomments         t)   ; t
     (setq verilog-minimum-comment-distance 40)  ; 10
     (setq verilog-highlight-p1800-keywords nil)

@@ -40,8 +40,8 @@
     expand-region
     ; ggtags
     gnuplot-mode
-    guide-key
-    guide-key-tip
+    ; guide-key
+    ; guide-key-tip
     ; helm
     ; helm-projectile
     indent-guide
