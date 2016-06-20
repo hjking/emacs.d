@@ -536,10 +536,15 @@
     :commands (rm-set-mark rm-exchange-point-and-mark rm-kill-region rm-kill-ring-save)
   )
 
-  ; (require 'expand-region)
-  ; (global-set-key (kbd "C-=") 'er/expand-region)
+  ;; Expand Region
+  ;; https://github.com/magnars/expand-region.el
   (use-package expand-region
-    :bind ("C-=" . er/expand-region))
+    :bind ("C-=" . er/expand-region)
+    :config
+    (progn
+      (setq expand-region-contract-fast-key "|")
+      (setq expand-region-reset-fast-key "<ESC><ESC>"))
+    )
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -607,17 +612,12 @@
 ;; --[ Scrolling ]--------------------------------------------------------------
 (message "%d: >>>>> Loading [ Scrolling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-;; no scroll bar
-(scroll-bar-mode t)
-;;(when (fboundp 'scroll-bar-mode)
-;;    (scroll-bar-mode -1))
-;;  (setq scroll-bar-mode-explicit t)
-;; scroll bar at right hand
-(set-scroll-bar-mode `right)
 ;; scroll when point 2 lines far away from the bottom
 (setq scroll-margin 3)
 ; Scroll just one line when hitting bottom of window
 (setq scroll-conservatively 10000)
+;; Keep point at its screen position if the scroll command moved it vertically
+;; out of the window, e.g. when scrolling by full screens using C-v.
 (setq scroll-preserve-screen-position t)
 ; (setq scroll-preserve-screen-position 'always
 ;       scroll-conservatively           most-positive-fixnum
@@ -676,8 +676,14 @@
 
 ;; displays the current function name in the mode line
 (use-package which-func
-  :init (setq which-func-unknown "n/a")
-  :config (which-function-mode 1))
+  :init
+  (setq which-func-unknown "n/a")
+  ;; Don't set `which-function-mode' to be enabled by default for all modes
+  ;; Major modes needing this mode should do:
+  ;;   (add-to-list 'which-func-mode 'MAJOR-MODE)
+  (setq which-func-modes nil)
+  ; :config (which-function-mode 1)
+  )
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -893,6 +899,11 @@
 ;; --[ Buffer Handling ]--------------------------------------------------------
 (message "%d: >>>>> Loading [ Buffer Handling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
+
+;; When multiple buffers are visible (like in a frame with 2 or more windows),
+;; do not display an already visible buffer when switching to next/previous
+;; buffers or after killing buffers.
+(setq switch-to-visible-buffer nil)
 
 ;; meaningful names for buffers with the same name
 (use-package uniquify
@@ -1237,6 +1248,7 @@
   :bind ("C-s" . swiper)
   )
 
+;; Replace smex
 (use-package counsel
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :bind (("M-x"     . counsel-M-x)
@@ -1246,16 +1258,29 @@
          ("C-h l"   . counsel-load-library)
          ("C-h i"   . counsel-info-lookup-symbol)
          ("C-h u"   . counsel-unicode-char))
-  :config (progn
-           (with-eval-after-load 'org
-              (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
-           (with-eval-after-load 'org-agenda
-              (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
+  :config
+  (progn
+    (setq counsel-prompt-function #'counsel-prompt-function-dir)
+
+    ;; counsel-find-file
+    (setq counsel-find-file-at-point t)
+    (setq counsel-find-file-ignore-regexp
+          (concat
+           ;; file names beginning with # or .
+           "\\(?:\\`[#.]\\)"
+           ;; file names ending with # or ~
+           "\\|\\(?:[#~]\\'\\)"))
+
+    (with-eval-after-load 'org
+        (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
+    (with-eval-after-load 'org-agenda
+        (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
   )
 
 (use-package flx
   :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))
 
+;; Replace ido
 (use-package ivy
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :diminish ""

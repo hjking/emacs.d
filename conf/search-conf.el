@@ -72,7 +72,9 @@
 (use-package anzu
   :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
   :init (progn
-         ; (bind-key  "r"  'anzu-query-replace hjking-map) ;; C-x m r
+          (setq anzu-mode-lighter "")
+          (setq anzu-search-threshold 1000)
+          (setq anzu-replace-to-string-separator " => ")
        )
   :config
    (global-anzu-mode +1)
@@ -95,6 +97,7 @@
     :init (progn
            ; (bind-key  "r"  'vr/replace hjking-map) ;; C-x m r
            ; (bind-key  "q"  'vr/query-replace hjking-map) ;; C-x m q
+           (setq vr/default-feedback-limit 300)
            )
   ))
 

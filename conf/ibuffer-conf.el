@@ -11,6 +11,7 @@
   :bind ("C-x C-b"  .  ibuffer)
   :init (progn
       (defalias 'list-buffers 'ibuffer)
+      (setq ibuffer-default-sorting-mode 'major-mode)
       (setq ibuffer-elide-long-columns t)
       (setq ibuffer-eliding-string "&")
       (setq ibuffer-filter-group-name-face 'font-lock-doc-face)
@@ -80,7 +81,6 @@
        ((> (buffer-size) 1000000) (format "%7.3fM" (/ (buffer-size) 1000000.0)))
        ((> (buffer-size) 1000) (format "%7.3fk" (/ (buffer-size) 1000.0)))
        (t (format "%8d" (buffer-size)))))
-
     )
   )
 

@@ -27,7 +27,7 @@
 (use-package buffer-move
   :defer t
   :bind
-  (("C-c C-b C-k" .    buf-move-up)
+  (("C-c C-b C-k" .  buf-move-up)
    ("C-c C-b C-j" .  buf-move-down)
    ("C-c C-b C-h" .  buf-move-left)
    ("C-c C-b C-l" .  buf-move-right))
@@ -72,9 +72,10 @@
   :load-path (lambda () (concat my-site-lisp-dir "ace-window/"))
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-  :bind(
-  ("C-x o" . ace-window)
-  ))
+  :bind (("C-x o" . ace-window))
+  :config
+  (ace-window-display-mode 1)
+  )
 
 ;;---------------------------------------------------------------------
 ; +----------+-----------+

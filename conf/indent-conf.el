@@ -27,14 +27,37 @@
   :init
   (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1))))
 
+
 ;;; aggressive-indent-mode
+;; https://github.com/Malabarba/aggressive-indent-mode
+;; aggressive-indent-mode is a minor mode that keeps your code always indented.
+;; It reindents after every change, making it more reliable than electric-indent-mode.
+
 (use-package aggressive-indent
-  :disabled t
+  ; :disabled t
   :diminish aggressive-indent-mode
   :init
   ; (global-aggressive-indent-mode 1)
   ; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  (add-hook 'prog-mode-hook #'aggressive-indent-mode)
-  (unbind-key "C-c C-q" aggressive-indent-mode-map))
+  ; (add-hook 'prog-mode-hook #'aggressive-indent-mode)
+  :config
+    (unbind-key "C-c C-q" aggressive-indent-mode-map)
+    (defvar hjking/aggressive-indent-mode-hooks '(emacs-lisp-mode-hook)
+        "List of hooks of major modes in which aggressive-indent-mode should be enabled.")
+
+    (defun hjking/turn-on-aggressive-indent-mode ()
+      "Turn on aggressive-indent-mode only for specific modes."
+      (interactive)
+      (dolist (hook hjking/aggressive-indent-mode-hooks)
+        (add-hook hook #'aggressive-indent-mode)))
+
+    (defun hjking/turn-off-aggressive-indent-mode ()
+      "Turn off aggressive-indent-mode only for specific modes."
+      (interactive)
+      (dolist (hook hjking/aggressive-indent-mode-hooks)
+        (remove-hook hook #'aggressive-indent-mode)))
+
+    (hjking/turn-on-aggressive-indent-mode)
+  )
 
 (provide 'indent-conf)

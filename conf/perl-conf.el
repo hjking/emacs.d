@@ -7,16 +7,11 @@
 
 (use-package cperl-mode
   :mode (("\\.\\([pP][Llm]\\|al\\)\\'"    . cperl-mode)
-         ("\\.PL$"                        . cperl-mode)
-         ("\\.pl$"                        . cperl-mode)
-         ("\\.perl$"                      . cperl-mode)
          ("\\.pm$"                        . cperl-mode)
          ("\\.t$"                         . cperl-mode)
          ("\\.psgi$"                      . cperl-mode)
          ("\\.comp$"                      . cperl-mode)
-         ("\\.pl\\'"                      . cperl-mode)
-         ("\\.perl\\'"                    . cperl-mode)
-         ("\\.\\([pP][Llm]\\|al\\)\\'"    . cperl-mode))
+         ("\\.perl\\'"                    . cperl-mode))
   :interpreter (("perl"     . cperl-mode)
                 ("perl5"    . cperl-mode)
                 ("miniperl" . cperl-mode))

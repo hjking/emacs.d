@@ -88,14 +88,14 @@
 (setq paragraph-start "- \\|\f\\|[ \t]*$"
       paragraph-separate "[\f\t ]*$")
 
-;; activate whitespace-mode to view all whitespace characters
-(whitespace-mode t)
-
 ;; highlight current line
 (require 'hl-line)
 (global-hl-line-mode)
 
 (setq comment-style 'extra-line
       comment-auto-fill-only-comments t)
+
+;; Send deletions to the Trash folder - Emacs 23.2
+(setq delete-by-moving-to-trash nil)
 
 (provide 'global-conf)
