@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Mon Jan  5 14:12:28 2015 (+0800)
+;; Last-Updated: Wed Jun 22 12:05:35 2016 (+0800)
 ;; Version:
-;;     Update #: 33
+;;     Update #: 35
 ;;
 ;;; Change Log:
 ;;
@@ -31,7 +31,8 @@
  '(column-number-mode t)
  '(org-agenda-files
    (quote
-    ("~/org/personal.org" "~/org/call.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org")))
+    ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org")))
+ '(paradox-github-token t)
  '(projectile-enable-idle-timer t)
  '(session-use-package t nil (session))
  '(tool-bar-mode nil))

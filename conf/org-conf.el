@@ -895,6 +895,19 @@
       :config
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
       )
+
+    ;;;; org-bullets
+    ;; displays a calendar with org agenda, `cfw:open-org-calendar'
+    (use-package calfw-org
+      :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
+      :init
+       ;; This setting restricts items containing a date stamp
+       ;; or date range matching the selected date
+       (setq cfw:org-agenda-schedule-args '(:timestamp))
+       ;; key binding like org agenda buffer
+       (setq cfw:org-overwrite-default-keybinding t)
+      )
+
     )
 )
 

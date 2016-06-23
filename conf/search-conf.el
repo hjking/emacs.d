@@ -94,9 +94,11 @@
 (when (not (featurep 'anzu))
   (use-package visual-regexp
     :load-path (lambda () (concat my-site-lisp-dir "visual-regexp/"))
+    :commands (vr/replace
+               vr/query-replace)
     :init (progn
-           ; (bind-key  "r"  'vr/replace hjking-map) ;; C-x m r
-           ; (bind-key  "q"  'vr/query-replace hjking-map) ;; C-x m q
+           ; (bind-key  "r"  'vr/replace hjking-mode-map) ;; C-x m r
+           ; (bind-key  "q"  'vr/query-replace hjking-mode-map) ;; C-x m q
            (setq vr/default-feedback-limit 300)
            )
   ))

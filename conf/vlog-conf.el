@@ -7,6 +7,7 @@
 
 (use-package vlog-mode
   :load-path (lambda () (concat my-site-lisp-dir "vlog-mode/"))
+  :diminish "Verilog"
   :mode (("\\.[st]*v[hp]*\\'" . vlog-mode) ; .v, .sv, .svh, .tv, .vp
          ("\\.psl\\'"         . vlog-mode)
          ("\\.vinc\\'"        . vlog-mode))

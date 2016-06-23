@@ -5,6 +5,7 @@
 
 (use-package which-key
   :load-path (lambda () (concat my-site-lisp-dir "which-key/"))
+  :diminish ""
   :init (progn
     (setq which-key-popup-type 'side-window) ; default
     ;; (setq which-key-popup-type 'minibuffer)

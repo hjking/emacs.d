@@ -30,9 +30,14 @@
   :load-path (lambda () (concat my-site-lisp-dir "hl-anything/"))
   :commands (hl-global-highlight-on
              hl-highlight-thingatpt-global
-             hl-highlight-thingatpt-local)
+             hl-highlight-thingatpt-local
+             hl-find-next-thing
+             hl-find-prev-thing
+             hl-save-highlights
+             hl-restore-highlights
+             hl-global-highlight-on/off)
   :init (progn
-         (bind-key  "h"  'hydra-hl-anything/body hjking-map)
+         (bind-key  "h"  'hydra-hl-anything/body hjking-mode-map)
 
          (defun my/hl-anything (&optional arg)
              "Wrapper function to call functions to highlight the thing at point either
@@ -60,7 +65,7 @@
            ("p" hl-find-prev-thing         "prev")
            ("s" hl-save-highlights         "save" :color blue)
            ("r" hl-restore-highlights      "restore" :color blue)
-           ("t" hl-global-highlight-on/off "toggle")
+           ("t" hl-global-highlight-on/off "on/off")
            ("q" nil                        "cancel" :color blue))
          )
   :config (progn
@@ -79,13 +84,25 @@
              highlight-symbol-prev
              highlight-symbol-query-replace)
   :init (progn
-         (bind-key "a" 'highlight-symbol-at-point hjking-map) ;; C-x m a
-         (bind-key "n" 'highlight-symbol-next hjking-map) ;; C-x m n
-         (bind-key "p" 'highlight-symbol-prev hjking-map) ;; C-x m n
-         (bind-key "r" 'highlight-symbol-query-replace hjking-map) ;; C-x m r
+         ; (bind-key "a" 'highlight-symbol-at-point hjking-mode-map) ;; C-x m a
+         ; (bind-key "n" 'highlight-symbol-next hjking-mode-map) ;; C-x m n
+         ; (bind-key "p" 'highlight-symbol-prev hjking-mode-map) ;; C-x m n
+         ; (bind-key "r" 'highlight-symbol-query-replace hjking-mode-map) ;; C-x m r
+         (bind-key  "l"  'hydra-highlight-symbol/body hjking-mode-map)
+
          (setq highlight-symbol-on-navigation-p t)
-         (setq highlight-symbol-idle-delay 0.5))
-  :config (highlight-symbol-mode)
+         (setq highlight-symbol-idle-delay 0.5)
+
+         (defhydra hydra-highlight-symbol (:color red)
+           "highlight-symbol"
+           ("a" highlight-symbol-at-point       "highlight-symbol")
+           ("n" highlight-symbol-next           "next")
+           ("p" highlight-symbol-prev           "prev")
+           ("r" highlight-symbol-query-replace  "replace" :color red)
+           ("q" nil                             "cancel" :color blue))
+         )
+  :config
+   (highlight-symbol-mode)
   )
 
 
@@ -96,19 +113,18 @@
 ;; clear-highlight-frame:  unhighlights all highlighted target
 
 ;; Alternative highlighting package when `hl-anything' has issues
-(when (not (featurep 'hl-anything))
-  (use-package highlight-global
-    :disabled t
-    :load-path (lambda () (concat my-site-lisp-dir "highlight-global/"))
-    :commands (highlight-frame-toggle
-               clear-highlight-frame)
-    ; :bind (("M-H"  .  highlight-frame-toggle)
-    ;        ("M-+"  .  clear-highlight-frame))
-    :init (progn
-           (bind-key  "h"  'highlight-frame-toggle hjking-map) ;; C-x m h
-           (bind-key  "H"  'clear-highlight-frame hjking-map) ;; C-x m H
-           )
-    ))
+(use-package highlight-global
+  :disabled t
+  :load-path (lambda () (concat my-site-lisp-dir "highlight-global/"))
+  :commands (highlight-frame-toggle
+             clear-highlight-frame)
+  ; :bind (("M-H"  .  highlight-frame-toggle)
+  ;        ("M-+"  .  clear-highlight-frame))
+  :init (progn
+         (bind-key  "h"  'highlight-frame-toggle hjking-mode-map) ;; C-x m h
+         (bind-key  "c"  'clear-highlight-frame hjking-mode-map) ;; C-x m H
+         )
+  )
 
 
 ;; highlight changes made by commands such as undo, yank-pop, etc.

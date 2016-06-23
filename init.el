@@ -125,8 +125,8 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
-(define-prefix-command 'hjking-map)
-(global-set-key (kbd "C-x m") 'hjking-map) ;; overriding the default binding to `compose-mail'
+(define-prefix-command 'hjking-mode-map)
+(global-set-key (kbd "C-x m") 'hjking-mode-map) ;; overriding the default binding to `compose-mail'
 
 (when section-debugging
   ;; Debugging
@@ -310,12 +310,21 @@
 ;; use clipboard, share with other applications
 (when (window-system)
   (setq-default
-        x-select-enable-primary nil ; stops killing/yanking interacting with primary X11 selection
-        x-select-enable-clipboard t ; makes killing/yanking interact with clipboard X11 selection
-        mouse-drag-copy-region nil  ; stops selection with a mouse being immediately injected to the kill ring
+        ;; I'm actually not sure what this does but it's recommended?
+        ;; stops killing/yanking interacting with primary X11 selection
+        x-select-enable-primary nil
+        ;; makes killing/yanking interact with the clipboard
+        x-select-enable-clipboard t
+        ;; stops selection with a mouse being immediately injected to the kill ring
+        mouse-drag-copy-region nil
         x-stretch-cursor t
-        mouse-yank-at-point t       ; middle button for paste
-        select-active-regions t     ; Active region should set primary X11 selection.
+        ;; Mouse yank commands yank at point instead of at click.
+        ;; middle button for paste
+        mouse-yank-at-point t
+        ;; Active region should set primary X11 selection.
+        select-active-regions t
+        ;; Save clipboard strings into kill ring before replacing them
+        save-interprogram-paste-before-kill t
         ))
 (global-set-key [mouse-2] 'mouse-yank-primary)
 ;; Rebind to new clipboard functions when available.
@@ -325,9 +334,6 @@
   (global-set-key [remap kill-ring-save] 'clipboard-kill-ring-save))
 (when (fboundp 'clipboard-yank)
   (global-set-key [remap yank] 'clipboard-yank))
-
-;; Save clipboard strings into kill ring before replacing them
-(setq save-interprogram-paste-before-kill t)
 
 ;; either copies the current region to the system clipboard or,
 ;; if no region is active, yanks the clipboard at point
@@ -533,13 +539,17 @@
            ("C-x r C-x" . rm-exchange-point-and-mark)
            ("C-x r C-w" . rm-kill-region)
            ("C-x r M-w" . rm-kill-ring-save))
-    :commands (rm-set-mark rm-exchange-point-and-mark rm-kill-region rm-kill-ring-save)
+    :commands (rm-set-mark
+               rm-exchange-point-and-mark
+               rm-kill-region
+               rm-kill-ring-save)
   )
 
   ;; Expand Region
   ;; https://github.com/magnars/expand-region.el
   (use-package expand-region
     :bind ("C-=" . er/expand-region)
+    :commands (er/expand-region)
     :config
     (progn
       (setq expand-region-contract-fast-key "|")
@@ -697,20 +707,18 @@
   (load "powerline-conf"))
 
 ;; [ Smart Mode Line ]
-(when section-sml
-  ; (add-site-lisp-load-path "smart-mode-line/")
-  (use-package smart-mode-line
-    :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
-    :init (progn
-           (setq sml/position-percentage-format "%p")
-           (setq sml/shorten-directory t)
-           (setq sml/shorten-modes t)
-           (setq sml/name-width 25)
-           (setq sml/mode-width 'full)
-           (setq sml/theme 'respectful)  ;; respectful/light/dark
-           )
-    :config (sml/setup)
-  )
+(use-package smart-mode-line
+  :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
+  :disabled t
+  :init (progn
+         (setq sml/position-percentage-format "%p")
+         (setq sml/shorten-directory t)
+         (setq sml/shorten-modes t)
+         (setq sml/name-width 25)
+         (setq sml/mode-width 'full)
+         (setq sml/theme 'respectful)  ;; respectful/light/dark
+         )
+  :config (sml/setup)
 )
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
@@ -905,7 +913,14 @@
 ;; buffers or after killing buffers.
 (setq switch-to-visible-buffer nil)
 
-;; meaningful names for buffers with the same name
+;; Make meaningful names for buffers with the same name
+;; When several buffers visit identically-named files,
+;; Emacs must give the buffers distinct names. The usual method
+;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
+;; of the buffer names (all but one of them).
+;; The forward naming method includes part of the file's directory
+;; name at the beginning of the buffer name
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (use-package uniquify
   :init
     ;; if open a same name buffer, then forward to same name buffer
@@ -936,7 +951,9 @@
 
 ;; History
 (require 'savehist-conf)
-;; recently opened files
+
+;; Turn on recent file mode so that you can more easily switch to
+;; recently edited files when you first start emacs
 (require 'recentf-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1052,8 +1069,8 @@
 
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
-;; (setq-default truncate-lines t)
-(bind-key "C-x t" #'toggle-truncate-lines hjking-mode-map)
+(setq truncate-lines t)
+(bind-key "t" #'toggle-truncate-lines hjking-mode-map)
 
 ;; insert a [line ending] after the last word that occurs
 ;; before the value of option ‘fill-column’
@@ -1330,6 +1347,7 @@
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (when section-abbrevs
   (require 'abbrevs-conf)
+  ;; "hippie expand" for text autocompletion
   (require 'hippie-exp-conf))
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
@@ -2033,18 +2051,22 @@
 ;;; stripe-buffer
 ;;; Use different background colors for even and odd lines.
 (use-package stripe-buffer
-  :commands (turn-on-stripe-buffer-mode turn-on-stripe-table-mode)
+  :commands (turn-on-stripe-buffer-mode
+             turn-on-stripe-table-mode)
   :init  (progn
-          ; (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
-          ; (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+          (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+          (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
           )
   )
 
+;; Whenever the window scrolls a light will shine
+;; on top of your cursor so you know where it is.
+(require 'beacon-conf)
 
-;;; Smartscan
-;; makes M-n and M-p look for the symbol at point
-(use-package smartscan
-  :config (global-smartscan-mode t))
+
+;; Modernizing Emacs' Package Menu
+;; Use `paradox-list-packages' instead of the regular `list-packages'
+(require 'paradox-conf)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
