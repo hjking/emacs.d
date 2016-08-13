@@ -37,7 +37,7 @@
              hl-restore-highlights
              hl-global-highlight-on/off)
   :init (progn
-         (bind-key  "h"  'hydra-hl-anything/body hjking-mode-map)
+         (bind-key  "h"  #'hydra-hl-anything/body hjking-mode-map)
 
          (defun my/hl-anything (&optional arg)
              "Wrapper function to call functions to highlight the thing at point either
@@ -88,7 +88,8 @@
          ; (bind-key "n" 'highlight-symbol-next hjking-mode-map) ;; C-x m n
          ; (bind-key "p" 'highlight-symbol-prev hjking-mode-map) ;; C-x m n
          ; (bind-key "r" 'highlight-symbol-query-replace hjking-mode-map) ;; C-x m r
-         (bind-key  "l"  'hydra-highlight-symbol/body hjking-mode-map)
+         ; (bind-key  "l"  'hydra-highlight-symbol/body hjking-mode-map)
+         (bind-key "l" 'hydra-highlight-symbol/body hjking-mode-map)
 
          (setq highlight-symbol-on-navigation-p t)
          (setq highlight-symbol-idle-delay 0.5)

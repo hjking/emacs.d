@@ -78,6 +78,7 @@
     ztree
     beacon
     paradox
+    evil-nerd-commenter
   )
 "A list of packages to ensure are installed at launch.")
 

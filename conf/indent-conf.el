@@ -3,7 +3,7 @@
 (setq step_no (1+ step_no))
 ;;;;;;;;;;;;;;
 ;; electric.el
-;;  indent automatically (from 24.1)
+;;  indent automatically (from 24.4)
 (electric-indent-mode 1)
 ;; set default tab char's display width to 4 spaces
 (setq-default tab-width 4)
