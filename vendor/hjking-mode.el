@@ -2,7 +2,7 @@
 ;; My minor mode
 ;; Main use is to have my key bindings have the highest priority
 
-(defvar hjking-special-keymap-prefix (kbd "C-x h")
+(defvar hjking-special-keymap-prefix (kbd "C-x m")
   "`hjking-mode' keymap prefix.
 Overrides the default binding for `compose-mail'.")
 
@@ -25,6 +25,9 @@ Overrides the default binding for `compose-mail'.")
   :init-value t
   :lighter    " HJ"
   :keymap     hjking-mode-map)
+
+;;;###autoload
+(define-globalized-minor-mode global-hjking-mode hjking-mode hjking-mode)
 
 ;;;###autoload
 (defun turn-on-hjking-mode ()

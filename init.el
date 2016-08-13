@@ -125,9 +125,6 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
-(define-prefix-command 'hjking-mode-map)
-(global-set-key (kbd "C-x m") 'hjking-mode-map) ;; overriding the default binding to `compose-mail'
-
 (when section-debugging
   ;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
@@ -236,11 +233,13 @@
 ;; turn on Common Lisp support
 (require 'cl)  ; provides useful things like `loop' and `setf'
 
+; (require 'hjking-mode)
+(define-prefix-command 'hjking-mode-map)
+(global-set-key (kbd "C-x m") 'hjking-mode-map)
+
 ;; use eval-after-load to speed up the startup
 ;; http://emacser.com/eval-after-load.htm
 (require 'eval-after-load)
-
-(require 'hjking-mode)
 
 ;; [ package ]------------------------------------------------------------------
 ;; Packages managment
@@ -1070,7 +1069,7 @@
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
 (setq truncate-lines t)
-(bind-key "t" #'toggle-truncate-lines hjking-mode-map)
+; (bind-key "t" #'toggle-truncate-lines hjking-mode-map)
 
 ;; insert a [line ending] after the last word that occurs
 ;; before the value of option ‘fill-column’
@@ -1260,9 +1259,11 @@
 ;   )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
+;; Swiper gives us a really efficient incremental search with regular expressions
 (use-package swiper
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind ("C-s" . swiper)
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper))
   )
 
 ;; Replace smex
@@ -1297,7 +1298,7 @@
 (use-package flx
   :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))
 
-;; Replace ido
+;; Ivy / Counsel replace a lot of ido or helms completion functionality
 (use-package ivy
   :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :diminish ""
@@ -1306,6 +1307,7 @@
           (setq ivy-use-virtual-buffers t)
           (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
           (setq ivy-count-format "%d/%d ")
+          (setq ivy-display-style 'fancy)
           (setq ivy-re-builders-alist
            '((ivy-switch-buffer . ivy--regex-plus)
              (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
@@ -2067,6 +2069,11 @@
 ;; Modernizing Emacs' Package Menu
 ;; Use `paradox-list-packages' instead of the regular `list-packages'
 (require 'paradox-conf)
+
+
+;; M-; comment/uncomment
+(require 'evil-nerd-commenter-conf)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
