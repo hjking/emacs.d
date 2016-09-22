@@ -5,12 +5,15 @@
 
 (dolist (source '(
                   ;; marmalade
-                  ; ("marmalade" . "https://marmalade-repo.org/packages/")
+                  ; ("marmalade" . "http://marmalade-repo.org/packages/")
                   ;; tromey
                   ; ("elpa" . "http://tromey.com/elpa/")
                   ;; stable melpa
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                   ;; development versions of melpa packages
+                  ; ("melpa" . "http://melpa.org/packages/")
+                  ; ("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
+                  ; ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")
                   ("melpa" . "http://melpa.org/packages/")
                   ; ("myelpa" . "~/.emacs.d/myelpa")
                   ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
@@ -70,6 +73,9 @@
     perspective
     persp-projectile
     projectile
+    ranger                  ;; Bringing the goodness of ranger to dired
+    counsel
+    swiper
     ; smartparens
     ; smex
     smooth-scrolling

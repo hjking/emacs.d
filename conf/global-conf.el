@@ -98,4 +98,8 @@
 ;; Send deletions to the Trash folder - Emacs 23.2
 (setq delete-by-moving-to-trash nil)
 
+;;** navigation within buffer
+(setq next-screen-context-lines 5)
+(setq recenter-positions '(top middle bottom))
+
 (provide 'global-conf)

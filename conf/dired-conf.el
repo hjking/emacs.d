@@ -11,6 +11,7 @@
 (use-package dired
   :config
   (progn
+    (put 'dired-find-alternate-file 'disabled nil)
     ;; Dired copy folders recursively without confirmation
     (setq dired-recursive-copies 'always)
     ;; Dired delete folders recursively after confirmation
@@ -19,6 +20,7 @@
     (setq cvs-dired-use-hook 'always)
     ;; try to guess a default target directory
     (setq dired-dwim-target t)
+    ;; do what i mean when copy file with two windows
     (setq dired-isearch-filenames t)
 
     ;; Sort Directories First

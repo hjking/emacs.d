@@ -1573,6 +1573,17 @@ File suffix is used to determine what program to run."
   (interactive)
   (indent-region (point-min) (point-max)))
 
+(defun hjking/indent-region-or-buffer()
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+  (progn
+    (indent-region (region-beginning) (region-end))
+    (message "Indent selected region."))
+      (progn
+  (hjking/indent-buffer)
+  (message "Indent buffer.")))))
+
 (defun hjking/cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
 Does not indent buffer, because it is used for a before-save-hook, and that
@@ -1582,7 +1593,7 @@ might be bad."
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
 
-(defun hjking/cleanup-buffer ()"Indent each nonblank line in the buffer. See `indent-region"
+(defun hjking/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
   (interactive)

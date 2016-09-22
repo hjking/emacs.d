@@ -21,6 +21,13 @@
 
 ;; Let's Rock and Roll
 ;;
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (message "")
 (message "***** >>>>> [ Loading Emacs Startup File ], Be patient!")
 (setq step_no 1)
@@ -124,6 +131,11 @@
 (defmacro local-set-kbd  (key command)    `(local-set-key (kbd ,key) ,command))
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
+
+;; ;;* Customize
+;; From https://github.com/abo-abo/oremacs/blob/github/init.el
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
 
 (when section-debugging
   ;; Debugging
@@ -403,6 +415,10 @@
 ;; hydra
 (require 'hydra-conf)
 
+
+;; general
+(require 'general-conf)
+
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
 
@@ -472,6 +488,7 @@
 (when section-minibuffer
   (message "%d: >>>>> Loading [ Minibuffer ] Customization ...." step_no)
   (setq step_no (1+ step_no))
+  (setq find-file-suppress-same-file-warnings t)
   ;; ignore case when reading a file name completion
   (setq read-file-name-completion-ignore-case t)
   ;; ignore case when reading a buffer name
@@ -483,6 +500,8 @@
   (setq resize-minibuffer-mode t)
   ;; Enable recursive minibuffer
   (setq enable-recursive-minibuffers t)
+  (setq minibuffer-message-timeout 1)
+  (minibuffer-depth-indicate-mode 1)
   ;; auto-complete on in minibuffer
   (unless is-after-emacs-23
       partial-completion-mode 1)
@@ -1113,6 +1132,7 @@
   (add-site-lisp-load-path "dired/")
   (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
+  (require 'ranger-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1259,68 +1279,11 @@
 ;   )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
-;; Swiper gives us a really efficient incremental search with regular expressions
-(use-package swiper
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper))
-  )
 
-;; Replace smex
-(use-package counsel
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind (("M-x"     . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-h f"   . counsel-describe-function)
-         ("C-h v"   . counsel-describe-variable)
-         ("C-h l"   . counsel-load-library)
-         ("C-h i"   . counsel-info-lookup-symbol)
-         ("C-h u"   . counsel-unicode-char))
-  :config
-  (progn
-    (setq counsel-prompt-function #'counsel-prompt-function-dir)
-
-    ;; counsel-find-file
-    (setq counsel-find-file-at-point t)
-    (setq counsel-find-file-ignore-regexp
-          (concat
-           ;; file names beginning with # or .
-           "\\(?:\\`[#.]\\)"
-           ;; file names ending with # or ~
-           "\\|\\(?:[#~]\\'\\)"))
-
-    (with-eval-after-load 'org
-        (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
-    (with-eval-after-load 'org-agenda
-        (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
-  )
-
-(use-package flx
-  :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))
-
-;; Ivy / Counsel replace a lot of ido or helms completion functionality
-(use-package ivy
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :diminish ""
-  :init (progn
-          ;; show recently killed buffers when calling `ivy-switch-buffer'
-          (setq ivy-use-virtual-buffers t)
-          (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
-          (setq ivy-count-format "%d/%d ")
-          (setq ivy-display-style 'fancy)
-          (setq ivy-re-builders-alist
-           '((ivy-switch-buffer . ivy--regex-plus)
-             (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
-          (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
-        )
-  :bind (("C-c C-r"  . ivy-resume)
-         ("C-x b"    . ivy-switch-buffer))
-  :config (progn
-           ;; Disable ido
-           (with-eval-after-load 'ido
-             (ido-mode -1))
-           (ivy-mode 1))
- )
+;; [ ivy ]---------------------------------------------------------------------
+;; replace a lot of ido or helms
+(require 'ivy-conf)
+;; [ ivy ]-------------------------------------------------------------[ End ]--
 
 
 ;; [ auto-complete ]------------------------------------------------------------

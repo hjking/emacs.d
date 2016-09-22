@@ -37,7 +37,7 @@
              hl-restore-highlights
              hl-global-highlight-on/off)
   :init (progn
-         (bind-key  "h"  #'hydra-hl-anything/body hjking-mode-map)
+         (bind-key  "h"  #'hjking-hydra-hl-anything/body hjking-mode-map)
 
          (defun my/hl-anything (&optional arg)
              "Wrapper function to call functions to highlight the thing at point either
@@ -55,7 +55,7 @@
                  (hl-unhighlight-all-local)
                (hl-unhighlight-all-global)))
 
-         (defhydra hydra-hl-anything (:color red)
+         (defhydra hjking-hydra-hl-anything (:color red)
            "hl-anything"
            ("H" my/hl-anything             "hl-global")
            ("h" (my/hl-anything 4)         "hl-local")
@@ -89,16 +89,19 @@
          ; (bind-key "p" 'highlight-symbol-prev hjking-mode-map) ;; C-x m n
          ; (bind-key "r" 'highlight-symbol-query-replace hjking-mode-map) ;; C-x m r
          ; (bind-key  "l"  'hydra-highlight-symbol/body hjking-mode-map)
-         (bind-key "l" 'hydra-highlight-symbol/body hjking-mode-map)
+         (bind-key "l" #'hjking-hydra-highlight-symbol/body hjking-mode-map)
 
          (setq highlight-symbol-on-navigation-p t)
          (setq highlight-symbol-idle-delay 0.5)
 
-         (defhydra hydra-highlight-symbol (:color red)
+         (defhydra hjking-hydra-highlight-symbol
+           (:color red :post (progn (highlight-symbol-remove-all)))
            "highlight-symbol"
-           ("a" highlight-symbol-at-point       "highlight-symbol")
+           ("." highlight-symbol-at-point       "highlight-symbol")
            ("n" highlight-symbol-next           "next")
            ("p" highlight-symbol-prev           "prev")
+           ("N" highlight-symbol-next-in-defun  "next in defun")
+           ("P" highlight-symbol-prev-in-defun  "prev in defun")
            ("r" highlight-symbol-query-replace  "replace" :color red)
            ("q" nil                             "cancel" :color blue))
          )
