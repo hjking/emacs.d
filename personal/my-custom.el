@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Wed Jun 22 12:05:35 2016 (+0800)
+;; Last-Updated: Thu Sep 22 13:56:46 2016 (+0800)
 ;; Version:
-;;     Update #: 35
+;;     Update #: 37
 ;;
 ;;; Change Log:
 ;;
@@ -32,6 +32,9 @@
  '(org-agenda-files
    (quote
     ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org")))
+ '(package-selected-packages
+   (quote
+    (calfw ztree use-package stripe-buffer smooth-scrolling ranger popup persp-projectile paredit paradox org-trello org-toc names miniedit info+ indent-guide guide-key-tip gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ csv-mode counsel company-c-headers beacon async aggressive-indent ace-window)))
  '(paradox-github-token t)
  '(projectile-enable-idle-timer t)
  '(session-use-package t nil (session))

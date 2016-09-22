@@ -415,7 +415,6 @@
 ;; hydra
 (require 'hydra-conf)
 
-
 ;; general
 (require 'general-conf)
 

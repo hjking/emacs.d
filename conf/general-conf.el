@@ -8,7 +8,7 @@
   :config
   (general-define-key
     ;; replace default keybindings
-    "C-'" 'avy-goto-word-1
+    ; "C-'" 'avy-goto-word-1
     "C-s" 'swiper             ; search for string in current buffer
     "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
     )
@@ -36,3 +36,5 @@
   ;  (kbd "C-c a") 'some-command
   ;  (kbd "C-c b") 'another-command)
   )
+
+(provide 'general-conf)

@@ -12,9 +12,10 @@
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                   ;; development versions of melpa packages
                   ; ("melpa" . "http://melpa.org/packages/")
-                  ; ("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
-                  ; ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")
-                  ("melpa" . "http://melpa.org/packages/")
+                  ;; emacs-china mirror
+                  ("melpa" . "http://elpa.zilongshanren.com/melpa/")
+                  ("gnu"   . "http://elpa.zilongshanren.com/gnu/")
+                  ; ("melpa" . "http://melpa.org/packages/")
                   ; ("myelpa" . "~/.emacs.d/myelpa")
                   ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
                   ;; org
@@ -22,9 +23,9 @@
                   ))
 (add-to-list 'package-archives source t))
 
-(when (< emacs-major-version 24)
-    (add-to-list 'package-archives
-                 '("gnu" . "http://elpa.gnu.org/packages/")))
+; (when (< emacs-major-version 24)
+;     (add-to-list 'package-archives
+;                  '("gnu" . "http://elpa.gnu.org/packages/")))
 
 ;; Load and activate emacs packages. Do this first so that the
 ;; packages are loaded before you start trying to modify them.
@@ -85,6 +86,9 @@
     beacon
     paradox
     evil-nerd-commenter
+    emacs-calfw
+    general
+    calfw
   )
 "A list of packages to ensure are installed at launch.")
 
