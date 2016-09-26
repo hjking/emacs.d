@@ -12,6 +12,8 @@
          ("\\.vinc\\'"        . verilog-mode))
   :init
    (progn
+    (setq verilog-case-fold                nil)
+    (setq verilog-auto-arg-sort            t)
     (setq verilog-indent-level             4)   ; 3
     (setq verilog-indent-level-module      4)   ; 3
     (setq verilog-indent-level-declaration 4)   ; 3

@@ -55,18 +55,25 @@
                  (hl-unhighlight-all-local)
                (hl-unhighlight-all-global)))
 
-         (defhydra hjking-hydra-hl-anything (:color red)
-           "hl-anything"
-           ("H" my/hl-anything             "hl-global")
-           ("h" (my/hl-anything 4)         "hl-local")
-           ("U" my/unhl-anything           "unhl-global" :color blue)
-           ("u" (my/unhl-anything 4)       "unhl-local" :color blue)
-           ("n" hl-find-next-thing         "next")
-           ("p" hl-find-prev-thing         "prev")
-           ("s" hl-save-highlights         "save" :color blue)
-           ("r" hl-restore-highlights      "restore" :color blue)
-           ("t" hl-global-highlight-on/off "on/off")
-           ("q" nil                        "cancel" :color blue))
+         (defhydra hjking-hydra-hl-anything (:color red :hint nil)
+           "
+            hl-anything
+        ^Highlight^          ^UnHighlight^        ^Next/Prev^        ^Misc
+        ^^^^^^^^-----------------------------------------------------------------
+        _H_: global          _U_: unhl-global     _n_: next          _s_: save
+        _h_: local           _h_: unhl-local      _p_: prev          _r_: restore
+        "
+           ("H" my/hl-anything             )
+           ("h" (my/hl-anything 4)         )
+           ("U" my/unhl-anything           )
+           ("u" (my/unhl-anything 4)       )
+           ("n" hl-find-next-thing         )
+           ("p" hl-find-prev-thing         )
+           ("s" hl-save-highlights         )
+           ("r" hl-restore-highlights      )
+           ("t" hl-global-highlight-on/off "on/off" :color blue)
+           ("q" nil                        "cancel" :color blue)
+           )
          )
   :config (progn
            (hl-highlight-mode +1)
@@ -95,13 +102,20 @@
          (setq highlight-symbol-idle-delay 0.5)
 
          (defhydra hjking-hydra-highlight-symbol
-           (:color red :post (progn (highlight-symbol-remove-all)))
-           "highlight-symbol"
-           ("." highlight-symbol-at-point       "highlight-symbol")
-           ("n" highlight-symbol-next           "next")
-           ("p" highlight-symbol-prev           "prev")
-           ("N" highlight-symbol-next-in-defun  "next in defun")
-           ("P" highlight-symbol-prev-in-defun  "prev in defun")
+           (:color red  :hint nil :post (progn (highlight-symbol-remove-all)))
+           "
+              highlight-symbol
+
+        ^Highlight^          ^Next^              ^Prev
+        ^^^^^^^^--------------------------------------------
+        _._: highlight       _n_: next           _p_: prev
+          ^ ^                _N_: next in defun  _P_: prev in defun
+        "
+           ("." highlight-symbol-at-point)
+           ("n" highlight-symbol-next)
+           ("p" highlight-symbol-prev)
+           ("N" highlight-symbol-next-in-defun)
+           ("P" highlight-symbol-prev-in-defun)
            ("r" highlight-symbol-query-replace  "replace" :color red)
            ("q" nil                             "cancel" :color blue))
          )
