@@ -55,7 +55,6 @@
 (defvar section-rectangles t)
 (defvar section-cua nil)
 (defvar section-register nil)
-(defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-ibuffer t)
 (defvar section-ido nil)
@@ -440,16 +439,15 @@
 
 
 ;; --[ Bookmark ]---------------------------------------------------------------
-(when section-bookmark
-  (use-package bookmark
-    :init
-      ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-      (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-      ;; each command that sets a bookmark will also save your bookmarks
-      (setq bookmark-save-flag t)
-      ;; (switch-to-buffer "*Bookmark List*")
-  )
+(use-package bookmark
+  :init
+    ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+    (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+    ;; each command that sets a bookmark will also save your bookmarks
+    (setq bookmark-save-flag t)
+    ;; (switch-to-buffer "*Bookmark List*")
 )
+
 ;; --[ Bookmark ]------------------------------------------------------[ End ]--
 
 
@@ -1121,8 +1119,8 @@
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
-(setq-default fill-column 80
-              whitespace-line-column 80)
+(setq-default fill-column 80)
+; (setq whitespace-line-column 80)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1262,7 +1260,9 @@
 
 
 ;; [ goto change ]--------------------------------------------------------------
-(use-package goto-chg)
+(use-package goto-chg
+  :commands (goto-last-change
+             goto-last-change-reverse))
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
 
@@ -1653,7 +1653,7 @@
 (setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
   (interactive)
-  (whitespace-mode 1)
+  ; (whitespace-mode 1)
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ;; --------------------------------------------------------------------[ End ]--
@@ -1865,6 +1865,7 @@
     (use-package undo-tree
       :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
       :diminish ""
+      :commands (redo undo)
       :config (progn
                (setq undo-tree-visualizer-timestamps t)
                (setq undo-tree-visualizer-diff t)
@@ -1930,7 +1931,7 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; --[ wl ]---------------------------------------------------------------------
+;; --[ WanderLust ]-------------------------------------------------------------
 ;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")

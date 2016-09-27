@@ -52,7 +52,7 @@
       ("s-k" projectile-kill-buffers)
       ("m"   projectile-multi-occur)
       ("o"   projectile-multi-occur)
-      ("s-p" projectile-switch-project "switch project")
+      ("s-p" projectile-switch-project)
       ("p"   projectile-switch-project)
       ("s"   projectile-switch-project)
       ("r"   projectile-recentf)
@@ -206,8 +206,8 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-zoom ()
       "zoom"
-      ("+" text-scale-increase     "+")
-      ("-" text-scale-decrease     "-")
+      ("+" text-scale-increase     "zoom in")
+      ("-" text-scale-decrease     "zoom out")
       ("=" (text-scale-adjust 0)   "="))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -235,24 +235,24 @@
       ^ ^             ^ ^             [_q_] Quit
 
       "
-      ("a"    mc/mark-all-like-this             "all"  :exit t)
-      ("n"    mc/mark-next-like-this            "next")
+      ("a"    mc/mark-all-like-this             :exit t)
+      ("n"    mc/mark-next-like-this            )
       ("N"    mc/skip-to-next-like-this)
       ("M-n"  mc/unmark-next-like-this)
-      ("p"    mc/mark-previous-like-this        "previous")
+      ("p"    mc/mark-previous-like-this        )
       ("P"    mc/skip-to-previous-like-this)
       ("M-p"  mc/unmark-previous-like-this)
-      ("i"    mc/interactive-insert-numbers     "Interactive insert number")
-      ("I"    mc/insert-numbers                 "insert number")
-      ("j"    mc/cycle-forward                  "cycle forward")
-      ("k"    mc/cycle-backward                 "cycle backward")
+      ("i"    mc/interactive-insert-numbers     )
+      ("I"    mc/insert-numbers                 )
+      ("j"    mc/cycle-forward                  )
+      ("k"    mc/cycle-backward                 )
       ("l"    mc/edit-lines                     :exit t)
       ; ("u" mc/unmark-next-like-this       "ummark next")
       ; ("U" mc/unmark-previous-like-this   "unmark previous")
       ; ("s" mc/skip-to-next-like-this      "skip next")
       ; ("S" mc/skip-to-previous-like-this  "skip previous")
       ("r"    mc/mark-all-in-region-regexp      :exit t)
-      ("'"    mc-hide-unmatched-lines-mode      "hide unmatched line")
+      ("'"    mc-hide-unmatched-lines-mode      )
       ("q"    nil))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -271,17 +271,17 @@
         -----------------------------------------------------------------
       "
       ;; Char
-      ("e" avy-goto-word-or-subword-1 "word/subword")
-      ("c" avy-goto-char "character")
+      ("e" avy-goto-word-or-subword-1)
+      ("c" avy-goto-char)
       ("a" avy-goto-char-timer)
       ("b" avy-goto-char-2)
       ("d" avy-goto-char-in-line)
       ;; Line
-      ("l" avy-goto-line "line")
+      ("l" avy-goto-line)
       ("k" avy-goto-line-above)
       ("m" avy-goto-line-below)
       ;; Word
-      ("w" avy-goto-word-0 "all words")
+      ("w" avy-goto-word-0)
       ("x" avy-goto-word-1)
       ("y" avy-goto-subword-1)
       ("z" avy-goto-subword-0))
@@ -329,8 +329,6 @@
       _c_ column-number-mode: %`column-number-mode
       _d_ debug-on-error:    %`debug-on-error
       _f_ auto-fill-mode:    %`auto-fill-function
-      _h_ high-indent:       %`highlight-indentation-mode
-      _j_ changes:           %`highlight-changes-mode
       _s_ hs-minor-mode:     %`hs-minor-mode
       _r_ read-only-mode:    %`buffer-read-only
       _t_ truncate-lines:    %`truncate-lines
@@ -341,11 +339,11 @@
       ("c" column-number-mode nil)
       ("d" toggle-debug-on-error nil)
       ("f" auto-fill-mode nil)
-      ("h" highlight-indentation-mode nil)
-      ("j" highlight-changes-mode nil)
+      ; ("h" highlight-indentation-mode nil)
+      ; ("j" highlight-changes-mode nil)
       ("t" toggle-truncate-lines nil)
-      ("s" hs-minor-mode         "hideshow")
-      ("r" read-only-mode        "readonly")
+      ("s" hs-minor-mode)
+      ("r" read-only-mode)
       ("w" whitespace-mode nil)
       ("q" nil "quit"))
 
@@ -377,14 +375,14 @@
       ("I" Buffer-menu-isearch-buffers :color blue)
       ("R" Buffer-menu-isearch-buffers-regexp :color blue)
       ("c" nil "cancel")
-      ("v" Buffer-menu-select "select" :color blue)
-      ("o" Buffer-menu-other-window "other-window" :color blue)
+      ("v" Buffer-menu-select :color blue)
+      ("o" Buffer-menu-other-window  :color blue)
       ("q" quit-window "quit" :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; nivagate
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-navigate (:hint nil)
+    (defhydra hjking-hydra-navigate (:color pink :hint nil)
       "
           Navigate
       ^Name^       ^1^                          ^2^                       ^3^                         ^4^
@@ -399,7 +397,6 @@
       sexp:        _[_: backward-sexp       _]_: forward-sexp
       Last Change: _?_: goto-last-change    _/_: goto-last-change-reverse
 
-      _i_: window
       "
       ;; char
       ("f" forward-char)
@@ -437,18 +434,13 @@
       ("?" goto-last-change)
       ("/" goto-last-change-reverse)
 
-      ; ("h" helm-mini :color blue)
-      ("i" ace-window :color blue)
-      ; ("m" org-mark-ring-push)
-      ; ("/" org-mark-ring-goto :color blue)
-      ; ("u" helm-buffers-list)
-
+      ("i" hjking-hydra-window/body  "Window"  :color blue)
       ("g" hjking-hydra-avy/body     "Goto"    :color blue)
       ("d" hjking-hydra-delete/body  "Delete"  :color blue)
       ("q" nil                       "Quit"    :color blue)
       ; ("e" move-end-of-line)
-      ("v" scroll-up-command)
-      ("V" scroll-down-command)
+      ; ("v" scroll-up-command)
+      ; ("V" scroll-down-command)
       ("l" recenter-top-bottom))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -513,10 +505,10 @@
       ("d" markdown-move-down)
       ("u" markdown-move-up)
 
-      ("L" markdown-insert-link :color blue)
-      ("U" markdown-insert-uri :color blue)
-      ("F" markdown-insert-footnote :color blue)
-      ("W" markdown-insert-wiki-link :color blue)
+      ("L" markdown-insert-link                :color blue)
+      ("U" markdown-insert-uri                 :color blue)
+      ("F" markdown-insert-footnote            :color blue)
+      ("W" markdown-insert-wiki-link           :color blue)
       ("R" markdown-insert-reference-link-dwim :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -568,7 +560,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; yasnippet
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-yasnippet (:color blue :hint nil)
+    (defhydra hjking-hydra-yasnippet (:hint nil)
       "
                     ^YASnippets^
       --------------------------------------------
@@ -603,7 +595,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; ibuffer
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hydra-ibuffer-main (:color pink :hint nil)
+    (defhydra hydra-ibuffer-main (:hint nil)
       "
        ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
       -^----------^-+-^----^--------+-^-------^--------+-^----^-------
@@ -700,9 +692,9 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; macro
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-macro (:hint nil :color pink :pre
-                                  (when defining-kbd-macro
-                                      (kmacro-end-macro 1)))
+    (defhydra hjking-hydra-macro (:hint nil :pre
+                                   (when defining-kbd-macro
+                                       (kmacro-end-macro 1)))
       "
         ^Create-Cycle^   ^Basic^           ^Insert^        ^Save^         ^Edit^
       ╭─────────────────────────────────────────────────────────────────────────╯
@@ -738,7 +730,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; info
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-info (:color blue :hint nil)
+    (defhydra hjking-hydra-info (:hint nil)
       "
       Info-mode:
 
@@ -801,9 +793,13 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; theme
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-themes ()
-      "themes"
-      ("SPC" nil)
+    (defhydra hjking-hydra-themes (:hint nil)
+      "
+            Themes
+      _c_: cyberpunk   _l_: solarized-light    _d_: solarized-dark
+      _g_: gotham      _m_: monokai            _z_: zenburn
+      "
+      ("SPC" nil "Quit")
       ("c"
            (lambda ()
              (interactive)
@@ -822,7 +818,18 @@
              (load-theme 'solarized-dark t)
              )
            )
-      ; (load-theme 'gotham t)
+      ("g"
+           (lambda ()
+             (interactive)
+             (load-theme 'gotham t)
+             )
+           )
+      ("m"
+           (lambda ()
+             (interactive)
+             (load-theme 'monokai t)
+             )
+           )
       ("z"
            (lambda ()
              (interactive)
@@ -832,17 +839,25 @@
       )
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; magit
+    ;; git
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-magit (:exit t)
-       "magit"
-       ("s" magit-status "status")
-       ("d" magit-diff-unstaged "diff")
-       ("D" magit-diff-staged "diff cached")
-       ("c" magit-commit "commit")
-       ("l" magit-log "log")
-       ("L" magit-log-long "log long")
-       ("b" magit-branch-manager "branches"))
+    (defhydra hjking-hydra-git (:hint nil :exit t)
+      "
+         magit
+       _s_: status         _c_: commit       _p_: push  _u_: pull
+       _d_: diff unstaged  _D_: diff-staged  _l_: log   _L_: long log
+      "
+      ("s" magit-status "status")
+      ("d" magit-diff-unstaged "diff")
+      ("D" magit-diff-staged "diff cached")
+      ("c" magit-commit "commit")
+      ("l" magit-log "log")
+      ("L" magit-log-long "log long")
+      ("p" magit-push "push")
+      ("u" magit-pull "pull")
+      ("b" magit-branch-manager "branches")
+      ("q" nil "Quit"))
+
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; verilog
@@ -934,17 +949,6 @@
       ("q" nil "Quit")
       ("b" hjking-hydra-vhdl/body "Back"))
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; git
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-git (:color blue :hint nil)
-      "
-      _s_: status _c_: commit _p_: push _u_: pull
-      "
-      ("s" magit-status)
-      ("c" magit-commit)
-      ("p" magit-push)
-      ("u" magit-pull))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; org
