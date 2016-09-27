@@ -2,10 +2,6 @@
 	path = vendor/color-theme-zenburn
 	url = https://github.com/bbatsov/zenburn-emacs.git
 	ignore = dirty
-[submodule "vendor/color-theme-twilight"]
-	path = vendor/color-theme-twilight
-	url = https://github.com/crafterm/twilight-emacs.git
-	ignore = dirty
 [submodule "vendor/color-theme-solarized"]
 	path = vendor/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git

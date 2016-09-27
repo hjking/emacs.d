@@ -804,6 +804,12 @@
     (defhydra hjking-hydra-themes ()
       "themes"
       ("SPC" nil)
+      ("c"
+           (lambda ()
+             (interactive)
+             (load-theme 'cyberpunk t)
+             )
+           )
       ("l"
            (lambda ()
              (interactive)
@@ -814,6 +820,13 @@
            (lambda ()
              (interactive)
              (load-theme 'solarized-dark t)
+             )
+           )
+      ; (load-theme 'gotham t)
+      ("z"
+           (lambda ()
+             (interactive)
+             (load-theme 'zenburn t)
              )
            )
       )
