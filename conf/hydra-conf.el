@@ -59,7 +59,7 @@
       ("x"   projectile-remove-known-project)
       ("X"   projectile-cleanup-known-projects)
       ("z"   projectile-cache-current-file)
-      ("`"   hydra-projectile-other-window/body "other window")
+      ("`"   hydra-projectile-other-window/body "other window" :color pink)
       ("q"   nil "cancel" :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -68,7 +68,7 @@
     (defhydra hjking-hydra-project (:color blue :hint nil :idle 0.4)
       "
                                                                         ╭────────────┐
-        Files             Search          Buffer             Do         │ Projectile │
+        Files             Search          Buffer             Do          │ Projectile │
       ╭─────────────────────────────────────────────────────────────────┴────────────╯
         [_f_] file          [_a_] ag          [_b_] switch         [_g_] magit
         [_l_] file dwim     [_A_] grep        [_v_] show all       [_p_] commander
@@ -77,8 +77,8 @@
         [_o_] other         [_t_] find tag
         [_u_] test file     [_T_] make tags
         [_h_] root
-                                                                            ╭────────┐
-        Other Window      Run             Cache              Do             │ Fixmee │
+                                                                              ╭────────┐
+        Other Window      Run             Cache                 Do             │ Fixmee │
       ╭──────────────────────────────────────────────────╯ ╭────────────────┴────────╯
         [_F_] file          [_U_] test        [_kc_] clear         [_x_] TODO & FIXME
         [_L_] dwim          [_m_] compile     [_kk_] add current   [_X_] toggle
@@ -324,15 +324,15 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-toggle-mode (:color pink :hint nil)
       "
-      _a_ abbrev-mode:       %`abbrev-mode
-      _b_ menu-bar:          %`menu-bar-mode
+      _a_ abbrev-mode:        %`abbrev-mode
+      _b_ menu-bar:           %`menu-bar-mode
       _c_ column-number-mode: %`column-number-mode
-      _d_ debug-on-error:    %`debug-on-error
-      _f_ auto-fill-mode:    %`auto-fill-function
-      _s_ hs-minor-mode:     %`hs-minor-mode
-      _r_ read-only-mode:    %`buffer-read-only
-      _t_ truncate-lines:    %`truncate-lines
-      _w_ whitespace-mode:   %`whitespace-mode
+      _d_ debug-on-error:     %`debug-on-error
+      _f_ auto-fill-mode:     %`auto-fill-function
+      _s_ hs-minor-mode:      %`hs-minor-mode
+      _r_ read-only-mode:     %`buffer-read-only
+      _t_ truncate-lines:     %`truncate-lines
+
       "
       ("a" abbrev-mode nil)
       ("b" menu-bar-mode nil)
@@ -344,7 +344,7 @@
       ("t" toggle-truncate-lines nil)
       ("s" hs-minor-mode)
       ("r" read-only-mode)
-      ("w" whitespace-mode nil)
+      ; ("w" whitespace-mode nil)
       ("q" nil "quit"))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -385,7 +385,6 @@
     (defhydra hjking-hydra-navigate (:color pink :hint nil)
       "
           Navigate
-      ^Name^       ^1^                          ^2^                       ^3^                         ^4^
       ^^^^^^^^-----------------------------------------------------------------------------------------------------------
       Char:        _f_: forward-char        _b_: backward-char
       Word:        _w_: forward-word        _W_: backward-word       _o_: subword-right         _O_: subword-left
@@ -793,7 +792,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; theme
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-themes (:hint nil)
+    (defhydra hjking-hydra-themes (:hint nil :exit t)
       "
             Themes
       _c_: cyberpunk   _l_: solarized-light    _d_: solarized-dark
