@@ -4,6 +4,7 @@
 
 (use-package htmlize
  :defer t
+ :commands (htmlize-buffer)
  :config
  (progn
     (setq htmlize-html-major-mode 'html-mode)

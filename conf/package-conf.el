@@ -4,23 +4,43 @@
 (require 'package)
 
 (dolist (source '(
-                  ; ("marmalade" . "https://marmalade-repo.org/packages/")
+                  ;; marmalade
+                  ; ("marmalade" . "http://marmalade-repo.org/packages/")
+                  ;; tromey
                   ; ("elpa" . "http://tromey.com/elpa/")
                   ;; stable melpa
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
-                  ;; (development versions of packages)
-                  ("melpa" . "http://melpa.org/packages/")
+                  ;; development versions of melpa packages
+                  ; ("melpa" . "http://melpa.org/packages/")
+                  ;; emacs-china mirror
+                  ("melpa" . "http://elpa.zilongshanren.com/melpa/")
+                  ("gnu"   . "http://elpa.zilongshanren.com/gnu/")
+                  ; ("melpa" . "http://melpa.org/packages/")
                   ; ("myelpa" . "~/.emacs.d/myelpa")
                   ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
-                  ;; ("org" . "http://orgmode.org/elpa/")
+                  ;; org
+                  ; ("org" . "http://orgmode.org/elpa/")
                   ))
 (add-to-list 'package-archives source t))
 
-(when (< emacs-major-version 24)
-    (add-to-list 'package-archives
-                 '("gnu" . "http://elpa.gnu.org/packages/")))
+; (when (< emacs-major-version 24)
+;     (add-to-list 'package-archives
+;                  '("gnu" . "http://elpa.gnu.org/packages/")))
+
+;; Load and activate emacs packages. Do this first so that the
+;; packages are loaded before you start trying to modify them.
+;; This also sets the load path.
 (package-initialize)
 
+;; Download the ELPA archive description if needed.
+;; This informs Emacs about the latest versions of all packages, and
+;; makes them available for download.
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; The packages you want installed. You can also install these
+;; manually with M-x package-install
+;; Add in your own as you wish:
 (defvar my-packages
   '(use-package
     ace-window
@@ -40,8 +60,8 @@
     expand-region
     ; ggtags
     gnuplot-mode
-    guide-key
-    guide-key-tip
+    ; guide-key
+    ; guide-key-tip
     ; helm
     ; helm-projectile
     indent-guide
@@ -54,40 +74,24 @@
     perspective
     persp-projectile
     projectile
+    ranger                  ;; Bringing the goodness of ranger to dired
+    counsel
+    swiper
     ; smartparens
     ; smex
     smooth-scrolling
     stripe-buffer               ;; different background for even and odd lines
     ; web-mode
     ztree
+    beacon
+    paradox
+    evil-nerd-commenter
+    calfw
+    general
   )
 "A list of packages to ensure are installed at launch.")
 
-;;    ;; Auto install the required packages
-;;    ;; package-installed-p is from package.el and checks if a package is installed
-;;    ;; Source: http://toumorokoshi.github.io/emacs-from-scratch-part-2-package-management.html
-;;    ;; method to check if all packages are installed
-;;    (defun packages-installed-p ()
-;;      (loop for p in my-packages
-;;            when (not (package-installed-p p)) do (return nil)
-;;            finally (return t)))
-;;
-;;    ;; if not all packages are installed, check one by one and install the missing ones.
-;;    (unless (packages-installed-p)
-;;      ; check for new packages (package versions)
-;;      (message "%s" "Emacs is now refreshing its package database...")
-;;      (package-refresh-contents)
-;;      (message "%s" " done.")
-;;      ; install the missing packages
-;;      (dolist (p my-packages)
-;;        (when (not (package-installed-p p))
-;;          (package-install p))))
-;;
-;;    (defun package-require (pkg)
-;;        "Install a package only if it's not already installed."
-;;        (when (not (package-installed-p pkg))
-;;        (package-install pkg)))
-
+;; From prelude
 (defun prelude-packages-installed-p ()
   "Check if all packages in `my-packages' are installed."
   (every #'package-installed-p my-packages))

@@ -5,6 +5,13 @@
 ;; auto-insert/close bracket pairs
 (electric-pair-mode 1)
 
+;; show paren
+; (setq show-paren-style 'parentheses)
+; (setq show-paren-style 'expression) ; highlight entire bracket expression
+(setq show-paren-delay 0) ; show matching paren immediately
+(show-paren-mode 1) ; turn on paren match highlighting
+
+;; smartparens
 (use-package smartparens
   :disabled t
   :diminish smartparens-mode
@@ -36,12 +43,6 @@
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 ;; use Emacs-wide
 ;; (global-rainbow-delimiters-mode)
-
-;; show paren
-; (setq show-paren-style 'parentheses)
-; (setq show-paren-style 'expression) ; highlight entire bracket expression
-(setq show-paren-delay 0) ; show matching paren immediately
-(show-paren-mode 1) ; turn on paren match highlighting
 
 ;; Check parens
 ; turn on check-parens on a save

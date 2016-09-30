@@ -54,7 +54,7 @@
 
     ;; auto join channels after logined in
     (setq erc-autojoin-channels-alist
-          '(("freenode.net" "#org-mode" "#emacs" "#hacklabto" "#vim")
+          '(("freenode.net" "#org-mode" "#emacs" "#hacklabto" "#vim" "#git")
             ; ("oftc.net" "#debian-zh" "#emacs-cn")
             ; ("irc.int.ru" "#unix")
             ; ("irc.fu-berlin.de" "#unix.ru" "#fidorus")
@@ -71,11 +71,11 @@
            :port 6667
            :nick "hjking"))
 
-    (defun kinghom-gitter-irc ()
+    (defun hjking-gitter-irc ()
       (interactive)
       (erc :server "irc.gitter.im"
            :port 6667
-           :nick "kinghom"))
+           :nick "hjking"))
 
     ; auto join
     ; (erc :server "irc.freenode.net" :port 6667 :nick "hjking")

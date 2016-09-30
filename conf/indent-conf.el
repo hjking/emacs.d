@@ -3,7 +3,7 @@
 (setq step_no (1+ step_no))
 ;;;;;;;;;;;;;;
 ;; electric.el
-;;  indent automatically (from 24.1)
+;;  indent automatically (from 24.4)
 (electric-indent-mode 1)
 ;; set default tab char's display width to 4 spaces
 (setq-default tab-width 4)
@@ -16,14 +16,8 @@
 
 (setq backward-delete-char-untabify nil)
 
-;; make tab key always call a indent command.
-;; (set-default tab-always-indent t)
-
-;; make tab key call indent command or insert tab character, depending on cursor position
-(set-default tab-always-indent nil)
-
-;; make tab key do indent first then completion.
-;; (set-default tab-always-indent 'complete)
+;; smart tab behavior - indent or complete
+(setq tab-always-indent 'complete)
 
 ;;; indent-guide
 ;; `C-M-\' runs the command `indent-region' (which does the job of
@@ -33,14 +27,37 @@
   :init
   (add-hook 'prog-mode-hook (lambda () (indent-guide-mode 1))))
 
+
 ;;; aggressive-indent-mode
+;; https://github.com/Malabarba/aggressive-indent-mode
+;; aggressive-indent-mode is a minor mode that keeps your code always indented.
+;; It reindents after every change, making it more reliable than electric-indent-mode.
+
 (use-package aggressive-indent
-  :disabled t
+  ; :disabled t
   :diminish aggressive-indent-mode
   :init
   ; (global-aggressive-indent-mode 1)
   ; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  (add-hook 'prog-mode-hook #'aggressive-indent-mode)
-  (unbind-key "C-c C-q" aggressive-indent-mode-map))
+  ; (add-hook 'prog-mode-hook #'aggressive-indent-mode)
+  :config
+    (unbind-key "C-c C-q" aggressive-indent-mode-map)
+    (defvar hjking/aggressive-indent-mode-hooks '(emacs-lisp-mode-hook)
+        "List of hooks of major modes in which aggressive-indent-mode should be enabled.")
+
+    (defun hjking/turn-on-aggressive-indent-mode ()
+      "Turn on aggressive-indent-mode only for specific modes."
+      (interactive)
+      (dolist (hook hjking/aggressive-indent-mode-hooks)
+        (add-hook hook #'aggressive-indent-mode)))
+
+    (defun hjking/turn-off-aggressive-indent-mode ()
+      "Turn off aggressive-indent-mode only for specific modes."
+      (interactive)
+      (dolist (hook hjking/aggressive-indent-mode-hooks)
+        (remove-hook hook #'aggressive-indent-mode)))
+
+    (hjking/turn-on-aggressive-indent-mode)
+  )
 
 (provide 'indent-conf)

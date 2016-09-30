@@ -16,9 +16,6 @@
 ;; too many interesting messages)
 (setq garbage-collection-messages nil)
 
-;; display what I'm typing *immediately*
-(setq echo-keystrokes 0.1)
-
 ;; visually indicate buffer boundaries and scrolling
 (setq indicate-buffer-boundaries t)
 
@@ -61,9 +58,6 @@
 ;; confirm before quit emacs
 (setq confirm-kill-emacs 'yes-or-no-p)
 
-;; Indent before TAB
-(setq tab-always-indent 'complete)
-
 (setq backup-by-copying-when-linked t) ; When making backups of link files.
 
 (setq confirm-nonexistent-file-or-buffer t)
@@ -76,7 +70,7 @@
 (setq auto-revert-verbose nil)
 
 ;; Echo commands I haven’t finished quicker than the default of 1 second
-(setq echo-keystrokes 0.1)
+(setq echo-keystrokes 0.4)
 
 ;; warn me if the file is larger than 25Mb
 (setq large-file-warning-threshold (* 25 1024 1024))
@@ -94,14 +88,18 @@
 (setq paragraph-start "- \\|\f\\|[ \t]*$"
       paragraph-separate "[\f\t ]*$")
 
-;; activate whitespace-mode to view all whitespace characters
-(whitespace-mode t)
-
 ;; highlight current line
 (require 'hl-line)
 (global-hl-line-mode)
 
 (setq comment-style 'extra-line
       comment-auto-fill-only-comments t)
+
+;; Send deletions to the Trash folder - Emacs 23.2
+(setq delete-by-moving-to-trash nil)
+
+;;** navigation within buffer
+(setq next-screen-context-lines 5)
+(setq recenter-positions '(top middle bottom))
 
 (provide 'global-conf)

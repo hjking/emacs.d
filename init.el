@@ -21,6 +21,13 @@
 
 ;; Let's Rock and Roll
 ;;
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (message "")
 (message "***** >>>>> [ Loading Emacs Startup File ], Be patient!")
 (setq step_no 1)
@@ -48,7 +55,6 @@
 (defvar section-rectangles t)
 (defvar section-cua nil)
 (defvar section-register nil)
-(defvar section-bookmark t)
 (defvar section-search t)
 (defvar section-ibuffer t)
 (defvar section-ido nil)
@@ -125,19 +131,22 @@
 ;;;###autoload
 (defmacro global-set-kbd (key command)    `(global-set-key (kbd ,key) ,command))
 
-(define-prefix-command 'hjking-map)
-(global-set-key (kbd "C-x m") 'hjking-map) ;; overriding the default binding to `compose-mail'
+;; ;;* Customize
+;; From https://github.com/abo-abo/oremacs/blob/github/init.el
+(defmacro csetq (variable value)
+  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
 
 (when section-debugging
   ;; Debugging
   (message "%d: >>>>> Debugging On...." step_no)
   (setq step_no (1+ step_no))
-  (setq eval-expression-debug-on-error t       ; debugger on errors in eval-expression
+  ;; Turn on debugging, it will be turned off at the end.
+  (setq
+        debug-on-error t
+        debug-on-quit t
+        eval-expression-debug-on-error t       ; debugger on errors in eval-expression
         stack-trace-on-error nil               ; backtrace of error on debug
-        debug-on-quit nil                      ; hit `C-g' while it's frozen to get an ELisp backtrace
         debug-on-signal nil)                   ; debug any/every error
-  ;; Keep debug-on-error on for stuff that is lazily loaded
-  (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 )
 
 ;; --[ Load Path ]--------------------------------------------------------------
@@ -235,11 +244,13 @@
 ;; turn on Common Lisp support
 (require 'cl)  ; provides useful things like `loop' and `setf'
 
+; (require 'hjking-mode)
+(define-prefix-command 'hjking-mode-map)
+(global-set-key (kbd "C-x m") 'hjking-mode-map)
+
 ;; use eval-after-load to speed up the startup
 ;; http://emacser.com/eval-after-load.htm
 (require 'eval-after-load)
-
-(require 'hjking-mode)
 
 ;; [ package ]------------------------------------------------------------------
 ;; Packages managment
@@ -309,12 +320,21 @@
 ;; use clipboard, share with other applications
 (when (window-system)
   (setq-default
-        x-select-enable-primary nil ; stops killing/yanking interacting with primary X11 selection
-        x-select-enable-clipboard t ; makes killing/yanking interact with clipboard X11 selection
-        mouse-drag-copy-region nil  ; stops selection with a mouse being immediately injected to the kill ring
+        ;; I'm actually not sure what this does but it's recommended?
+        ;; stops killing/yanking interacting with primary X11 selection
+        x-select-enable-primary nil
+        ;; makes killing/yanking interact with the clipboard
+        x-select-enable-clipboard t
+        ;; stops selection with a mouse being immediately injected to the kill ring
+        mouse-drag-copy-region nil
         x-stretch-cursor t
-        mouse-yank-at-point t       ; middle button for paste
-        select-active-regions t     ; Active region should set primary X11 selection.
+        ;; Mouse yank commands yank at point instead of at click.
+        ;; middle button for paste
+        mouse-yank-at-point t
+        ;; Active region should set primary X11 selection.
+        select-active-regions t
+        ;; Save clipboard strings into kill ring before replacing them
+        save-interprogram-paste-before-kill t
         ))
 (global-set-key [mouse-2] 'mouse-yank-primary)
 ;; Rebind to new clipboard functions when available.
@@ -324,9 +344,6 @@
   (global-set-key [remap kill-ring-save] 'clipboard-kill-ring-save))
 (when (fboundp 'clipboard-yank)
   (global-set-key [remap yank] 'clipboard-yank))
-
-;; Save clipboard strings into kill ring before replacing them
-(setq save-interprogram-paste-before-kill t)
 
 ;; either copies the current region to the system clipboard or,
 ;; if no region is active, yanks the clipboard at point
@@ -397,6 +414,9 @@
 ;; hydra
 (require 'hydra-conf)
 
+;; general
+(require 'general-conf)
+
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
 
@@ -419,16 +439,15 @@
 
 
 ;; --[ Bookmark ]---------------------------------------------------------------
-(when section-bookmark
-  (use-package bookmark
-    :init
-      ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
-      (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
-      ;; each command that sets a bookmark will also save your bookmarks
-      (setq bookmark-save-flag t)
-      ;; (switch-to-buffer "*Bookmark List*")
-  )
+(use-package bookmark
+  :init
+    ;; set bookmark file: ~/.emacs.d/emacs_bookmarks
+    (setq bookmark-default-file (concat my-emacs-dir "emacs_bookmarks"))
+    ;; each command that sets a bookmark will also save your bookmarks
+    (setq bookmark-save-flag t)
+    ;; (switch-to-buffer "*Bookmark List*")
 )
+
 ;; --[ Bookmark ]------------------------------------------------------[ End ]--
 
 
@@ -466,6 +485,7 @@
 (when section-minibuffer
   (message "%d: >>>>> Loading [ Minibuffer ] Customization ...." step_no)
   (setq step_no (1+ step_no))
+  (setq find-file-suppress-same-file-warnings t)
   ;; ignore case when reading a file name completion
   (setq read-file-name-completion-ignore-case t)
   ;; ignore case when reading a buffer name
@@ -477,6 +497,8 @@
   (setq resize-minibuffer-mode t)
   ;; Enable recursive minibuffer
   (setq enable-recursive-minibuffers t)
+  (setq minibuffer-message-timeout 1)
+  (minibuffer-depth-indicate-mode 1)
   ;; auto-complete on in minibuffer
   (unless is-after-emacs-23
       partial-completion-mode 1)
@@ -532,13 +554,22 @@
            ("C-x r C-x" . rm-exchange-point-and-mark)
            ("C-x r C-w" . rm-kill-region)
            ("C-x r M-w" . rm-kill-ring-save))
-    :commands (rm-set-mark rm-exchange-point-and-mark rm-kill-region rm-kill-ring-save)
+    :commands (rm-set-mark
+               rm-exchange-point-and-mark
+               rm-kill-region
+               rm-kill-ring-save)
   )
 
-  ; (require 'expand-region)
-  ; (global-set-key (kbd "C-=") 'er/expand-region)
+  ;; Expand Region
+  ;; https://github.com/magnars/expand-region.el
   (use-package expand-region
-    :bind ("C-=" . er/expand-region))
+    :bind ("C-=" . er/expand-region)
+    :commands (er/expand-region)
+    :config
+    (progn
+      (setq expand-region-contract-fast-key "|")
+      (setq expand-region-reset-fast-key "<ESC><ESC>"))
+    )
 )
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
@@ -606,17 +637,12 @@
 ;; --[ Scrolling ]--------------------------------------------------------------
 (message "%d: >>>>> Loading [ Scrolling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
-;; no scroll bar
-(scroll-bar-mode t)
-;;(when (fboundp 'scroll-bar-mode)
-;;    (scroll-bar-mode -1))
-;;  (setq scroll-bar-mode-explicit t)
-;; scroll bar at right hand
-(set-scroll-bar-mode `right)
 ;; scroll when point 2 lines far away from the bottom
 (setq scroll-margin 3)
 ; Scroll just one line when hitting bottom of window
 (setq scroll-conservatively 10000)
+;; Keep point at its screen position if the scroll command moved it vertically
+;; out of the window, e.g. when scrolling by full screens using C-v.
 (setq scroll-preserve-screen-position t)
 ; (setq scroll-preserve-screen-position 'always
 ;       scroll-conservatively           most-positive-fixnum
@@ -664,19 +690,25 @@
 
 ;; Show buffer size in mode-line
 (size-indication-mode 1)
-;; display time
+;; display time in your mode-line
 (display-time-mode 1)
-;; Enable or disable the display of the current line number
+;; Enable or disable the display of the current line number in your mode-line
 (line-number-mode 1)
-;; Enable or disable the display of the current column number
+;; Enable or disable the display of the current column number in your mode-line
 (column-number-mode 1)
 ;; Enable or disable laptop battery information
 ; (display-battery-mode 1)
 
 ;; displays the current function name in the mode line
 (use-package which-func
-  :init (setq which-func-unknown "n/a")
-  :config (which-function-mode 1))
+  :init
+  (setq which-func-unknown "n/a")
+  ;; Don't set `which-function-mode' to be enabled by default for all modes
+  ;; Major modes needing this mode should do:
+  ;;   (add-to-list 'which-func-mode 'MAJOR-MODE)
+  (setq which-func-modes nil)
+  ; :config (which-function-mode 1)
+  )
 
 ;; use inactive face for mode-line in non-selected windows
 (setq mode-line-in-non-selected-windows nil)
@@ -690,20 +722,18 @@
   (load "powerline-conf"))
 
 ;; [ Smart Mode Line ]
-(when section-sml
-  ; (add-site-lisp-load-path "smart-mode-line/")
-  (use-package smart-mode-line
-    :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
-    :init (progn
-           (setq sml/position-percentage-format "%p")
-           (setq sml/shorten-directory t)
-           (setq sml/shorten-modes t)
-           (setq sml/name-width 25)
-           (setq sml/mode-width 'full)
-           (setq sml/theme 'respectful)  ;; respectful/light/dark
-           )
-    :config (sml/setup)
-  )
+(use-package smart-mode-line
+  :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
+  :disabled t
+  :init (progn
+         (setq sml/position-percentage-format "%p")
+         (setq sml/shorten-directory t)
+         (setq sml/shorten-modes t)
+         (setq sml/name-width 25)
+         (setq sml/mode-width 'full)
+         (setq sml/theme 'respectful)  ;; respectful/light/dark
+         )
+  :config (sml/setup)
 )
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
@@ -893,7 +923,19 @@
 (message "%d: >>>>> Loading [ Buffer Handling ] Customization ...." step_no)
 (setq step_no (1+ step_no))
 
-;; meaningful names for buffers with the same name
+;; When multiple buffers are visible (like in a frame with 2 or more windows),
+;; do not display an already visible buffer when switching to next/previous
+;; buffers or after killing buffers.
+(setq switch-to-visible-buffer nil)
+
+;; Make meaningful names for buffers with the same name
+;; When several buffers visit identically-named files,
+;; Emacs must give the buffers distinct names. The usual method
+;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
+;; of the buffer names (all but one of them).
+;; The forward naming method includes part of the file's directory
+;; name at the beginning of the buffer name
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (use-package uniquify
   :init
     ;; if open a same name buffer, then forward to same name buffer
@@ -924,7 +966,9 @@
 
 ;; History
 (require 'savehist-conf)
-;; recently opened files
+
+;; Turn on recent file mode so that you can more easily switch to
+;; recently edited files when you first start emacs
 (require 'recentf-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1040,8 +1084,8 @@
 
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
-;; (setq-default truncate-lines t)
-(bind-key "C-x t" #'toggle-truncate-lines hjking-mode-map)
+(setq truncate-lines t)
+; (bind-key "t" #'toggle-truncate-lines hjking-mode-map)
 
 ;; insert a [line ending] after the last word that occurs
 ;; before the value of option ‘fill-column’
@@ -1075,8 +1119,8 @@
 
 (setq default-justification 'full)
 (setq adaptive-fill-mode nil)
-(setq-default fill-column 80
-              whitespace-line-column 80)
+(setq-default fill-column 80)
+; (setq whitespace-line-column 80)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1085,6 +1129,7 @@
   (add-site-lisp-load-path "dired/")
   (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
+  (require 'ranger-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1215,7 +1260,9 @@
 
 
 ;; [ goto change ]--------------------------------------------------------------
-(use-package goto-chg)
+(use-package goto-chg
+  :commands (goto-last-change
+             goto-last-change-reverse))
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
 
@@ -1231,51 +1278,11 @@
 ;   )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
 
-(use-package swiper
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind ("C-s" . swiper)
-  )
 
-(use-package counsel
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind (("M-x"     . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)
-         ("C-h f"   . counsel-describe-function)
-         ("C-h v"   . counsel-describe-variable)
-         ("C-h l"   . counsel-load-library)
-         ("C-h i"   . counsel-info-lookup-symbol)
-         ("C-h u"   . counsel-unicode-char))
-  :config (progn
-           (with-eval-after-load 'org
-              (bind-key "C-c C-q" #'counsel-org-tag org-mode-map))
-           (with-eval-after-load 'org-agenda
-              (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
-  )
-
-(use-package flx
-  :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))
-
-(use-package ivy
-  :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :diminish ""
-  :init (progn
-          ;; show recently killed buffers when calling `ivy-switch-buffer'
-          (setq ivy-use-virtual-buffers t)
-          (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
-          (setq ivy-count-format "%d/%d ")
-          (setq ivy-re-builders-alist
-           '((ivy-switch-buffer . ivy--regex-plus)
-             (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
-          (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
-        )
-  :bind (("C-c C-r"  . ivy-resume)
-         ("C-x b"    . ivy-switch-buffer))
-  :config (progn
-           ;; Disable ido
-           (with-eval-after-load 'ido
-             (ido-mode -1))
-           (ivy-mode 1))
- )
+;; [ ivy ]---------------------------------------------------------------------
+;; replace a lot of ido or helms
+(require 'ivy-conf)
+;; [ ivy ]-------------------------------------------------------------[ End ]--
 
 
 ;; [ auto-complete ]------------------------------------------------------------
@@ -1304,6 +1311,7 @@
 ;; --[ Abbrevs ]----------------------------------------------------------------
 (when section-abbrevs
   (require 'abbrevs-conf)
+  ;; "hippie expand" for text autocompletion
   (require 'hippie-exp-conf))
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
@@ -1645,7 +1653,7 @@
 (setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
   (interactive)
-  (whitespace-mode 1)
+  ; (whitespace-mode 1)
   (setq tab-width 4))
 (add-hook 'text-mode-hook 'my-textmode-startup)
 ;; --------------------------------------------------------------------[ End ]--
@@ -1693,8 +1701,8 @@
 
   (when section-vlog
       ;; Vlog mode: The verilog code maker
-      (setq my-vlog-load-path (concat my-site-lisp-dir "vlog-mode/"))
-      (add-site-lisp-load-path "vlog-mode/")
+      ; (setq my-vlog-load-path (concat my-site-lisp-dir "vlog-mode/"))
+      ; (add-site-lisp-load-path "vlog-mode/")
       (require 'vlog-conf))
 
   (when section-vhdl
@@ -1845,6 +1853,11 @@
 ; (require 'plantuml-mode)
 ; (setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
 
+
+;; Graphviz dot mode for emacs
+(add-site-lisp-load-path "graphviz-dot-mode/")
+(require 'graphviz-dot-mode)
+
 ;;;; ================ ProgrammingModes End ================
 
 ;; [ undo ]---------------------------------------------------------------------
@@ -1852,6 +1865,7 @@
     (use-package undo-tree
       :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
       :diminish ""
+      :commands (redo undo)
       :config (progn
                (setq undo-tree-visualizer-timestamps t)
                (setq undo-tree-visualizer-diff t)
@@ -1917,7 +1931,7 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; --[ wl ]---------------------------------------------------------------------
+;; --[ WanderLust ]-------------------------------------------------------------
 ;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
 (when section-wl
     (add-site-lisp-load-path "wl/wl/")
@@ -2002,18 +2016,27 @@
 ;;; stripe-buffer
 ;;; Use different background colors for even and odd lines.
 (use-package stripe-buffer
-  :commands (turn-on-stripe-buffer-mode turn-on-stripe-table-mode)
+  :commands (turn-on-stripe-buffer-mode
+             turn-on-stripe-table-mode)
   :init  (progn
-          ; (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
-          ; (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+          (add-hook 'dired-mode-hook 'turn-on-stripe-buffer-mode)
+          (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
           )
   )
 
+;; Whenever the window scrolls a light will shine
+;; on top of your cursor so you know where it is.
+(require 'beacon-conf)
 
-;;; Smartscan
-;; makes M-n and M-p look for the symbol at point
-(use-package smartscan
-  :config (global-smartscan-mode t))
+
+;; Modernizing Emacs' Package Menu
+;; Use `paradox-list-packages' instead of the regular `list-packages'
+(require 'paradox-conf)
+
+
+;; M-; comment/uncomment
+(require 'evil-nerd-commenter-conf)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
@@ -2046,7 +2069,7 @@
 
 ;; [ guide-key ]-----------------------------------------------------------------
 ;; displays the available key bindings automatically and dynamically
-(require 'guide-key-conf)
+; (require 'guide-key-conf)
 (require 'which-key-conf)
 ;; ---------------------------------------------------------------------[ End ]--
 
@@ -2097,9 +2120,11 @@
 ; (sml/apply-theme 'dark)  ;; respectful/light
 ; (sml/setup)
 
-(setq debug-on-error t
-      debug-on-quit t
+(setq debug-on-error nil
+      debug-on-quit nil
       stack-trace-on-error '(buffer-read-only))
+
+; (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
 
 (message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))

@@ -23,10 +23,7 @@
   ;; lisp symbols. (Note: We are shifting this onto the front of the
   ;; list, so put this so -partially is called first)
   (make-local-variable 'hippie-expand-try-functions-list)
-  (add-to-list 'hippie-expand-try-functions-list
-               'try-complete-lisp-symbol)
-  (add-to-list 'hippie-expand-try-functions-list
-               'try-complete-lisp-symbol-partially)
+
   ;; Define lisp key macros
 ;;    (local-set-key "\C-css" 'insert-elisp-seperator-line)
 ;;    (local-set-key "\C-csh" 'insert-elisp-section-header)

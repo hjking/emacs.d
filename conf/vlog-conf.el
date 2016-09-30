@@ -5,90 +5,61 @@
 ;; Created: 2010-12-22 10:00
 ;; Last Updated: 2014-02-10 14:15:35
 
-(message "%d: >>>>> Loading [ Vlog Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+(use-package vlog-mode
+  :load-path (lambda () (concat my-site-lisp-dir "vlog-mode/"))
+  :diminish "Verilog"
+  :mode (("\\.[st]*v[hp]*\\'" . vlog-mode) ; .v, .sv, .svh, .tv, .vp
+         ("\\.psl\\'"         . vlog-mode)
+         ("\\.vinc\\'"        . vlog-mode))
+  :init
+  (setq vlog-mode-highlight-all-uppercase-words t)
 
-(require 'vlog-mode)
+  (setq vlog-align-mod-inst-stop-list '(28 52))
 
-(add-to-list 'auto-mode-alist '("\\.sv\\'" . vlog-mode))
-(add-to-list 'auto-mode-alist '("\\.v\\'"  . vlog-mode))
-(add-to-list 'auto-mode-alist '("\\.vp\\'" . vlog-mode))
-(add-to-list 'auto-mode-alist '("\\.vh\\'" . vlog-mode))
-(add-to-list 'auto-mode-alist '("\\.vl\\'" . vlog-mode))
+  (setq vlog-indent-level-beh                4
+        vlog-indent-level-block              0
+        vlog-indent-level-block-beh          0
+        vlog-indent-level-block-inside       4
+        vlog-indent-level-case-inside        4
+        vlog-indent-level-case-branch-inside 4
+        vlog-indent-level-cond               4
+        vlog-indent-level-default            4
+        vlog-indent-level-port-list          4
+        vlog-indent-align-port-list-to-paren t
+        vlog-indent-align-else-to-if         nil)
 
-(vlog-mode-enable-v2k)
+  (setq vlog-skel-header-string "\
+  // ----------------------------------------------------------------------
+  //  Copyright (c) %<time %Y>, %<company>
+  //  Microelectronics Dept. Verification Group.
+  //  All rights reserved.
+  //
+  //  File     : %<filename>
+  //  Author   : %<author>
+  //  EMail    : hongjin@fiberhome.com.cn
+  //  Created  : %<time %Y-%m-%d %02H:%02M:%02S>
+  //  Last Changed : %<time %Y-%m-%d %02H:%02M:%02S>
+  //  Description : %<_>
+  // ----------------------------------------------------------------------
+  //  History:
+  //      Author   : %<author>
+  //      Date     : %<time %Y-%m-%d %02H:%02M:%02S>
+  //      Revision : 1.0
+  // ----------------------------------------------------------------------\n")
 
-(setq vlog-mode-highlight-all-uppercase-words t)
+  (setq vlog-skel-user-name    "Hong Jin"
+        vlog-skel-company-name "Fiberhome Telecommunication Technology Co., Ltd.")
 
-(setq vlog-align-mod-inst-stop-list '(28 52))
-
-(setq vlog-indent-level-beh                2
-      vlog-indent-level-block              0
-      vlog-indent-level-block-beh          0
-      vlog-indent-level-block-inside       2
-      vlog-indent-level-case-inside        4
-      vlog-indent-level-case-branch-inside 2
-      vlog-indent-level-cond               2
-      vlog-indent-level-default            2
-      vlog-indent-level-port-list          4)
-
-(setq vlog-mode-keywordset-docs
+  :config
+  (setq vlog-mode-keywordset-docs
       (append vlog-mode-keywordset-docs
               (list "Note:" "NOTE:" "note:")))
-(vlog-mode-make-keywords)
-
-; (setq vlog-skel-header-string "\
-; /*******************************************************************************
-;  * Copyright (C) %<time %Y> by %<company>
-;  * All rights reserved
-;  * -----------------------------------------------------------------------------
-;  * File Name      : %<filename>
-;  * Module Name    : %<modulename>
-;  * Author         : %<author>
-;  * Created        : %<time %Y-%m-%d %02H:%02M:%02S>
-;  * Last Modified  : %<time %Y-%m-%d %02H:%02M:%02S>
-;  * -----------------------------------------------------------------------------
-;  * ID             : $Id$
-;  * -----------------------------------------------------------------------------
-;  * [Reference]    : %<_>
-;  * [Description]
-;  * %<_>
-;  * -----------------------------------------------------------------------------
-;  * [Revision History]
-;  * Version    Date        Author      Description
-;  * 1.0%<align>%<time %Y-%m-%d>%<align>%<author>%<align>1. Initial revision
-;  * -----------------------------------------------------------------------------
-;  *
-;  ******************************************************************************/\n")
-
-(setq vlog-skel-header-string "\
-// ----------------------------------------------------------------------
-//  Copyright (c) %<time %Y>, %<company>
-//  Microelectronics Dept. Verification Group.
-//  All rights reserved.
-//
-//  File     : %<filename>
-//  Author   : %<author>
-//  EMail    : hongjin@fiberhome.com.cn
-//  Created  : %<time %Y-%m-%d %02H:%02M:%02S>
-//  Last Changed : %<time %Y-%m-%d %02H:%02M:%02S>
-//  Description : %<_>
-// ----------------------------------------------------------------------
-//  History:
-//      Author   : %<author>
-//      Date     : %<time %Y-%m-%d %02H:%02M:%02S>
-//      Revision : 1.0
-// ----------------------------------------------------------------------\n")
-
-(setq vlog-skel-user-name    "Hong Jin"
-      vlog-skel-company-name "Fiberhome Telecommunication Technology Co., Ltd.")
-
-;; Convert all tabs in region to multiple spaces
-(add-hook 'vlog-mode-hook
-          '(lambda ()
-              (add-hook 'local-write-file-hooks
-                        (lambda()
-                          (untabify (point-min) (point-max))
-                          nil))))
+  (vlog-mode-enable-v2k)
+  (vlog-mode-make-keywords)
+  ;; Convert all tabs in region to multiple spaces
+  (add-hook 'vlog-mode-hook
+            '(lambda ()
+                (add-hook 'local-write-file-hooks 'hjking/cleanup-buffer-safe)))
+  )
 
 (provide 'vlog-conf)

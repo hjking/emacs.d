@@ -41,4 +41,11 @@ The `car' of each item is the font family, the `cdr' the preferred font size.")
 
 (stante-choose-best-fonts)
 
+; (ignore-errors
+;   (cond ((eq system-type 'gnu/linux)
+;          (set-frame-font "DejaVu Sans Mono"))
+;         ((eq system-type 'windows-nt)
+;          (set-frame-font "Lucida Sans Typewriter"))))
+; (set-face-attribute 'default nil :height 113)
+
 (provide 'font-conf)

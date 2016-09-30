@@ -863,6 +863,7 @@
     ; (hjking/org-reload)
 
     (when (featurep 'stripe-buffer)
+      (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
       (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
 
     (use-package org-checklist)
@@ -886,6 +887,7 @@
 
 
     ;;;; org-bullets
+    ;; Org bullets makes things look pretty
     (use-package org-bullets
       :disabled t
       :load-path (lambda () (concat my-site-lisp-dir "org-bullets/"))
@@ -894,6 +896,19 @@
       :config
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
       )
+
+    ;;;; org-bullets
+    ;; displays a calendar with org agenda, `cfw:open-org-calendar'
+    (use-package calfw-org
+      :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
+      :init
+       ;; This setting restricts items containing a date stamp
+       ;; or date range matching the selected date
+       (setq cfw:org-agenda-schedule-args '(:timestamp))
+       ;; key binding like org agenda buffer
+       (setq cfw:org-overwrite-default-keybinding t)
+      )
+
     )
 )
 

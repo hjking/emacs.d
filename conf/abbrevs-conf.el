@@ -13,13 +13,15 @@
   (progn
     ;; (setq abbrev-file-name "~/.emacs.d/abbrev_defs")
     (setq abbrev-file-name (concat my-personal-dir "abbrev_defs"))
+    (unless (file-exists-p abbrev-file-name)
+      (with-temp-buffer (write-file abbrev-file-name)))
     ;; save my abbreviations when file saved
-    (setq save-abbrevs t)
+    (setq save-abbrevs 'silently) ; t
 
     ;; ensure abbrev mode is always on in current buffer
     ;; (abbrev-mode 1)
     ;; turn on abbrev mode globally
-    (setq-default abbrev-mode t)
+    ; (setq-default abbrev-mode t)
     )
   :config
   (progn
@@ -31,11 +33,29 @@
               (lambda ()
                 (add-hook 'expand-expand-hook 'indent-according-to-mode)
                 (add-hook 'expand-jump-hook 'indent-according-to-mode)))
-    ;; abbrev-mode is on only in some modes
-    ;;  (dolist (hook '(erc-mode-hook
-    ;;                  emacs-lisp-mode-hook
-    ;;                  text-mode-hook))
-    ;;  (add-hook hook (lambda () (abbrev-mode 1))))
+
+    (defconst hjking/abbrev-hooks '(verilog-mode-hook
+                                  emacs-lisp-mode-hook
+                                  org-mode-hook)
+      "List of hooks of major modes in which abbrev should be enabled.")
+
+    (defun hjking/turn-on-abbrev-mode ()
+      "Turn on abbrev only for specific modes."
+      (interactive)
+      (dolist (hook hjking/abbrev-hooks)
+        (when (eq hook 'verilog-mode-hook)
+          (with-eval-after-load 'verilog-mode
+            ;; Reset the verilog-mode abbrev table
+            (clear-abbrev-table verilog-mode-abbrev-table)))
+        (add-hook hook #'abbrev-mode)))
+
+    (defun hjking/turn-off-abbrev-mode ()
+      "Turn off abbrev only for specific modes."
+      (interactive)
+      (dolist (hook hjking/abbrev-hooks)
+        (remove-hook hook #'abbrev-mode)))
+
+    (hjking/turn-on-abbrev-mode)
 
     (define-abbrev-table 'global-abbrev-table '(
         ("afaict" "as far as I can tell" nil 1)
@@ -63,7 +83,8 @@
 ;; extend standard Dynamic Abbreviation
 ;; show multiple candidates with tooltip
 (use-package dabbrev-expand-multiple
-  :commands dabbrev-expand-multiple
+  :commands (dabbrev-expand-multiple)
+  :bind ("M-/" . dabbrev-expand-multiple)
   :init
   (progn
     ;; setting abbrev displayed at a time to five.

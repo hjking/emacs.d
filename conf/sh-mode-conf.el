@@ -1,4 +1,6 @@
 
+;;; Shell Script mode
+;; Major mode for editing Unix and GNU/Linux shell script code.
 (use-package sh-mode
   :mode (("/etc/profile"                  . sh-mode)
          ("/etc/bash_completion"          . sh-mode)
@@ -21,6 +23,10 @@
     (setq sh-indentation '8)
     (setq sh-indent-comment t)
     (setq indent-tabs-mode t)
+    (setq sh-indent-supported '((sh . sh)
+                                (rc . rc)
+                                (csh . csh)
+                                (tcsh . csh)))
     (setq sh-indent-for-case-label '0)
     (setq sh-indent-for-case-alt '+)
     ))

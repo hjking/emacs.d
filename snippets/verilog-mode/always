@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: always
+# key: always
+# --
+always @(posedge ${1:clk} or negedge ${2:xrst}) begin
+   $0
+end

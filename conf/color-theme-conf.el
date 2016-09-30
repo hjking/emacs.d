@@ -24,9 +24,9 @@
      (add-to-list 'load-path color-theme-molokai-path)
      (add-to-list 'custom-theme-load-path color-theme-molokai-path)
 
-     (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
-     (add-to-list 'load-path color-theme-twilight-path)
-     (load-file (concat color-theme-twilight-path "color-theme-twilight.el"))
+     ; (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
+     ; (add-to-list 'load-path color-theme-twilight-path)
+     ; (load-file (concat color-theme-twilight-path "color-theme-twilight.el"))
 
      (setq color-theme-zenburn-path (concat my-site-lisp-dir "color-theme-zenburn/"))
      (add-to-list 'load-path color-theme-zenburn-path)

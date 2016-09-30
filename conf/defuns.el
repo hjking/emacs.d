@@ -1484,13 +1484,6 @@ File suffix is used to determine what program to run."
         (sort-subr nil 'forward-line 'end-of-line nil nil
                    (lambda (s1 s2) (eq (random 2) 0)))))))
 
-(defun build-ctags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "ctags -f %s/TAGS -R %s" dir-name (directory-file-name dir-name)))
-  )
-
 ;;; select between parens
 (defun hjking/select-in-parens ()
   (interactive)
@@ -1580,6 +1573,17 @@ File suffix is used to determine what program to run."
   (interactive)
   (indent-region (point-min) (point-max)))
 
+(defun hjking/indent-region-or-buffer()
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+  (progn
+    (indent-region (region-beginning) (region-end))
+    (message "Indent selected region."))
+      (progn
+  (hjking/indent-buffer)
+  (message "Indent buffer.")))))
+
 (defun hjking/cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
 Does not indent buffer, because it is used for a before-save-hook, and that
@@ -1589,7 +1593,7 @@ might be bad."
   (delete-trailing-whitespace)
   (set-buffer-file-coding-system 'utf-8))
 
-(defun hjking/cleanup-buffer ()"Indent each nonblank line in the buffer. See `indent-region"
+(defun hjking/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer.
 Including indent-buffer, which should not be called automatically on save."
   (interactive)
@@ -1840,6 +1844,20 @@ programming."
           (delete-region (car bds) (cdr bds))
           (insert (number-to-string (+ x-int 1)))
         )))))
+
+(defun increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun decrement-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0123456789")
+  (or (looking-at "[0123456789]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
 
 ;; let you quickly search a set of buffers that match a specific major mode
 (defun get-buffers-matching-mode (mode)

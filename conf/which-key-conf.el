@@ -5,6 +5,7 @@
 
 (use-package which-key
   :load-path (lambda () (concat my-site-lisp-dir "which-key/"))
+  :diminish which-key-mode
   :init (progn
     (setq which-key-popup-type 'side-window) ; default
     ;; (setq which-key-popup-type 'minibuffer)
@@ -44,6 +45,10 @@
                                    "BS" ; backspace key
                                    "ESC"))
 
+    (setq which-key-sort-order 'which-key-key-order-alpha
+          which-key-side-window-max-width 0.33
+          which-key-idle-delay 0.05)
+
     (setq which-key-highlighted-command-list
           '(("\\`hydra-" . which-key-group-description-face)
             ;; Highlight using the default `which-key-highlighted-command-face'
@@ -58,13 +63,17 @@
              "C-x m"   "hjking defined"
              "C-x r"   "rect/reg"
              ; "C-c /"   "engine-mode-map"
+             "C-x RET" "coding system - input"
              "C-c C-v" "org-babel")
 
            (which-key-add-major-mode-key-based-replacements 'org-mode
               "C-c C-c" "Org C-c C-c"
               "C-c C-a" "Org Attach")
 
-           (which-key-mode 1)))
+           (which-key-setup-side-window-right-bottom)
+
+           (which-key-mode)
+           ))
 
 
 (provide 'which-key-conf)
