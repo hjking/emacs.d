@@ -198,8 +198,8 @@ fringes.")
 ;;       (top . 20)
 ;;       (menu-bar-lines . 1)
 ;;      ))
-(add-to-list 'default-frame-alist '(height . 40))
-(add-to-list 'default-frame-alist '(width . 100))
+; (add-to-list 'default-frame-alist '(height . 40))
+; (add-to-list 'default-frame-alist '(width . 100))
 
 ;; the cursor's line position and column position will show in the status bar
 (column-number-mode 1)

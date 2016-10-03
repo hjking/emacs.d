@@ -894,27 +894,21 @@
 (use-package diff-mode
   :commands diff-mode)
 
-;; use diff-mode- to enhance diff-mode
-;;  ;; extensions to `diff-mode.el'
-;;  (require 'diff-mode-)
-;;
-;;  ;; ediff, a comprehensive visual interface to diff & patch
-;;  ;; setup for Ediff's menus and autoloads
-;;  (require 'ediff-hook)
-;;
-;;  ;; auto-refine only the regions of this size (in bytes) or less
-;;  (setq ediff-auto-refine-limit (* 2 14000))
-;;
 ;; do everything in one frame
 (use-package ediff
+  :commands (ediff)
   :init (progn
          ;; first we set some sane defaults
          (setq-default
           ediff-window-setup-function 'ediff-setup-windows-plain
           ;; emacs is evil and decrees that vertical shall henceforth be horizontal
-          ediff-split-window-function 'split-window-horizontally
           ediff-custom-diff-options "-u"
-          ediff-merge-split-window-function 'split-window-horizontally)))
+          ediff-merge-split-window-function 'split-window-horizontally)
+         ; ediff-split-window-function 'split-window-horizontally
+         (setq ediff-split-window-function (if (> (frame-width) 150)
+                                          'split-window-horizontally
+                                        'split-window-vertically))
+         ))
 
 ;; --[ Compare File ]--------------------------------------------------[ End ]--
 
