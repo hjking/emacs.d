@@ -189,14 +189,14 @@
       ("f"          helm-projectile-find-file)
       ("F"          ido-find-file)
       ("SPC"        nil)
-      ("q"          nil   "quit" :exit truex))
+      ("q"          nil   :exit truex))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; tabbar
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-tabbar ()
       "
-       switch tabbars
+              switch tabbars
       "
       ("<right>" tabbar-forward "next")
       ("<left>" tabbar-backward "previous"))
@@ -205,7 +205,9 @@
     ;; zoom font
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-zoom ()
-      "zoom"
+      "
+              zoom
+      "
       ("+" text-scale-increase     "zoom in")
       ("-" text-scale-decrease     "zoom out")
       ("=" (text-scale-adjust 0)   "="))
@@ -214,7 +216,9 @@
     ;; buffer
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-buffer-move ()
-      "buffer-move"
+      "
+              buffer-move
+      "
       ("<left>"   buf-move-left     "←")
       ("<up>"     buf-move-up       "↑")
       ("<right>"  buf-move-right    "→")
@@ -225,7 +229,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-multiple-cursors (:hint nil)
       "
-      multiple-cursors
+              multiple-cursors
 
            ^Prev^         ^Next^        ^Other^
       ----------------------------------------------
@@ -233,7 +237,6 @@
       [_P_]   Skip    [_N_]   Skip    [_a_] Mark all
       [_M-p_] Unmark  [_M-n_] Unmark  [_r_] Mark by regexp
       ^ ^             ^ ^             [_q_] Quit
-
       "
       ("a"    mc/mark-all-like-this             :exit t)
       ("n"    mc/mark-next-like-this            )
@@ -395,7 +398,6 @@
       Buffer:      _<left>_: previous       _<right>_: next          _<_: beginning of buffer   _>_: end of buffer
       sexp:        _[_: backward-sexp       _]_: forward-sexp
       Last Change: _?_: goto-last-change    _/_: goto-last-change-reverse
-
       "
       ;; char
       ("f" forward-char)
@@ -448,11 +450,9 @@
     (defhydra hjking-hydra-delete (:hint nil)
       "
           Delete
-        _f_: delete-char             _w_: kill-word            _l_: kill-line
+        _f_/_C-d_: delete-char       _w_: kill-word            _l_: kill-line
         _b_: backward-delete-char    _W_: backward-kill-word   _L_: kill-line backward
         _s_: kill-sentence           _p_: kill-paragraph       _x_: kill-sexp
-        _n_: navigate                _g_: avy
-        _C-d_: delete-char
       "
       ("f" delete-char)
       ("C-d" delete-char)
@@ -465,9 +465,10 @@
       ("p" kill-paragraph)
       ("s" kill-sentence)
       ("x" kill-sexp)
-      ("n" hjking-hydra-navigate/body :color blue)
-      ("g" hjking-hydra-avy/body :color blue)
-      ("q" nil :color blue))
+      ("n" hjking-hydra-navigate/body   "navigate"  :color blue)
+      ("a" hjking-hydra-avy/body        "Goto"      :color blue)
+      ("i" hjking-hydra-window/body     "Window"    :color blue)
+      ("q" nil "Quit" :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; markdown mode
@@ -475,15 +476,10 @@
     (defhydra hjking-hydra-markdown-mode (:hint nil)
       "
       Formatting        C-c C-s    _s_: bold          _e_: italic     _b_: blockquote   _p_: pre-formatted    _c_: code
-
       Headings          C-c C-t    _h_: automatic     _1_: h1         _2_: h2           _3_: h3               _4_: h4
-
       Lists             C-c C-x    _m_: insert item
-
       Demote/Promote    C-c C-x    _l_: promote       _r_: demote     _u_: move up      _d_: move down
-
       Links, footnotes  C-c C-a    _L_: link          _U_: uri        _F_: footnote     _W_: wiki-link      _R_: reference
-
       "
       ("s" markdown-insert-bold)
       ("e" markdown-insert-italic)
@@ -565,15 +561,15 @@
       --------------------------------------------
         Modes:    Load/Visit:    Actions:
 
-       _g_lobal  _d_irectory    _i_nsert
-       _m_inor   _f_ile         _t_ryout
-       _e_xtra   _l_ist         _n_ew
-               _a_ll
+       _g_lobal    _d_irectory    _i_nsert
+       _m_inor     _f_ile         _t_ryout
+       _e_xtra     _l_ist         _n_ew
+                   _a_ll
       "
       ("d" yas-load-directory)
       ("e" yas-activate-extra-mode)
       ("i" yas-insert-snippet)
-      ("f" yas-visit-snippet-file :color blue)
+      ("f" yas-visit-snippet-file)
       ("n" yas-new-snippet)
       ("t" yas-tryout-snippet)
       ("l" yas-describe-tables)
@@ -840,11 +836,9 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; git
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-git (:hint nil :exit t)
+    (defhydra hjking-hydra-git (:color blue :columns 4 :exit t)
       "
-         magit
-       _s_: status         _c_: commit       _p_: push  _u_: pull
-       _d_: diff unstaged  _D_: diff-staged  _l_: log   _L_: long log
+                  magit
       "
       ("s" magit-status "status")
       ("d" magit-diff-unstaged "diff")
@@ -881,7 +875,7 @@
       ("a" hjking-hydra-verilog-mode-auto/body)
       ; ("d" hjking-hydra-verilog-mode-diff/body)
       ("h" verilog-faq)
-      ("q" nil "Quit")
+      ("q" nil)
       )
 
     (defhydra hjking-hydra-verilog-mode-auto (:foreign-keys warn :exit t :hint nil)
@@ -955,7 +949,7 @@
     (defhydra hjking-hydra-org (:exit t :hint nil)
       "
       ^Agend^       ^Clock^    ^Subtree^     ^Insert^               ^Capture^
-      _a_: agenda   _i_: in    _r_: refile   _t_: timestamp         _z_/_w_
+      _a_: agenda   _i_: in    _r_: refile   _t_: timestamp         _z_/_w_: capture
           ^^        _o_: out   _c_: archive  _T_: active timestamp
       "
       ("a" hjking-hydra-org-agenda-view/body)
@@ -1000,6 +994,21 @@
       ("q" (message "Abort") :exit t)
       ("x" org-agenda-exit :exit t)
       ("v" nil))
+
+    (defhydra hjking-hydra-buffer (:color blue :columns 3)
+      "
+                    Buffers :
+      "
+      ("n" next-buffer "next" :color red)
+      ("b" ivy-switch-buffer "switch")
+      ("B" ibuffer "ibuffer")
+      ("p" previous-buffer "prev" :color red)
+      ("C-b" buffer-menu "buffer menu")
+      ("N" evil-buffer-new "new")
+      ("d" kill-this-buffer "delete" :color red)
+      ;; don't come back to previous buffer after delete
+      ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red)
+      ("s" save-buffer "save" :color red))
 
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
