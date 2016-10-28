@@ -70,6 +70,7 @@
 ;;; anzu
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package anzu
+  :disabled t
   :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
   :init (progn
           (setq anzu-mode-lighter "")

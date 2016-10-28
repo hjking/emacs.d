@@ -7,7 +7,11 @@
   :load-path (lambda () (concat my-site-lisp-dir "which-key/"))
   :diminish which-key-mode
   :init (progn
+    ;; Popup Type Options
+    ;;; side window
     (setq which-key-popup-type 'side-window) ; default
+    (setq which-key-side-window-max-width 0.33)
+    ;;; minibuffer
     ;; (setq which-key-popup-type 'minibuffer)
 
     ;; Replacements for how KEY is replaced when which-key displays
@@ -46,7 +50,6 @@
                                    "ESC"))
 
     (setq which-key-sort-order 'which-key-key-order-alpha
-          which-key-side-window-max-width 0.33
           which-key-idle-delay 0.05)
 
     (setq which-key-highlighted-command-list
@@ -55,25 +58,34 @@
             "\\(rectangle-\\)\\|\\(-rectangle\\)"
             "\\`org-")))
   :config (progn
-           ;; Change what string to display for a given *complete* key binding
-           ;; Eg: After "C-x", display "8 → +unicode" instead of "8 → +prefix"
-           (which-key-add-key-based-replacements
-             "C-x C-f" "find files"
-             "C-x a"   "abbrev/expand"
-             "C-x m"   "hjking defined"
-             "C-x r"   "rect/reg"
-             ; "C-c /"   "engine-mode-map"
-             "C-x RET" "coding system - input"
-             "C-c C-v" "org-babel")
+    ;; Change what string to display for a given *complete* key binding
+    ;; Eg: After "C-x", display "8 → +unicode" instead of "8 → +prefix"
+    (which-key-add-key-based-replacements
+      "C-x C-f" "find files"
+      "C-x a"   "abbrev/expand"
+      "C-x m"   "hjking defined"
+      "C-x r"   "rect/reg"
+      ; "C-c /"   "engine-mode-map"
+      "C-x RET" "coding system - input"
+      "C-c C-v" "org-babel")
 
-           (which-key-add-major-mode-key-based-replacements 'org-mode
-              "C-c C-c" "Org C-c C-c"
-              "C-c C-a" "Org Attach")
+    (which-key-add-major-mode-key-based-replacements 'org-mode
+      "C-c C-c" "Org C-c C-c"
+      "C-c C-a" "Org Attach")
 
-           (which-key-setup-side-window-right-bottom)
+    (which-key-add-major-mode-key-based-replacements 'markdown-mode
+      "C-c C-a" "insert"
+      "C-c C-c" "export"
+      "C-c TAB" "images"
+      "C-c C-s" "text"
+      "C-c C-t" "header"
+      "C-c C-x" "move")
 
-           (which-key-mode)
-           ))
+
+    (which-key-setup-side-window-right-bottom)
+
+    (which-key-mode)
+    ))
 
 
 (provide 'which-key-conf)

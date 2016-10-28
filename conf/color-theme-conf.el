@@ -76,6 +76,17 @@
      ;; (load-theme 'molokai t)
      ;; (load-theme 'material t)
      ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
+     (use-package monokai-theme
+     :disabled t
+     :init
+        (setq monokai-use-variable-pitch nil
+              monokai-height-minus-1 1.0
+              monokai-height-plus-1 1.0
+              monokai-height-plus-2 1.0
+              monokai-height-plus-3 1.0
+              monokai-height-plus-4 1.0)
+     :config
+        (load-theme 'monokai t))
 )
 
 (provide 'color-theme-conf)

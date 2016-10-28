@@ -417,6 +417,11 @@
 ;; general
 (require 'general-conf)
 
+;; [ guide-key ]-----------------------------------------------------------------
+;; displays the available key bindings automatically and dynamically
+; (require 'guide-key-conf)
+(require 'which-key-conf)
+
 ;; --[ Basic ]---------------------------------------------------------[ End ]--
 
 
@@ -714,7 +719,7 @@
 (setq mode-line-in-non-selected-windows nil)
 
 ;; set mode-line-format
-(require 'mode-line-conf)
+; (require 'mode-line-conf)
 
 ;; [ powerline ]
 (when section-powerline
@@ -735,6 +740,9 @@
          )
   :config (sml/setup)
 )
+
+(require 'spaceline-config)
+(spaceline-spacemacs-theme)
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -1124,6 +1132,7 @@
   (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
   (require 'ranger-conf)
+  (require 'neotree-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1255,8 +1264,7 @@
 
 ;; [ goto change ]--------------------------------------------------------------
 (use-package goto-chg
-  :commands (goto-last-change
-             goto-last-change-reverse))
+  :commands (goto-last-change))
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
 
@@ -2061,10 +2069,6 @@
 ; (guru-global-mode +1)
 ; (setq guru-warn-only t)
 
-;; [ guide-key ]-----------------------------------------------------------------
-;; displays the available key bindings automatically and dynamically
-; (require 'guide-key-conf)
-(require 'which-key-conf)
 ;; ---------------------------------------------------------------------[ End ]--
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

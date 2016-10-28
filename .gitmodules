@@ -134,21 +134,9 @@
 	path = vendor/org-bullets
 	url = https://github.com/sabof/org-bullets.git
 	ignore = dirty
-[submodule "vendor/swiper"]
-	path = vendor/swiper
-	url = https://github.com/abo-abo/swiper.git
-	ignore = dirty
-[submodule "vendor/abo-smex"]
-	path = vendor/abo-smex
-	url = https://github.com/abo-abo/smex
-	ignore = dirty
 [submodule "vendor/hl-anything"]
 	path = vendor/hl-anything
 	url = https://github.com/boyw165/hl-anything.git
-	ignore = dirty
-[submodule "vendor/hydra"]
-	path = vendor/hydra
-	url = https://github.com/abo-abo/hydra.git
 	ignore = dirty
 [submodule "vendor/which-key"]
 	path = vendor/which-key

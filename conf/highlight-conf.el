@@ -147,6 +147,7 @@
 
 ;; highlight changes made by commands such as undo, yank-pop, etc.
 (use-package volatile-highlights
+  :disabled t
   :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
   :config
    (volatile-highlights-mode t))

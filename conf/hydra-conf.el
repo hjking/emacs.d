@@ -4,7 +4,7 @@
 ;; https://github.com/abo-abo/hydra
 
 (use-package hydra
-  :load-path (lambda () (concat my-site-lisp-dir "hydra/"))
+  ; :load-path (lambda () (concat my-site-lisp-dir "hydra/"))
   :config
   (progn
     ;; (setq hydra-lv nil)
@@ -13,6 +13,8 @@
     ; (set-face-attribute 'hydra-face-amaranth nil :foreground "#e52b50"    :bold t)
     ; (set-face-attribute 'hydra-face-pink     nil :foreground "HotPink1"   :bold t)
     ; (set-face-attribute 'hydra-face-teal     nil :foreground "#367588"    :bold t)
+    ;; Use a lighter red for my dark backgrounds
+    (set-face-foreground 'hydra-face-red "#FF3232")
     ; (hydra-add-font-lock)
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -594,9 +596,9 @@
       "
        ^Navigation^ | ^Mark^        | ^Actions^        | ^View^
       -^----------^-+-^----^--------+-^-------^--------+-^----^-------
-      _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
-     _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
-      _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
+        _k_:    ʌ   | _m_: mark     | _D_: delete      | _g_: refresh
+       _RET_: visit | _u_: unmark   | _S_: save        | _s_: sort
+        _j_:    v   | _*_: specific | _a_: all actions | _/_: filter
       -^----------^-+-^----^--------+-^-------^--------+-^----^-------
       "
       ("j" ibuffer-forward-line)
@@ -616,10 +618,10 @@
       ("/" hydra-ibuffer-filter/body :color blue)
 
       ("o" ibuffer-visit-buffer-other-window "other window" :color blue)
-      ("q" ibuffer-quit "quit ibuffer" :color blue)
+      ("q" nil "quit ibuffer" :color blue)
       ("." nil "toggle hydra" :color blue))
 
-    (defhydra hydra-ibuffer-mark (:color teal :columns 5
+    (defhydra hydra-ibuffer-mark (:color teal :columns 4
                                   :after-exit (hydra-ibuffer-main/body))
       "Mark"
       ("*" ibuffer-unmark-all "unmark all")
@@ -655,7 +657,7 @@
       ("V" ibuffer-do-revert "revert")
       ("W" ibuffer-do-view-and-eval "view-and-eval")
       ("X" ibuffer-do-shell-command-pipe "shell-command-pipe")
-      ("b" nil "back"))
+      ("b" hydra-ibuffer-main/body "back" :color blue))
 
     (defhydra hydra-ibuffer-sort (:color amaranth :columns 3)
       "Sort"
@@ -727,7 +729,7 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     (defhydra hjking-hydra-info (:hint nil)
       "
-      Info-mode:
+              Info-mode:
 
         ^^_]_ forward  (next logical node)       ^^_l_ast (←)        _u_p (↑)                             _f_ollow reference       _T_OC
         ^^_[_ backward (prev logical node)       ^^_r_eturn (→)      _m_enu (↓) (C-u for new window)      _i_ndex                  _d_irectory

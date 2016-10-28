@@ -120,21 +120,24 @@
         (define-key dired-mode-map (kbd "ESC C-r") 'dired-isearch-backward-regexp)))
 
     ;;; dired-hacks
-    (use-package dired-rainbow)
-    (use-package dired-open)
-    (use-package dired-subtree
-      :after dired
-      :config
-        (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-        (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
+    ; (use-package dired-rainbow)
+    ; (use-package dired-open)
+    ; (use-package dired-subtree
+    ;   :after dired
+    ;   :config
+    ;     (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+    ;     (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map))
 
     ;;; ztree
     ;; ztree-diff: Perform diff on two directories
     ;; ztree-dir: a simple tree explorer
-    (use-package ztree-diff)
-    (use-package ztree-dir)
+    (use-package ztree-diff
+      :commands (ztree-diff))
 
-    (use-package dired-single)
+    (use-package ztree-dir
+      :commands (ztree-dir))
+
+    ; (use-package dired-single)
 
     ;;; DiredTar
     ;;;

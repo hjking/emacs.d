@@ -443,7 +443,7 @@
     ;;; Publishing
 
     ;; export org to markdown
-    (use-package ox-md)
+    ; (use-package ox-md)
 
     (setq my-org-publish-dir
           (expand-file-name "public_html" (directory-file-name
@@ -866,7 +866,7 @@
       (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
       (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
 
-    (use-package org-checklist)
+    ; (use-package org-checklist)
 
     ;;; HTML5 Presentation export for Org-mode
     ;;; org-html5presentation.el
@@ -874,9 +874,11 @@
 
     ;;
     (use-package org-jekyll-mode
+      :commands (org-jekyll/new-post
+                 org-jekyll/publish-project)
       :init (progn
-        (setq org-jekyll/jekyll-project-root "~/org/blog/source/")
-        (setq org-jekyll/org-mode-project-root "~/org/blog/org/")
+        (setq org-jekyll/jekyll-project-root "E:/Workspace/hjking.github.com/")
+        (setq org-jekyll/org-mode-project-root "~/org/")
         (setq org-jekyll/export-with-toc t)   ;; export content
         )
     )
@@ -900,7 +902,8 @@
     ;;;; org-bullets
     ;; displays a calendar with org agenda, `cfw:open-org-calendar'
     (use-package calfw-org
-      :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
+      ; :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
+      :commands (cfw:open-org-calendar)
       :init
        ;; This setting restricts items containing a date stamp
        ;; or date range matching the selected date

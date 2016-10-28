@@ -45,8 +45,9 @@
 (add-site-lisp-load-path "rainbow-delimiters/")
 ;; enable in all programming-related modes (Emacs 24+)
 (use-package rainbow-delimiters
+  :commands (rainbow-delimiters-mode)
   :init
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 ;; use Emacs-wide
 ;; (global-rainbow-delimiters-mode)
 

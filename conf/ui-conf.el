@@ -204,4 +204,7 @@ fringes.")
 ;; the cursor's line position and column position will show in the status bar
 (column-number-mode 1)
 
+;; Convert certain words into symbols. Prime example: lambda becomes λ.
+(global-prettify-symbols-mode)
+
 (provide 'ui-conf)

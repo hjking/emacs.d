@@ -7,6 +7,7 @@
 
 (use-package ranger
   :commands (ranger)
+  :disabled t
   :bind (("C-x d" . deer))
   :init (progn
           ;; show dotfiles at ranger startup
