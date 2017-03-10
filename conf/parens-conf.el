@@ -21,10 +21,12 @@
 (use-package smartparens
   :disabled t
   :diminish smartparens-mode
+  :diminish smartparens-strict-mode
   :config
-  (smartparens-global-mode t)
-  (show-smartparens-global-mode t)
-  (use-package smartparens-config)
+   (require 'smartparens-config)
+   (smartparens-global-mode)
+   (smartparens-global-strict-mode)
+   (show-smartparens-global-mode)
 
   ; ;;; markdown-mode
   ; (sp-with-modes '(markdown-mode gfm-mode rst-mode)

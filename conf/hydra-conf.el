@@ -337,6 +337,9 @@
       _s_ hs-minor-mode:      %`hs-minor-mode
       _r_ read-only-mode:     %`buffer-read-only
       _t_ truncate-lines:     %`truncate-lines
+      _w_ wttrin:             %`weather
+      _p_ list-packages:      %`paradox
+      _y_ yas-global-mode:    %`yasnippet
 
       "
       ("a" abbrev-mode nil)
@@ -346,10 +349,13 @@
       ("f" auto-fill-mode nil)
       ; ("h" highlight-indentation-mode nil)
       ; ("j" highlight-changes-mode nil)
+      ("p" list-packages)
       ("t" toggle-truncate-lines nil)
       ("s" hs-minor-mode)
       ("r" read-only-mode)
+      ("w" wttrin)
       ; ("w" whitespace-mode nil)
+      ("y" yas-global-mode)
       ("q" nil "quit"))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -964,38 +970,94 @@
       ("r" org-refile)
       ("c" org-archive-subtree))
 
-    (defhydra hjking-hydra-org-agenda-view (:hint nil)
+    (defhydra hjking-hydra-org-agenda-view (:color red
+                                            :hint nil)
       "
-      _d_: ?d? day        _g_: time grid=?g?  _a_: arch-trees
-      _w_: ?w? week       _[_: inactive       _A_: arch-files
-      _t_: ?t? fortnight  _f_: follow=?f?     _r_: clock report=?r?
-      _m_: ?m? month      _e_: entry text=?e? _D_: include diary=?D?
-      _y_: ?y? year       _q_: quit           _L_/_l_/_c_: log = ?l?
-      "
-      ("SPC" org-agenda-reset-view)
-      ("d" org-agenda-day-view (if (eq 'day (org-agenda-cts)) "[x]" "[ ]"))
-      ("w" org-agenda-week-view (if (eq 'week (org-agenda-cts)) "[x]" "[ ]"))
-      ("t" org-agenda-fortnight-view (if (eq 'fortnight (org-agenda-cts)) "[x]" "[ ]"))
-      ("m" org-agenda-month-view (if (eq 'month (org-agenda-cts)) "[x]" "[ ]"))
-      ("y" org-agenda-year-view (if (eq 'year (org-agenda-cts)) "[x]" "[ ]"))
-      ("l" org-agenda-log-mode (format "% -3S" org-agenda-show-log))
+     _d_: day        _g_: time grid    _a_: arch-trees    _L_: log closed clock
+     _w_: week       _i_: inactive     _A_: arch-files    _c_: log clock check
+     _t_: fortnight  _f_: follow       _r_: report        _l_: log mode toggle
+     _m_: month      _e_: entry        _D_: diary         _q_: quit
+     _y_: year       _!_: deadlines    _R_: reset
+    "
+      ("R" org-agenda-reset-view)
+      ("d" org-agenda-day-view)
+      ("w" org-agenda-week-view)
+      ("t" org-agenda-fortnight-view)
+      ("m" org-agenda-month-view)
+      ("y" org-agenda-year-view)
+      ("l" org-agenda-log-mode)
       ("L" (org-agenda-log-mode '(4)))
       ("c" (org-agenda-log-mode 'clockcheck))
-      ("f" org-agenda-follow-mode (format "% -3S" org-agenda-follow-mode))
+      ("f" org-agenda-follow-mode)
       ("a" org-agenda-archives-mode)
       ("A" (org-agenda-archives-mode 'files))
-      ("r" org-agenda-clockreport-mode (format "% -3S" org-agenda-clockreport-mode))
-      ("e" org-agenda-entry-text-mode (format "% -3S" org-agenda-entry-text-mode))
-      ("g" org-agenda-toggle-time-grid (format "% -3S" org-agenda-use-time-grid))
-      ("D" org-agenda-toggle-diary (format "% -3S" org-agenda-include-diary))
+      ("r" org-agenda-clockreport-mode)
+      ("e" org-agenda-entry-text-mode)
+      ("g" org-agenda-toggle-time-grid)
+      ("D" org-agenda-toggle-diary)
       ("!" org-agenda-toggle-deadlines)
-      ("[" (let ((org-agenda-include-inactive-timestamps t))
-             (org-agenda-check-type t 'timeline 'agenda)
-             (org-agenda-redo)
-             (message "Display now includes inactive timestamps as well")))
-      ("q" (message "Abort") :exit t)
-      ("x" org-agenda-exit :exit t)
-      ("v" nil))
+      ("i"
+       (let ((org-agenda-include-inactive-timestamps t))
+         (org-agenda-check-type t 'timeline 'agenda)
+         (org-agenda-redo)))
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-org-tables (:color red
+                                       :hint nil)
+      "
+     ^Field^   ^Shift^   ^Insert^      ^Delete^         ^Field^     ^Table^      ^Formula^
+    ^^^^^^^^^^^^------------------------------------------------------------------------------
+     ^ ^ _k_ ^ ^   ^ ^ _K_ ^ ^   _r_: row      _dr_: del row    _e_: edit   _a_: align   _+_: sum    _q_: quit
+     _h_ ^+^ _l_   _H_ ^+^ _L_   _c_: column   _dc_: del col    _b_: blank  _|_: create  _=_: eval
+     ^ ^ _j_ ^ ^   ^ ^ _J_ ^ ^   _-_: hline                   _i_: info             _f_: edit
+    "
+      ("a" org-table-align)
+      ("l" org-table-next-field)
+      ("h" org-table-previous-field)
+      ("j" org-table-end-of-field)
+      ("k" org-table-beginning-of-field)
+      ("r" org-table-insert-row)
+      ("c" org-table-insert-column)
+      ("-" org-table-insert-hline)
+      ("J" org-table-move-row-down)
+      ("K" org-table-move-row-up)
+      ("H" org-table-move-column-left)
+      ("L" org-table-move-column-right)
+      ("dr" org-table-kill-row)
+      ("dc" org-table-delete-column)
+      ("b" org-table-blank-field)
+      ("e" org-table-edit-field)
+      ("i" org-table-field-info)
+      ("+" org-table-sum)
+      ("=" org-table-eval-formula)
+      ("f" org-table-edit-formulas)
+      ("|" org-table-create-or-convert-from-region)
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-org-jump (:color pink
+                                 :hint nil)
+      "
+     ^Outline^          ^Item^   ^Table^   ^Block^   ^Link^
+     ^^^^^^^^^^^-------------------------------------------------------------------------------
+     ^ ^ _k_ ^ ^   ^ ^ _K_ ^ ^   ^ ^ _u_ ^ ^   ^ ^ ^ ^ ^ ^   ^ ^ _p_ ^ ^   ^ ^ _P_ ^ ^    _q_ quit
+     _h_ ^+^ _l_   ^ ^ ^+^ ^ ^   ^ ^ ^+^ ^ ^   _b_ ^+^ _f_   ^ ^ ^+^ ^ ^   ^ ^ ^+^ ^ ^
+     ^ ^ _j_ ^ ^   ^ ^ _J_ ^ ^   ^ ^ _d_ ^ ^   ^ ^ ^ ^ ^ ^   ^ ^ _n_ ^ ^   ^ ^ _N_ ^ ^
+    "
+      ("j" outline-next-visible-heading)
+      ("k" outline-previous-visible-heading)
+      ("l" org-down-element)
+      ("h" org-up-element)
+      ("J" org-forward-heading-same-level)
+      ("K" org-backward-heading-same-level)
+      ("u" org-next-item)
+      ("d" org-previous-item)
+      ("f" org-table-next-field)
+      ("b" org-table-previous-field)
+      ("n" org-next-block)
+      ("p" org-previous-block)
+      ("N" org-next-link)
+      ("P" org-previous-link)
+      ("q" nil :color blue))
 
     (defhydra hjking-hydra-buffer (:color blue :columns 3)
       "
@@ -1012,6 +1074,155 @@
       ("D" (progn (kill-this-buffer) (next-buffer)) "Delete" :color red)
       ("s" save-buffer "save" :color red))
 
+    (defhydra hjking-hydra-bookmarks (:color blue :hint nil)
+      "
+      _s_: set  _b_: bookmark   _j_: jump   _d_: delete   _q_: quit
+      "
+      ("s" bookmark-set)
+      ("b" bookmark-save)
+      ("j" bookmark-jump)
+      ("d" bookmark-delete)
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-transpose (:color blue :hint nil)
+      ("c" transpose-chars "Transpose Chars")
+      ("w" transpose-words "Transpose Words")
+      ("l" transpose-lines "Transpose Lines")
+      ("e" transpose-sexps "Transpose Sexps")
+      ("s" transpose-sentences "Transpose Sentences")
+      ("p" transpose-paragraphs "Transpose Paragraphs")
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-smartparens  (:color blue :hint nil)
+      ("j" sp-down-sexp   "move down")
+      ("k" sp-backward-up-sexp    "move backward up")
+      ("h" sp-backward-down-sexp    "move backward down")
+      ("l" sp-up-sexp   "move up")
+      ("f" sp-forward-sexp    "move forward")
+      ("b" sp-backward-sexp   "move backward")
+      ("a" sp-beginning-of-sexp   "move beginning")
+      ("e" sp-end-of-sexp   "move end")
+      ("n" sp-next-sexp   "move next")
+      ("p" sp-previous-sexp   "move previous")
+      (">" sp-forward-barf-sexp   "expression forward barf")
+      ("<" sp-backward-barf-sexp    "expression backward barf")
+      (")" sp-forward-slurp-sexp    "expression forward slurp")
+      ("(" sp-backward-slurp-sexp   "expression backward slurp")
+      ("x" sp-transpose-sexp    "smart transpose")
+      ("d" sp-kill-sexp   "smart delete")
+      ("y" sp-copy-sexp   "smart copy")
+      ("u" sp-unwrap-sexp   "selection unwrap")
+      ("U" sp-backward-unwrap-sexp    "backward unwrap")
+      ("C" sp-convolute-sexp    "convolute sexp")
+      ("r" sp-raise-sexp    "raise sexp")
+      ("s" sp-split-sexp    "split sexp")
+      ("S" sp-splice-sexp   "splice sexp")
+      ("F" sp-splice-sexp-killing-forward   "splice forward")
+      ("B" sp-splice-sexp-killing-backward    "splice backward")
+      ("A" sp-splice-sexp-killing-around    "splice around")
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-align (:color blue :hint nil)
+      ("SPC"     sk/align-whitespace       "align based on spaces")
+      ("&"       sk/align-ampersand        "align based on &")
+      (","       sk/align-comma            "align based on ,")
+      ("\""      sk/align-quote-space      "align based on \"")
+      ("."       sk/align-dot              "align based on .")
+      ("="       sk/align-equals           "align based on =")
+      (":"       sk/align-colon            "align based on :")
+      ("A"       align-regexp              "align based on regex")
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-expand (:pre (er/mark-word)
+                                   :color red
+                                   :hint nil)
+      "
+     _a_: add    _r_: reduce   _q_: quit
+     "
+      ("a" er/expand-region)
+      ("r" er/contract-region)
+      ("q" nil :color blue))
+
+    ; (defhydra hjking-hydra-macros (:color pink
+    ;                                :hint nil)
+    ;   "
+    ;  _m_: macro  _L_: lossage  _v_: view      _n_: forward    _D_: delete   _q_: quit
+    ;  _M_: prev   _E_: edit     _r_: register  _p_: backward   _K_: key
+    ;   "
+    ;   ("m" kmacro-call-macro)
+    ;   ("M" kmacro-call-ring-2nd)
+    ;   ("L" kmacro-edit-lossage :color blue)
+    ;   ("E" kmacro-edit-macro :color blue)
+    ;   ("v" kmacro-view-macro :color blue)
+    ;   ("r" kmacro-to-register :color blue)
+    ;   ("n" kmacro-cycle-ring-next)
+    ;   ("p" kmacro-cycle-ring-previous)
+    ;   ("D" kmacro-delete-ring-head :color blue)
+    ;   ("K" kmacro-bind-to-key :color blue)
+    ;   ("q" nil :color blue))
+
+    (defhydra hjking-hydra-registers (:color blue
+                                      :hint nil)
+      "
+     _a_: append     _c_: copy-to    _j_: jump       _r_: rectangle-copy   _q_: quit
+     _i_: insert     _n_: number-to  _f_: frameset   _w_: window-config
+     _+_: increment  _p_: point-to
+      "
+      ("a" append-to-register)
+      ("c" copy-to-register)
+      ("i" insert-register)
+      ("f" frameset-to-register)
+      ("j" jump-to-register)
+      ("n" number-to-register)
+      ("r" copy-rectangle-to-register)
+      ("w" window-configuration-to-register)
+      ("+" increment-register)
+      ("p" point-to-register)
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-vimish-fold (:color red
+                                        :hint nil)
+      "
+     _f_: fold  _u_: unfold  _r_: refold  _t_: toggle  _d_: delete    _n_: next      _q_: quit
+              _U_: Unfold  _R_: Refold  _T_: Toggle  _D_: Delete    _p_: previous
+      "
+      ("f" vimish-fold)
+      ("u" vimish-fold-unfold)
+      ("r" vimish-fold-refold)
+      ("t" vimish-fold-toggle)
+      ("d" vimish-fold-delete)
+      ("U" vimish-fold-unfold-all)
+      ("R" vimish-fold-refold-all)
+      ("T" vimish-fold-toggle-all)
+      ("D" vimish-fold-delete-all)
+      ("n" vimish-fold-next-fold)
+      ("p" vimish-fold-previous-fold)
+      ("q" nil :color blue))
+
+    (defhydra hjking-hydra-for-elisp (:color red
+                                      :hint nil)
+      "
+     ^Send^                         ^Navigate^                       ^Documentation^
+    ^^^^^^^^^^-----------------------------------------------------------------------------------
+     _r_: region    _e_: expression   _i_: library    _D_: defun         _q_: quit
+     _f_: func      _l_: last sexp    _d_: defun      _n_: find dired    _V_: variable
+     _b_: buffer    _s_: ielm         _v_: variable   _g_: grep          _I_: library
+    "
+      ("r" eval-region)
+      ("f" eval-defun)
+      ("b" eval-buffer)
+      ("e" eval-expression :color blue)
+      ("l" eval-last-sexp)
+      ("s" ielm :color blue)
+      ("i" find-library)
+      ("d" find-function-at-point)
+      ("v" find-variable)
+      ("n" find-dired)
+      ("g" find-grep-dired)
+      ("D" describe-function)
+      ("V" describe-variable)
+      ("I" describe-library)
+      ("q" nil :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Key Binding
@@ -1020,6 +1231,7 @@
     (define-key hjking-mode-map "b" 'hjking-hydra-buffer-move/body)
     (define-key hjking-mode-map "c" 'hjking-hydra-multiple-cursors/body)
     (define-key hjking-mode-map "d" 'hjking-hydra-delete/body)
+    (define-key hjking-mode-map "f" 'hjking-hydra-delete/body)
     ; (define-key hjking-mode-map "h" 'hjking-hydra-hl-anything/body)
     ; (define-key hjking-mode-map "l" 'hjking-hydra-buffer-move/body)
     (define-key hjking-mode-map "g" 'hjking-hydra-git/body)
@@ -1035,6 +1247,8 @@
     (define-key hjking-mode-map "y" 'hjking-hydra-yasnippet/body)
     (define-key hjking-mode-map "z" 'hjking-hydra-zoom/body)
     (define-key hjking-mode-map "." 'hjking-hydra-buffer-menu/body)
+    (define-key hjking-mode-map "@" 'hjking-hydra-macro/body)
+    (define-key hjking-mode-map "\"" 'hjking-hydra-registers/body)
 
     )
   )

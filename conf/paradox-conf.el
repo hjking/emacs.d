@@ -8,6 +8,7 @@
   :init
   (setq paradox-lines-per-entry 1)
   (setq paradox-automatically-star t)
+  (setq paradox-github-token t)
   :config
   (progn
     ;; The "paradox-token" file is supposed to contain this line:

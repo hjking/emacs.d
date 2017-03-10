@@ -11,8 +11,6 @@
 (setq tab-width 4)
 ;; Use spaces, not tabs
 (setq-default indent-tabs-mode nil)
-;; a single space does end a sentence
-(setq sentence-end-double-space nil)
 
 (setq backward-delete-char-untabify nil)
 

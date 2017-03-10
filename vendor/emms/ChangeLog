@@ -1,3 +1,496 @@
+commit 081edb0b426625efce8fd929d1ac4f9206e11010
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Nov 8 09:44:13 2016 -0500
+
+    Update version for release.
+
+commit 6736d2e86d2909ef44759b1162e006bd5cc07547
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Nov 7 18:15:04 2016 -0500
+
+    * lisp/emms-stream-info.el: Remove preference and document.
+    
+    Removes the built-in preference for mplayer, but also clearly documents
+    how one would go about choosing either mplayer or vlc to query the
+    streams.
+
+commit 591dbffe1449b5ba80885f2ce37ada4351d6417d
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Oct 25 10:50:33 2016 -0400
+
+    * NEWS: Update NEWS with previous work.
+
+commit 8484319bc2b6a7d7d281ad06d969cb592b804922
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Oct 25 10:49:48 2016 -0400
+
+    Correct email address for maintainer.
+
+commit cbbe0980565bc6e9b83d04e11d11f4c7aed9ff4f
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Oct 25 10:25:55 2016 -0400
+
+    * Makefile: install emms-print-metadata
+
+commit 4148457ab5d314c05d3b7a1716e26a23f1c9c237
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Oct 25 09:33:41 2016 -0400
+
+    * lisp/emms-stream-info.el: rename emms-stream-info-backend.
+
+commit 02c5183a484b12d529b0901a81604eb658bec8d3
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Aug 1 16:52:16 2016 -0400
+
+    * AUTHORS: add Daniel Dehennin
+    
+    <daniel.dehennin@baby-gnu.org>
+
+commit ad03c9cf42733e9c8ba5be54d2fac452c12ad09b
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Aug 1 16:49:50 2016 -0400
+
+    * lisp/emms-tag-editor.el: fix "query-replace-read-args"
+    
+    Author: Daniel Dehennin <daniel.dehennin@baby-gnu.org>
+    
+        emms-tag-editor: fix “query-replace-read-args” use
+    
+        Since emacs commit 3ee4cd6482abbabb06630a6c725277d42061eee7[1] the
+        retult value of “query-replace-read-args” changed which broke
+        “emms-tag-editor-replace-in-tag”.
+    
+        * lisp/emms-tag-editor.el: Remove last two elements from
+          query-replace-read-args results.
+    
+        Footnotes:
+        [1]  http://git.savannah.gnu.org/cgit/emacs.git/commit/?id=3ee4cd6482abbabb06630a6c725277d42061eee7
+
+commit e63f143cce434aa17076ed6f437ed5bfd5db6d9d
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Aug 1 11:43:48 2016 -0400
+
+    * lisp/emms-tag-editor.el: Make cons cell usable.
+    
+    Make cons cell usable when replacing a tag. Patch by Daniel Dehennin
+    <daniel.dehennin@baby-gnu.org>.
+
+commit 92b982757880ffbe37ef8b2e7d6166c5440d94f0
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Aug 1 11:32:01 2016 -0400
+
+    * lisp/emms-tag-editor.el: Avoids FLAC tags dup.
+    
+    Avoids FLAC tags duplication with old values. Patch by Daniel Dehennin
+    <daniel.dehennin@baby-gnu.org>.
+
+commit bec63d3ea62dafc4158c35abdf7e9180419a3f78
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sat Jul 9 12:33:04 2016 -0400
+
+    * Makefile: add .info suffix.
+    
+    Bug submitted by Alex Vong <alexvong1995@gmail.com>.
+
+commit 56373a1752582edbd0cb9881cf843d9f87cfcf56
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Jun 24 16:53:53 2016 -0400
+
+    * lisp/emms-streams.el: Remove defunct streams.
+    
+    Remove streams which are defunct for one reason or another. Patch thanks
+    to Alejandro Erickson <alejandro.erickson@gmail.com>.
+
+commit bb8bb83cd83b02ba57e3283475d7fd2689ea5c33
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue May 31 12:30:18 2016 -0400
+
+    * doc/developer-release.txt: add note
+
+commit c1e1a843c3389fc585908de367ff00fdd6470965
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue May 31 12:23:43 2016 -0400
+
+    Prepare 4.1 release.
+
+commit ac15f46e19d259e5d49acdac877d0793be1c1ebe
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Apr 11 15:42:05 2016 -0400
+
+    * lisp/tq.el: no need for tq.el apparently
+
+commit 0178d1c665f39838ca6fa7e53437cca15fa3a1de
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Mar 4 12:20:00 2016 -0500
+
+    Add emms-show-all to NEWS and manual.
+
+commit 7b41cead0877e182caff609d59cf37c817ee8136
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Mar 1 12:44:00 2016 -0500
+
+    * lisp/emms-setup.el: add emms-show-all
+
+commit 7dc45e62de613e70556e6ffaf61cfb1a6706c788
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Mar 1 12:43:50 2016 -0500
+
+    * lisp/emms-show-all.el: fix compiler warning
+
+commit 59bb98c5c63b305259e677103badb001eec98896
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Mar 1 12:36:04 2016 -0500
+
+    * lisp/emms-show-all.el: first implementation
+
+commit 8ba0a5eb1991544ef91ea90772b614f9ab7d953c
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sun Feb 28 22:03:16 2016 -0500
+
+    * lisp/emms-show-all.el: new file
+
+commit 6f630442faac593e19d04c21009674b310a98ed5
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sun Feb 28 09:49:26 2016 -0500
+
+    * doc/emms.texinfo: bump copyright year
+
+commit 141ab95c2a0a2554b205f6eec991fa36d7d0531f
+Author: Rasmus <rasmus@gmx.us>
+Date:   Sun Feb 7 13:08:33 2016 +0100
+
+    Fix bug in emms-browser.el
+    
+    * lisp/emms-browser.el: setq requires an even number of arguments now.
+
+commit 489df29303fc89d4f80bffae91ad53f937ccd59a
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Dec 11 14:55:11 2015 -0500
+
+    * NEWS: Update.
+
+commit 7efa5eae3ffba30335c466c1cfbbb62eab50786c
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Dec 11 14:53:19 2015 -0500
+
+    * doc/emms.texinfo: Document the emms-setup.el change.
+
+commit 72d74b1b9af412f8ed4a8be69c3798dd904f6db3
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Dec 11 14:21:20 2015 -0500
+
+    * lisp/emms-setup.el: Depreciate emms-devel and emms-standard.
+    
+    The functions `emms-devel' and `emms-standard' are now synonymous with
+    `emms-all' which loads everything.
+
+commit 04de0b50a5a572c2065073bdebbb18e3e2717e50
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Fri Dec 11 12:36:25 2015 -0500
+
+    * doc/emms.texinfo: Make it read better.
+
+commit d3ef182013df50b411d9927715444401b4c64504
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Thu Dec 10 18:22:37 2015 -0500
+
+    * doc/emms.texinfo: Reorganize.
+    
+    Move the Quickstart Guide chapter to the very beginning and re-write it
+    to be the tl;dr of the manual.
+
+commit 0cd9cd79678c3bb21d97764bf1d75fabd4dd75c5
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Thu Dec 10 18:22:22 2015 -0500
+
+    * doc/emms.texinfo: Out of date.
+
+commit 3c9c1562f12c79151c04158a760f7090629c3c4e
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Thu Dec 10 18:21:58 2015 -0500
+
+    * doc/emms.texinfo: Bump copyright year.
+
+commit 420070f079258b3800c466f2b80d9c8ce6984195
+Author: Rasmus <rasmus@gmx.us>
+Date:   Mon Aug 10 17:23:52 2015 +0200
+
+    emms-browser-goto-random only goes to lowest level
+    
+    emms-browser-goto-random only considers item of lowest level.  For
+    instance, in level 2 emms-browser-goto-random will only stop once an
+    albums has been found and so forth.
+
+commit f1c504eae7a46d24e679c992c093b8bcd63ab32b
+Author: Rasmus <rasmus@gmx.us>
+Date:   Mon Aug 10 16:44:10 2015 +0200
+
+    Sort using locale language in the browser
+    
+    - Use string-collate-lessp if available for alphabetic sorting.
+    - Use emms-browser-alpha-sort-function to sort in the browser.
+
+commit 55ff581b1e7d8b0b290834e87221baadd95db1ff
+Author: Rasmus <rasmus@gmx.us>
+Date:   Tue May 19 16:36:41 2015 +0200
+
+    emms-url: add emms-url-quote-underscore
+    
+    The function is used in emms-lyrics, but was not commited previously.
+
+commit 167d1efabfcffb5e1e2aacc8dcb7225d33eb4b32
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Mar 30 11:28:26 2015 -0400
+
+    * NEWS: Add https support.
+
+commit e7b16fa8b114b80e4752df5db370bdee233a4093
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sun Mar 29 22:45:17 2015 -0400
+
+    * lisp/emms-setup.el: Bug fix: Add missing default player.
+
+commit 4088cda083823455512369a66a82769ff7eae9ed
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sun Mar 29 22:44:14 2015 -0400
+
+    Add https as a recognizable connection option.
+    
+    Note that not all backends know how to play through an https connection.
+
+commit 1ca398268d28644bb955560612ed881d783078d0
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sun Mar 29 22:42:41 2015 -0400
+
+    Move librefm to https.
+    
+    Note that some player backends don't know how to handle https.
+
+commit 7df41c3237a6e855d0568bf9b67642cab61a8184
+Author: Rasmus <rasmus@gmx.us>
+Date:   Sun Mar 22 13:15:38 2015 +0100
+
+    emms-browser:  fix bug in 9e48ab1a
+    
+    move emms-volume directly to emms-browser mode map.
+
+commit 6bc53c76eadaee1ba37d6301c28ac987d77c0124
+Author: Rasmus <rasmus@gmx.us>
+Date:   Sun Mar 15 17:31:30 2015 +0100
+
+    emms-lyrics: Use eww if present to display lyrics
+    
+    Lyrics are now fetched from lyricwiki.org.  It is possible to change the
+    url, but it assumes a certain order of the format string.
+
+commit 9e48ab1ab4cdeee69bfa8d327b54f85f6a54115f
+Author: Rasmus <rasmus@gmx.us>
+Date:   Sun Mar 15 16:42:59 2015 +0100
+
+    emms-volume: Also support the emms-browser
+    
+    Also bind +/- to emms-volume commands in the browser.
+
+commit c31de7a307a996a601bcc8e458674cef41f58358
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Mon Mar 16 21:29:45 2015 -0400
+
+    Added setting volume via PulseAudio.
+    
+    Possible to set volume via PulseAudio pactl via emms-volume-pulse.el.
+    
+    Patch by Rasmus Pank Roulund <emacs@pank.eu>.
+
+commit a2f4ee1aeaf433801b57163829b969b5a055949a
+Author: rasmus <rasmus@gmx.us>
+Date:   Tue Mar 10 12:55:27 2015 +0100
+
+    Fix bug in introduced in 428d662
+    
+    - emms.texinfo: used wrong variable.
+    - emms-librefm-scrobbler.el: remove warning.
+
+commit 428d6628917a3a413a0da30be2192c8822cc5db1
+Author: rasmus <rasmus@gmx.us>
+Date:   Sun Mar 8 21:03:25 2015 +0100
+
+    emms-librefm-scrobbler.el: Add Commentary-section
+    
+    Add minimal instructions on how to enable scrobbling.
+
+commit d12e1dc2cfd8773c8c7bfb207e2fbcaad9d674a5
+Author: Rasmus <rasmus@gmx.us>
+Date:   Tue Jul 29 15:31:06 2014 +0200
+
+    emms-info libtag.el: Easier to add new extension
+    
+    * emms-print-metadata.c (main): Better error message.
+    * emms-info-libtag.el
+    (emms-info-libtag): New group.
+    (emms-info-libtag-program-name): Change to defcustom.
+    (emms-info-libtag-known-extensions): New variable.
+    (emms-info-libtag): Use emms-info-libtag-known-extensions.
+    
+    Two changes: First, emms-info-libtag tells the user that it may work
+    with other forms.  Since emms-info-libtag-known-extensions is now a
+    regexp variable so users can easily add new extensions, if needed.
+
+commit 3f3dc1058db5f7accbc06e80e9ad329aec2ef434
+Author: Rasmus <rasmus@gmx.us>
+Date:   Tue Jul 29 12:59:38 2014 +0200
+
+    emms-librefm-scrobbler.el: use authinfo
+    
+    The recommended way to store libre.fm login details are now via
+    authinfo.  See emms-librefm-scrobbler--username,
+    emms-librefm-scrobbler--password and the manual.
+
+commit dbcdc8513919dde524dcf2fa434a4b8e4770e57f
+Author: rasmus <x200s@pank.eu>
+Date:   Sun Mar 8 19:52:15 2015 +0100
+
+    Add Rasmus to AUTHORS.
+
+commit 09f5512e348213af7095f150bb5f7546971d482f
+Author: rasmus <x200s@pank.eu>
+Date:   Sun Mar 8 19:52:02 2015 +0100
+
+    Handle covers with different file extensions
+    
+    Covers are can now have different file extensions.  See
+    emms-browser-covers-file-extensions.  The first file from
+    emms-browser--covers-filename, which is build when needed, is used.
+
+commit e248dcd4b9bf1763fc84c719c745f7d23f06b13c
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Dec 2 15:02:58 2014 -0500
+
+    * lisp/emms-player-simple.el: Remove old documentation.
+
+commit 857229ca8fa7f058e956cf9dcfbae19d23f2e50b
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Dec 2 15:01:39 2014 -0500
+
+    Add and use variable `emms-player-base-format-list'.
+    
+    This variable holds the set of common formats that most modern players
+    support. A new player definition should use this base list and add
+    formats specific to the new player in the player definition file.
+
+commit 65550e4d2afbd2f9d068539e0867f91ec16b068b
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Tue Nov 4 15:38:50 2014 -0500
+
+    Add aif files to the recognized file types.
+
+commit 9b227a807b84151ae4cbb60b47a27046ce1d84fe
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sat Oct 25 20:18:32 2014 -0400
+
+    * THANKGNU: Be a bit more thankful.
+
+commit d67c1a10a62e81088d5a49cbf13f9247804cfe6e
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Sat Oct 25 20:17:20 2014 -0400
+
+    Change the way lines are killed in emms-playlist-mode.
+    
+    This change was requested by Rasmus and Michael Olson.
+
+commit 6b5fa99bbecaace60d0879f54b5e6fa74bbc84a1
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Sun Oct 19 22:24:42 2014 -0400
+
+    Use commit logs to move people between AUTHORS and THANKGNUs.
+
+commit cf547c5df1bf18e243b822626bf3af1b9d60d6ac
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Sun Oct 19 22:05:57 2014 -0400
+
+    * AUTHORS: Add Nick Alcock.
+
+commit 50846d2271f8058debe8e8b870dd1fdb9a362085
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Sat Oct 18 22:02:52 2014 -0400
+
+    * THANKGNU: Add THANKGNUs based on commit records.
+
+commit 9064f95f5b4cc1f66d4ad6173b25532946e70524
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Sat Oct 18 22:02:35 2014 -0400
+
+    * AUTHORS: Add to AUTHORS based on commit records.
+
+commit 5a3c93d3c8132f8235c8a80d1779c490534910e7
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Wed Oct 15 23:09:09 2014 -0400
+
+    * doc/emms.texinfo: Document emms-print-metadata.
+
+commit 36274e2f2c25d27d7679a78a98e813d5336687ff
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Tue Oct 14 12:26:32 2014 -0400
+
+    Move Jesse Weinstein's contribution to the new THANKGNU file.
+
+commit e03288e8d660e18cd55f5707447843212811c78f
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Mon Oct 13 20:11:10 2014 -0400
+
+    * src/emms-print-metadata.c: Fix crash.
+    
+    Short (4 lines) contrib from Arnaud Fontaine <arnau@debian.org>.
+    See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=715864
+    also: https://vcs-git-viewer.duckcorp.org/?p=people/arnau/emms.git;a=commit;h=27825228ba9d62902b75c45b1ffee3893b22cea8
+
+commit 22ca956b821e44802446d1ee8e412d6790ce17f4
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Wed Aug 20 15:51:38 2014 -0400
+
+    Add thing-at-point to interactive input.
+    
+    Patch by Daimrod <daimrod@gmail.com>. Change too small for copyright
+    papers.
+
+commit 96c9802e97742be2e44482f2ea16123436b35fd6
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Wed Aug 20 15:51:15 2014 -0400
+
+    * lisp/emms-source-file.el: Add customization parameters.
+    
+    Patch by Daimrod <daimrod@gmail.com>. Change too small for copyright
+    papers.
+
+commit da3870519dffd9a04e0683caff974cdedd6e356d
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Wed Aug 20 15:42:47 2014 -0400
+
+    Add FLV and WEBM formats.
+    
+    Patch by Daimrod <daimrod@gmail.com>. Change too small for copyright.
+
+commit 43a32aefb6a175bdd41ea2342d0acdae5591d988
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Sun Aug 3 01:09:37 2014 -0400
+
+    * doc/emms.texinfo: Add documentation note.
+    
+    Thanks to Alexis <flexibeast@gmail.com>.
+
+commit 7d555717a18520cdb8d0f765296a01742377d204
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Mon Jul 28 18:10:14 2014 -0400
+
+    Correct documentation.
+    
+    Changes by Alexis <flexibeast@gmail.com>.
+
+commit 20d90b02ad06e1e604c985f1fc328d72feafb888
+Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+Date:   Mon Jul 28 18:09:51 2014 -0400
+
+    * Makefile: Update ftp.gnu.org push script to 1.2.
+
 commit 8c3d80db566c96255b31b4ca8826c858a1a1cfb7
 Author: Yoni Rabkin <yonirabkin@member.fsf.org>
 Date:   Mon Jun 30 15:05:41 2014 -0400

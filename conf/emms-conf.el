@@ -8,21 +8,37 @@
 (message "%d: >>>>> Loading [ EMMS ] Customizations File ...." step_no)
 (setq step_no (1+ step_no))
 
+;; ,----
+;; | Dependency
+;; `----
+
 ;; set the location of the music player in Win
 (when win32p
   (if (file-directory-p "D:/Tools/MPlayer")
       (add-to-list 'exec-path "D:/Tools/MPlayer")
     (message "*** Warning!! Please install MPlayer first!!"))
-  (setq emms-print-metadata-dir (concat my-emms-load-path "emms-print-metadata/"))
-  (if (file-directory-p emms-print-metadata-dir)
-    (add-to-list 'exec-path emms-print-metadata-dir))
+  (setq my-emms-print-metadata-dir (concat my-emms-load-path "emms-print-metadata/"))
+  (if (file-directory-p my-emms-print-metadata-dir)
+    (add-to-list 'exec-path my-emms-print-metadata-dir))
   )
 
+;; ,----
+;; | Basic
+;; `----
+
+;;; Quick-Setup
+;; All what we need is the following block
 (require 'emms-setup)
+;; Loads all the stable features which come with the Emms distribution.
+(emms-all)
+;; Set emms-player-list to emms-setup-default-player-list.
+(emms-default-players)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Configuration
 (require 'emms-player-mplayer)
 (require 'emms-streams)
-(emms-all)
-(emms-default-players)
+
 ; (require 'emms-source-file)
 ; (require 'emms-source-playlist)
 ; (require 'emms-player-simple)
@@ -53,7 +69,11 @@
 
 ;;(setq emms-player-mplayer-command-name "mplayer.exe")
 
-(setq my-emms-conf-dir (concat my-emacs-dir "emms/"))
+;; ,----
+;; | cache
+;; `----
+
+(setq my-emms-conf-dir (concat my-cache-dir "emms/"))
 (unless (file-directory-p my-emms-conf-dir)
     (make-directory my-emms-conf-dir))
 
@@ -63,6 +83,7 @@
 (setq emms-cache-file (concat my-emms-conf-dir "emms-cache"))
 ;; (setq emms-history-file "~/.emacs.d/emms/emms-history")
 (setq emms-history-file (concat my-emms-conf-dir "emms-history"))
+
 (setq emms-playlist-buffer-name "EMMS Music Playlist")
 ;; 设定EMMS用播放列表的主模式
 (setq emms-playlist-default-major-mode 'emms-playlist-mode)
@@ -348,26 +369,26 @@
 ;; compatible with emms-playlist mode keybindings
 ;; you can view emms-playlist-mode.el to get details about
 ;; emms-playlist mode keys map
-(global-set-key (kbd "C-c e s") 'emms-stop)
-(global-set-key (kbd "C-c e SPC") 'emms-pause)
-(global-set-key (kbd "C-c e n") 'emms-next)
-(global-set-key (kbd "C-c e p") 'emms-previous)
-(global-set-key (kbd "C-c e f") 'emms-show)
-(global-set-key (kbd "C-c e >") 'emms-seek-forward)
-(global-set-key (kbd "C-c e <") 'emms-seek-backward)
-;; these keys maps were derivations of above keybindings
-(global-set-key (kbd "C-c e x") 'emms-start)
-(global-set-key (kbd "C-c e g") 'emms-playlist-mode-go)
-(global-set-key (kbd "C-c e t") 'emms-play-directory-tree)
-(global-set-key (kbd "C-c e h") 'emms-shuffle)
-(global-set-key (kbd "C-c e e") 'emms-play-file)
-(global-set-key (kbd "C-c e l") 'emms-play-playlist)
-(global-set-key (kbd "C-c e r") 'emms-toggle-repeat-track)
-(global-set-key (kbd "C-c e R") 'emms-toggle-repeat-playlist)
-(global-set-key (kbd "C-c e u") 'emms-score-up-playing)
-(global-set-key (kbd "C-c e d") 'emms-score-down-playing)
-(global-set-key (kbd "C-c e o") 'emms-score-show-playing)
-(global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
+; (global-set-key (kbd "C-c e s") 'emms-stop)
+; (global-set-key (kbd "C-c e SPC") 'emms-pause)
+; (global-set-key (kbd "C-c e n") 'emms-next)
+; (global-set-key (kbd "C-c e p") 'emms-previous)
+; (global-set-key (kbd "C-c e f") 'emms-show)
+; (global-set-key (kbd "C-c e >") 'emms-seek-forward)
+; (global-set-key (kbd "C-c e <") 'emms-seek-backward)
+; ;; these keys maps were derivations of above keybindings
+; (global-set-key (kbd "C-c e x") 'emms-start)
+; (global-set-key (kbd "C-c e g") 'emms-playlist-mode-go)
+; (global-set-key (kbd "C-c e t") 'emms-play-directory-tree)
+; (global-set-key (kbd "C-c e h") 'emms-shuffle)
+; (global-set-key (kbd "C-c e e") 'emms-play-file)
+; (global-set-key (kbd "C-c e l") 'emms-play-playlist)
+; (global-set-key (kbd "C-c e r") 'emms-toggle-repeat-track)
+; (global-set-key (kbd "C-c e R") 'emms-toggle-repeat-playlist)
+; (global-set-key (kbd "C-c e u") 'emms-score-up-playing)
+; (global-set-key (kbd "C-c e d") 'emms-score-down-playing)
+; (global-set-key (kbd "C-c e o") 'emms-score-show-playing)
+; (global-set-key (kbd "C-c e a") 'emms-add-directory-tree)
 ;; (global-set-key (kbd "<f5>") 'emms-playlist-mode-go)
 
 ;; playlist-mode-map

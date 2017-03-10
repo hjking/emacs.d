@@ -81,7 +81,6 @@
       "C-c C-t" "header"
       "C-c C-x" "move")
 
-
     (which-key-setup-side-window-right-bottom)
 
     (which-key-mode)

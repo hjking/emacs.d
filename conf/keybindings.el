@@ -150,8 +150,8 @@
 ;;  (global-set-key "\M-r"              'hjking/copy-paragraph)
 
 ;; Alt-S Alt-N for tagged searches
-(global-set-key "\M-s"              'tags-search)
-(global-set-key "\M-n"              'tags-loop-continue)
+; (global-set-key "\M-s"              'tags-search)
+; (global-set-key "\M-n"              'tags-loop-continue)
 
 ;; similar to C-o/C-i in vim
 (require 'recent-jump nil t)
@@ -291,15 +291,15 @@ point reaches the beginning or end of the buffer, stop there."
 
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 
-(global-set-key (kbd "M-t") nil) ;; Remove the old keybinding
-(global-set-key (kbd "M-t c")       'transpose-chars)
-(global-set-key (kbd "M-t w")       'transpose-words)
-(global-set-key (kbd "M-t t")       'transpose-words)
-(global-set-key (kbd "M-t M-t")     'transpose-words)
-(global-set-key (kbd "M-t l")       'transpose-lines)
-(global-set-key (kbd "M-t e")       'transpose-sexps)
-(global-set-key (kbd "M-t s")       'transpose-sentences)
-(global-set-key (kbd "M-t p")       'transpose-paragraphs)
+; (global-set-key (kbd "M-t") nil) ;; Remove the old keybinding
+; (global-set-key (kbd "M-t c")       'transpose-chars)
+; (global-set-key (kbd "M-t w")       'transpose-words)
+; (global-set-key (kbd "M-t t")       'transpose-words)
+; (global-set-key (kbd "M-t M-t")     'transpose-words)
+; (global-set-key (kbd "M-t l")       'transpose-lines)
+; (global-set-key (kbd "M-t e")       'transpose-sexps)
+; (global-set-key (kbd "M-t s")       'transpose-sentences)
+; (global-set-key (kbd "M-t p")       'transpose-paragraphs)
 
 (global-set-key (kbd "M-#")         'sacha/search-word-backward)
 (global-set-key (kbd "M-*")         'sacha/search-word-forward)

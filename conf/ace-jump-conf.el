@@ -11,6 +11,8 @@
   :init
   (bind-key "C-x SPC" 'ace-jump-mode))
 
+(provide 'ace-jump-conf)
+
 ;;If you also use viper mode :
 ;; (define-key viper-vi-global-user-map (kbd "SPC") 'ace-jump-mode)
 ;;If you use evil

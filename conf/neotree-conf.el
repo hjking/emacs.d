@@ -4,6 +4,8 @@
 
 (use-package neotree
   :commands (neotree neotree-toggle)
+  :init
+   (setq neo-smart-open t)
   )
 
 (provide 'neotree-conf)

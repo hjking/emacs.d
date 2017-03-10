@@ -61,7 +61,7 @@
     (setq lazy-lock-defer-contextually t)
     (setq lazy-lock-defer-time 0)
     ;make a #define be left-aligned
-    (setq c-electric-pound-behavior (quote (alignleft)))
+    (setq c-electric-pound-behavior '(alignleft))
 
     ;; minor mode
     (auto-fill-mode 1)

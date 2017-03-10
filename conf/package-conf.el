@@ -12,10 +12,15 @@
                   ; ("melpa-stable" . "http://stable.melpa.org/packages/")
                   ;; development versions of melpa packages
                   ; ("melpa" . "http://melpa.org/packages/")
+
                   ;; emacs-china mirror
-                  ("melpa" . "http://elpa.zilongshanren.com/melpa/")
-                  ("gnu"   . "http://elpa.zilongshanren.com/gnu/")
-                  ; ("melpa" . "http://melpa.org/packages/")
+                  ; ("melpa" . "http://elpa.zilongshanren.com/melpa/")
+                  ; ("gnu"   . "http://elpa.zilongshanren.com/gnu/")
+
+                  ;; tsinghua mirror
+                  ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                  ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                  ; ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
                   ; ("myelpa" . "~/.emacs.d/myelpa")
                   ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
                   ;; org
@@ -88,6 +93,22 @@
     evil-nerd-commenter
     calfw
     general
+    origami
+    color-theme-sanityinc-tomorrow
+    deft
+    wttrin
+    crux
+    ivy-hydra
+    spaceline
+    goto-last-change
+    neotree
+    gotham-theme
+    monokai-theme
+    popup
+    esup
+    discover-my-major
+    csv-mode
+    graphviz-dot-mode
   )
 "A list of packages to ensure are installed at launch.")
 
@@ -104,8 +125,7 @@
     (package-install package)))
 
 (defun prelude-require-packages (packages)
-  "Ensure PACKAGES are installed.
-Missing packages are installed automatically."
+  "Ensure PACKAGES are installed. Missing packages are installed automatically."
   (mapc #'prelude-require-package packages))
 
 (define-obsolete-function-alias 'prelude-ensure-module-deps 'prelude-require-packages)

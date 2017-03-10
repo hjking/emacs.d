@@ -145,10 +145,13 @@
   )
 
 
-;; highlight changes made by commands such as undo, yank-pop, etc.
+;; Temporarily highlights changes to the buffer associated with certain
+;; commands that add blocks of text at once. An example is that if you
+;; paste (yank) a block of text, it will be highlighted until you press the next key.
 (use-package volatile-highlights
-  :disabled t
+  ; :disabled t
   :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
+  :diminish volatile-highlights-mode
   :config
    (volatile-highlights-mode t))
 

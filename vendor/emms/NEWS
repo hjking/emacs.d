@@ -1,3 +1,26 @@
+News since version 4.1:
+
+  - Removed defunct streams.
+  - Various emms-tag-editor bug fixes.
+  - Bug fix: Info file now installs with correct suffix.
+  - Bug fix: `make install' now installs emms-print-metadata.
+
+News since version 4.0:
+
+  - Change the default behavior of C-k in emms-playlist-mode.
+  - Covers can have several extensions.  See
+    `emms-browser-covers-file-extensions'.
+  - Libre.fm login details can, and should, be stored in authinfo now.
+  - Possible to set volume via PulseAudio pactl via
+    emms-volume-pulse.el.
+  - emms-lyrics.el now uses eww if present.  Also EMMS tries to fetch
+    non-Chinese lyrics from lyricwiki.org.
+  - Add HTTPS support where possible.
+  - Sort using locale language in the browser, if possible.
+  - emms-setup.el has been simplified.
+  - The Emms manual has been revised to help new users.
+  - New feature: M-x emms-show-all.
+
 News since version 3.0:
 
   - Add GNU FM support.

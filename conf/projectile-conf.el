@@ -6,7 +6,8 @@
          ("C-c p d" . projectile-find-dir)
          ("C-c p g" . projectile-grep)
          ("C-c p p" . projectile-find-file))
-  :commands (projectile-ack
+  :commands (projectile-global-mode
+             projectile-ack
              projectile-ag
              projectile-compile-project
              projectile-dired
@@ -55,7 +56,7 @@
     ;; probably also want to set
     ;; (setq projectile-find-dir-includes-top-level t)
     ; (defconst projectile-mode-line-lighter " P")
-
+    (setq projectile-enable-idle-timer t)
     )
   :config (progn
     ;; Don't consider my home dir as a project

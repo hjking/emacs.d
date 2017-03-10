@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Fri Oct 28 13:58:59 2016 (+0800)
+;; Last-Updated: Fri Mar 10 16:29:50 2017 (+0800)
 ;; Version:
-;;     Update #: 42
+;;     Update #: 56
 ;;
 ;;; Change Log:
 ;;
@@ -22,28 +22,22 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; my-custom.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(blink-cursor-mode nil)
- '(column-number-mode t)
- '(org-agenda-files
-   (quote
-    ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org")))
- '(package-selected-packages
-   (quote
-    (swiper spaceline goto-last-change neotree gotham-theme monokai-theme calfw ztree use-package stripe-buffer smooth-scrolling ranger popup persp-projectile paredit paradox org-trello org-toc names miniedit info+ indent-guide guide-key-tip gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ csv-mode counsel company-c-headers beacon async aggressive-indent ace-window)))
- '(paradox-github-token t)
- '(projectile-enable-idle-timer t)
- '(session-use-package t nil (session))
- '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray")))
- '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t))))
- '(org-headline-done ((((class color) (min-colors 16) (background dark)) (:foreground "LightSalmon" :strike-through t)))))
+ '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t)))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/gpon.org" "~/org/work/hgu.org" "~/org/work/hgu_sim.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org" "~/org/topics/call.org" "~/org/topics/diary.org" "~/org/topics/habit.org" "~/org/topics/journal.org" "~/org/topics/listen-read-watch.org" "~/org/topics/notes.org")))
+ '(package-selected-packages
+   (quote
+    (bongo graphviz-dot-mode ztree wttrin use-package stripe-buffer spaceline smooth-scrolling ranger popup persp-projectile paredit paradox origami org-trello org-toc neotree names monokai-theme miniedit ivy-hydra info+ indent-guide goto-last-change gotham-theme gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-sanityinc-tomorrow calfw beacon async aggressive-indent ace-window)))
+ '(session-use-package t nil (session)))

@@ -21,10 +21,16 @@
 ;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 ;; MA 02110-1301, USA.
 
+;;; Commentary:
+
+;; To use libre.fm you need to add username and password to
+;; ~/.authinfo.gpg or an equivalent file understood by auth-source.
+;; To enable scrobbling call (emms-librefm-scrobbler-enable).
 
 ;;; Code:
 
 (require 'emms-playing-time)
+(require 'auth-source)
 
 
 (defvar emms-librefm-scrobbler-handshake-url
@@ -32,16 +38,21 @@
   "Endpoint for client handshake.")
 
 (defvar emms-librefm-scrobbler-method
-  "http"
+  "https"
   "Transfer method.")
 
-(defvar emms-librefm-scrobbler-username
-  ""
-  "Libre.fm username.")
+(defvar emms-librefm-scrobbler-username nil
+  "Libre.fm username.
 
-(defvar emms-librefm-scrobbler-password
-  ""
-  "Libre.fm user password.")
+Note that the preferred way of authenticating is using authinfo
+and only setting `emms-librefm-scrobbler-handshake-url'.  See the
+manual for details.")
+
+(defvar emms-librefm-scrobbler-password nil
+  "Libre.fm user password.
+
+Note that the preferred way of authenticating is using authinfo.
+See also `emms-librefm-scrobbler-username'.")
 
 (defvar emms-librefm-scrobbler-debug
   ""
@@ -67,6 +78,33 @@
   t
   "Whether to display a user message on every submission.")
 
+
+;;; ------------------------------------------------------------------
+;;; authenticate
+;;; ------------------------------------------------------------------
+(defun emms-librefm-scrobbler--get-auth-detail (token)
+  "Return TOKEN from auth-source.
+TOKEN is :user of :secret."
+  ;; TODO: Maybe we should enable :create t here.  But it could be
+  ;; kind of annoying as it makes a pop-up when no name is present.
+  (plist-get
+   (car (auth-source-search :host (list emms-librefm-scrobbler-handshake-url "libre.fm")
+                            :user (unless (equal emms-librefm-scrobbler-username "")
+                                    emms-librefm-scrobbler-username)
+                            :max 1 :require '(:user :secret)))
+   token))
+
+(defun emms-librefm-scrobbler--username ()
+  "Return username for libre.fm."
+  (or (emms-librefm-scrobbler--get-auth-detail :user)
+      emms-librefm-scrobbler-username))
+
+(defun emms-librefm-scrobbler--password ()
+  "Return password for libre.fm."
+  (let ((token (emms-librefm-scrobbler--get-auth-detail :secret)))
+    (cond ((functionp token) (funcall token))
+          ((characterp token) token)
+          (t emms-librefm-scrobbler-password))))
 
 ;;; ------------------------------------------------------------------
 ;;; handshake
@@ -146,8 +184,8 @@
   (emms-librefm-scrobbler-handle-handshake-response
    (emms-librefm-scrobbler-handshake-call
     emms-librefm-scrobbler-handshake-url
-    emms-librefm-scrobbler-username
-    emms-librefm-scrobbler-password)))
+    (emms-librefm-scrobbler--username)
+    (emms-librefm-scrobbler--password))))
 
 
 ;;; ------------------------------------------------------------------

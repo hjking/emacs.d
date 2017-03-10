@@ -7,9 +7,6 @@
 @c History: The Emms manual was almost entirely rewritten for the
 @c release of Emms version 2.
 
-@c As a rule, modules which are stable enough to be included into the
-@c `emms-all' setup level should be documented. That is, any feature
-@c which is considered stable should be included.
 
 @dircategory Emacs
 @direntry
@@ -17,8 +14,8 @@
 @end direntry
 
 @copying
- @copyright{} 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2014
-   Free Software Foundation, Inc.
+ @copyright{} 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2014,
+   2015, 2016  Free Software Foundation, Inc.
 @quotation
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.1 or
@@ -52,10 +49,10 @@ This is the Manual for the Emacs Multimedia System.
 @menu
 Starting out
 * Introduction::        Introduction to Emms.
+* Quickstart Guide::    First steps with Emms for new users.
 * Installation::        How to install Emms on your System.
-* Simple Setup::        Quick, basic default Emms setup.
+* Setup::               How to setup Emms.
 * Configuration::       More detailed setup and configuration.
-* Quickstart Guide::    First steps with EMMS for new users.
 * Getting Help::        Where to get help with Emms and make suggestions.
 * Formats and Freedom:: File formats without restrictions.
 
@@ -70,6 +67,7 @@ Advanced Features
 * Track Information::        More narrative track descriptions.
 * Interactive Playlists::    Interactive Playlists.
 * Markable Playlists::       Allow tracks to be marked.
+* Extending Emms::       How to define new players and modules.
 
 Modules and Extensions
 * The Browser::          Advanced metadata browsing.
@@ -78,13 +76,12 @@ Modules and Extensions
 * Editing Tracks::       Editing track information from within Emms.
 * Emms Mode Line::       Emms information on the mode line.
 * Music Player Daemon::  Interface to Music Player Daemon.
-* Streaming Audio::      Interface to streaming audio.
 * Lyrics::               Displaying lyrics synchronously.
 * Volume::               Changing the volume.
+* Streaming Audio::      Interface to streaming audio.
 * APE / FLAC Commands::  How to play next or previous track in these files.
 * Bookmarks::            Saving a place in a media file.
 * GNU FM::               Connect to music community websites.
-* Extending Emms::       How to define new players and modules.
 
 Copying and license
 * Copying::             The GNU General Public License gives you permission to
@@ -113,6 +110,7 @@ The Core File
 * Core Functions::     Providing the basic functionality of Emms.
 
 Track Information
+* Using TagLib::        TagLib for track information.
 * Defining Info Methods::    Defining new info methods.
 
 Extending Emms
@@ -124,7 +122,7 @@ Extending Emms
 
 @end ifnottex
 
-
+@c -------------------------------------------------------------------
 @node Introduction
 @chapter Introduction
 
@@ -157,11 +155,87 @@ When Emms finally has the sources in the playlist, it needs a player
 to play them. @file{emms-player-simple.el} defines a few useful players, and
 allows you to define your own in a very simple way.
 
+The Emms core comes with many additional features to extend its
+functionality.
+
 The way Emms works is easy to customize with your own code or by using
-`M-x customize'.
+`M-x customize' or by changing the variables directly.
 
 
+@c -------------------------------------------------------------------
+@node Quickstart Guide
+@chapter Quickstart Guide
 
+This chapter demonstrates how to setup Emms so that you can start
+listening to your music without having to read all of the
+documentation first. This is the tl;dr version of the manual.
+
+The first thing you have to do is telling Emacs where Emms is
+located. Let's say you have it in @file{~/elisp/emms/}. So add this
+line to your @file{.emacs}:
+
+@lisp
+(add-to-list 'load-path "~/elisp/emms/lisp/")
+@end lisp
+
+More detailed information about installing Emms can be found in the
+installation chapter, @xref{Installation}.
+
+You'll then want to load Emms into Emacs. To achieve this you invoke
+the @code{emms-all} setup function by adding the following three lines
+to your @file{.emacs}.
+
+@lisp
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+@end lisp
+
+The function @code{emms-default-players} in the last line sets up the
+list of default players. The list contains lightweight specialized
+players like ogg123 or mpg321 and we-play-everything-players such as
+mplayer, vlc, etc.. To be sure that emms can play all your music you
+should check that your preferred players are installed on the machine.
+
+More detail about setting up Emms can be found in the setup chapter,
+@xref{Setup}.
+
+Emms tries to display the tags (the name of the song, as opposed to
+the name of the file) of the music you listen to. Emms can use libtag,
+see @xref{Using TagLib}, or a combination of `mp3info' and `ogginfo'
+(make sure that they are installed if you want Emms to use them.)
+
+The last thing to do is to tell Emms where your music is; the root
+directory of our music collection. Let's say all your music is in
+@file{~/Music} or in subdirectories thereof.
+
+@lisp
+(setq emms-source-file-default-directory "~/Music/")
+@end lisp
+
+OK, now we've set up Emms. Reload your @file{.emacs} or restart Emacs to
+let the changes have an effect.
+
+Now we will add all our music to a playlist by invoking @kbd{M-x
+emms-add-directory-tree RET ~/Music/ RET}. We do this because then
+Emms will read the tags of all your music files and caches them (this
+is also required for the Emms browser, @xref{The Browser}.)
+
+To switch to the playlist buffer, invoke @kbd{M-x
+emms-playlist-mode-go} or simply @kbd{M-x emms}. You may see that some
+tracks are displayed with their file name, but as Emms populates its
+tag cahe, track by track, the filenames get replaced with the artist
+and track name of the file's tag.
+
+Go ahead and navigate to a track and hit @kbd{RET} on it to start
+playback.
+
+Now you can start exploring Emms. It's probably best to begin with the
+basic commands (@pxref{Basic Commands}), the interactive playlists
+(@pxref{Interactive Playlists}), and the browser (@pxref{The Browser}).
+
+
+@c -------------------------------------------------------------------
 @node Installation
 @chapter Installation
 
@@ -211,62 +285,29 @@ Note that Emms is a light-weight and agile program, you can therefore
 run Emms just fine without byte compiling it.
 
 
+@c -------------------------------------------------------------------
+@node Setup
+@chapter Setup
 
-@node Simple Setup
-@chapter Simple Setup
-
-@cindex simple setup
+@cindex setup
 @cindex setting up Emms
 @cindex quick setup
 
-After adding the location of the Emms code to the @var{load-path}
-variable, see @xref{Installation}. We invoke the following using the
-`emms-setup' feature which allows for quick and simple Emms setup.
-
-@lisp
-(require 'emms-setup)
-(emms-standard)
-(emms-default-players)
-@end lisp
-
-After which Emms is set-up and ready to go!
-
-The above will setup Emms with standard features (interactive
-playlists, audio track tag reading etc.) and a default list of players
-(ogg, mp3, mplayer etc.).
-
 The `emms-setup' feature is provided by the file
 @file{emms-setup.el}. It is essentially a collection of shortcuts for
-setting up Emms quickly and simply. Everything you can do with
-`emms-setup' can also be done manually.
+loading different Emms features quickly, but everything you can do
+with `emms-setup' can also be done manually.
 
-We use `emms-setup' by calling one of the setup functions. Each of the
-functions sets up Emms to include a number of features.
+We use `emms-setup' by calling one of the setup functions.
 
 @defun emms-minimalistic
 An Emms setup script.
-Invisible playlists and all the basics for playing media.
-@end defun
-
-@defun emms-standard
-An Emms setup script.
-Everything included in the @code{emms-minimalistic} setup, the Emms
-interactive playlist mode and reading information from tagged
-audio files.
+Playlists and all the basics for playing media, but nothing else.
 @end defun
 
 @defun emms-all
 An Emms setup script.
-Everything included in the @code{emms-standard} setup and adds all the
-stable features which come with the Emms distribution.
-@end defun
-
-@defun emms-devel
-An Emms setup script.
-Everything included in the @code{emms-all} setup and adds all of the
-features which come with the Emms distribution regardless of if they
-are considered stable or not.  Use this if you like living on the
-edge.
+Loads all the stable features which come with the Emms distribution.
 @end defun
 
 `emms-setup' also comes with a convenience function to set a default
@@ -276,12 +317,12 @@ list of media players.
 Set @var{emms-player-list} to @var{emms-setup-default-player-list}.
 @end defun
 
-It is also worth noting that you can write your own Emms setup
-functions like the above by looking at the existing function
-definitions in @file{emms-setup.el}.
+You can of course write your own Emms setup functions like the above
+by looking at the existing function definitions in
+@file{emms-setup.el}.
 
 
-
+@c -------------------------------------------------------------------
 @node Configuration
 @chapter Configuration
 
@@ -351,78 +392,7 @@ The method Emms will use is defined in the customisable variable
 @var{emms-source-file-directory-tree-function}.
 
 
-
-@node Quickstart Guide
-@chapter Quickstart Guide
-
-This chapter demonstrates how to setup EMMS so that you can start
-listening to your music without having to read all of the documentation
-first.
-
-The first thing you have to do is telling Emacs where the sources of
-EMMS are located. Let's say you have them in @file{~/elisp/emms/}. So
-add this line to your @file{.emacs}.
-
-@lisp
-(add-to-list 'load-path "~/elisp/emms/lisp/")
-@end lisp
-
-Further informations about installing EMMS can be found in the
-installation chapter, @xref{Installation}.
-
-Let's say you want to enable all features which are considered stable by
-the EMMS developers. To achieve this you invoke the @code{emms-all}
-setup function by adding the following three lines to your @file{.emacs}.
-
-@lisp
-(require 'emms-setup)
-(emms-all)
-(emms-default-players)
-@end lisp
-
-The function @code{emms-default-players} in the last line sets up the
-list of default players. The list contains lightweight specialized
-players like ogg123 or mpg321 and we-play-everything-players like
-mplayer or xine. To be sure that emms can play all your music you should
-check that the needed players are installed.
-
-Further informations about the several setup scripts can be found in the
-simple setup chapter, @xref{Simple Setup}.
-
-Of course EMMS tries to display the tags of the music files you listen
-to. For this to work you have to make sure that the appropriate programs
-are installed. For mp3 files you need `mp3info', and for ogg files you
-need `ogginfo'.
-
-The last thing to do is to tell EMMS the root directory of our music
-collection. Let's say all your music is in @file{~/Music} or in
-subdirectories thereof.
-
-@lisp
-(setq emms-source-file-default-directory "~/Music/")
-@end lisp
-
-OK, now we've set up EMMS. Reload your @file{.emacs} or restart Emacs to
-let the changes have an effect.
-
-Now we will add all our music to a playlist by invoking @kbd{M-x
-emms-add-directory-tree RET ~/Music/ RET}. We do this because then EMMS
-will read the tags of all your music files and cache them. This is
-required for the browser, @xref{The Browser}.
-
-To switch to the playlist buffer, invoke @kbd{M-x emms-playlist-mode-go}
-or simply @kbd{M-x emms}. You can see that most tracks are displayed
-with their file name, but track by track the filename gets replaced with
-the artist and track name of the file's tag.
-
-Hit @kbd{RET} on a track to start playback.
-
-Now you can start exploring EMMS. It's probably best to begin with the
-basic commands (@pxref{Basic Commands}), the interactive playlists
-(@pxref{Interactive Playlists}), and the browser (@pxref{The Browser}).
-
-
-
+@c -------------------------------------------------------------------
 @node Getting Help
 @chapter Getting Help
 
@@ -440,7 +410,7 @@ which mirrors this mailing address at gmane.emacs.emms.user.
 Emms also has a website at @url{http://www.gnu.org/software/emms/}.
 
 
-
+@c -------------------------------------------------------------------
 @node Formats and Freedom
 @chapter Formats and Freedom
 
@@ -469,7 +439,7 @@ code for a reference implementation freely available. For more
 information about FLAC, go to @url{http://flac.sourceforge.net/}.
 
 
-
+@c -------------------------------------------------------------------
 @node Basic Commands
 @chapter Basic Commands
 
@@ -564,8 +534,14 @@ non-nil, insert the description into the current buffer instead. This
 function uses @var{emms-show-format} to format the current track.
 @end defun
 
+The command @command{emms-show-all} will pop up a window with the
+complete information about the track being
+played. @command{emms-show-all} is provided by
+@file{emms-show-all.el}, which is included in the `emms-all' setup
+level. See @xref{Setup}.
 
 
+@c -------------------------------------------------------------------
 @node The Core File
 @chapter The Core File
 
@@ -755,7 +731,7 @@ For more basic commands defined in the core file see @xref{Basic
 Commands}.
 
 
-
+@c -------------------------------------------------------------------
 @node Sources
 @chapter Sources
 
@@ -791,17 +767,17 @@ An Emms source for multiple directory trees - either @var{dir}, or the
 value of @var{emms-source-file-default-directory}.
 @end defun
 @defun emms-source-playlist file
-An EMMS source for playlists.  See @var{emms-source-playlist-formats}
+An Emms source for playlists.  See @var{emms-source-playlist-formats}
 for a list of supported formats.
 @end defun
 @defun emms-source-playlist-native file
-An EMMS source for a native EMMS playlist file.
+An Emms source for a native Emms playlist file.
 @end defun
 @defun emms-source-playlist-m3u file
-An EMMS source for an m3u playlist file.
+An Emms source for an m3u playlist file.
 @end defun
 @defun emms-source-playlist-pls file
-An EMMS source for a pls playlist file.
+An Emms source for a pls playlist file.
 @end defun
 @defun emms-source-find &optional dir regex
 An Emms source that will find files in @var{dir} or
@@ -822,7 +798,7 @@ Search for @var{regexp} and display the results in a locate buffer
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Simple Players
 @chapter Simple Players
 
@@ -853,7 +829,7 @@ and the sentinel string @var{str}.
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Playlists
 @chapter Playlists
 
@@ -889,27 +865,29 @@ The current Emms playlist buffer is stored in the variable
 @var{emms-playlist-buffer}.
 
 
-
+@c -------------------------------------------------------------------
 @node Track Information
 @chapter Track Information
 
 @cindex track information
 @cindex info tags
 
-Emms is distributed with three predefined methods for retrieving info,
-provided by @file{emms-info-mp3info.el}, @file{emms-info-ogginfo.el} and
-@file{emms-cue.el}. The first two packages are front-ends for
+Emms is distributed with multiple predefined methods for retrieving
+info, provided by @file{emms-info-mp3info.el},
+@file{emms-info-ogginfo.el}, @file{emms-cue.el} and
+@file{emms-info-libtag.el}. The first two packages are front-ends for
 command-line tools. Ogg track information is retrieved using the
 @uref{http://directory.fsf.org/audio/ogg/vorbistools.html, ogginfo}
 software. Likewise, mp3 track information is available using
-@uref{http://www.ibiblio.org/mp3info/, mp3info}. While,
-@file{emms-cue.el} retrieves tracks information for ape/flac files by
-parsing a cue sheet file, which is plain text.
+@uref{http://www.ibiblio.org/mp3info/, mp3info}. @file{emms-cue.el}
+retrieves tracks information for ape/flac files by parsing a cue sheet
+file, which is plain text. Finally, @file{emms-info-libtag.el} uses a
+tiny C shim (included in the src/ directory) program to take advantage
+of @uref{http://taglib.github.io/, TagLib}.
 
 Automatic track information retrieval is enabled by default in the
-`emms-standard', `emms-all' and `emms-devel' setup levels provided by
-@file{emms-setup.el}. For more information about @file{emms-setup.el}
-see @xref{Simple Setup}.
+`emms-all' setup level provided by @file{emms-setup.el}. For more
+information about @file{emms-setup.el} see @xref{Setup}.
 
 If you would like to know how Emms track retreival works and how we
 can define new methods for track retrieval see @xref{Defining Info
@@ -934,9 +912,39 @@ track as argument.
 @end defopt
 
 @menu
+* Using TagLib::        TagLib for track information.
 * Defining Info Methods::    Defining new info methods.
 @end menu
 
+@node Using TagLib
+@section Using TagLib
+
+@cindex using taglib
+
+The communication with the TagLib library is done via a tiny program
+written in C @file{emms-print-metadata.c}. To compile
+@file{emms-print-metadata} invoke:
+
+@command{make emms-print-metadata}
+
+The resultant binary will be installed when you invoke:
+
+@command{make install} as in @xref{Compiling Emms}.
+
+It is of course also possible to install only the
+@file{emms-print-metadata} binary where your system can find and
+execute it without installing all of Emms via the make command.
+
+Once the binary is available load @code{emms-info-libtag} and make it
+the @emph{only} info function with (note that if you have caching
+enabled you may have to delete the existing cache and repopulate it in
+order to see the TagLib data):
+
+@lisp
+(require 'emms-info-libtag)
+(setq emms-info-functions '(emms-info-libtag))
+@end lisp
+@noindent
 
 
 @node Defining Info Methods
@@ -963,7 +971,7 @@ the right time to provide track info.
 @end lisp
 
 
-
+@c -------------------------------------------------------------------
 @node Interactive Playlists
 @chapter Interactive Playlists
 
@@ -974,15 +982,15 @@ ability to use playlists without ever looking at then. This visual,
 interactive mode is called the `emms-playlist-mode' and is defined in
 @file{emms-playlist-mode.el}.
 
-The interactive playlist mode is enabled by default in the
-`emms-standard', `emms-all' and `emms-devel' setup levels. For more
-information about Emms setup levels see @xref{Simple Setup}.
+The interactive playlist mode is enabled by default in the `emms-all'
+setup level. For more information about Emms setup levels see
+@xref{Setup}.
 
 @defun emms-playlist-mode-go
 Switch to the current emms-playlist buffer and use emms-playlist-mode.
 @end defun
 
-If you wish to make this the default EMMS playlist mode, add the
+If you wish to make this the default Emms playlist mode, add the
 following to your @file{.emacs}.
 
 @lisp
@@ -1089,7 +1097,7 @@ program and can therefore be used to include titles and annotations
 within the playlist.
 
 
-
+@c -------------------------------------------------------------------
 @node Markable Playlists
 @chapter Markable Playlists
 
@@ -1111,7 +1119,7 @@ executing @command{M-x emms-mark-mode} in a playlist buffer. You can
 return to the default interactive playlist mode with @command{M-x
 emms-mark-mode-disable}.
 
-If you wish to make this the default EMMS playlist mode, add the
+If you wish to make this the default Emms playlist mode, add the
 following to your @file{.emacs}.
 
 @lisp
@@ -1176,130 +1184,7 @@ except it collects result of given function (that's why named with
 
 
 
-@node APE / FLAC Commands
-@chapter APE / FLAC Commands
-
-Often, a single APE or FLAC file contains a complete ablum.  We can still
-play next or previous track in the ablum with the help of
-@file{emms-cue.el} package, provided there is a corresponding cue sheet
-file.  This package also defines @code{emms-info-cueinfo} for retreiving
-the track information for APE / FLAC itself.
-
-To load @file{emms-cue.el}:
-
-@lisp
-(require 'emms-cue)
-(add-to-list 'emms-info-functions 'emms-info-cueinfo)
-@end lisp
-
-@defun emms-cue-next
-Play next track from .cue file
-@end defun
-@defun emms-cue-previous
-Play previous track from .cue file
-@end defun
-
-
-
-@node Bookmarks
-@chapter Bookmarks
-
-Emms can save a ``temporal bookmark'' in a media file via
-emms-bookmarks. The file @file{emms-bookmarks.el} provides the package
-emms-bookmarks.
-
-While some media is playing, invoking @kbd{M-x emms-bookmarks-add}
-will first pause the playback and then prompt for a name describing
-the bookmark. Tracks can have multiple bookmarks associated with them.
-
-To jump to the next and previous bookmarks in the current track invoke
-@kbd{M-x emms-bookmarks-next} and @kbd{M-x emms-bookmarks-prev}
-respectively.
-
-To clear all of the bookmarks for the current track invoke @kbd{M-x
-emms-bookmarks-clear}.
-
-
-
-@node GNU FM
-@chapter GNU FM
-
-@cindex GNU FM
-
-@url{https://www.gnu.org/software/gnufm/, GNU FM} is free software for
-running music community websites. It was created for the music
-community site, @url{http://libre.fm/, Libre.fm}.
-
-Emms can send track information, and stream music from GNU FM servers
-using @file{emms-librefm-scrobbler.el} and
-@file{emms-librefm-stream.el}, respectively.
-
-Emms is configured by default to use @url{http://libre.fm/, Libre.fm},
-but can work with any GNU FM server by configuring the variable
-@var{emms-librefm-scrobbler-handshake-url} to the URL of the GNU FM
-server.
-
-Provide your credentials on the GNU FM server by setting the
-appropriate variables:
-
-@lisp
-(setq emms-librefm-scrobbler-username "USERNAME"
-      emms-librefm-scrobbler-password "PASSWORD")
-@end lisp
-
-
-@menu
-* Uploading Track Information:: How to submit listened track information.
-* GNU FM Streaming:: Streaming music from a GNU FM server.
-@end menu
-
-
-
-@node Uploading Track Information
-@section Uploading Track Information
-
-GNU FM servers, such as Libre.fm can optionally store a user's
-listening habits using information sent to the website's server from
-the Emms. By utilizing the records of users' listening habits, the
-website aims to be able to recommend music to users by analyzing their
-musical taste.
-
-Load the feature into Emms with:
-
-@lisp
-(require 'emms-librefm-scrobbler)
-@end lisp
-
-This feature can also be enabled via @xref{Simple Setup}, in the
-`emms-devel' setup level.
-
-Enable uploading the details of the tracks Emms plays to the GNU FM
-server with @kbd{emms-librefm-scrobbler-enable}. The track's details
-will be uploaded to the server when the track's playback ends. You can
-disable this behavior with @kbd{emms-librefm-scrobbler-disable}.
-
-
-
-
-@node GNU FM Streaming
-@section GNU FM Streaming
-
-If the GNU FM server provides a streaming music service you can take
-advantage of it by loading:
-
-@lisp
-(require 'emms-librefm-stream)
-@end lisp
-
-This feature can also be enabled via @xref{Simple Setup}, in the
-`emms-devel' setup level.
-
-Then invoke @kbd{emms-librefm-stream} and enter the URL of the station
-you wish to listen to, for example ``librefm://globaltags/Classical''.
-
-
-
-
+@c -------------------------------------------------------------------
 @node Extending Emms
 @chapter Extending Emms
 
@@ -1472,6 +1357,7 @@ Now we have a ready player and we could add commands like
 
 
 
+@c -------------------------------------------------------------------
 @node The Browser
 @chapter The Browser
 
@@ -1480,7 +1366,7 @@ your playlist. It includes a powerful interactive mode.
 
 The Browser is defined in @file{emms-browser.el} and is included in
 the @command{emms-all} setup level. For more information about Emms
-setup levels see @xref{Simple Setup}.
+setup levels see @xref{Setup}.
 
 You can also manually add the Browser to your Emms setup by loading it
 explicitly with:
@@ -1765,11 +1651,11 @@ Show all files that are not in the pending directory:
 @section Displaying Covers
 
 The browser will attempt to display cover images if they're
-available. By default it looks for images cover_small.jpg,
-cover_med.jpg, etc. Customize @var{emms-browser-covers} to use your
-own covers. Note that you'll probably want to resize your existing
-covers to particular sizes. Suggested sizes are 100x100 for small, and
-200x200 for medium.
+available. By default it looks for images @file{cover_small.jpg},
+@file{cover_med.jpg}, etc. Customize @var{emms-browser-covers} and
+@var{emms-browser-covers-file-extensions} to use your own covers. Note
+that you'll probably want to resize your existing covers to particular
+sizes. Suggested sizes are 100x100 for small, and 200x200 for medium.
 
 Also, Emacs by default will jump around a lot when scrolling a buffer
 with images. In order to prevent that, you can set
@@ -1880,7 +1766,7 @@ initial "info-" part. For example, to change the artist face, type M-x
 @command{customize-face} @command{emms-browser-artist-face}.
 
 
-
+@c -------------------------------------------------------------------
 @node Sorting Playlists
 @chapter Sorting Playlists
 
@@ -1920,7 +1806,7 @@ Sort playlist by notes in ascending order.
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Persistent Playlists
 @chapter Persistent Playlists
 
@@ -1964,7 +1850,7 @@ If non-nil emms starts playing the current track after
 @end defopt
 
 
-
+@c -------------------------------------------------------------------
 @node Editing Tracks
 @chapter Editing Tracks
 
@@ -1977,13 +1863,13 @@ as `mp3info', `vorbiscomment'.
 Use the keybinding @kbd{E} to edit the tags of track under point in the
 playlist or all marked tracks (@pxref{Markable Playlists} for how to
 mark tracks).  The track's tag informations are listed in a special
-buffer `*EMMS-TAGS*' in text format.  Field names are marked in bold
+buffer `*Emms-TAGS*' in text format.  Field names are marked in bold
 face and are not editable.  Any tag information is placed behind an
 equal sign and is changable.  A special field `name' is the track's file
 name.  If any change is made in this field, the track's file will be
 renamed to the new name.  When you finished editing the tag infos use
 @kbd{C-c C-c} (which calls @code{emms-tag-editor-submit-and-exit}) to
-submit the changes and close the `*EMMS-TAGS*' buffer.
+submit the changes and close the `*Emms-TAGS*' buffer.
 
 There are a few commands to perform changes on all tracks.
 
@@ -2068,7 +1954,7 @@ according to the value of @code{emms-tag-editor-rename-format}.
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Emms Mode Line
 @chapter Emms Mode Line
 
@@ -2114,7 +2000,7 @@ Remove playing time from mode line.
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Music Player Daemon
 @chapter Music Player Daemon
 
@@ -2126,7 +2012,7 @@ Emms provides an interface to the @uref{http://www.musicpd.org/, Music
 Player Daemon}(MusicPD) software. The package is called `emms-player-mpd' and
 is provided by the file @file{emms-player-mpd.el}.
 
-The advantages of using MusicPD as an EMMS backend include the
+The advantages of using MusicPD as an Emms backend include the
 following.
 
 @itemize @bullet
@@ -2172,14 +2058,19 @@ invoking:
 (add-to-list 'emms-player-list 'emms-player-mpd)
 @end lisp
 
-If you use absolute file names in your m3u playlists (which is most
-likely), make sure you set @var{emms-player-mpd-music-directory} to
-the value of "music_directory" from your MusicPD config.  There are
+Unless your MusicPD is configured to use absolute file names, you must
+set the emms-player-mpd-music-directory variable to the value of
+'music_directory' in your MusicPD configuration.  There are
 additional options available as well, but the defaults should be
 sufficient for most uses.
 
+Once you've done the above, run the @kbd{M-x
+emms-cache-set-from-mpd-all} command to fill the Emms cache with the
+contents of your MusicPD database. The music in your MusicPD database
+should then be accessible via the Emms browser.
+
 You can set @var{emms-player-mpd-sync-playlist} to nil if your master
-EMMS playlist contains only stored playlists.
+Emms playlist contains only stored playlists.
 
 @subheading Commands provided
 
@@ -2193,7 +2084,7 @@ Terminate the MusicPD client process and disconnect from MusicPD.
 @end defun
 
 @defun emms-player-mpd-show &optional insertp
-Describe the current EMMS track in the minibuffer. If INSERTP is
+Describe the current Emms track in the minibuffer. If INSERTP is
 non-nil, insert the description into the current buffer instead. This
 function uses @var{emms-show-format} to format the current track. It
 differs from @command{emms-show} in that it asks MusicPD for the
@@ -2214,12 +2105,12 @@ the MusicPD database.
 @subsubheading emms-cache.el integration
 
 @defun emms-cache-set-from-mpd-directory dir
-Dump all MusicPD data from DIR into the EMMS cache.
+Dump all MusicPD data from DIR into the Emms cache.
 This is useful to do when you have recently acquired new music.
 @end defun
 
 @defun emms-cache-set-from-mpd-all
-Dump all MusicPD data into the EMMS cache.
+Dump all MusicPD data into the Emms cache.
 This is useful to do once, just before using emms-browser.el, in
 order to prime the cache.
 @end defun
@@ -2234,7 +2125,7 @@ To activate this, add the following to your .emacs.
 @end lisp
 
 
-
+@c -------------------------------------------------------------------
 @node Lyrics
 @chapter Lyrics
 
@@ -2320,7 +2211,7 @@ Toggle displaying Emms lyrics.
 @end defun
 
 
-
+@c -------------------------------------------------------------------
 @node Volume
 @chapter Volume
 
@@ -2377,9 +2268,11 @@ value. So instead of pressing @kbd{C-c +} six times to increase volume
 by six steps of @code{emms-volume-change-amount}, you would simply type
 @kbd{C-c + + + + + +}.
 
+Emms can change volume with amixer, mpd, PulseAudio out of the box, see
+@var{emms-volume-change-function}.
 
 
-
+@c -------------------------------------------------------------------
 @node Streaming Audio
 @chapter Streaming Audio
 
@@ -2395,9 +2288,28 @@ invoking:
 (require 'emms-streams)
 @end lisp
 
-The Emms interface for streaming audio is enabled by default in the
-`emms-all' and `emms-devel' setup levels. For more information about
-Emms setup levels see @xref{Simple Setup}.
+Querying the streams for track information is provided by the
+@file{emms-stream-info.el} package and can be loaded with:
+
+@lisp
+(require 'emms-stream-info)
+@end lisp
+
+The Emms interface for streaming audio, and the stream query
+capabilites are enabled by default in the `emms-all' setup level. For
+more information about Emms setup levels see @xref{Setup}.
+
+`emms-stream-info' calls a backend program to query the stream for
+information. The preferred program needs to be specified by setting
+the variable @var{emms-stream-info-backend} either `mplayer' or
+`vlc'. For instance:
+
+@lisp
+(setq emms-stream-info-backend 'vlc)
+@end lisp
+
+Obviously, the corresponding program needs to be installed and
+available for Emms to invoke.
 
 Enter the emms-streams interface by invoking @kbd{M-x}
 @command{emms-streams}. The emms-streams interface comes with a
@@ -2461,6 +2373,140 @@ Return information about the streaming audio at the URL of the
 bookmark under point. Note that this will only work if the
 `emms-stream-info' has already been loaded.
 @end table
+
+@c -------------------------------------------------------------------
+@node APE / FLAC Commands
+@chapter APE / FLAC Commands
+
+Often, a single APE or FLAC file contains a complete ablum.  We can still
+play next or previous track in the ablum with the help of
+@file{emms-cue.el} package, provided there is a corresponding cue sheet
+file.  This package also defines @code{emms-info-cueinfo} for retreiving
+the track information for APE / FLAC itself.
+
+To load @file{emms-cue.el}:
+
+@lisp
+(require 'emms-cue)
+(add-to-list 'emms-info-functions 'emms-info-cueinfo)
+@end lisp
+
+@defun emms-cue-next
+Play next track from .cue file
+@end defun
+@defun emms-cue-previous
+Play previous track from .cue file
+@end defun
+
+
+
+@c -------------------------------------------------------------------
+@node Bookmarks
+@chapter Bookmarks
+
+Emms can save a ``temporal bookmark'' in a media file via
+emms-bookmarks. The file @file{emms-bookmarks.el} provides the package
+emms-bookmarks.
+
+While some media is playing, invoking @kbd{M-x emms-bookmarks-add}
+will first pause the playback and then prompt for a name describing
+the bookmark. Tracks can have multiple bookmarks associated with them.
+
+To jump to the next and previous bookmarks in the current track invoke
+@kbd{M-x emms-bookmarks-next} and @kbd{M-x emms-bookmarks-prev}
+respectively.
+
+To clear all of the bookmarks for the current track invoke @kbd{M-x
+emms-bookmarks-clear}.
+
+
+@c -------------------------------------------------------------------
+@node GNU FM
+@chapter GNU FM
+
+@cindex GNU FM
+
+@url{https://www.gnu.org/software/gnufm/, GNU FM} is free software for
+running music community websites. It was created for the music
+community site, @url{http://libre.fm/, Libre.fm}.
+
+Emms can send track information, and stream music from GNU FM servers
+using @file{emms-librefm-scrobbler.el} and
+@file{emms-librefm-stream.el}, respectively.
+
+Emms is configured by default to use @url{http://libre.fm/, Libre.fm},
+but can work with any GNU FM server by configuring the variable
+@var{emms-librefm-scrobbler-handshake-url} to the URL of the GNU FM
+server.
+
+The recommended way of providing your credentials to the GNU FM server
+is by using an authinfo file.  Add authentication to your auth-info
+file, typically @file{~/.authinfo.gpg}, as:
+@smallexample
+machine libre.fm login USERNAME password PASSWORD
+@end smallexample
+If you are using some other server than libre.fm, change
+``@samp{libre.fm}'' to match
+@var{emms-librefm-scrobbler-handshake-url}.
+
+Alternatively, you can save the password in plaintext in your init-file
+by setting these variables:
+
+@lisp
+(setq emms-librefm-scrobbler-username "USERNAME"
+      emms-librefm-scrobbler-password "PASSWORD")
+@end lisp
+
+@menu
+* Uploading Track Information:: How to submit listened track information.
+* GNU FM Streaming:: Streaming music from a GNU FM server.
+@end menu
+
+
+
+@node Uploading Track Information
+@section Uploading Track Information
+
+GNU FM servers, such as Libre.fm can optionally store a user's
+listening habits using information sent to the website's server from
+the Emms. By utilizing the records of users' listening habits, the
+website aims to be able to recommend music to users by analyzing their
+musical taste.
+
+Load the feature into Emms with:
+
+@lisp
+(require 'emms-librefm-scrobbler)
+@end lisp
+
+This feature can also be enabled via @xref{Setup}, in the `emms-all'
+setup level.
+
+Enable uploading the details of the tracks Emms plays to the GNU FM
+server with @kbd{emms-librefm-scrobbler-enable}. The track's details
+will be uploaded to the server when the track's playback ends. You can
+disable this behavior with @kbd{emms-librefm-scrobbler-disable}.
+
+
+
+
+@node GNU FM Streaming
+@section GNU FM Streaming
+
+If the GNU FM server provides a streaming music service you can take
+advantage of it by loading:
+
+@lisp
+(require 'emms-librefm-stream)
+@end lisp
+
+This feature can also be enabled via @xref{Setup}, in the `emms-all'
+setup level.
+
+Then invoke @kbd{emms-librefm-stream} and enter the URL of the station
+you wish to listen to, for example ``librefm://globaltags/Classical''.
+
+
 
 @c including the relevant licenses
 @include gpl.texi

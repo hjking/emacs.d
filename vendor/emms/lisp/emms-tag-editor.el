@@ -143,19 +143,25 @@ See also `emms-tag-editor-tag-file' and `emms-tag-editor-tag-ogg'.")
   "Commit changes to an FLAC file according to TRACK."
   (require 'emms-info-metaflac)
   (with-temp-buffer
-    (let (need val)
+    (let ((tags '("artist" "composer" "performer" "title" "album" "tracknumber" "discnumber" "date" "genre" "note"))
+	  need val)
       (mapc (lambda (tag)
               (let ((info-tag (intern (concat "info-" tag))))
                 (when (> (length (setq val (emms-track-get track info-tag))) 0)
                   (insert (upcase tag) "=" val "\n"))))
-            '("artist" "composer" "performer" "title" "album" "tracknumber" "discnumber" "date" "genre" "note"))
+            tags)
       (when (buffer-string)
-        (funcall #'call-process-region (point-min) (point-max)
-                 emms-info-metaflac-program-name nil
-                 (get-buffer-create emms-tag-editor-log-buffer)
-                 nil
-                 "--import-tags-from=-"
-                 (emms-track-name track))))))
+	(apply #'call-process-region (point-min) (point-max)
+	       emms-info-metaflac-program-name nil
+	       (get-buffer-create emms-tag-editor-log-buffer)
+	       nil
+	       (append
+		(mapcar (lambda (tag)
+			  (concat "--remove-tag=" tag))
+			tags)
+		'("--import-tags-from=-")
+		'("--")
+		(list (emms-track-name track))))))))
 
 (defun emms-tag-editor-tag-ogg (track)
   "Commit changes to an OGG file according to TRACK."
@@ -335,7 +341,7 @@ changes will only take effect on the tracks in the region."
                             "Query replace regexp in region"
                           "Query replace regexp")
                         t)))
-           (butlast common))))
+           (butlast common 2))))
   (let ((overlay (make-overlay (point-min) (1+ (point-min)))))
     (overlay-put overlay 'face 'match)
     (unwind-protect
@@ -349,21 +355,34 @@ changes will only take effect on the tracks in the region."
             (map-y-or-n-p
              (lambda (match)
                (move-overlay overlay (match-beginning 0) (match-end 0))
-               (format "Replace %s to %s" match to))
+               (format "Replace %s to %s" (car match) (cadr match)))
              (lambda (match)
-               (delete-region (- (point) (length match)) (point))
-               (insert to))
+               (delete-region (- (point) (length (car match))) (point))
+               (insert (cadr match)))
              (lambda ()
                (if (and (save-excursion
                           (re-search-backward tag (line-beginning-position) t))
+                        (not (= (point) (line-end-position)))
                         (re-search-forward from (line-end-position) t))
-                   (match-string 0)
+                   (list (match-string 0) (cond
+                                           ((and (listp to)
+                                                 (fboundp (car to)) (funcall (car to) (cdr to) 0)))
+                                           ((string-match-p "\\\\[&[:digit:]]" to)
+                                            (match-substitute-replacement to nil nil))
+                                           ((stringp to) to)
+                                           (t (error "Wrong type argument: string or cons cell, %s" to))))
                  (let (found)
                    (while (and (not found)
                                (re-search-forward tag nil t))
                      (if (re-search-forward from (line-end-position) t)
                          (setq found t)))
-                   (and found (match-string 0))))))))
+                   (and found (list (match-string 0) (cond
+                                                      ((and (listp to)
+                                                            (fboundp (car to)) (funcall (car to) (cdr to) 0)))
+                                                      ((string-match-p "\\\\[&[:digit:]]" to)
+                                                       (match-substitute-replacement to nil nil))
+                                                      ((stringp to) to)
+                                                      (t (error "Wrong type argument: string or cons cell, %s" to)))))))))))
       (delete-overlay overlay))))
 
 (defun emms-tag-editor-transpose-tag (tag1 tag2)

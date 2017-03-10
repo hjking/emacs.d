@@ -3,11 +3,12 @@ emms.  This is necessary to keep track of people who have copyright
 claims on sources, so please don't be too humble and add yourself.
 
 Bram van der Kroef       <bram@fortfrances.com>
+Daimrod      		 <daimrod@gmail.com>
 Damien Elmes		 <emacs@repose.cx>
 Daniel Brockman		 <daniel@brockman.se>
+Daniel Dehennin          <daniel.dehennin@baby-gnu.org>
 David Engster		 <deng@randomsample.de>
 Jean-Philippe Theberge	 <jphiltheberge@videotron.ca>
-Jesse Weinstein		 <jessw@netwood.net>
 Jorgen Schaefer		 <forcer@forcix.cx>
 Jose Antonio Ortega Ruiz <jao@gnu.org>
 Lawrence Mitchell	 <wence@gmx.li>
@@ -17,12 +18,16 @@ Mario Lang		 <mlang@delYsid.org>
 Martin Schoenmakers	 <aiviru@diamond-age.net>
 Matthew Kennedy		 <mkennedy@gentoo.org>
 Michael Olson		 <mwolson@gnu.org>
+Nick Alcock 		 <nix@esperi.org.uk>
 Tassilo Horn		 <tassilo@member.fsf.org>
+Thierry Volpiatto
 Trent Buck		 <trentbuck@gmail.com>
 Ulrik Jensen		 <terryp@daimi.au.dk>
 William Xu		 <william.xwl@gmail.com>
 Ye Wenbin		 <wenbinye@gmail.com>
 Yoni (Johnathan) Rabkin  <yrk@gnu.org>
+mathias.dahl 		 <mathias.dahl>
+Rasmus Pank Roulund      <emacs@pank.eu>
 
 ;; Local variables:
 ;; coding: utf-8

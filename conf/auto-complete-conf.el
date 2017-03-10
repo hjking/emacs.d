@@ -75,7 +75,7 @@
   ;; Ignore case if completion target string doesn't include upper characters
   (setq ac-ignore-case 'smart)  ;; default
 
-  (setq ac-stop-words (quote ("/" "//" "/*" "//*" "///" "////")))
+  (setq ac-stop-words '("/" "//" "/*" "//*" "///" "////"))
   (setq ac-use-fuzzy t) ;; enable fuzzy auto complete
 
   ;; color

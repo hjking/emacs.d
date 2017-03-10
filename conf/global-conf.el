@@ -10,8 +10,6 @@
 ;; System locale for time
 (setq system-time-locale "C")
 
-;; make Gnus fast
-(setq gc-cons-threshold 3500000)
 ;; don't display messages at start and end of garbage collection (as it hides
 ;; too many interesting messages)
 (setq garbage-collection-messages nil)

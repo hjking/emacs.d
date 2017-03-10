@@ -39,7 +39,7 @@
                     filename-and-process)))
       ;; grouping
       (setq ibuffer-saved-filter-groups
-            (quote (("default"
+            '(("default"
                 ("emacs"      (name . "\\*.*\\*"))
                 ("Dirs"       (mode . dired-mode))
                 ("Shell"      (or (mode . term-mode)
@@ -71,7 +71,7 @@
                 ("Web"          (or
                                (mode . css-mode)
                                (mode . web-mode)))
-                ))))
+                )))
   )
   :config (progn
     ;; Use human readable Size column instead of original one

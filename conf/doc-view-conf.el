@@ -20,6 +20,8 @@
       ;; DPI your screen supports
       (setq doc-view-display-size 96)
 
+      (setq doc-view-continuous t)
+
       ;; You can open the *text* of the current doc in a new buffer, by pressing
       ;; `C-c C-t' in doc-view-mode
 

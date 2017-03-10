@@ -43,28 +43,28 @@
     ;; !: record time when state changed
     ;; @: need to leave some comments
     (setq org-todo-keywords
-        (quote ((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
-                (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
-                (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
-                (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
-               )))
+          '((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+            (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
+            (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
+            (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
+            ))
 
     (setq org-todo-keyword-faces
-          (quote (("TODO"      . (:foreground "red"          :weight bold))
-                  ("DOING"     . (:foreground "forest green" :weight bold))
-                  ("NEXT"      . (:foreground "orange"       :weight bold))
-                  ("WAITING"   . (:foreground "sienna"       :weight bold))
-                  ("HOLD"      . (:foreground "magenta"      :weight bold))
-                  ("DONE"      . (:foreground "olivedrab"    :weight bold :strike-through t))
-                  ("DELEGATED" . (:foreground "dimgrey"      :weight bold))
-                  ("CANCELLED" . shadow)
-                  ("POSTPONED" . (:foreground "steelblue"    :weight bold))
-                  ("MEETING"   . (:foreground "forest green" :weight bold))
-                  ("BLOG"      . (:foreground "red"          :weight bold))
-                  ("OPEN"      . (:foreground "red"          :weight bold))
-                  ("CLOSED"    . shadow)
-                  ("ARCHIVED"  . (:foreground "blue"         :weight bold))
-                  ("PHONE"     . (:foreground "forest green" :weight bold)))))
+          '(("TODO"      . (:foreground "red"          :weight bold))
+            ("DOING"     . (:foreground "forest green" :weight bold))
+            ("NEXT"      . (:foreground "orange"       :weight bold))
+            ("WAITING"   . (:foreground "sienna"       :weight bold))
+            ("HOLD"      . (:foreground "magenta"      :weight bold))
+            ("DONE"      . (:foreground "olivedrab"    :weight bold :strike-through t))
+            ("DELEGATED" . (:foreground "dimgrey"      :weight bold))
+            ("CANCELLED" . shadow)
+            ("POSTPONED" . (:foreground "steelblue"    :weight bold))
+            ("MEETING"   . (:foreground "forest green" :weight bold))
+            ("BLOG"      . (:foreground "red"          :weight bold))
+            ("OPEN"      . (:foreground "red"          :weight bold))
+            ("CLOSED"    . shadow)
+            ("ARCHIVED"  . (:foreground "blue"         :weight bold))
+            ("PHONE"     . (:foreground "forest green" :weight bold))))
 
     ;; Fast todo selection allows changing from any task todo state to any other state
     ;; Changing a task state is done with C-c C-t KEY
@@ -79,6 +79,7 @@
     (setq org-confirm-elisp-link-function 'y-or-n-p)
 
     ;; Tags
+    ;; select the tags with a single letter after “?”.
     ;;  (@XXX) tags are mutually exclusive
     ;;    selecting one removes a similar tag already on the task
     ;;    These are the context tags
@@ -88,44 +89,44 @@
     (setq org-tag-alist '(
                           ;; where
                           (:startgroup nil)
-                          ("@home" . ?h)
+                          ("@home"   . ?h)
                           ("@office" . ?o)
-                          ("@out" . ?O)
+                          ("@out"    . ?O)
                           (:endgroup nil)
                           ;; tools
                           (:startgroup)
-                          ("@phone" . ?p)
+                          ("@phone"    . ?p)
                           ("@computer" . ?l)
                           (:endgroup)
                           ;; type
                           (:startgroup)
-                          ("@coding" . ?c)
+                          ("@coding"        . ?c)
                           ("@documentation" . ?d)
-                          ("@writing" . ?t)
-                          ("@reading" . ?b)
-                          ("@meeting" . ?f)
-                          ("@email" . ?E)
-                          ("@break" . ?b)
-                          ("@housework" . ?h)
-                          ("@shopping" . ?P)
+                          ("@writing"       . ?t)
+                          ("@reading"       . ?b)
+                          ("@meeting"       . ?f)
+                          ("@email"         . ?E)
+                          ("@break"         . ?b)
+                          ("@housework"     . ?h)
+                          ("@shopping"      . ?P)
                           (:endgroup)
                           ;; frequency
                           (:startgroup)
-                          ("DAILY" . ?d)
-                          ("WEEKLY" . ?w)
-                          ("MONTHLY" . ?M)
-                          ("QUARTERLY" . ?q)
-                          ("YEARLY" . ?y)
+                          ("DAILY"      . ?d)
+                          ("WEEKLY"     . ?w)
+                          ("MONTHLY"    . ?M)
+                          ("QUARTERLY"  . ?q)
+                          ("YEARLY"     . ?y)
                           (:endgroup)
                           ;; critical
                           (:startgroup)
-                          ("urgent" . ?u)
+                          ("urgent"   . ?u)
                           (:endgroup)
                           ("PERSONAL" . ?m)
-                          ("WORK" . ?W)
-                          ("NOTE" . ?n)
-                          ("HOWTO" . ?H)
-                          ("errand" . ?e)
+                          ("WORK"     . ?W)
+                          ("NOTE"     . ?n)
+                          ("HOWTO"    . ?H)
+                          ("errand"   . ?e)
                           ))
 
     ; Allow setting single tags without the menu
@@ -135,13 +136,13 @@
 
     ;; automatically assign tags to tasks based on state changes
     (setq org-todo-state-tags-triggers
-          (quote (("CANCELLED" ("CANCELLED" . t))
-                  ("WAITING" ("WAITING" . t))
-                  ("HOLD" ("WAITING" . t) ("HOLD" . t))
-                  (done ("WAITING") ("HOLD"))
-                  ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-                  ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-                  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+          '(("CANCELLED" ("CANCELLED" . t))
+            ("WAITING" ("WAITING" . t))
+            ("HOLD" ("WAITING" . t) ("HOLD" . t))
+            (done ("WAITING") ("HOLD"))
+            ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+            ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+            ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))
 
     ;; Org Agenda
     ;; (setq org-agenda-files '("~/org/personal.org" "~/org/habit.org"))
@@ -179,11 +180,13 @@
     ;;        "----------------"
     ;;        (800 1000 1200 1400 1600 1800)))
     ;; Enable display of the time grid so we can see the marker for the current time
-    (setq org-agenda-time-grid (quote ((daily today remove-match)
-                                       #("----------------" 0 16 (org-heading t))
-                                       (0900 1100 1300 1500 1700))))
+    (setq org-agenda-time-grid
+          '((daily today remove-match)
+            #("----------------" 0 16 (org-heading t))
+            (0900 1100 1300 1500 1700)))
     ;; Display tags farther right
     (setq org-agenda-tags-column -102)
+    (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
 
     (setq org-columns-default-format "%30ITEM %20SCHEDULED %5TODO %5PRIORITY %Effort{:} %TAGS")
     ; For tag searches ignore tasks with scheduled and deadline dates
@@ -195,7 +198,7 @@
     ;; Show all future entries for repeating tasks
     (setq org-agenda-repeating-timestamp-show-all t)
     ;; Agenda log mode items to display (closed and state changes by default)
-    (setq org-agenda-log-mode-items (quote (closed state)))
+    (setq org-agenda-log-mode-items '(closed state))
     ;; Keep tasks with dates on the global todo lists
     (setq org-agenda-todo-ignore-with-date nil)
     ;; Keep tasks with deadlines on the global todo lists
@@ -211,7 +214,7 @@
     ;; Remove completed items from search results
     (setq org-agenda-skip-timestamp-if-done t)
     ;; Include agenda archive files when searching for things
-    (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+    (setq org-agenda-text-search-extra-files '(agenda-archives))
     ;; Split up the search string on whitespace
     (setq org-agenda-search-view-always-boolean t)
     ;; org agenda custom commands
@@ -233,51 +236,53 @@
                                                   ;; [2] looking for deadlines and nothing else so quite efficiently
                                                   (org-agenda-entry-types '(:deadline))))
              ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
-             ("g" . "GTD contexts")
-             ("gc" "Computer" tags-todo "computer")
-             ("gd" todo "DOING") ;; a list of all tasks with the todo keyword DOING
-             ("ge" "Errands" tags-todo "errands")
-             ("gh" "Home" tags-todo "home")
-             ("go" "Office" tags-todo "office")
-             ("gp" "Phone" tags-todo "phone")
-             ("G" "GTD Block Agenda" ((tags-todo "office|work")
+             ("G" . "GTD contexts")
+              ("Gc" "Computer" tags-todo "computer")
+              ("Gd" todo "DOING") ;; a list of all tasks with the todo keyword DOING
+              ("Ge" "Errands" tags-todo "errands")
+              ("Gh" "Home" tags-todo "home")
+              ("Go" "Office" tags-todo "office")
+              ("Gp" "Phone" tags-todo "phone")
+             ("g" "GTD Block Agenda" ((tags-todo "office|work")
                                       (tags-todo "computer")
                                       (tags-todo "phone")
                                       (tags-todo "home")
                                       (tags-todo "errands"))
                nil                      ;; i.e., no local settings
                ((concat org-directory "/next-actions.html"))) ;; exports block to this file with C-c a e
-             ;; block agenda views
-             ("h" . "HOME+Name tags searches") ; "h" prefix
-             ("hb" "Habits" tags-todo "STYLE=\"habit\""
-                    ((org-agenda-overriding-header "Habits")
-                     (org-agenda-sorting-strategy
-                      '(todo-state-down effort-up category-keep))))
-             ("ha" "Agenda and Home-related tasks" ((agenda "")
-                                                    (tags-todo "home")
-                                                    (tags "garden")))
-             ("hc" tags "+home+child")
-             ("hl" tags "+home+love")
-             ("hp" tags "+home+parents")
+             ("h" "Habits" tags-todo "STYLE=\"habit\""
+                     ((org-agenda-overriding-header "Habits")
+                      (org-agenda-sorting-strategy
+                       '(todo-state-down effort-up category-keep))))
+             ("H" . "HOME+Name tags searches") ; "H" prefix
+              ("Ha" "Agenda and Home-related tasks" ((agenda "")
+                                                     (tags-todo "home")
+                                                     (tags "garden")))
+              ("Hc" tags "+home+child")
+              ("Hl" tags "+home+love")
+              ("Hp" tags "+home+parents")
              ;; display next 10 entries with a 'NEXT' TODO keyword.
              ("n" todo "NEXT" ((org-agenda-max-entries 10)))
              ("o" "View Office Schedule"
                ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/work/*.org")))))))
              ;; Priority
              ("p" . "Priorities")
-             ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
-             ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
-             ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
+              ("pa" "A items" tags-todo "+PRIORITY=\"A\"")
+              ("pb" "B items" tags-todo "+PRIORITY=\"B\"")
+              ("pc" "C items" tags-todo "+PRIORITY=\"C\"")
              ("Q" . "Custom queries of Archives and Publishments") ;; gives label to "Q"
-             ("Qa" "Archive search" search ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-             ("Qp" "Publish search" search ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/publish/*.org")))))
-             ("Qb" "Projects and Archive" search ""
-               ((org-agenda-text-search-extra-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
-                     ;; searches both projects and archive directories
-             ("QA" "Archive tags search" org-tags-view ""
-               ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+              ("Qa" "Archive search" search ""
+                ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+              ("Qp" "Publish search" search ""
+                ((org-agenda-files (file-expand-wildcards (concat org-directory "/publish/*.org")))))
+              ("Qb" "Projects and Archive" search ""
+                ((org-agenda-text-search-extra-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+                      ;; searches both projects and archive directories
+              ("QA" "Archive tags search" org-tags-view ""
+                ((org-agenda-files (file-expand-wildcards (concat org-directory "/archive/*.org")))))
+              ;; show them in agenda view
+              ("Qe" "Notes of everyday" agenda ""
+                ((org-agenda-files (list (expand-file-name daypage-path)))))
              ;; run a tags/property search on files other than the agenda files
              ("r" "Reference material" tags ""
                ((org-agenda-files (file-expand-wildcards (concat org-directory "/ref/*.org")))))
@@ -345,8 +350,8 @@
     ; Allow refile to create parent tasks with confirmation
     (setq org-refile-allow-creating-parent-nodes 'confirm)
     ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-    (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                     (org-agenda-files :maxlevel . 9))))
+    (setq org-refile-targets '((nil :maxlevel . 9)
+                               (org-agenda-files :maxlevel . 9)))
     ;; (setq org-refile-targets
     ;;       '(((concat org-directory "/contacts.org") . (:maxlevel . 2))
     ;;         ((concat org-directory "/decisions.org") . (:maxlevel . 3))
@@ -367,8 +372,8 @@
     ; global Effort estimate values
     ; global STYLE property values for completion
     (setq org-global-properties
-        (quote (("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                ("STYLE_ALL" . "habit"))))
+          '(("Effort_ALL" . "0:05 0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+            ("STYLE_ALL" . "habit")))
 
     ;; To make org show leading stars use
     (setq org-hide-leading-stars t)
@@ -377,8 +382,9 @@
     ;; hides blank lines between headings which keeps folded view nice and compact.
     (setq org-cycle-separator-lines 2)
     ;; prevents creating blank lines before headings but allows list items to adapt to existing blank lines around the items:
-    (setq org-blank-before-new-entry (quote ((heading)
-                                             (plain-list-item . auto))))
+    (setq org-blank-before-new-entry
+          '((heading)
+            (plain-list-item . auto)))
     ;; Adding new tasks quickly without disturbing the current task content
     (setq org-insert-heading-respect-content nil)
     (setq org-startup-truncated nil)
@@ -412,12 +418,15 @@
 
     ;; generate pic without confirm
     (setq org-confirm-babel-evaluate nil)
+
+    ;;; Source code
     ;; Use syntax highlighting ("fontification") in org-mode source blocks
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-src-window-setup 'current-window)
+
     ;; the whole heading lines fontified
     (setq org-fontify-whole-heading-line t)
-    (setq org-src-window-setup 'current-window)
     ;; Overwrite the current window with the agenda
     (setq org-agenda-window-setup 'current-window)
     ; Make babel results blocks lowercase
@@ -445,12 +454,16 @@
     ;; export org to markdown
     ; (use-package ox-md)
 
+    ;; Exporting
+    (setq org-export-with-section-numbers nil
+          org-export-coding-system 'utf-8
+          org-export-with-smart-quotes t
+          org-export-backends '(beamer html latex md))
+
     (setq my-org-publish-dir
           (expand-file-name "public_html" (directory-file-name
                                            (file-name-directory
                                             (directory-file-name org-directory)))))
-    (setq org-export-with-section-numbers nil)
-    (setq org-export-coding-system 'utf-8)
     (setq org-html-include-timestamps nil)
     (setq org-publish-project-alist
           '(
@@ -556,6 +569,10 @@
             ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
             ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
             ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
+            ("p" "#+BEGIN_SRC python\n?\n#+END_SRC")
+            ("o" "#+OPTIONS: ?")
+            ("k" "#+KEYWORDS: ?")
+            ("f" "#+TAGS: @?")
             ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
             ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
             ("H" "#+html: " "<literal style=\"html\">?</literal>")
@@ -599,58 +616,142 @@
     ;; %?: After completing the template, position cursor here
     (setq org-capture-templates
           '(
-            ("a" "Appointment"
-                 entry (file+headline hjking-todo-org-file "Calendar")
-                 "** APPT: %^{Description}  Added: %U %^g\n   SCHEDULED: %^t")
-            ("b" "Break"
-                 entry (file hjking-todo-org-file)
-                 "** Break SCHEDULED: %^U :@break:"    :clock-in t :clock-resume t)
-            ("d" "Diary"
-                 entry (file+datetree hjking-diary-org-file)
-                 "** %U\n%?" :clock-in t :clock-resume t)
-            ("g" "Today's Page"
-                 entry (file+headline (today-journal-file) "Today's Journal")
-                 "** Event: %? %U\n %i\n"
-                 :empty-lines 1)
-            ("h" "Habit"
-                 entry (file hjking-habit-org-file)
-                 "** TODO %?\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
-            ("j" "Journal Entry"
-                 entry (file+datetree hjking-journal-org-file)
-                 "** %^{Heading}\n   Logged on %U\n" :clock-in t :clock-resume t)
-            ("l" "Log Time"
-                 entry (file+datetree (concat org-directory "/archive/log.org"))
-                 "** %U - %a  :TIME:")
-            ("L" "Listen"
-                 entry (file+headline hjking-listen-read-watch-org-file "Listen")
-                 "** NEXT Listen %? :@music:")   ;; "** NEXT Read: %?\n   %i\n   %a"
-            ("m" "Meeting"
-                 entry (file+headline hjking-todo-org-file "Meeting")
-                 "** %^{Subject} :@meeting:MEETING:\n   SCHEDULED: %^T\n   With: %^{Guests} @ %^{Location}\n   Description: %?" :clock-in t :clock-resume t)
-            ("n" "Note"
-                 entry (file hjking-note-org-file)
-                 "** %? :NOTE:\n  %U\n  %a\n" :clock-in t :clock-resume t)
-            ("p" "Phone Call"
-                 entry (file hjking-call-org-file)
-                 "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :@phone:PHONE:\n   SCHEDULED: %^T" :clock-in t :clock-resume t)
-            ("r" "Email Reply"
-                 entry (file hjking-todo-org-file)
-                 "** NEXT Email Reply %? :@email:\n  SCHEDULED: %^t\n" :clock-in t :clock-resume t)
-            ("R" "Read"
-                 entry (file+headline hjking-listen-read-watch-org-file "Read")
-                 "** NEXT Read %? :@book:")
-            ("s" "Reference"
-                 entry (file+headline hjking-reference-org-file "Reference")
-                 "** %?\n  %i\n  %a")
-            ("t" "TODO"
-                 entry (file hjking-todo-org-file)
-                 "** TODO %?\n   %^T\n" :clock-in t :clock-resume t)
-            ("w" "org-protocol"
-                 entry (file hjking-refile-org-file)
-                 "** TODO Review %c\n   %U\n" :immediate-finish t)
-            ("W" "Watch"
-                 entry (file+headline hjking-listen-read-watch-org-file "Watch")
-                 "** NEXT Watch %? :@movie:")
+            ("a"                ; key
+             "Appointment"      ; name
+             entry              ; type
+             (file+headline hjking-todo-org-file "Calendar") ; target
+             "** APPT: %^{Description}  Added: %U %^g\n   SCHEDULED: %^t")  ; template
+
+            ("b"          ; key
+             "Break"      ; name
+             entry        ; type
+             (file hjking-todo-org-file)        ; target
+             "** Break SCHEDULED: %^U :@break:" ; template
+             :clock-in t       ; properties
+             :clock-resume t)  ; properties
+
+            ;; For code snippets
+            ("c"               ; key
+             "Code"            ; name
+             entry             ; type
+             (file+headline hjking-note-org-file "Code")  ; target
+             "* %^{TITLE} %(org-set-tags)  :code:\n:PROPERTIES:\n:Created: %U\n:END:\n%i\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"  ; template
+             :prepend t        ; properties
+             :empty-lines 1    ; properties
+             :created t        ; properties
+             :kill-buffer t)   ; properties
+
+            ("d"
+              "Diary"
+              entry
+              (file+datetree hjking-diary-org-file)
+              "** %U\n%?"
+              :clock-in t
+              :clock-resume t)
+            ("g"
+              "Today's Page"
+              entry
+              (file+headline (today-journal-file) "Today's Journal")
+              "** Event: %? %U\n %i\n"
+              :empty-lines 1)
+            ("h"
+              "Habit"
+              entry
+              (file hjking-habit-org-file)
+              "** TODO %?\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
+            ("i"
+              "Idea"
+              entry
+              (file hjking-note-org-file)
+              "** %? :IDEA: \n%t"
+              :clock-in t
+              :clock-resume t)
+            ("j"
+              "Journal Entry"
+              entry
+              (file+datetree hjking-journal-org-file)
+              "** %^{Heading}\n   Logged on %U\n"
+              :clock-in t
+              :clock-resume t)
+            ("l"
+              "Log Time"
+              entry
+              (file+datetree (concat org-directory "/archive/log.org"))
+              "** %U - %a  :TIME:")
+
+            ;; listen music
+            ("L"
+              "Listening"
+              entry
+              (file+headline hjking-listen-read-watch-org-file "Listen")
+              "** NEXT Listen %? :@music:")   ;; "** NEXT Read: %?\n   %i\n   %a"
+
+            ("m"
+              "Meeting"
+              entry
+              (file+headline hjking-todo-org-file "Meeting")
+              "** %^{Subject} :@meeting:MEETING:\n   SCHEDULED: %^T\n   With: %^{Guests} @ %^{Location}\n   Minutes of the meeting: %?"
+              :clock-in t
+              :clock-resume t)
+
+            ;; For taking notes on random things
+            ("n"
+             "Note"
+             entry
+             (file hjking-note-org-file)
+             "** %? :NOTE:\n  %U\n  %a\n"
+             :clock-in t       ; properties
+             :clock-resume t   ; properties
+             :prepend t        ; properties
+             :empty-lines 1    ; properties
+             :created t        ; properties
+             :kill-buffer t)   ; properties
+            ("p"
+              "Phone Call"
+              entry
+              (file hjking-call-org-file)
+              "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :@phone:PHONE:\n   SCHEDULED: %^T"
+              :clock-in t
+              :clock-resume t)
+            ("r"
+              "Email Reply"
+              entry
+              (file hjking-todo-org-file)
+              "** NEXT Email Reply %? :@email:\n  SCHEDULED: %^t\n"
+              :clock-in t
+              :clock-resume t)
+
+            ;; reading books
+            ("R"
+              "Reading"
+              entry
+              (file+headline hjking-listen-read-watch-org-file "Read")
+              "** NEXT Read %? :@book:")
+            ("s"
+              "Reference"
+              entry
+              (file+headline hjking-reference-org-file "Reference")
+              "** %?\n  %i\n  %a")
+            ("t"
+              "TODO"
+              entry
+              (file hjking-todo-org-file)
+              "** TODO %?\n   %^T\n"
+              :clock-in t
+              :clock-resume t)
+            ("w"
+              "org-protocol"
+              entry
+              (file hjking-refile-org-file)
+              "** TODO Review %c\n   %U\n"
+              :immediate-finish t)
+
+            ;; To capture movies that I plan to watch
+            ("W"
+              "Watching"
+              entry
+              (file+headline hjking-listen-read-watch-org-file "Watch")
+              "** NEXT Watch %? :@movie:")
             ))
 
     ;; Remove empty LOGBOOK drawers on clock out
@@ -796,34 +897,30 @@
        (seconds-to-time (- (time-to-seconds (current-time))
                           86400))))
 
-    ;; show them in agenda view
-    (add-to-list 'org-agenda-custom-commands
-                 '("Qe" "Notes of everyday" agenda ""
-                   ((org-agenda-files (list (expand-file-name daypage-path))))))
-
     ; (global-set-key "\C-con" 'todays-daypage)
     ; (global-set-key "\C-coN" 'find-daypage)
     ;; }}}
 
     ; Enable habit tracking (and a bunch of other modules)
-    (setq org-modules (quote (
-                              ; org-bbdb
-                              org-bibtex
-                              org-crypt
-                              org-gnus
-                              org-id
-                              org-info
-                              ; org-jsinfo
-                              org-habit
-                              org-inlinetask
-                              org-irc
-                              ; org-mew
-                              ; org-mhe
-                              org-protocol
-                              ; org-rmail
-                              ; org-vm
-                              ; org-wl
-                              org-w3m)))
+    (setq org-modules
+         '(
+           ; org-bbdb
+           org-bibtex
+           org-crypt
+           org-gnus
+           org-id
+           org-info
+           ; org-jsinfo
+           org-habit
+           org-inlinetask
+           org-irc
+           ; org-mew
+           ; org-mhe
+           org-protocol
+           ; org-rmail
+           ; org-vm
+           ; org-wl
+           org-w3m))
 
     ; position the habit graph on the agenda to the right of the default
     (setq org-habit-graph-column 50)
@@ -899,7 +996,7 @@
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
       )
 
-    ;;;; org-bullets
+    ;;;; calfw-org
     ;; displays a calendar with org agenda, `cfw:open-org-calendar'
     (use-package calfw-org
       ; :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))

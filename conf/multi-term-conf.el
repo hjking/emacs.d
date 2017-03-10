@@ -10,31 +10,34 @@
 ;;
 (message "%d: >>>>> Loading [ mutil-term ] Customizations ...." step_no)
 (setq step_no (1+ step_no))
-(require 'multi-term)
-;; (setq multi-term-program "/bin/csh")
-(setq multi-term-switch-after-close nil)
-(defun term-mode-settings ()
-  "Settings for term-mode"
-  ; (make-local-variable 'scroll-margin)
-  (setq-default scroll-margin 0)
-)
 
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq term-buffer-maximum-size 50000)))
+(use-package multi-term
+  :commands (multi-term)
+  ; :bind ("\M-t" . multi-term)
+  :init
+    (setq multi-term-switch-after-close nil)
+    (defun term-mode-settings ()
+      "Settings for term-mode"
+      ; (make-local-variable 'scroll-margin)
+      (setq-default scroll-margin 0)
+    )
+  :config
+    ;; Don't try to enable autopair in term-mode, it remaps the return key!
+    (add-hook 'term-mode-hook
+              (lambda ()
+                (setq show-trailing-whitespace nil)
+                (autopair-mode 0)))
 
-(add-hook 'term-mode-hook 'term-mode-settings)
-(global-set-key "\M-t"              'multi-term)
-; (global-set-key (kbd "C-x C-m") 'multi-term)
-; (global-set-key (kbd "C-x m") 'multi-term-next)
+    ;; yanking / pasting
+    (add-hook 'term-mode-hook
+              (lambda ()
+                (define-key term-raw-map (kbd "C-y") 'term-paste)))
 
-;; Don't try to enable autopair in term-mode, it remaps the return key!
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq show-trailing-whitespace nil)
-            (autopair-mode 0)))
+    (add-hook 'term-mode-hook
+              (lambda ()
+                (setq term-buffer-maximum-size 50000)))
 
-;; yanking / pasting
-(add-hook 'term-mode-hook
-          (lambda ()
-            (define-key term-raw-map (kbd "C-y") 'term-paste)))
+    (add-hook 'term-mode-hook 'term-mode-settings)
+  )
+
+(provide "multi-term-conf")

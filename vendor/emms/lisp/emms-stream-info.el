@@ -3,7 +3,7 @@
 ;; Copyright (C) 2004, 2005, 2006, 2007, 2008,
 ;;   2009 Free Software Foundation, Inc.
 
-;; Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+;; Author: Yoni Rabkin <yrk@gnu.org>
 
 ;; This file is part of EMMS.
 
@@ -23,7 +23,7 @@
 
 ;;; Commentary:
 ;;
-;; Set `*emms-stream-info-backend*' to either 'vlc or 'mplayer, which
+;; Set `emms-stream-info-backend' to either 'vlc or 'mplayer, which
 ;; are the two currently supported backends for retrieving stream
 ;; information.  You can then either call `emms-stream-info-message'
 ;; directly or hit "i" in the `emms-streams' buffer over stream you
@@ -44,7 +44,7 @@
 
 ;;; Code:
 
-(defvar *emms-stream-info-backend* 'mplayer
+(defvar emms-stream-info-backend nil
   "Symbol designating the backend program to use.")
 
 ;; using unhygienic macros for good... or is it evil?
@@ -82,15 +82,15 @@
 	(bitrate "N/A")
 	(nowplaying "N/A"))
     (with-temp-buffer
-      (message "querying stream...")
+      (message "querying stream with %s backend..." emms-stream-info-backend)
       (cond
-       ((eq *emms-stream-info-backend* 'mplayer)
+       ((eq emms-stream-info-backend 'mplayer)
 	(emms-stream-info-mplayer-backend url)
 	(emms-stream-info-defreg name "^Name[ ]+:[ ]+\\(.*\\)$")
 	(emms-stream-info-defreg genre "^Genre[ ]+:[ ]+\\(.*\\)$")
 	(emms-stream-info-defreg bitrate "^Bitrate[ ]+:[ ]+\\(.*\\)$")
 	(emms-stream-info-defreg nowplaying "ICY Info: StreamTitle='\\(.+?\\)'"))
-       ((eq *emms-stream-info-backend* 'vlc)
+       ((eq emms-stream-info-backend 'vlc)
 	(emms-stream-info-vlc-backend url)
 	(emms-stream-info-defreg name "'Title' = '\\(.*\\)'")
 	(emms-stream-info-defreg genre "Genre: \\(.*\\)")

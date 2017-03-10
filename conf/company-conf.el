@@ -26,22 +26,34 @@
   :defer t
   :diminish ""
   :bind ("\M-]" . company-complete)
+  :commands (company-mode
+             company-complete
+             company-complete-common
+             company-complete-common-or-cycle
+             company-files
+             company-dabbrev
+             company-ispell
+             company-c-headers
+             company-jedi
+             company-tern
+             company-web-html
+             company-auctex)
   :init (progn
          (setq company-idle-delay 0.1
                ;; min prefix of 1 chars
-               company-minimum-prefix-length 1
+               company-minimum-prefix-length 2
+               company-require-match 0
                company-selection-wrap-around t
                company-show-numbers t
                company-dabbrev-downcase nil
-               company-transformers '(company-sort-by-occurrence))
-         (setq company-tooltip-limit 20)
-         (setq company-minimum-prefix-length 2)
-         (setq company-echo-delay 0)
-         (setq company-auto-complete nil)
-         (setq company-begin-commands '(self-insert-command))
+               company-transformers '(company-sort-by-occurrence)
+               company-tooltip-limit 20
+               company-minimum-prefix-length 2
+               company-echo-delay 0
+               company-auto-complete nil
+               company-begin-commands '(self-insert-command))
          (add-hook 'prog-mode-hook 'company-mode))
-  :config
-  (progn
+  :config (progn
     (add-to-list 'company-backends 'company-dabbrev t)
     (add-to-list 'company-backends 'company-ispell t)
     (add-to-list 'company-backends 'company-files t)
@@ -52,6 +64,8 @@
     (delete 'company-capf company-backends)
     (delete 'company-clang company-backends)
     (delete 'company-semantic company-backends)
+
+    ; (global-company-mode)
 
     (bind-keys :map company-active-map
                ("C-n" . company-select-next)

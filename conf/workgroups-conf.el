@@ -1,33 +1,31 @@
 
-(require 'workgroups2)
+(use-package workgroups2
+  :load-path (lambda () (concat my-site-lisp-dir "workgroups2/src/"))
+  :commands (wg-create-workgroup
+             wg-kill-workgroup
+             wg-find-session-file
+             wg-read-workgroup-name
+             wg-switch-to-workgroup
+             wg-switch-to-workgroup-at-index
+             wg-save-session
+             wg-switch-to-buffer
+             wg-switch-to-workgroup-left
+             wg-switch-to-workgroup-right
+             wg-undo-wconfig-change
+             wg-redo-wconfig-change
+             wg-save-wconfig)
+  :init
+    ;; Change prefix key (before activating WG)
+    (setq wg-prefix-key (kbd "C-c z"))
 
-;; Change prefix key (before activating WG)
-(setq wg-prefix-key (kbd "C-c z"))
+    ;; Change workgroups session file
+    (setq wg-default-session-file (concat my-cache-dir ".emacs_workgroups"))
+    ;; autoload/autosave:
+    ;; if you start Emacs as "emacs --daemon" - turn off autoloading of workgroups:
+    (setq wg-use-default-session-file t)
+    (setq wg-mode-line-display-on nil)
+  :config
+    (workgroups-mode 1)   ; put this one at the bottom of .emacs
+)
 
-;; Change workgroups session file
-(setq wg-default-session-file (concat my-cache-dir ".emacs_workgroups"))
-;; autoload/autosave:
-;; if you start Emacs as "emacs --daemon" - turn off autoloading of workgroups:
-(setq wg-use-default-session-file t)
-(setq wg-mode-line-display-on nil)
-;; Set your own keyboard shortcuts to reload/save/switch WG:
-(global-set-key (kbd "<pause>")     'wg-reload-session)
-(global-set-key (kbd "C-S-<pause>") 'wg-save-session)
-(global-set-key (kbd "s-z")         'wg-switch-to-workgroup)
-(global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup)
-
-(autoload 'wg-create-workgroup "workgroups2" nil t)
-(autoload 'wg-kill-workgroup "workgroups2" nil t)
-(autoload 'wg-find-session-file "workgroups2" nil t)
-(autoload 'wg-read-workgroup-name "workgroups2" nil t)
-(autoload 'wg-switch-to-workgroup "workgroups2" nil t)
-(autoload 'wg-switch-to-workgroup-at-index "workgroups2" nil t)
-(autoload 'wg-save-session "workgroups2" nil t)
-(autoload 'wg-switch-to-buffer "workgroups2" nil t)
-(autoload 'wg-switch-to-workgroup-left "workgroups2" nil t)
-(autoload 'wg-switch-to-workgroup-right "workgroups2" nil t)
-(autoload 'wg-undo-wconfig-change "workgroups2" nil t)
-(autoload 'wg-redo-wconfig-change "workgroups2" nil t)
-(autoload 'wg-save-wconfig "workgroups2" nil t)
-
-(workgroups-mode 1)   ; put this one at the bottom of .emacs
+(provide 'workgroups-conf)

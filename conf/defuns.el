@@ -2138,3 +2138,59 @@ is a comment, uncomment."
   "Rot13 encrypt the region between START and END in current buffer."
   (interactive "r")
   (translate-region start end rot13-translate-table))
+
+;; From http://sriramkswamy.github.io/dotemacs/
+(defun sk/align-whitespace (start end)
+  "Align columns by whitespace"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)\\s-" 1 0 t))
+
+(defun sk/align-ampersand (start end)
+  "Align columns by ampersand"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)&" 1 1 t))
+
+(defun sk/align-quote-space (start end)
+  "Align columns by quote and space"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\).*\\s-\"" 1 0 t))
+
+(defun sk/align-equals (start end)
+  "Align columns by equals sign"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)=" 1 0 t))
+
+(defun sk/align-comma (start end)
+  "Align columns by comma"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)," 1 1 t))
+
+(defun sk/align-dot (start end)
+  "Align columns by dot"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\)\\\." 1 1 t))
+
+(defun sk/align-colon (start end)
+  "Align columns by equals sign"
+  (interactive "r")
+  (align-regexp start end
+                "\\(\\s-*\\):" 1 0 t))
+
+;; Change from snake_case to camelCase
+(defun sk/replace-next-underscore-with-camel (arg)
+  (interactive "p")
+  (if (> arg 0)
+ (setq arg (1+ arg))) ; 1-based index to get eternal loop with 0
+  (let ((case-fold-search nil))
+    (while (not (= arg 1))
+      (search-forward-regexp "\\b_[a-z]")
+      (forward-char -2)
+      (delete-char 1)
+      (capitalize-word 1)
+      (setq arg (1- arg)))))

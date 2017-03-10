@@ -5,7 +5,7 @@
 
 ;; Authors: Ulrik Jensen <terryp@daimi.au.dk>
 ;;          Jorgen Schäfer <forcer@forcix.cx>
-;; Keywords: emms, mpg321, ogg123, mplayer
+;; Keywords: emms, mpg321, ogg123
 
 ;; This file is part of EMMS.
 
@@ -35,7 +35,6 @@
 
 ;; emms-player-mpg321
 ;; emms-player-ogg123
-;; emms-player-mplayer
 
 ;;; Code:
 
@@ -184,7 +183,7 @@ PLAYER is the name of the current player."
   (emms-player-simple-regexp "mid")
   "fluidsynth" "-aalsa" "-in" "/media/music/sf/FluidR3-GM.SF2")
 (define-emms-simple-player alsaplayer '(file url)
-  (concat "\\`http://\\|"
+  (concat "\\`http[s]?://\\|"
           (emms-player-simple-regexp "ogg" "mp3" "wav" "flac" "pls" "m3u"))
   "alsaplayer" "--quiet" "--nosave" "\"--interface text\"")
 

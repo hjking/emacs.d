@@ -3,12 +3,7 @@
 (setq step_no (1+ step_no))
 ;; (setq diary-file "~/.emacs.d/diary")
 (setq diary-file (concat my-personal-dir "diary"))
-(setq calendar-load-hook
-  '( lambda ()
-     ;; (set-face-foreground 'diary-face "skyblue")
-     (set-face-background 'holiday-face "slate blue")
-     (set-face-foreground 'holiday-face "white")
-   ))
+
 ;; remove some holidays
 (setq holiday-bahai-holidays nil)       ; get rid of Baha'i holidays
 (setq holiday-general-holidays nil)     ; get rid of too U.S.-centric holidays
@@ -50,12 +45,5 @@
 
 (add-hook 'diary-display-hook 'fancy-diary-display)
 (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
-
-;; Chinese calendar
-(use-package cal-china-x
-  :init
-  (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
-  (setq calendar-holidays cal-china-x-important-holidays)
-  )
 
 (provide 'calendar-conf)

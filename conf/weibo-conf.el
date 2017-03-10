@@ -7,3 +7,5 @@
     (setq weibo-display-image nil)
     )
   )
+
+(provide 'weibo-conf)

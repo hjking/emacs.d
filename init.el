@@ -39,6 +39,9 @@
 ;; uptimes
 (setq emacs-load-start-time (current-time))
 
+;; Increase the garbage collection threshold to 200 MB to ease startup
+(setq gc-cons-threshold (* 200 1024 1024))
+
 ;; turn on Common Lisp support
 (require 'cl)  ; provides useful things like `loop' and `setf'
 (require 'cl-lib)
@@ -56,27 +59,18 @@
 (defvar section-cua nil)
 (defvar section-register nil)
 (defvar section-search t)
-(defvar section-ibuffer t)
 (defvar section-ido nil)
-(defvar section-windows t)
 (defvar section-ui t)
 (defvar section-coding t)
-(defvar section-indentation t)
-(defvar section-python t)
-(defvar section-perl t)
-(defvar section-abbrevs nil)
 (defvar section-dired t)
-(defvar section-calendar-diary nil)
 (defvar section-document-view nil)
 (defvar section-gnus nil)
-(defvar section-eshell t)
 (defvar section-hdl t)
 (defvar section-verilog t)
 (defvar section-vlog nil)
 (defvar section-vhdl nil)
 (defvar section-emacs-server nil)
 (defvar section-org t)
-(defvar section-eproject nil)
 (defvar section-ecb nil)
 (defvar section-session t)
 (defvar section-desktop nil)
@@ -85,13 +79,10 @@
 (defvar section-svn nil)
 (defvar section-git t)
 (defvar section-emms t)
-(defvar section-vm nil)
 (defvar section-ac nil)
-(defvar section-company t)
 (defvar section-helm nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
-(defvar section-markdown-mode t)
 (defvar section-elisp-mode t)
 (defvar section-html-mode nil)
 (defvar section-shell-mode t)
@@ -99,28 +90,13 @@
 (defvar section-alias t)
 (defvar section-vi nil)
 (defvar section-artist nil)
-(defvar section-yasnippet t)
 (defvar section-cygwin t)
-(defvar section-package t)
 (defvar section-tramp nil)
 (defvar section-cedet nil)
 (defvar section-cedet-1.1 nil)
-(defvar section-drag-stuff t)
-(defvar section-mmm-mode nil)
-(defvar section-table nil)
-(defvar section-undo t)
-(defvar section-header t)
-(defvar section-irc t)
-(defvar section-w3m t)
-(defvar section-smex t)
 (defvar section-slime t)
 (defvar section-cscope nil)
-(defvar section-wl nil)
 (defvar section-color-theme t)
-(defvar section-weibo t)
-(defvar section-workgroups nil)
-(defvar section-powerline nil)
-(defvar section-sml nil)
 
 (random t)
 
@@ -254,8 +230,7 @@
 
 ;; [ package ]------------------------------------------------------------------
 ;; Packages managment
-(when section-package
-    (require 'package-conf))
+(require 'package-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -680,6 +655,7 @@
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
   ; (add-site-lisp-load-path "visual-regexp/")
+  ;; displays current match and total matches.
   ; (add-site-lisp-load-path "anzu/")
   (require 'search-conf)
   )
@@ -722,9 +698,8 @@
 ; (require 'mode-line-conf)
 
 ;; [ powerline ]
-(when section-powerline
-  (add-site-lisp-load-path "powerline/")
-  (load "powerline-conf"))
+; (add-site-lisp-load-path "powerline/")
+; (load "powerline-conf")
 
 ;; [ Smart Mode Line ]
 (use-package smart-mode-line
@@ -741,8 +716,16 @@
   :config (sml/setup)
 )
 
-(require 'spaceline-config)
-(spaceline-spacemacs-theme)
+; (require 'spaceline-config)
+; (spaceline-spacemacs-theme)
+(use-package spaceline
+  :demand t
+  :init
+  (setq powerline-default-separator 'arrow-fade)
+  :config
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme)
+  (spaceline-helm-mode))
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -977,14 +960,12 @@
 
 ;; --[ Window ]-----------------------------------------------------------------
 ;; use "C-c <--" back to previous window layout
-(when section-windows
-  (require 'window-conf))
+(require 'window-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Indentation ]------------------------------------------------------------
-(when section-indentation
-  (require 'indent-conf))
+(require 'indent-conf)
 ;; --[ Indentation ]---------------------------------------------------[ End ]--
 
 
@@ -1025,8 +1006,7 @@
 
 
 ;; --[ Calendar ]---------------------------------------------------------------
-(when section-calendar-diary
-    (require 'calendar-conf))
+(require 'calendar-conf)
 ;; --[ Calendar ]------------------------------------------------------[ End ]--
 
 
@@ -1127,11 +1107,14 @@
 
 
 ;; [ Dired ]--------------------------------------------------------------------
+;; File Manager
 (when section-dired
   (add-site-lisp-load-path "dired/")
   (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
+  ;; file manager based on dired
   (require 'ranger-conf)
+  ;; emacs tree plugin like NERD tree for Vim
   (require 'neotree-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
@@ -1139,9 +1122,7 @@
 
 ;; [ ibuffer ]------------------------------------------------------------------
 ;; buffer switch
-(when section-ibuffer
-  (require 'ibuffer-conf)
-  )
+(require 'ibuffer-conf)
 ;; [ ibuffer ]---------------------------------------------------------[ End ]--
 
 
@@ -1159,12 +1140,10 @@
 
 
 ;; [ Table ]--------------------------------------------------------------------
-(when section-table
-  (use-package table
-    :commands table-insert
-    :init
-     (add-hook 'text-mode-hook 'table-recognize))
-  )
+(use-package table
+  :commands table-insert
+  :init
+   (add-hook 'text-mode-hook 'table-recognize))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1182,7 +1161,7 @@
 ;; [ multi-term ]---------------------------------------------------------------
 ;; available for Emacs 23
 ; (message "%d: >>>>> Loading [ multi-term ] Customization ...." step_no)
-; (load "multi-term-conf")
+; (require "multi-term-conf")
 ;; [ multi-term ]------------------------------------------------------[ End ]--
 
 
@@ -1257,12 +1236,12 @@
 
 
 ;; [ auto-header ]--------------------------------------------------------------
-(when section-header
-    (require 'header2-conf))
+(require 'header2-conf)
 ;; [ auto-header ]----------------------------------------------------[ End ]---
 
 
 ;; [ goto change ]--------------------------------------------------------------
+;; Move point through buffer-undo-list positions
 (use-package goto-chg
   :commands (goto-last-change))
 ;; [ goto change ]-----------------------------------------------------[ End ]--
@@ -1304,26 +1283,20 @@
 
 
 ;; --[ Company ]----------------------------------------------------------------
-(when section-company
-  ; (add-site-lisp-load-path "company-mode/")
-  (require 'company-conf))
+(require 'company-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ Abbrevs ]----------------------------------------------------------------
-(when section-abbrevs
-  (require 'abbrevs-conf)
-  ;; "hippie expand" for text autocompletion
-  (require 'hippie-exp-conf))
+(require 'abbrevs-conf)
+;; "hippie expand" for text autocompletion
+(require 'hippie-exp-conf)
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
 
 
 ;; [ yasnippet ]----------------------------------------------------------------
 ;; available for Emacs 22/23
-(when section-yasnippet
-  (add-site-lisp-load-path "yasnippet/")
-  (add-site-lisp-info-path "yasnippet/doc/")
-  (require 'yasnippet-conf))
+(require 'yasnippet-conf)
 ;; [ yasnippet ]-------------------------------------------------------[ End ]--
 
 
@@ -1338,82 +1311,8 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ VM ]-----------------------------------------------------------------------
-(when section-vm
-  (setq my-vm-load-path (concat my-site-lisp-dir "vm/"))
-  (setq my-vm-lisp-path (concat my-vm-load-path "lisp/"))
-  (add-site-lisp-load-path "vm/lisp/")
-  (add-site-lisp-info-path "vm/info/")
-  (load "vm-conf"))
-;; [ VM ]--------------------------------------------------------------[ End ]--
-
-
 ;; [ Folding ]------------------------------------------------------------------
-(use-package hideshow
-  :init (progn
-         (add-hook 'prog-mode '(progn
-                                (hs-minor-mode 1))))
-  :config (progn
-           (setq hs-isearch-open 'code) ; default 'code, options: 'comment, t, nil
-           (setq hs-special-modes-alist
-                  '((c-mode      "{" "}" "/[*/]" nil nil)
-                    (c++-mode    "{" "}" "/[*/]" nil nil)))
-
-           ;; hideshowvis
-           (use-package hideshowvis
-             :commands (hideshowvis-enable hideshowvis-minor-mode)
-             :init (progn
-                ; (dolist (hook (list 'emacs-lisp-mode-hook
-                ;                     'c++-mode-hook
-                ;                     'lisp-mode-hook
-                ;                     'ruby-mode-hook
-                ;                     'perl-mode-hook
-                ;                     'php-mode-hook
-                ;                     'python-mode-hook
-                ;                     'lua-mode-hook
-                ;                     'c-mode-hook
-                ;                     'java-mode-hook
-                ;                     'js-mode-hook
-                ;                     'verilog-mode-hook
-                ;                     'css-mode-hook))
-                ;   (add-hook hook 'hideshowvis-enable)))
-                (add-hook 'prog-mode '(progn
-                                       (hideshowvis-minor-mode 1)))
-                )
-           )
-  ))
-
-;;
-;; folding (hiding) parts of the text
-;; autoload when turn on `folding-mode'
-; (message "%d: >>>>> Loading [ Folding ] Customization ...." step_no)
-; (setq step_no (1+ step_no))
-; (autoload 'folding-mode          "folding" "Folding mode" t)
-; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-; (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-; (dolist (hook (list 'emacs-lisp-mode-hook
-;                     'c++-mode-hook
-;                     'lisp-mode-hook
-;                     'ruby-mode-hook
-;                     'perl-mode-hook
-;                     'php-mode-hook
-;                     'python-mode-hook
-;                     'lua-mode-hook
-;                     'c-mode-hook
-;                     'java-mode-hook
-;                     'js-mode-hook
-;                     'verilog-mode-hook
-;                     'css-mode-hook))
-;   (add-hook hook 'turn-on-folding-mode))
-
-; (eval-after-load 'folding
-;   '((folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
-;     (folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
-;     (folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
-;     (folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
-;     (folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
-;     (folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
-;     (folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)))
+(require 'folding-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1461,14 +1360,12 @@
 
 
 ;; [ eshell ]-------------------------------------------------------------------
-(when section-eshell
-    (require 'eshell-conf))
+(require 'eshell-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ erc ]-----------------------------------------------------------------------
-(when section-irc
-    (require 'erc-conf))
+(require 'erc-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1482,12 +1379,6 @@
 (when section-document-view
     (if is-after-emacs-23
         (load "doc-view-conf")))
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ artist ]-------------------------------------------------------------------
-(when section-artist
-    (require 'artist-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1506,44 +1397,42 @@
 
 
 ;; [ drag-stuff ]---------------------------------------------------------------
-(when section-drag-stuff
-  ;; use M-up/down/right/left to move lines, regions, words up/down or right/left
-  ;; Drag line
-  ;; To drag a line up and down. Put the cursor on that line and press <C-S-up> and
-  ;; <C-S-down>.
+;; use M-up/down/right/left to move lines, regions, words up/down or right/left
+;; Drag line
+;; To drag a line up and down. Put the cursor on that line and press <C-S-up> and
+;; <C-S-down>.
 
-  ;; Drag lines
-  ;; To drag several lines up and down. Select the lines you want to drag and
-  ;; press <C-S-up> and <C-S-down>.
+;; Drag lines
+;; To drag several lines up and down. Select the lines you want to drag and
+;; press <C-S-up> and <C-S-down>.
 
-  ;; Drag region
-  ;; A region can be dragged to the left and right. Select the region you want to
-  ;; drag and press <C-S-left> and <C-S-right>.
+;; Drag region
+;; A region can be dragged to the left and right. Select the region you want to
+;; drag and press <C-S-left> and <C-S-right>.
 
-  ;; Drag word
-  ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
-  ; (add-site-lisp-load-path "drag-stuff/")
-  (use-package drag-stuff
-    :diminish ""
-    :load-path (lambda () (concat my-site-lisp-dir "drag-stuff/"))
-    :config
-    (progn
-      (drag-stuff-mode t)
-      (add-to-list 'drag-stuff-except-modes 'org-mode)))
-  )
+;; Drag word
+;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
+; (add-site-lisp-load-path "drag-stuff/")
+(use-package drag-stuff
+  :diminish ""
+  :load-path (lambda () (concat my-site-lisp-dir "drag-stuff/"))
+  :config
+  (progn
+    (drag-stuff-mode t)
+    (add-to-list 'drag-stuff-except-modes 'org-mode)))
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ mmm-mode ]-----------------------------------------------------------------
 ;; Multiple Major Modes coexist in one buffer
-(when section-mmm-mode
-    ; (add-site-lisp-load-path "mmm-mode/")
-    (add-site-lisp-info-path "mmm-mode/")
-    (use-package mmm-mode
-      :load-path (lambda () (concat my-site-lisp-dir "mmm-mode/"))
-      :init
-       (setq mmm-global-mode 'maybe))
-    )
+(use-package mmm-mode
+  :load-path (lambda () (concat my-site-lisp-dir "mmm-mode/"))
+  :disabled t
+  :init
+   (setq mmm-global-mode 'maybe)
+  :config
+   (add-site-lisp-info-path "mmm-mode/")
+)
 ;; --------------------------------------------------------------------[ End ]--
 
 ;;
@@ -1649,8 +1538,6 @@
 
 
 ;; [ Text Mode ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Text Mode ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;; default mode is Text Mode
 (setq-default major-mode 'text-mode)
 (defun my-textmode-startup ()
@@ -1673,8 +1560,6 @@
 
 
 ;; [ View Mode ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ View Mode ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;; vim style
 (defun my-view-mode-hook ()
   "Set up some conveniences for Emacs Lisp."
@@ -1723,23 +1608,14 @@
 
 
 ;; [ Python Mode ]--------------------------------------------------------------
-(when section-python
-  (require 'python-conf)
-  )
+(require 'python-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ Perl Mode ]----------------------------------------------------------------
 ;; cperl-mode is preferred to perl-mode,
 ;; replace the standard perl-mode with cperl-mode
-(when section-perl
-    (require 'perl-conf)
-
-    ; (setq pde-load-path (concat my-site-lisp-dir "pde/lisp/"))
-    ; (add-site-lisp-load-path "pde/lisp/")
-    ; (add-site-lisp-info-path "pde/lisp/doc/")
-    ; (load "pde-load")
-    )
+(require 'perl-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1761,7 +1637,6 @@
 
 
 ;; [ Makefile Mode ]------------------------------------------------------------
-(message ">>>>> Loading [ Makefile Mode ] Customization ....")
 (defun my-makefile-startup ()
   "Setup how I like editing makefiles."
   (interactive)
@@ -1787,28 +1662,13 @@
 
 
 ;; [ Markdown Mode ]------------------------------------------------------------
-(when section-markdown-mode
-    ;; Markdown mode - TAB for <pre></pre> block
-    (require 'markdown-mode-conf)
-    )
-;; --------------------------------------------------------------------[ End ]--
-
-
-;; --[ Lisp Mode ]--------------------------------------------------------------
-(when section-slime
-    (add-site-lisp-load-path "slime/")
-    (add-site-lisp-load-path "slime/contrib/")
-    (add-site-lisp-info-path "slime/doc")
-    (autoload 'slime-selector "slime" t)
-    (with-eval-after-load 'slime
-      (require 'slime-conf))
-    )
+;; Markdown mode - TAB for <pre></pre> block
+(require 'markdown-mode-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; [ Emacs Lisp Mode ]----------------------------------------------------------
-(when section-elisp-mode
-    (require 'elisp-mode-conf))
+(require 'elisp-mode-conf)
 
 ;; Edebug
 (setq edebug-trace t)
@@ -1816,13 +1676,7 @@
 
 
 ;; --[ HTML Mode ]--------------------------------------------------------------
-(when section-html-mode
-  ;; HTML
-  (add-to-list 'auto-mode-alist '("\\.html\\'"  . html-mode))
-  (add-to-list 'auto-mode-alist '("\\.htm\\'"   . html-mode))
-
-  ; (require 'web-mode-conf)
-)
+(require 'web-mode-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1857,31 +1711,30 @@
 
 
 ;; Graphviz dot mode for emacs
-(add-site-lisp-load-path "graphviz-dot-mode/")
-(require 'graphviz-dot-mode)
+(use-package graphviz-dot-mode)
 
 ;;;; ================ ProgrammingModes End ================
 
 ;; [ undo ]---------------------------------------------------------------------
-(when section-undo
-    (use-package undo-tree
-      :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
-      :diminish ""
-      :commands (redo undo)
-      :config (progn
-               (setq undo-tree-visualizer-timestamps t)
-               (setq undo-tree-visualizer-diff t)
-               (global-undo-tree-mode t)
-               (defalias 'redo 'undo-tree-redo)
-               (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
-               (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
-      :bind (("M-z" . undo)
-             ("M-S-z" . redo)))
-)
+(use-package undo-tree
+  :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
+  :diminish ""
+  :commands (redo undo)
+  :config (progn
+           (setq undo-tree-visualizer-timestamps t)
+           (setq undo-tree-visualizer-diff t)
+           (global-undo-tree-mode t)
+           (defalias 'redo 'undo-tree-redo)
+           (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
+           (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
+  :bind (("M-z" . undo)
+         ("M-S-z" . redo)))
 ;; --------------------------------------------------------------------[ End ]--
 
-
+;;;; Navigation
+; (require 'ace-jump-conf)
 ;; [ avy ]----------------------------------------------------------------------
+;; Jump to visible text using a char-based decision tree
 (require 'avy-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1892,7 +1745,7 @@
     (setq my-emms-load-path (concat my-site-lisp-dir "emms/"))
     (add-site-lisp-load-path "emms/lisp/")
     (add-site-lisp-info-path "emms/doc/")
-    ; (load "emms-conf")
+    (load "emms-conf")
     )
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
 
@@ -1909,19 +1762,14 @@
 
 ;; --[ w3m ]--------------------------------------------------------------------
 ;; Web browser
-(when section-w3m
-    (setq my-w3m-path (concat my-site-lisp-dir "emacs-w3m/"))
-    (add-site-lisp-load-path "emacs-w3m/")
-    (add-site-lisp-info-path "emacs-w3m/doc/")
-    (require 'w3m-conf))
+(require 'w3m-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
 ;; --[ smex ]-------------------------------------------------------------------
 ;; Smart M-x
 ;; remember recently and most frequently used commands
-(when section-smex
-    (require 'smex-conf))
+(require 'smex-conf)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1935,10 +1783,11 @@
 
 ;; --[ WanderLust ]-------------------------------------------------------------
 ;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
-(when section-wl
-    (add-site-lisp-load-path "wl/wl/")
-    (add-site-lisp-info-path "wl/doc/")
-    (use-package wl))
+(use-package wl
+  :load-path (lambda () (concat my-site-lisp-dir "wl/wl/"))
+  :config
+  (add-site-lisp-info-path "wl/doc/")
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1949,9 +1798,7 @@
 
 
 ;; [ weibo ]--------------------------------------------------------------------
-(when section-weibo
-    (add-site-lisp-load-path "weibo/")
-    (load "weibo-conf"))
+(require 'weibo-conf)
 ;; [ weibo ]-----------------------------------------------------------[ End ]--
 
 
@@ -2030,15 +1877,29 @@
 ;; on top of your cursor so you know where it is.
 (require 'beacon-conf)
 
-
 ;; Modernizing Emacs' Package Menu
 ;; Use `paradox-list-packages' instead of the regular `list-packages'
 (require 'paradox-conf)
 
+;; A Collection of Ridiculously Useful eXtensions for Emacs
+(require 'crux-conf)
 
-;; M-; comment/uncomment
+;; Weather
+(require 'wttrin-conf)
+
+;; deft
+(require 'deft-conf)
+
+;; comment/uncomment with M-;
 (require 'evil-nerd-commenter-conf)
 
+(use-package bongo
+  :commands (bongo)
+  :init
+  (if (file-directory-p "D:/Tools/MPlayer")
+      (add-to-list 'exec-path "D:/Tools/MPlayer")
+    (message "*** Warning!! Please install MPlayer first!!"))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
@@ -2098,9 +1959,7 @@
 
 
 ;; [ workgroups2 ]--------------------------------------------------------------
-(when section-workgroups
-    (add-site-lisp-load-path "workgroups2/src/")
-    (load "workgroups-conf"))
+(require 'workgroups-conf)
 ;; [ workgroups2 ]-----------------------------------------------------[ End ]--
 
 
@@ -2122,7 +1981,8 @@
       debug-on-quit nil
       stack-trace-on-error '(buffer-read-only))
 
-; (add-hook 'after-init-hook (lambda () (setq debug-on-error t)))
+;; Garbage collector - decrease threshold to 5 MB
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold (* 5 1024 1024))))
 
 (message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))

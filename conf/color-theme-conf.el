@@ -89,4 +89,9 @@
         (load-theme 'monokai t))
 )
 
+(use-package color-theme-sanityinc-tomorrow
+  :config
+  (progn
+    (load-theme 'sanityinc-tomorrow-night t)))
+
 (provide 'color-theme-conf)

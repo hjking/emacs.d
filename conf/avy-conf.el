@@ -1,7 +1,7 @@
 ;;
 ;; Filename: avy-conf.el
-;; Description: avy allows us to effectively navigate to visible things by
-;;              searching for a letter on the screen and jumping to it.
+;; Description: Avy is a package that lets you
+;; jump anywhere on screen based on character, characters, lines or words.
 ;; Author: Hong Jin
 ;; Last Updated: 2015-07-23 10:00
 ;;

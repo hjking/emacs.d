@@ -36,6 +36,8 @@
         (browse-url-firefox (or (w3m-anchor)
                                 (w3m-image))))
 
+      (add-site-lisp-info-path "emacs-w3m/doc/")
+
       ; (setq w3m-search-default-engine "g")
       ; (with-eval-after-load 'w3m-search
       ;    ; C-u S g RET <search term> RET

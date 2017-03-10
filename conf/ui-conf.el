@@ -154,6 +154,15 @@ fringes.")
 ;;                ((= (x-display-pixel-height) 768)
 ;;                 '((left . 0) (height . 46)))))
 
+;; initial window
+(setq initial-frame-alist
+      '((width . 142)   ; characters in a line
+        (height . 42))) ; number of lines
+
+;; sebsequent frame
+(setq default-frame-alist
+      '((width . 140)   ; characters in a line
+        (height . 40))) ; number of lines
 
 ;;; Whitespace Mode/Show Long Lines
 (use-package whitespace

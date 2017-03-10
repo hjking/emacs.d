@@ -72,6 +72,8 @@
   :load-path (lambda () (concat my-site-lisp-dir "ace-window/"))
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  ;; Autoload
+  :commands (ace-window)
   :bind (("C-x o" . ace-window))
   :config
   (ace-window-display-mode 1)
@@ -205,7 +207,7 @@
               (funcall split-3 1stBuf 2ndBuf 3rdBuf split-type-1 split-type-2)
   ))))
 
-(global-set-key (kbd "C-x 4 c") (quote change-split-type-3))
+(global-set-key (kbd "C-x 4 c") 'change-split-type-3)
 
 
 ;  +------------+-----------+                   +------------+-----------+
@@ -247,6 +249,6 @@
                   (set-window-buffer 3rdWin 1stBuf))
                 ))))))
 
-(global-set-key (kbd "C-x 4 r")  (quote roll-v-3))
+(global-set-key (kbd "C-x 4 r")  'roll-v-3)
 
 (provide 'window-conf)
