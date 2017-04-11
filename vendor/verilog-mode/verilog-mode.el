@@ -1,6 +1,6 @@
 ;;; verilog-mode.el --- major mode for editing verilog source in Emacs
 
-;; Copyright (C) 1996-2016 Free Software Foundation, Inc.
+;; Copyright (C) 1996-2017 Free Software Foundation, Inc.
 
 ;; Author: Michael McNamara <mac@verilog.com>
 ;;    Wilson Snyder <wsnyder@wsnyder.org>
@@ -123,7 +123,7 @@
 ;;
 
 ;; This variable will always hold the version number of the mode
-(defconst verilog-mode-version "2016-09-10-debfc6d-vpo"
+(defconst verilog-mode-version "2017-03-30-cb0d014-vpo"
   "Version of this Verilog mode.")
 (defconst verilog-mode-release-emacs nil
   "If non-nil, this version of Verilog mode was released with Emacs itself.")
@@ -386,6 +386,14 @@ wherever possible, since it is slow."
 ;;(verilog-easy-menu-filter
 ;;  `("Verilog" ("MA" ["SAA" nil :help "Help SAA"] ["SAB" nil :help "Help SAA"])
 ;;     "----" ["MB" nil :help "Help MB"]))
+
+(defun verilog-define-abbrev-table (tablename definitions &optional docstring &rest props)
+  "Filter `define-abbrev-table' TABLENAME DEFINITIONS
+Provides DOCSTRING PROPS in newer Emacs (23.1)."
+  (condition-case nil
+      (apply 'define-abbrev-table tablename definitions docstring props)
+    (error
+     (define-abbrev-table tablename definitions))))
 
 (defun verilog-define-abbrev (table name expansion &optional hook)
   "Filter `define-abbrev' TABLE NAME EXPANSION and call HOOK.
@@ -762,10 +770,13 @@ mode is experimental."
 
 (defcustom verilog-auto-wire-type nil
   "Non-nil specifies the data type to use with `verilog-auto-wire' etc.
-Set this to \"logic\" for SystemVerilog code, or use `verilog-auto-logic'."
+Set this to \"logic\" for SystemVerilog code, or use `verilog-auto-logic'.
+Set this to \"wire\" to force use of wire when logic is otherwise appropriate;
+this is generally only appropriate when making a non-SystemVerilog wrapper
+containing SystemVerilog cells."
   :version "24.1"  ; rev673
   :group 'verilog-mode-actions
-  :type 'boolean)
+  :type 'string)
 (put 'verilog-auto-wire-type 'safe-local-variable `stringp)
 
 (defcustom verilog-auto-endcomments t
@@ -1356,13 +1367,13 @@ See also `verilog-case-fold'."
   :type 'hook)
 
 (defcustom verilog-before-save-font-hook nil
-  "Hook run before `verilog-save-font-mods' removes highlighting."
+  "Hook run before `verilog-save-font-no-change-functions' removes highlighting."
   :version "24.3"  ; rev735
   :group 'verilog-mode-auto
   :type 'hook)
 
 (defcustom verilog-after-save-font-hook nil
-  "Hook run after `verilog-save-font-mods' restores highlighting."
+  "Hook run after `verilog-save-font-no-change-functions' restores highlighting."
   :version "24.3"  ; rev735
   :group 'verilog-mode-auto
   :type 'hook)
@@ -1416,8 +1427,10 @@ If set will become buffer local.")
     (define-key map "\M-\C-b"  'electric-verilog-backward-sexp)
     (define-key map "\M-\C-f"  'electric-verilog-forward-sexp)
     (define-key map "\M-\r"    `electric-verilog-terminate-and-indent)
-    (define-key map "\M-\t"    'verilog-complete-word)
-    (define-key map "\M-?"     'verilog-show-completions)
+    (define-key map "\M-\t"    (if (fboundp 'completion-at-point)
+                                   'completion-at-point 'verilog-complete-word))
+    (define-key map "\M-?"     (if (fboundp 'completion-help-at-point)
+                                   'completion-help-at-point 'verilog-show-completions))
     ;; Note \C-c and letter are reserved for users
     (define-key map "\C-c`"    'verilog-lint-off)
     (define-key map "\C-c*"    'verilog-delete-auto-star-implicit)
@@ -1448,7 +1461,7 @@ If set will become buffer local.")
 (easy-menu-define
   verilog-menu verilog-mode-map "Menu for Verilog mode"
   (verilog-easy-menu-filter
-   '("Verilog"
+   `("Verilog"
      ("Choose Compilation Action"
       ["None"
        (progn
@@ -1540,7 +1553,8 @@ If set will become buffer local.")
       :help		"Take a signal vector on the current line and expand it to multiple lines"]
      ["Insert begin-end block"		verilog-insert-block
       :help		"Insert begin ... end"]
-     ["Complete word"			verilog-complete-word
+     ["Complete word" ,(if (fboundp 'completion-at-point)
+                           'completion-at-point 'verilog-complete-word)
       :help		"Complete word at point"]
      "----"
      ["Recompute AUTOs"			verilog-auto
@@ -1699,7 +1713,13 @@ If set will become buffer local.")
 (defvar verilog-mode-abbrev-table nil
   "Abbrev table in use in Verilog-mode buffers.")
 
-(define-abbrev-table 'verilog-mode-abbrev-table ())
+;;(makunbound 'verilog-mode-abbrev-table) ; For testing, clear out old defvar
+(verilog-define-abbrev-table
+ 'verilog-mode-abbrev-table ()
+ "Abbrev table for Verilog mode skeletons."
+ :case-fixed t
+ ;; Only expand in code.
+ :enable-function (lambda () (not (verilog-in-comment-or-string-p))))
 (verilog-define-abbrev verilog-mode-abbrev-table "class" "" 'verilog-sk-ovm-class)
 (verilog-define-abbrev verilog-mode-abbrev-table "always" "" 'verilog-sk-always)
 (verilog-define-abbrev verilog-mode-abbrev-table "begin" nil `verilog-sk-begin)
@@ -1940,13 +1960,29 @@ be substituted."
 		 t t command))
   command)
 
+;; Eliminate compile warning
+(defvar verilog-compile-command-pre-mod)
+(defvar verilog-compile-command-post-mod)
+
 (defun verilog-modify-compile-command ()
   "Update `compile-command' using `verilog-expand-command'."
-  (when (and
-	 (stringp compile-command)
-	 (string-match "\\b\\(__FLAGS__\\|__FILE__\\)\\b" compile-command))
-    (set (make-local-variable 'compile-command)
-	 (verilog-expand-command compile-command))))
+  ;; Entry into verilog-mode a call to this before Local Variables exist
+  ;; Likewise user may have hook or something that changes the flags.
+  ;; So, remember we're responsible for the expansion and on re-entry
+  ;; recompute __FLAGS__ on each reentry.
+  (when (stringp compile-command)
+    (when (and
+           (boundp 'verilog-compile-command-post-mod)
+           (equal compile-command verilog-compile-command-post-mod))
+      (setq compile-command verilog-compile-command-pre-mod))
+    (when (and
+           (string-match "\\b\\(__FLAGS__\\|__FILE__\\)\\b" compile-command))
+      (set (make-local-variable 'verilog-compile-command-pre-mod)
+           compile-command)
+      (set (make-local-variable 'compile-command)
+           (verilog-expand-command compile-command))
+      (set (make-local-variable 'verilog-compile-command-post-mod)
+           compile-command))))
 
 (if (featurep 'xemacs)
     ;; Following code only gets called from compilation-mode-hook on XEmacs to add error handling.
@@ -3806,7 +3842,7 @@ AUTO expansion functions are, in part:
 
 Some other functions are:
 
-    \\[verilog-complete-word]    Complete word with appropriate possibilities.
+    \\[completion-at-point]    Complete word with appropriate possibilities.
     \\[verilog-mark-defun]  Mark function.
     \\[verilog-beg-of-defun]  Move to beginning of current function.
     \\[verilog-end-of-defun]  Move to end of current function.
@@ -3920,6 +3956,9 @@ Key bindings specific to `verilog-mode-map' are:
 				       verilog-forward-sexp-function)
 		  hs-special-modes-alist))))
 
+  (add-hook 'completion-at-point-functions
+            #'verilog-completion-at-point nil 'local)
+
   ;; Stuff for autos
   (add-hook 'write-contents-hooks 'verilog-auto-save-check nil 'local)
   ;; verilog-mode-hook call added by define-derived-mode
@@ -3928,9 +3967,10 @@ Key bindings specific to `verilog-mode-map' are:
 ;;; Integration with the speedbar
 ;;
 
-;; This causes problems with XEmacs byte-compiles.
+;; Avoid problems with XEmacs byte-compiles.
 ;; For GNU Emacs, the eval-after-load will handle if it isn't loaded yet.
-;;(declare-function speedbar-add-supported-extension "speedbar" (extension))
+(when (eval-when-compile (fboundp 'declare-function))
+  (declare-function speedbar-add-supported-extension "speedbar" (extension)))
 
 (defun verilog-speedbar-initialize ()
   "Initialize speedbar to understand `verilog-mode'."
@@ -7197,6 +7237,9 @@ Region is defined by B and EDPOS."
 Repeated use of \\[verilog-complete-word] will show you all of them.
 Normally, when there is more than one possible completion,
 it displays a list of all possible completions.")
+(when (boundp 'completion-cycle-threshold)
+  (make-obsolete-variable
+   'verilog-toggle-completions 'completion-cycle-threshold "26.1"))
 
 
 (defvar verilog-type-keywords
@@ -7479,21 +7522,33 @@ exact match, nil otherwise."
 (defvar verilog-last-word-shown nil)
 (defvar verilog-last-completions nil)
 
+(defun verilog-completion-at-point ()
+  "Used as an element of `completion-at-point-functions'.
+\(See also `verilog-type-keywords' and
+`verilog-separator-keywords'.)"
+  (let* ((b (save-excursion (skip-chars-backward "a-zA-Z0-9_") (point)))
+         (e (save-excursion (skip-chars-forward "a-zA-Z0-9_") (point)))
+         (verilog-str (buffer-substring b e))
+         ;; The following variable is used in verilog-completion
+         (verilog-buffer-to-use (current-buffer))
+         (allcomp (if (and verilog-toggle-completions
+                           (string= verilog-last-word-shown verilog-str))
+                      verilog-last-completions
+                    (all-completions verilog-str 'verilog-completion))))
+    (list b e allcomp)))
+
 (defun verilog-complete-word ()
   "Complete word at current point.
 \(See also `verilog-toggle-completions', `verilog-type-keywords',
 and `verilog-separator-keywords'.)"
-  ;; FIXME: Provide completion-at-point-function.
+  ;; NOTE: This is just a fallback for Emacs versions lacking
+  ;; `completion-at-point'.
   (interactive)
-  (let* ((b (save-excursion (skip-chars-backward "a-zA-Z0-9_") (point)))
-	 (e (save-excursion (skip-chars-forward "a-zA-Z0-9_") (point)))
+  (let* ((comp-info (verilog-completion-at-point))
+         (b (nth 0 comp-info))
+	 (e (nth 1 comp-info))
 	 (verilog-str (buffer-substring b e))
-	 ;; The following variable is used in verilog-completion
-	 (verilog-buffer-to-use (current-buffer))
-	 (allcomp (if (and verilog-toggle-completions
-			   (string= verilog-last-word-shown verilog-str))
-		      verilog-last-completions
-		    (all-completions verilog-str 'verilog-completion)))
+	 (allcomp (nth 2 comp-info))
 	 (match (if verilog-toggle-completions
 		    "" (try-completion
 			verilog-str (mapcar (lambda (elm)
@@ -7541,23 +7596,15 @@ and `verilog-separator-keywords'.)"
 
 (defun verilog-show-completions ()
   "Show all possible completions at current point."
+  ;; NOTE: This is just a fallback for Emacs versions lacking
+  ;; `completion-help-at-point'.
   (interactive)
-  (let* ((b (save-excursion (skip-chars-backward "a-zA-Z0-9_") (point)))
-	 (e (save-excursion (skip-chars-forward "a-zA-Z0-9_") (point)))
-	 (verilog-str (buffer-substring b e))
-	 ;; The following variable is used in verilog-completion
-	 (verilog-buffer-to-use (current-buffer))
-	 (allcomp (if (and verilog-toggle-completions
-			   (string= verilog-last-word-shown verilog-str))
-		      verilog-last-completions
-		    (all-completions verilog-str 'verilog-completion))))
-    ;; Show possible completions in a temporary buffer.
-    (with-output-to-temp-buffer "*Completions*"
-      (display-completion-list allcomp))
-    ;; Wait for a key press. Then delete *Completion*  window
-    (momentary-string-display "" (point))
-    (delete-window (get-buffer-window (get-buffer "*Completions*")))))
-
+  ;; Show possible completions in a temporary buffer.
+  (with-output-to-temp-buffer "*Completions*"
+    (display-completion-list (nth 2 (verilog-completion-at-point))))
+  ;; Wait for a key press. Then delete *Completion*  window
+  (momentary-string-display "" (point))
+  (delete-window (get-buffer-window (get-buffer "*Completions*"))))
 
 (defun verilog-get-default-symbol ()
   "Return symbol around current point as a string."
@@ -9428,7 +9475,14 @@ like:
     // End:
 
 If macros are defined earlier in the same file and you want their values,
-you can read them automatically (provided `enable-local-eval' is on):
+you can read them automatically with:
+
+    // Local Variables:
+    // verilog-auto-read-includes:t
+    // End:
+
+Or a more specific alternative example, which requires having
+`enable-local-eval' non-nil:
 
     // Local Variables:
     // eval:(verilog-read-defines)
@@ -9494,6 +9548,13 @@ ignoring any ifdefs or multiline comments around them.
 file.
 
 It is often useful put at the *END* of your file something like:
+
+    // Local Variables:
+    // verilog-auto-read-includes:t
+    // End:
+
+Or the equivalent longer version, which requires having
+`enable-local-eval' non-nil:
 
     // Local Variables:
     // eval:(verilog-read-defines)
@@ -10330,13 +10391,21 @@ When MODI is non-null, also add to modi-cache, for tracking."
       (verilog-insert-one-definition
        sig
        ;; Want "type x" or "output type x", not "wire type x"
-       (cond ((or (verilog-sig-type sig)
+       (cond ((and (equal "wire" verilog-auto-wire-type)
+                   (or (not (verilog-sig-type sig))
+                       (equal "logic" (verilog-sig-type sig))))
+              (if (member direction '("input" "output" "inout"))
+                  direction
+                "wire"))
+             ;;
+             ((or (verilog-sig-type sig)
 		  verilog-auto-wire-type)
 	      (concat
 	       (when (member direction '("input" "output" "inout"))
 		 (concat direction " "))
-	       (or (verilog-sig-type sig)
+               (or (verilog-sig-type sig)
                    verilog-auto-wire-type)))
+             ;;
 	     ((and verilog-auto-declare-nettype
 		   (member direction '("input" "output" "inout")))
 	      (concat direction " " verilog-auto-declare-nettype))
@@ -13733,9 +13802,6 @@ Wilson Snyder (wsnyder@wsnyder.org)."
           (verilog-auto-re-search-do "/\\*AUTOINSTPARAM\\*/" 'verilog-auto-inst-param)
           (verilog-auto-re-search-do "/\\*AUTOINST\\*/" 'verilog-auto-inst)
           (verilog-auto-re-search-do "\\.\\*" 'verilog-auto-star)
-          ;; Doesn't matter when done, but combine it with a common changer
-          (verilog-auto-re-search-do "/\\*\\(AUTOSENSE\\|AS\\)\\*/" 'verilog-auto-sense)
-          (verilog-auto-re-search-do "/\\*AUTORESET\\*/" 'verilog-auto-reset)
           ;; Must be done before autoin/out as creates a reg
           (verilog-auto-re-search-do "/\\*AUTOASCIIENUM(.*?)\\*/" 'verilog-auto-ascii-enum)
           ;;
@@ -13761,6 +13827,10 @@ Wilson Snyder (wsnyder@wsnyder.org)."
           (verilog-auto-re-search-do "/\\*AUTOREGINPUT\\*/" 'verilog-auto-reg-input)
           ;; outputevery needs AUTOOUTPUTs done first
           (verilog-auto-re-search-do "/\\*AUTOOUTPUTEVERY\\((.*?)\\)?\\*/" 'verilog-auto-output-every)
+          ;; Doesn't matter when done, but combine it with a common changer
+          (verilog-auto-re-search-do "/\\*\\(AUTOSENSE\\|AS\\)\\*/" 'verilog-auto-sense)
+          ;; After AUTOREG*, as they may have set signal widths
+          (verilog-auto-re-search-do "/\\*AUTORESET\\*/" 'verilog-auto-reset)
           ;; After we've created all new variables
           (verilog-auto-re-search-do "/\\*AUTOUNUSED\\*/" 'verilog-auto-unused)
           ;; Must be after all inputs outputs are generated
