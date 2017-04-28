@@ -1224,6 +1224,64 @@
       ("I" describe-library)
       ("q" nil :color blue))
 
+
+    (defhydra hjking-hydra-highlight-symbol
+     (:color red  :hint nil :post (progn (highlight-symbol-remove-all)))
+     "
+        highlight-symbol
+
+  ^Highlight^          ^Next^              ^Prev
+  ^^^^^^^^--------------------------------------------
+  _._: highlight       _n_: next           _p_: prev
+    ^ ^                _N_: next in defun  _P_: prev in defun
+  "
+     ("." highlight-symbol-at-point)
+     ("n" highlight-symbol-next)
+     ("p" highlight-symbol-prev)
+     ("N" highlight-symbol-next-in-defun)
+     ("P" highlight-symbol-prev-in-defun)
+     ("r" highlight-symbol-query-replace  "replace" :color red)
+     ("q" nil                             "cancel" :color blue))
+
+
+
+    (defun my/hl-anything (&optional arg)
+         "Wrapper function to call functions to highlight the thing at point either
+     globally or locally (when called with prefix `C-u')."
+         (interactive "p")
+         (if (eq arg 4)
+             (hl-highlight-thingatpt-local)
+           (hl-highlight-thingatpt-global)))
+
+    (defun my/unhl-anything (&optional arg)
+         "Wrapper function to call functions to unhighlight all either
+     globally or locally (when called with prefix `C-u')."
+         (interactive "p")
+         (if (eq arg 4)
+             (hl-unhighlight-all-local)
+           (hl-unhighlight-all-global)))
+
+    (defhydra hjking-hydra-hl-anything (:color red :hint nil)
+       "
+        hl-anything
+    ^Highlight^          ^UnHighlight^        ^Next/Prev^        ^Misc
+    ^^^^^^^^-----------------------------------------------------------------
+    _H_: global          _U_: unhl-global     _n_: next          _s_: save
+    _h_: local           _h_: unhl-local      _p_: prev          _r_: restore
+    "
+       ("H" my/hl-anything             )
+       ("h" (my/hl-anything 4)         )
+       ("U" my/unhl-anything           )
+       ("u" (my/unhl-anything 4)       )
+       ("n" hl-find-next-thing         )
+       ("p" hl-find-prev-thing         )
+       ("s" hl-save-highlights         )
+       ("r" hl-restore-highlights      )
+       ("t" hl-global-highlight-on/off "on/off" :color blue)
+       ("q" nil                        "cancel" :color blue)
+       )
+
+
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Key Binding
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1231,9 +1289,9 @@
     (define-key hjking-mode-map "b" 'hjking-hydra-buffer-move/body)
     (define-key hjking-mode-map "c" 'hjking-hydra-multiple-cursors/body)
     (define-key hjking-mode-map "d" 'hjking-hydra-delete/body)
-    (define-key hjking-mode-map "f" 'hjking-hydra-delete/body)
-    ; (define-key hjking-mode-map "h" 'hjking-hydra-hl-anything/body)
-    ; (define-key hjking-mode-map "l" 'hjking-hydra-buffer-move/body)
+    (define-key hjking-mode-map "f" 'hjking-hydra-fold/body)
+    (define-key hjking-mode-map "h" 'hjking-hydra-hl-anything/body)
+    (define-key hjking-mode-map "l" 'hjking-hydra-highlight-symbol/body)
     (define-key hjking-mode-map "g" 'hjking-hydra-git/body)
     (define-key hjking-mode-map "m" 'hjking-hydra-markdown-mode/body)
     (define-key hjking-mode-map "n" 'hjking-hydra-navigate/body)

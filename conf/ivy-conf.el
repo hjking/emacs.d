@@ -14,7 +14,7 @@
           ;; extend searching to bookmarks and …
           (setq ivy-use-virtual-buffers t)
           (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
-          (setq ivy-count-format "%d/%d ") ; count format, from the ivy help page
+          (setq ivy-count-format "(%d/%d) ") ; count format, from the ivy help page
           (setq ivy-display-style 'fancy)
           (setq ivy-re-builders-alist
            '((ivy-switch-buffer . ivy--regex-plus)

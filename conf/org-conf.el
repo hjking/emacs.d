@@ -970,15 +970,15 @@
     ;; (require 'org-html5presentation)
 
     ;;
-    (use-package org-jekyll-mode
-      :commands (org-jekyll/new-post
-                 org-jekyll/publish-project)
-      :init (progn
-        (setq org-jekyll/jekyll-project-root "E:/Workspace/hjking.github.com/")
-        (setq org-jekyll/org-mode-project-root "~/org/")
-        (setq org-jekyll/export-with-toc t)   ;; export content
-        )
-    )
+    ; (use-package org-jekyll-mode
+    ;   :commands (org-jekyll/new-post
+    ;              org-jekyll/publish-project)
+    ;   :init (progn
+    ;     (setq org-jekyll/jekyll-project-root "E:/Workspace/hjking.github.com/")
+    ;     (setq org-jekyll/org-mode-project-root "~/org/")
+    ;     (setq org-jekyll/export-with-toc t)   ;; export content
+    ;     )
+    ; )
 
 
     ;;;; org-extension

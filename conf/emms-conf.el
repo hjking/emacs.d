@@ -36,36 +36,28 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Configuration
-(require 'emms-player-mplayer)
-(require 'emms-streams)
 
+; (require 'emms-streams)
 ; (require 'emms-source-file)
 ; (require 'emms-source-playlist)
 ; (require 'emms-player-simple)
 ; (require 'emms-player-mplayer)
 ; (require 'emms-playlist-mode)
 ; (require 'emms-info)
-; (require 'emms-cache)
-; (require 'emms-mode-line)
-; (require 'emms-playing-time)
-; (require 'emms-score)
 ; (require 'emms-volume)
 ; (require 'emms-playlist-sort)
-(require 'emms-info-libtag)
+; (require 'emms-info-libtag)
 
-(emms-mode-line 1)
-
+;; score
 (emms-score 1)
-
-(emms-playing-time 1)
 
 ;; show lyrics
 (require 'emms-lyrics)
 ;; (emms-lyrics 1)
+
 ;; auto identify encode
 (require 'emms-i18n)
-;; auto save and import playlist
-(require 'emms-history)
+
 
 ;;(setq emms-player-mplayer-command-name "mplayer.exe")
 
@@ -77,53 +69,58 @@
 (unless (file-directory-p my-emms-conf-dir)
     (make-directory my-emms-conf-dir))
 
+; ; (require 'emms-score)
 ;; (setq emms-score-file "~/.emacs.d/emms/emms-scores")
 (setq emms-score-file (concat my-emms-conf-dir "emms-scores"))
+
+; (require 'emms-cache)
 ;; (setq emms-cache-file "~/.emacs.d/emms/emms-cache")
 (setq emms-cache-file (concat my-emms-conf-dir "emms-cache"))
+
+;; emms-history: auto save and import playlist
+(require 'emms-history)
 ;; (setq emms-history-file "~/.emacs.d/emms/emms-history")
 (setq emms-history-file (concat my-emms-conf-dir "emms-history"))
+(setq emms-history-file-coding-system emms-cache-file-coding-system)
 
-(setq emms-playlist-buffer-name "EMMS Music Playlist")
-;; 设定EMMS用播放列表的主模式
+(setq emms-playlist-buffer-name "*Music*")
+
+;; make emms-playlist buffer the default Emms playlist mode
 (setq emms-playlist-default-major-mode 'emms-playlist-mode)
 ;; (setq emms-playlist-mode-window-width (* 0.3 (frame-width)))
+(add-hook 'emms-playlist-mode-hook
+  (lambda ()
+  (toggle-truncate-lines 1)))
+
+;; Using TagLib
+(require 'emms-info-libtag)
 (setq emms-info-functions '(emms-info-libtag))
-;; 设定音轨初始化信息
-(add-to-list 'emms-track-initialize-functions 'emms-info-initialize-track)
 ;; (add-to-list 'emms-info-functions 'kid-emms-info-simple)
 
-;;
-;; Mode line format
-;; show info at mode-line
-(setq emms-mode-line-mode-line-function 'bigclean-emms-mode-line-playlist-current)
-;; (setq emms-mode-line-mode-line-function 'xwl-emms-mode-line-playlist-current)
-;; (setq emms-mode-line-titlebar-function nil)
+;; (defun kid-emms-info-simple (track)
+;;   "Get info from the filename.
+;; mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
+;; 都放得比较有规律，所以我决定直接从文件名获取标签信息。"
+;;   (when (eq 'file (emms-track-type track))
+;;     (let ((regexp "/\\([^/]+\\)/\\([^/]+\\)\\.[^.]+$")
+;;           (name (emms-track-name track)))
+;;       (if (string-match regexp name)
+;;           (progn
+;;             (emms-track-set track 'info-artist (match-string 1 name))
+;;             (emms-track-set track 'info-title (match-string 2 name)))
+;;           (emms-track-set track
+;;                           'info-title
+;;                           (file-name-nondirectory name))))))
 
-;;
-;; Playlist buffer format
-;; (setq emms-track-description-function 'my-emms-info-track-description)
-(setq emms-track-description-function 'bigclean-emms-info-track-description)
-;; (setq emms-last-played-format-alist
-;;       '(((emms-last-played-seconds-today) . "%a %H:%M")
-;;         (604800                           . "%a %H:%M") ; this week
-;;         ((emms-last-played-seconds-month) . "%d")
-;;         ((emms-last-played-seconds-year)  . "%m/%d")
-;;         (t                                . "%Y/%m/%d")))
-;; (eval-after-load "emms"
-;;   '(progn
-;;      (setq xwl-emms-playlist-last-track nil)
-;;      (setq xwl-emms-playlist-last-indent "\\")
-;;      ;; (setq emms-track-description-function 'kid-emms-info-track-description)
-;;      ;; (setq emms-track-description-function 'my-emms-info-track-description)
-;;      (setq emms-track-description-function 'bigclean-emms-info-track-description)
-;;      ;; (setq emms-track-description-function 'xwl-emms-track-description-function)
-;;
-;;      ))
+
+;; 设定音轨初始化信息
+(add-to-list 'emms-track-initialize-functions 'emms-info-initialize-track)
+
 
 ;; 关闭EMMS信息异步模式, 不然会处错
 (setq emms-info-asynchronously nil)
 
+; (require 'emms-source-file)
 (when win32p
     ;; use faster finding facility if you have GNU find
     (setq emms-source-file-directory-tree-function 'emms-source-file-directory-tree-internal))
@@ -132,7 +129,7 @@
 
 ;; My music location
 (when win32p
-  (setq emms-source-file-default-directory "F:/Music")
+  (setq emms-source-file-default-directory "F:/Media/Music")
 )
 (when linuxp
   (setq emms-source-file-default-directory "~/Music")
@@ -156,68 +153,44 @@
 (setq emms-lyrics-coding-system nil)     ;; let emacs to identify the encode of lyrics
 (setq emms-lyrics-dir my-emms-lyrics)
 (setq emms-lyrics-display-format "%s")
+(setq emms-lyrics-display-on-minibuffer t)
 
 ;; coding settings
 (setq emms-info-mp3info-coding-system 'utf-8)
 (setq emms-cache-file-coding-system 'utf-8-emacs)
-(setq emms-history-file-coding-system emms-cache-file-coding-system)
+
 ;; (setq emms-i18n-default-coding-system '(no-conversion . no-conversion))
 ;; (setq emms-i18n-default-coding-system '(utf-8 . utf-8))
 
 ;; (add-to-list 'file-coding-system-alist '("/[mM]usic/.*" gbk . gbk))
 
 (add-hook 'emms-player-started-hook 'emms-show) ; show the coming song
+;; "%s" is replaced by what emms-track-description-function returns for the currently playing track
 (setq emms-show-format "Now Playing: %s")
+
 ;;
-;; 修复该死的播放完后的BUG
-(setq emms-player-next-function 'emms-next)
-;; 设定EMMS启动列表循环播放
-(setq emms-repeat-playlist t)   ; repeat at the end
+;; Playlist buffer format
+; (setq emms-track-description-function 'my-emms-info-track-description)
+(setq emms-track-description-function 'bigclean-emms-info-track-description)
+;; (setq emms-last-played-format-alist
+;;       '(((emms-last-played-seconds-today) . "%a %H:%M")
+;;         (604800                           . "%a %H:%M") ; this week
+;;         ((emms-last-played-seconds-month) . "%d")
+;;         ((emms-last-played-seconds-year)  . "%m/%d")
+;;         (t                                . "%Y/%m/%d")))
 
-(setq emms-mode-line-format "[ %s "
-      emms-playing-time-display-format "%s ]")
-(setq global-mode-string
-      '("" emms-mode-line-string " " emms-playing-time-string))
-
-(setq emms-playing-time-style 'bar)
-
-;;>>>>>>
-;(add-hook 'emms-player-finished-hook 'emms-random)          ;当播放完当前的歌曲时随机选择下一首歌曲
-(emms-player-set emms-player-mplayer 'regex "\\.ogg\\|\\.mp3\\|\\.wav\\|\\.mpg\\|\\.mpeg\\|\\.wmv\\|\\.wma\\|\\.mov\\|\\.avi\\|\\.divx\\|\\.ogm\\|\\.asf\\|\\.mkv\\|http://\\|mms://\\|\\.rm\\|\\.rmvb\\|\\.mp4\\|\\.flac\\|\\.vob\\|\\.m4a\\|\\.ape\\|\\.mpc")
-
-;;>>>>>>
-(setq emms-stream-info-format-string "NS: %s"
-      emms-stream-default-action "play"
-      emms-stream-popup-default-height 120)
-
-;; (when (fboundp 'emms-cache)
-;;   (emms-cache 1))
-
-;; (defun kid-emms-info-simple (track)
-;;   "Get info from the filename.
-;; mp3 标签的乱码问题总是很严重，幸好我系统里面的音乐文件
-;; 都放得比较有规律，所以我决定直接从文件名获取标签信息。"
-;;   (when (eq 'file (emms-track-type track))
-;;     (let ((regexp "/\\([^/]+\\)/\\([^/]+\\)\\.[^.]+$")
-;;           (name (emms-track-name track)))
-;;       (if (string-match regexp name)
-;;           (progn
-;;             (emms-track-set track 'info-artist (match-string 1 name))
-;;             (emms-track-set track 'info-title (match-string 2 name)))
-;;           (emms-track-set track
-;;                           'info-title
-;;                           (file-name-nondirectory name))))))
-
-
-;; format current track,only display title in mode line
-(defun bigclean-emms-mode-line-playlist-current ()
+(defun my-emms-info-track-description (track)
   "Return a description of the current track."
-  (let* ((track (emms-playlist-current-selected-track))
-         (type (emms-track-type track))
-         (title (emms-track-get track 'info-title)))
-    (format "[ %s ]"
-            (cond ((and title)
-                   title)))))
+  (if (and (emms-track-get track 'info-artist)
+           (emms-track-get track 'info-title))
+      (let ((pmin (emms-track-get track 'info-playing-time-min))
+            (psec (emms-track-get track 'info-playing-time-sec))
+            (ptot (emms-track-get track 'info-playing-time))
+            (art  (emms-track-get track 'info-artist))
+            (tit  (emms-track-get track 'info-title)))
+        (cond ((and pmin psec) (format "%s - %s [%02s:%02s]" art tit pmin psec))
+              (ptot (format  "%s - %s [%02s:%02s]" art tit (/ ptot 60) (% ptot 60)))
+              (t (emms-track-simple-description track))))))
 
 ;; my customizable playlist format
 (defun bigclean-emms-info-track-description (track)
@@ -235,37 +208,39 @@
          (/ ptime 60)
          (% ptime 60)))))
 
-;; (defun kid-emms-info-track-description (track)
-;;   "Return a description of the current track."
-;;   (let ((artist (emms-track-get track 'info-artist))
-;;         (title (emms-track-get track 'info-title)))
-;;     (format "%-10s +| %s"
-;;             (or artist
-;;                 "")
-;;             title)))
+;;
+;; 修复该死的播放完后的BUG
+(setq emms-player-next-function 'emms-next)
+;; 设定EMMS启动列表循环播放
+(setq emms-repeat-playlist t)   ; repeat at the end
 
-(defun my-emms-info-track-description (track)
+;;
+;; Emms Mode Line
+;; show info at mode-line
+; (require 'emms-mode-line)
+; (require 'emms-playing-time)
+(emms-mode-line 1)
+(emms-playing-time 1)
+(setq emms-mode-line-format "[ %s "
+      emms-playing-time-display-format "%s ]")
+(setq global-mode-string
+      '("" emms-mode-line-string " " emms-playing-time-string))
+
+(setq emms-playing-time-style 'bar)
+
+(setq emms-mode-line-mode-line-function 'bigclean-emms-mode-line-playlist-current)
+;; (setq emms-mode-line-mode-line-function 'xwl-emms-mode-line-playlist-current)
+;; (setq emms-mode-line-titlebar-function nil)
+
+;; format current track, only display title in mode line
+(defun bigclean-emms-mode-line-playlist-current ()
   "Return a description of the current track."
-  (if (and (emms-track-get track 'info-artist)
-           (emms-track-get track 'info-title))
-      (let ((pmin (emms-track-get track 'info-playing-time-min))
-            (psec (emms-track-get track 'info-playing-time-sec))
-            (ptot (emms-track-get track 'info-playing-time))
-            (art  (emms-track-get track 'info-artist))
-            (tit  (emms-track-get track 'info-title)))
-        (cond ((and pmin psec) (format "%s - %s [%02s:%02s]" art tit pmin psec))
-              (ptot (format  "%s - %s [%02s:%02s]" art tit (/ ptot 60) (% ptot 60)))
-              (t (emms-track-simple-description track))))))
-
-;; (defun my-emms-google-for-lyrics ()
-;;   (interactive)
-;;   (browse-url
-;;    (concat "http://www.google.com/search?q="
-;;            (replace-regexp-in-string " +" "+"
-;;                                      (concat "lyrics "
-;;                                              (delete ?- (emms-track-description
-;;                              (emms-playlist-current-selected-track))))))))
-
+  (let* ((track (emms-playlist-current-selected-track))
+         (type (emms-track-type track))
+         (title (emms-track-get track 'info-title)))
+    (format "[ %s ]"
+            (cond ((and title)
+                   title)))))
 
 ;; (defun xwl-emms-mode-line-playlist-current ()
 ;;   "Format the currently playing song."
@@ -287,6 +262,24 @@
 ;;                      (t
 ;;                       (concat (symbol-name type) ":" name)))))))
 
+;;>>>>>>
+;(add-hook 'emms-player-finished-hook 'emms-random)          ;当播放完当前的歌曲时随机选择下一首歌曲
+(emms-player-set emms-player-mplayer 'regex "\\.ogg\\|\\.mp3\\|\\.wav\\|\\.mpg\\|\\.mpeg\\|\\.wmv\\|\\.wma\\|\\.mov\\|\\.avi\\|\\.divx\\|\\.ogm\\|\\.asf\\|\\.mkv\\|http://\\|mms://\\|\\.rm\\|\\.rmvb\\|\\.mp4\\|\\.flac\\|\\.vob\\|\\.m4a\\|\\.ape\\|\\.mpc")
+
+;;>>>>>>
+(setq emms-stream-info-format-string "NS: %s"
+      emms-stream-default-action "play"
+      emms-stream-popup-default-height 120)
+
+
+;; (defun my-emms-google-for-lyrics ()
+;;   (interactive)
+;;   (browse-url
+;;    (concat "http://www.google.com/search?q="
+;;            (replace-regexp-in-string " +" "+"
+;;                                      (concat "lyrics "
+;;                                              (delete ?- (emms-track-description
+;;                              (emms-playlist-current-selected-track))))))))
 
 ;;    (defun xwl-emms-track-description-function (track)
 ;;    "Return a description of the current track."
@@ -393,8 +386,8 @@
 
 ;; playlist-mode-map
 (define-key emms-playlist-mode-map (kbd "SPC") 'emms-pause)
-(define-key emms-playlist-mode-map (kbd "+") 'emms-volume-raise)
-(define-key emms-playlist-mode-map (kbd "-") 'emms-volume-lower)
+(define-key emms-playlist-mode-map (kbd "+") 'emms-volume-mode-plus)
+(define-key emms-playlist-mode-map (kbd "-") 'emms-volume-mode-minus)
 ;; (define-key emms-playlist-mode-map (kbd "<right>") (lambda () (interactive) (emms-seek +10)))
 ;; (define-key emms-playlist-mode-map (kbd "<left>") (lambda () (interactive) (emms-seek -10)))
 ;; (define-key emms-playlist-mode-map (kbd "<up>") (lambda () (interactive) (emms-seek +60)))
@@ -417,4 +410,4 @@
 (define-key emms-playlist-mode-map (kbd "s-p") 'emms-previous)
 (define-key emms-playlist-mode-map (kbd "s-s") 'emms-shuffle)
 
-(emms-history-load)
+; (emms-history-load)

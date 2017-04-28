@@ -10,16 +10,14 @@
 
 (use-package helm
   :diminish helm-mode
+  :commands (helm-mode)
   :init
   (progn
-    ;; (require 'helm-config)
-    (use-package helm-config
-      ; :bind ("C-c h" . helm-command-prefix)
-      )
+    (require 'helm-config)
     ;; From https://gist.github.com/antifuchs/9238468
     (setq enable-recursive-minibuffers t
           helm-scroll-amount 4 ; scroll 4 lines other window using M-<next>/M-<prior>
-          ; helm-quick-update t ; do not display invisible candidates
+          helm-quick-update t ; do not display invisible candidates
           ; helm-idle-delay 0.01 ; be idle for this many seconds, before updating in delayed sources.
           ; helm-input-idle-delay 0.01 ; be idle for this many seconds, before updating candidate buffer
           helm-ff-search-library-in-sexp t ; search for library in `require' and `declare-function' sexp.
@@ -67,8 +65,6 @@
     (global-set-key (kbd "C-c h o") 'helm-occur)
     ; (global-set-key (kbd "C-c h r") 'helm-resume)
     ; (global-set-key (kbd "C-h C-f") 'helm-apropos)
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-    (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 
     ;; I don't like the way switch-to-buffer uses history, since
     ;; that confuses me when it comes to buffers I've already
@@ -76,6 +72,10 @@
     (add-to-list 'helm-completing-read-handlers-alist '(switch-to-buffer . ido))
     ;; Unicode
     (add-to-list 'helm-completing-read-handlers-alist '(insert-char . ido))
+    ;; Don't use it for org tags, 'cause other completion is better there.
+    (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags-command))
+    (add-to-list 'helm-completing-read-handlers-alist '(org-set-tags))
+    (add-to-list 'helm-completing-read-handlers-alist '(org-match-sparse-tree))
 
     (when (executable-find "curl")
       (setq helm-google-suggest-use-curl-p t))
@@ -95,7 +95,8 @@
     (use-package helm-swoop
       :defer t
       :bind
-      (("C-S-s"   . helm-swoop)
+      (("C-s"     . helm-swoop)
+       ("C-S-s"   . helm-swoop)
        ("M-i"     . helm-swoop)
        ("M-s s"   . helm-swoop)
        ("M-s M-s" . helm-swoop)
@@ -122,6 +123,9 @@
         ;; Optional face for line numbers
         ;; Face name is `helm-swoop-line-number-face`
         (setq helm-swoop-use-line-number-face t)
+        ;; disable pre-input
+        (setq helm-swoop-pre-input-function
+              (lambda () ""))
         )
       :config
       (progn
@@ -136,6 +140,9 @@
     ("C-x C-f" . helm-find-files)
     ; ("C-c h o" . helm-occur)
     ; ("C-x C-b" . helm-buffers-list)
+    :map helm-map
+     ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
+     ("C-i")  . helm-execute-persistent-action) ; make TAB works in terminal
     )
 )
 

@@ -1745,7 +1745,8 @@
     (setq my-emms-load-path (concat my-site-lisp-dir "emms/"))
     (add-site-lisp-load-path "emms/lisp/")
     (add-site-lisp-info-path "emms/doc/")
-    (load "emms-conf")
+    ; (load "emms-conf")
+    (require 'emms-new-conf1)
     )
 ;; [ EMMS ]------------------------------------------------------------[ End ]--
 
@@ -1856,7 +1857,10 @@
 
   ;; [ show tip ]---------------------------------------------------------------
   (use-package clippy
-    :load-path (lambda () (concat my-site-lisp-dir "clippy/")))
+    :load-path (lambda () (concat my-site-lisp-dir "clippy/"))
+    :commands (clippy-describe-function
+               clippy-describe-variable)
+    )
   ;; ------------------------------------------------------------------[ End ]--
 )
 ;; --[ Help ]----------------------------------------------------------[ End ]--
@@ -1893,13 +1897,6 @@
 ;; comment/uncomment with M-;
 (require 'evil-nerd-commenter-conf)
 
-(use-package bongo
-  :commands (bongo)
-  :init
-  (if (file-directory-p "D:/Tools/MPlayer")
-      (add-to-list 'exec-path "D:/Tools/MPlayer")
-    (message "*** Warning!! Please install MPlayer first!!"))
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
