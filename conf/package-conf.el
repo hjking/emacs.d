@@ -104,6 +104,9 @@
     crux
     ivy-hydra
     spaceline
+    ; smart-mode-line
+    ; powerline
+    ; mode-line-stats
     goto-last-change
     neotree
     gotham-theme

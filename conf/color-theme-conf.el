@@ -8,16 +8,10 @@
 (message "%d: >>>>> Loading [ Color Theme ] Setup ...." step_no)
 (setq step_no (1+ step_no))
 ;; color
-(setq color-theme-path (concat my-site-lisp-dir "color_theme/"))
-(add-to-list 'load-path color-theme-path)
 (require 'color-theme)
 (with-eval-after-load 'color-theme
      (color-theme-initialize)
-     ;; (setq color-theme-is-global t)
-     ;; (ignore-errors (color-theme-initialize))
 
-     (setq color-theme-solarized-path (concat my-site-lisp-dir "color-theme-solarized/"))
-     (add-to-list 'load-path color-theme-solarized-path)
      (require 'color-theme-solarized)
 
      (setq color-theme-molokai-path (concat my-site-lisp-dir "color-theme-molokai/"))
@@ -27,10 +21,6 @@
      ; (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
      ; (add-to-list 'load-path color-theme-twilight-path)
      ; (load-file (concat color-theme-twilight-path "color-theme-twilight.el"))
-
-     (setq color-theme-zenburn-path (concat my-site-lisp-dir "color-theme-zenburn/"))
-     (add-to-list 'load-path color-theme-zenburn-path)
-     (add-to-list 'custom-theme-load-path color-theme-zenburn-path)
 
      (setq color-theme-cyberpunk-path (concat my-site-lisp-dir "color-theme-cyberpunk/"))
      (add-to-list 'load-path color-theme-cyberpunk-path)

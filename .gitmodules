@@ -2,10 +2,6 @@
 	path = vendor/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
 	ignore = dirty
-[submodule "vendor/mode-line-stats"]
-	path = vendor/mode-line-stats
-	url = https://github.com/Idorobots/mode-line-stats.git
-	ignore = dirty
 [submodule "vendor/iedit"]
 	path = vendor/iedit
 	url = https://github.com/tsdh/iedit.git
@@ -18,10 +14,6 @@
 	path = vendor/git-modes
 	url = https://github.com/magit/git-modes.git
 	ignore = dirty
-[submodule "vendor/color-theme-ample"]
-	path = vendor/color-theme-ample
-	url = https://github.com/jordonbiondo/ample-theme.git
-	ignore = dirty
 [submodule "vendor/flx-ido"]
 	path = vendor/flx-ido
 	url = https://github.com/lewang/flx.git
@@ -29,14 +21,6 @@
 [submodule "vendor/workgroups2"]
 	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
-	ignore = dirty
-[submodule "vendor/powerline"]
-	path = vendor/powerline
-	url = https://github.com/milkypostman/powerline.git
-	ignore = dirty
-[submodule "vendor/smart-mode-line"]
-	path = vendor/smart-mode-line
-	url = https://github.com/Bruce-Connor/smart-mode-line.git
 	ignore = dirty
 [submodule "vendor/guru-mode"]
 	path = vendor/guru-mode

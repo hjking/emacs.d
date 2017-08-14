@@ -663,12 +663,6 @@
 
 
 ;; --[ Mode Line ]--------------------------------------------------------------
-
-;; mode-line-stats
-;; Display CPU/Memory/Disk status on mode line
-;; (add-site-lisp-load-path "mode-line-stats/")
-;; (load "mode-line-stats-conf")
-
 ;; Show buffer size in mode-line
 (size-indication-mode 1)
 ;; display time in your mode-line
@@ -697,27 +691,6 @@
 ;; set mode-line-format
 ; (require 'mode-line-conf)
 
-;; [ powerline ]
-; (add-site-lisp-load-path "powerline/")
-; (load "powerline-conf")
-
-;; [ Smart Mode Line ]
-(use-package smart-mode-line
-  :load-path (lambda () (concat my-site-lisp-dir "smart-mode-line/"))
-  :disabled t
-  :init (progn
-         (setq sml/position-percentage-format "%p")
-         (setq sml/shorten-directory t)
-         (setq sml/shorten-modes t)
-         (setq sml/name-width 25)
-         (setq sml/mode-width 'full)
-         (setq sml/theme 'respectful)  ;; respectful/light/dark
-         )
-  :config (sml/setup)
-)
-
-; (require 'spaceline-config)
-; (spaceline-spacemacs-theme)
 (use-package spaceline
   :demand t
   :init
