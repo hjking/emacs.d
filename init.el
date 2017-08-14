@@ -1426,7 +1426,6 @@
 ;; [ mmm-mode ]-----------------------------------------------------------------
 ;; Multiple Major Modes coexist in one buffer
 (use-package mmm-mode
-  :load-path (lambda () (concat my-site-lisp-dir "mmm-mode/"))
   :disabled t
   :init
    (setq mmm-global-mode 'maybe)
@@ -1717,7 +1716,6 @@
 
 ;; [ undo ]---------------------------------------------------------------------
 (use-package undo-tree
-  :load-path (lambda () (concat my-site-lisp-dir "undo-tree/"))
   :diminish ""
   :commands (redo undo)
   :config (progn
@@ -1786,6 +1784,7 @@
 ;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
 (use-package wl
   :load-path (lambda () (concat my-site-lisp-dir "wl/wl/"))
+  :disabled t
   :config
   (add-site-lisp-info-path "wl/doc/")
   )
@@ -1812,7 +1811,6 @@
 ; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 ; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (use-package multiple-cursors
-  :load-path (lambda () (concat my-site-lisp-dir "multiple-cursors/"))
   :bind (("C->"         . mc/mark-next-like-this)
          ("C-<"         . mc/mark-previous-like-this)
          ("C-c C-<"     . mc/mark-all-like-this)
@@ -1820,12 +1818,14 @@
 ;; [ multiple-cursors ]------------------------------------------------[ End ]--
 
 
-;; [ hungry-delete ]------------------------------------------------------------
-(use-package hungry-delete
-  :disabled t
-  :load-path (lambda () (concat my-site-lisp-dir "hungry-delete/"))
-  :config
-    (global-hungry-delete-mode))
+;; [ smart-hungry-delete ]------------------------------------------------------
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (("<backspace>" . smart-hungry-delete-backward-char)
+         ("C-d" . smart-hungry-delete-forward-char))
+  :defer nil ;; dont defer so we can add our functions to hooks
+  :config (smart-hungry-delete-add-default-hooks)
+  )
 ;; --------------------------------------------------------------------[ End ]--
 
 

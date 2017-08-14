@@ -46,10 +46,6 @@
 	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
 	ignore = dirty
-[submodule "vendor/hungry-delete"]
-	path = vendor/hungry-delete
-	url = https://github.com/nflath/hungry-delete.git
-	ignore = dirty
 [submodule "vendor/powerline"]
 	path = vendor/powerline
 	url = https://github.com/milkypostman/powerline.git
