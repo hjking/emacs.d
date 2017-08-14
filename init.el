@@ -1383,7 +1383,6 @@
 ; (add-site-lisp-load-path "drag-stuff/")
 (use-package drag-stuff
   :diminish ""
-  :load-path (lambda () (concat my-site-lisp-dir "drag-stuff/"))
   :config
   (progn
     (drag-stuff-mode t)

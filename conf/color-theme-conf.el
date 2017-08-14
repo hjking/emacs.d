@@ -14,14 +14,6 @@
 
      (require 'color-theme-solarized)
 
-     (setq color-theme-molokai-path (concat my-site-lisp-dir "color-theme-molokai/"))
-     (add-to-list 'load-path color-theme-molokai-path)
-     (add-to-list 'custom-theme-load-path color-theme-molokai-path)
-
-     ; (setq color-theme-twilight-path (concat my-site-lisp-dir "color-theme-twilight/"))
-     ; (add-to-list 'load-path color-theme-twilight-path)
-     ; (load-file (concat color-theme-twilight-path "color-theme-twilight.el"))
-
      (setq color-theme-cyberpunk-path (concat my-site-lisp-dir "color-theme-cyberpunk/"))
      (add-to-list 'load-path color-theme-cyberpunk-path)
      (add-to-list 'custom-theme-load-path color-theme-cyberpunk-path)
@@ -49,37 +41,41 @@
      (add-to-list 'load-path color-theme-material-path)
      (add-to-list 'custom-theme-load-path color-theme-material-path)
 
-     ;;customize theme
-     ; (setq color-theme-moe-path (concat my-site-lisp-dir "color-theme-moe/"))
-     ; (add-to-list 'custom-theme-load-path color-theme-moe-path)
-     ; (add-to-list 'load-path color-theme-moe-path)
-     ; (require 'moe-theme)
-     ; (setq moe-theme-mode-line-color 'orange)
-     ;   ;; (Available colors: blue, orange, green ,magenta, yellow, purple, red, cyan, w/b.)
-
      ;;;; pick a color theme
      ;; (color-theme-solarized-dark)
      ;; (load-theme 'wombat t)
      ;; (load-theme 'tangotango t)
      (load-theme 'cyberpunk t)
      ;; (load-theme 'zenburn t)
-     ;; (load-theme 'molokai t)
      ;; (load-theme 'material t)
      ; (moe-dark)          ;; (moe-light) OR jsut `(load-theme 'moe-dark t)'
-     (use-package monokai-theme
-     :disabled t
-     :init
-        (setq monokai-use-variable-pitch nil
-              monokai-height-minus-1 1.0
-              monokai-height-plus-1 1.0
-              monokai-height-plus-2 1.0
-              monokai-height-plus-3 1.0
-              monokai-height-plus-4 1.0)
-     :config
-        (load-theme 'monokai t))
+
+     ; (load-theme 'dracula t)
+
+
 )
 
+(use-package molokai-theme
+    :after color-theme
+    :disabled t
+    :config
+     (load-theme 'molokai t))
+
+(use-package monokai-theme
+    :after color-theme
+    :disabled t
+    :init
+    (setq monokai-use-variable-pitch nil
+          monokai-height-minus-1 1.0
+          monokai-height-plus-1 1.0
+          monokai-height-plus-2 1.0
+          monokai-height-plus-3 1.0
+          monokai-height-plus-4 1.0)
+    :config
+    (load-theme 'monokai t))
+
 (use-package color-theme-sanityinc-tomorrow
+  :after color-theme
   :config
   (progn
     (load-theme 'sanityinc-tomorrow-night t)))

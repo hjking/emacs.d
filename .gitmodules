@@ -1,34 +1,10 @@
-[submodule "vendor/weibo"]
-	path = vendor/weibo
-	url = https://github.com/austin-----/weibo.emacs.git
-	ignore = dirty
-[submodule "vendor/iedit"]
-	path = vendor/iedit
-	url = https://github.com/tsdh/iedit.git
-	ignore = dirty
-[submodule "vendor/drag-stuff"]
-	path = vendor/drag-stuff
-	url = https://github.com/rejeep/drag-stuff.git
-	ignore = dirty
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
 	url = https://github.com/magit/git-modes.git
 	ignore = dirty
-[submodule "vendor/flx-ido"]
-	path = vendor/flx-ido
-	url = https://github.com/lewang/flx.git
-	ignore = dirty
 [submodule "vendor/workgroups2"]
 	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
-	ignore = dirty
-[submodule "vendor/guru-mode"]
-	path = vendor/guru-mode
-	url = https://github.com/bbatsov/guru-mode.git
-	ignore = dirty
-[submodule "vendor/color-theme-molokai"]
-	path = vendor/color-theme-molokai
-	url = https://github.com/hbin/molokai-theme.git
 	ignore = dirty
 [submodule "vendor/dired/dired-hacks"]
 	path = vendor/dired/dired-hacks
