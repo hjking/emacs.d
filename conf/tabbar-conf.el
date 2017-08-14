@@ -2,6 +2,7 @@
 ;; http://www.emacswiki.org/emacs/TabBarMode
 (use-package tabbar
   :disabled t
+  :commands tabbar-mode
   :init
     ;; Change padding of the tabs
     ;; we also need to set separator to avoid overlapping tabs by highlighted tabs

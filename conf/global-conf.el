@@ -100,4 +100,7 @@
 (setq next-screen-context-lines 5)
 (setq recenter-positions '(top middle bottom))
 
+;; remember cursor position, for emacs 25.1 or later
+; (save-place-mode 1)
+
 (provide 'global-conf)

@@ -432,6 +432,7 @@
     ; Make babel results blocks lowercase
     (setq org-babel-results-keyword "RESULTS")
 
+;;; Diagrams
     (setq org-plantuml-jar-path
           (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
     (setq org-ditaa-jar-path

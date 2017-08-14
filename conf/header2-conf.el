@@ -35,27 +35,30 @@
       (dolist (hook hjking/auto-headers-hooks)
         (remove-hook hook #'auto-make-header)))
 
-     (add-hook 'write-file-hooks     'auto-update-file-header)
-     (setq header-copyright-notice "Copyright (c) 2016, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
-     (setq header-author 'user-full-name)
-     (setq header-file-name 'buffer-file-name)
-     (setq header-creation-date 'current-time-string)
-     (setq header-modification-author 'user-full-name)
-     (setq make-header-hook '(
-                              header-blank
-                              header-copyright
-                              header-blank
-                              header-file-name
-                              header-author
-                              header-creation-date
-                              header-version
-                              header-description
-                              header-modification-date
-                              header-end-line
-                              header-history
-                              header-code
-                              header-eof))
-     (hjking/turn-on-auto-headers)
+    (setq header-copyright-notice "Copyright (c) 2016, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
+    (setq header-author 'user-full-name)
+    (setq header-file-name 'buffer-file-name)
+    (setq header-creation-date 'current-time-string)
+    (setq header-modification-author 'user-full-name)
+    (setq make-header-hook '(
+                             header-blank
+                             header-copyright
+                             header-blank
+                             header-file-name
+                             header-author
+                             header-creation-date
+                             header-version
+                             header-description
+                             header-modification-date
+                             header-end-line
+                             header-history
+                             header-code
+                             header-eof))
+    (hjking/turn-on-auto-headers)
+
+    ;; Update headers on save
+    (add-hook 'write-file-hooks #'auto-update-file-header)
+
   ))
 
 (provide 'header2-conf)

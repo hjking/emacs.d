@@ -2,7 +2,6 @@
 ;; browse-kill-ring
 
 (use-package browse-kill-ring
-  :load-path (lambda () (concat my-site-lisp-dir "browse-kill-ring/"))
   :commands browse-kill-ring
   :init (progn
     ; (global-set-key (kbd "s-y") 'browse-kill-ring)
@@ -18,5 +17,8 @@
     (browse-kill-ring-default-keybindings) ;; M-y
     )
   )
+
+(use-package browse-kill-ring+
+  :after browse-kill-ring)
 
 (provide 'kill-ring-conf)

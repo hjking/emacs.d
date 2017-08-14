@@ -1281,6 +1281,62 @@
        ("q" nil                        "cancel" :color blue)
        )
 
+    ;; Hydra - Marking
+    (defhydra hjking-hydra-mark (:exit t
+                                :columns 3
+                                :idle 1.0)
+      "Mark"
+      ("d" er/mark-defun "Defun / Function")
+      ("f" er/mark-defun "Defun / Function")
+      ("F" er/mark-clj-function-literal "Clj anonymous fn")
+      ("w" er/mark-word "Word")
+      ("W" er/mark-clj-word "CLJ word")
+      ("u" er/mark-url "Url")
+      ("e" mark-sexp "S-Expression")
+      ("E" er/mark-email "Email")
+      ("b" hydra-mark-buffer/body "Buffer")
+      ("l" mark-line "Line")
+      ("p" er/mark-text-paragraph "Paragraph")
+      ("r" er/mark-clj-regexp-literal "Clj regexp")
+      ("s" er/mark-symbol "Symbol")
+      ("S" er/mark-symbol-with-prefix "Prefixed symbol")
+      ("q" er/mark-inside-quotes "Inside quotes")
+      ("Q" er/mark-outside-quotes "Outside quotes")
+      ("(" er/mark-inside-pairs "Inside pairs")
+      ("[" er/mark-inside-pairs "Inside pairs")
+      ("{" er/mark-inside-pairs "Inside pairs")
+      (")" er/mark-outside-pairs "Outside pairs")
+      ("]" er/mark-outside-pairs "Outside pairs")
+      ("}" er/mark-outside-pairs "Outside pairs")
+      ("t" er/mark-inner-tag "Inner tag")
+      ("T" er/mark-outer-tag "Outer tag")
+      ("c" er/mark-comment "Comment")
+      ("a" er/mark-html-attribute "HTML attribute")
+      ("." er/expand-region "Expand region" :exit nil)
+      ("," er/contract-region "Contract region" :exit nil)
+      ("#" er/mark-clj-set-literal "Clj set")
+      )
+
+    (defhydra hjking-hydra-mark-buffer (:exit t
+                                 :idle 1.0)
+      "Mark buffer"
+      ("w" mark-whole-buffer "Whole buffer")
+      ("a" mark-buffer-after-point "Buffer after point")
+      ("b" mark-buffer-before-point "Buffer before point"))
+
+    (defhydra hydra-lisp-eval (:exit t
+                                     :columns 2
+                                     :idle 1.0)
+      "Lisp eval"
+      ("r" eval-region "Region")
+      ("b" eval-buffer "Buffer")
+      ("e" eval-expression "S-expression")
+      ("l" eval-last-sexp "Last s-expression")
+      ("L" eval-last-sexp-print-value "Last s-expression and print value")
+      ("d" eval-defun "Defun / Function")
+      ("f" eval-defun "Defun / Function"))
+
+
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Key Binding

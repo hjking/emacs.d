@@ -50,6 +50,10 @@
   '(use-package
     ace-window
     aggressive-indent
+    ; adaptive-wrap ; indented line wrapping
+    ; ag wgrep wgrep-ag s ; ag > ack > grep
+                        ; wgrep+wgrep-ag allow editing files
+                        ; directly in ag buffer
     ; auto-complete-verilog
     company-c-headers
     company
@@ -78,25 +82,25 @@
     ; plantuml-mode
     perspective
     persp-projectile
-    projectile
-    ranger                  ;; Bringing the goodness of ranger to dired
+    projectile ; Better than fiplr
+    ranger ; Bringing the goodness of ranger to dired
     counsel
     swiper
     ; smartparens
     ; smex
     smooth-scrolling
-    stripe-buffer               ;; different background for even and odd lines
+    stripe-buffer ; different background for even and odd lines
     ; web-mode
     ztree
-    beacon
-    paradox
+    beacon ; visual flash to show the cursor position
+    paradox ; package menu improvements
     evil-nerd-commenter
     calfw
     general
     origami
     color-theme-sanityinc-tomorrow
-    deft
-    wttrin
+    deft ; quick note taking and management
+    wttrin ; weather
     crux
     ivy-hydra
     spaceline
@@ -109,6 +113,9 @@
     discover-my-major
     csv-mode
     graphviz-dot-mode
+    highlight-symbol
+    ; highlight-global
+    volatile-highlights
   )
 "A list of packages to ensure are installed at launch.")
 

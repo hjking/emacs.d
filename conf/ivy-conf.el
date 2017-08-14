@@ -15,11 +15,11 @@
           (setq ivy-use-virtual-buffers t)
           (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
           (setq ivy-count-format "(%d/%d) ") ; count format, from the ivy help page
-          (setq ivy-display-style 'fancy)
-          (setq ivy-re-builders-alist
-           '((ivy-switch-buffer . ivy--regex-plus)
-             (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
-          (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
+          ; (setq ivy-display-style 'fancy)
+          ; (setq ivy-re-builders-alist
+          ;  '((ivy-switch-buffer . ivy--regex-plus)
+          ;    (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
+          ; (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
         )
   :bind (("C-c C-r"  . ivy-resume)
          ("C-x b"    . ivy-switch-buffer)
@@ -34,6 +34,14 @@
 ;; Swiper gives us a really efficient incremental search with regular expressions
 (use-package swiper
   ;; :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
+  :commands (swiper
+             swiper-all
+             ivy-mode
+             ivy-read
+             ivy-completing-read
+             ivy-resume
+             ivy-switch-buffer
+             ivy-switch-buffer-other-window)
   :bind (("C-s" . swiper)
          ("C-r" . swiper))
   )
@@ -41,21 +49,21 @@
 ;; Replace smex
 (use-package counsel
   ;; :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
-  :bind
-  (("M-x"     . counsel-M-x)       ; M-x use counsel
-   ("C-x C-f" . counsel-find-file) ; C-x C-f use counsel-find-file
-   ("C-x C-r" . counsel-recentf)   ; search recently edited files
-   ("C-c g"   . counsel-git)       ; search for files in git repo
-   ("C-c j"   . counsel-git-grep)  ; search for regexp in git repo
-   ("C-c k"   . counsel-ag)        ; search for regexp in git repo using ag
-   ("C-c l"   . counsel-locate)    ; search for files or else using locate
-   ("C-h f"   . counsel-describe-function)
-   ("C-h v"   . counsel-describe-variable)
-   ("C-h l"   . counsel-load-library)
-   ("C-h i"   . counsel-info-lookup-symbol)
-   ("C-h u"   . counsel-unicode-char))
-  :config
-  (progn
+  :bind (("M-x"     . counsel-M-x)       ; M-x use counsel
+         ("M-y"                     . counsel-yank-pop)
+         ("C-o"                     . counsel-find-file)
+         ("C-x C-f" . counsel-find-file) ; C-x C-f use counsel-find-file
+         ("C-x C-r" . counsel-recentf)   ; search recently edited files
+         ("C-c g"   . counsel-git)       ; search for files in git repo
+         ("C-c j"   . counsel-git-grep)  ; search for regexp in git repo
+         ("C-c k"   . counsel-ag)        ; search for regexp in git repo using ag
+         ("C-c l"   . counsel-locate)    ; search for files or else using locate
+         ("C-h f"   . counsel-describe-function)
+         ("C-h v"   . counsel-describe-variable)
+         ("C-h l"   . counsel-load-library)
+         ("C-h i"   . counsel-info-lookup-symbol)
+         ("C-h u"   . counsel-unicode-char))
+  :config (progn
     (setq counsel-prompt-function #'counsel-prompt-function-dir)
 
     ;; counsel-find-file

@@ -180,6 +180,7 @@
 (global-set-key [S-f4]    'lpr-buffer)
 
 (global-set-key [f5]      'revert-buffer)
+; (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [S-f5]    'revert-all-buffers)
 (global-set-key [f6]      'first-error)
 (global-set-key [S-f6]    'previous-error)

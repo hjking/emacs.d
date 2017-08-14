@@ -6,18 +6,6 @@
 	path = vendor/color-theme-solarized
 	url = https://github.com/sellout/emacs-color-theme-solarized.git
 	ignore = dirty
-[submodule "vendor/magit"]
-	path = vendor/magit
-	url = https://github.com/magit/magit.git
-	ignore = dirty
-[submodule "vendor/yasnippet"]
-	path = vendor/yasnippet
-	url = https://github.com/capitaomorte/yasnippet.git
-	ignore = dirty
-[submodule "vendor/rainbow-delimiters"]
-	path = vendor/rainbow-delimiters
-	url = https://github.com/jlr/rainbow-delimiters.git
-	ignore = dirty
 [submodule "vendor/weibo"]
 	path = vendor/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
@@ -34,10 +22,6 @@
 	path = vendor/drag-stuff
 	url = https://github.com/rejeep/drag-stuff.git
 	ignore = dirty
-[submodule "vendor/browse-kill-ring"]
-	path = vendor/browse-kill-ring
-	url = https://github.com/browse-kill-ring/browse-kill-ring.git
-	ignore = dirty
 [submodule "vendor/git-modes"]
 	path = vendor/git-modes
 	url = https://github.com/magit/git-modes.git
@@ -50,37 +34,17 @@
 	path = vendor/ido-hacks
 	url = https://github.com/scottjad/ido-hacks.git
 	ignore = dirty
-[submodule "vendor/multiple-cursors"]
-	path = vendor/multiple-cursors
-	url = https://github.com/magnars/multiple-cursors.el
-	ignore = dirty
 [submodule "vendor/ido-ubiquitous"]
 	path = vendor/ido-ubiquitous
 	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
-	ignore = dirty
-[submodule "vendor/undo-tree"]
-	path = vendor/undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
 	ignore = dirty
 [submodule "vendor/flx-ido"]
 	path = vendor/flx-ido
 	url = https://github.com/lewang/flx.git
 	ignore = dirty
-[submodule "vendor/anzu"]
-	path = vendor/anzu
-	url = https://github.com/syohex/emacs-anzu.git
-	ignore = dirty
 [submodule "vendor/workgroups2"]
 	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
-	ignore = dirty
-[submodule "vendor/popwin"]
-	path = vendor/popwin
-	url = https://github.com/m2ym/popwin-el.git
-	ignore = dirty
-[submodule "vendor/highlight-symbol"]
-	path = vendor/highlight-symbol
-	url = https://github.com/nschum/highlight-symbol.el.git
 	ignore = dirty
 [submodule "vendor/hungry-delete"]
 	path = vendor/hungry-delete
@@ -106,21 +70,9 @@
 	path = vendor/color-theme-molokai
 	url = https://github.com/hbin/molokai-theme.git
 	ignore = dirty
-[submodule "vendor/visual-regexp"]
-	path = vendor/visual-regexp
-	url = https://github.com/benma/visual-regexp.el.git
-	ignore = dirty
-[submodule "vendor/highlight-global"]
-	path = vendor/highlight-global
-	url = https://github.com/glen-dai/highlight-global.git
-	ignore = dirty
 [submodule "vendor/dired/dired-hacks"]
 	path = vendor/dired/dired-hacks
 	url = https://github.com/Fuco1/dired-hacks.git
-	ignore = dirty
-[submodule "vendor/volatile-highlights"]
-	path = vendor/volatile-highlights
-	url = https://github.com/k-talo/volatile-highlights.el.git
 	ignore = dirty
 [submodule "vendor/ecb"]
 	path = vendor/ecb
@@ -129,16 +81,4 @@
 [submodule "vendor/smex"]
 	path = vendor/smex
 	url = https://github.com/nonsequitur/smex.git
-	ignore = dirty
-[submodule "vendor/org-bullets"]
-	path = vendor/org-bullets
-	url = https://github.com/sabof/org-bullets.git
-	ignore = dirty
-[submodule "vendor/hl-anything"]
-	path = vendor/hl-anything
-	url = https://github.com/boyw165/hl-anything.git
-	ignore = dirty
-[submodule "vendor/which-key"]
-	path = vendor/which-key
-	url = https://github.com/justbur/emacs-which-key
 	ignore = dirty
