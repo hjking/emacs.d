@@ -4,7 +4,6 @@
 ;; https://github.com/abo-abo/hydra
 
 (use-package hydra
-  ; :load-path (lambda () (concat my-site-lisp-dir "hydra/"))
   :config
   (progn
     ;; (setq hydra-lv nil)

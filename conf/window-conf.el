@@ -67,9 +67,7 @@
 
 
 ;;--------------- ace-window -----------------------------------------
-; (add-site-lisp-load-path "ace-window/")
 (use-package ace-window
-  :load-path (lambda () (concat my-site-lisp-dir "ace-window/"))
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   ;; Autoload

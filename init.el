@@ -1029,7 +1029,6 @@
 
 
 ;; --[ Parentheses ]------------------------------------------------------------
-;; (add-site-lisp-load-path "smartparens/")
 (require 'parens-conf)
 ;; --[ Parentheses ]---------------------------------------------------[ End ]--
 
@@ -1207,9 +1206,6 @@
   (add-site-lisp-load-path "git-modes/")
 
   ;; *** --- magit
-  (add-site-lisp-load-path "magit/")
-  (add-site-lisp-info-path "magit/")
-
   (autoload 'magit-status "magit" nil t)
   (autoload 'magit-show "magit" "" t nil)
   (autoload 'magit-show-commit "magit" "" t nil)
@@ -1391,7 +1387,6 @@
 
 ;; [ ecb ]----------------------------------------------------------------------
 (when section-ecb
-  ; (add-site-lisp-load-path "ecb/")
   (require 'ecb-conf))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1835,7 +1830,6 @@
 
 
 ;; [ popwin ]-------------------------------------------------------------------
-; (add-site-lisp-load-path "popwin/")
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
 

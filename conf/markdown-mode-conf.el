@@ -2,7 +2,6 @@
 ;; Markdown file handling
 
 (use-package markdown-mode
-  :load-path (lambda () (concat my-site-lisp-dir "markdown-mode/"))
   :mode ("\\.\\(m\\(ark\\)?down\\|md\\)$" . markdown-mode)
   :config (progn
             (when win32p

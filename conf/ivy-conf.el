@@ -6,7 +6,6 @@
 
 ;; Ivy / Counsel replace a lot of ido or helms completion functionality
 (use-package ivy
-  ;; :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :diminish (ivy-mode . "") ; does not display ivy in the modeline
   :init (progn
           (ivy-mode 1)        ; enable ivy globally at startup
@@ -33,7 +32,6 @@
 
 ;; Swiper gives us a really efficient incremental search with regular expressions
 (use-package swiper
-  ;; :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :commands (swiper
              swiper-all
              ivy-mode
@@ -48,7 +46,6 @@
 
 ;; Replace smex
 (use-package counsel
-  ;; :load-path (lambda () (concat my-site-lisp-dir "swiper/"))
   :bind (("M-x"     . counsel-M-x)       ; M-x use counsel
          ("M-y"                     . counsel-yank-pop)
          ("C-o"                     . counsel-find-file)

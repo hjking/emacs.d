@@ -1,11 +1,3 @@
-[submodule "vendor/color-theme-zenburn"]
-	path = vendor/color-theme-zenburn
-	url = https://github.com/bbatsov/zenburn-emacs.git
-	ignore = dirty
-[submodule "vendor/color-theme-solarized"]
-	path = vendor/color-theme-solarized
-	url = https://github.com/sellout/emacs-color-theme-solarized.git
-	ignore = dirty
 [submodule "vendor/weibo"]
 	path = vendor/weibo
 	url = https://github.com/austin-----/weibo.emacs.git
@@ -30,14 +22,6 @@
 	path = vendor/color-theme-ample
 	url = https://github.com/jordonbiondo/ample-theme.git
 	ignore = dirty
-[submodule "vendor/ido-hacks"]
-	path = vendor/ido-hacks
-	url = https://github.com/scottjad/ido-hacks.git
-	ignore = dirty
-[submodule "vendor/ido-ubiquitous"]
-	path = vendor/ido-ubiquitous
-	url = https://github.com/DarwinAwardWinner/ido-ubiquitous.git
-	ignore = dirty
 [submodule "vendor/flx-ido"]
 	path = vendor/flx-ido
 	url = https://github.com/lewang/flx.git
@@ -57,10 +41,6 @@
 [submodule "vendor/guru-mode"]
 	path = vendor/guru-mode
 	url = https://github.com/bbatsov/guru-mode.git
-	ignore = dirty
-[submodule "vendor/ido-vertical-mode"]
-	path = vendor/ido-vertical-mode
-	url = https://github.com/gempesaw/ido-vertical-mode.el.git
 	ignore = dirty
 [submodule "vendor/color-theme-molokai"]
 	path = vendor/color-theme-molokai

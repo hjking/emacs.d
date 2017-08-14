@@ -27,7 +27,6 @@
 
 ;; Highlight Anything
 (use-package hl-anything
-  ; :load-path (lambda () (concat my-site-lisp-dir "hl-anything/"))
   :commands (hl-global-highlight-on
              hl-highlight-thingatpt-global
              hl-highlight-thingatpt-local
@@ -49,7 +48,6 @@
 ;; https://github.com/nschum/highlight-symbol.el
 ;; Highlight Symbol at point/cursor
 (use-package highlight-symbol
-  ; :load-path (lambda () (concat my-site-lisp-dir "highlight-symbol/"))
   :commands (highlight-symbol-at-point
              highlight-symbol-next
              highlight-symbol-prev
@@ -78,7 +76,6 @@
 ;; Alternative highlighting package when `hl-anything' has issues
 (use-package highlight-global
   :disabled t
-  ; :load-path (lambda () (concat my-site-lisp-dir "highlight-global/"))
   :commands (highlight-frame-toggle
              clear-highlight-frame)
   ; :bind (("M-H"  .  highlight-frame-toggle)
@@ -95,7 +92,6 @@
 ;; paste (yank) a block of text, it will be highlighted until you press the next key.
 (use-package volatile-highlights
   ; :disabled t
-  ; :load-path (lambda () (concat my-site-lisp-dir "volatile-highlights/"))
   :diminish volatile-highlights-mode
   :config
    (volatile-highlights-mode t))

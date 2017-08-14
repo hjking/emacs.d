@@ -71,7 +71,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package anzu
   :disabled t
-  :load-path (lambda () (concat my-site-lisp-dir "anzu/"))
   :init (progn
           (setq anzu-mode-lighter "")
           (setq anzu-search-threshold 1000)
@@ -94,7 +93,6 @@
 ;; (define-key global-map (kbd "C-c m") 'vr/mc-mark)
 (when (not (featurep 'anzu))
   (use-package visual-regexp
-    :load-path (lambda () (concat my-site-lisp-dir "visual-regexp/"))
     :commands (vr/replace
                vr/query-replace)
     :init (progn

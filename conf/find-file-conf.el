@@ -30,7 +30,6 @@
 ;;
 ;; Find File in Project
 ;;
-(add-site-lisp-load-path "find-file-in-project/")
 (require 'find-file-in-project)
 
 (defun my-ffip-project-root-function ()
@@ -54,8 +53,6 @@
 ;;
 ;; fiplr
 ;;
-(add-site-lisp-load-path "fiplr/")
-(add-site-lisp-load-path "grizzl/")
 (require 'fiplr)
 (setq fiplr-ignored-globs '((directories (".git" ".svn"))
                             (files ("*.jpg" "*.png" "*.zip" "*~"))))

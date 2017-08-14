@@ -44,7 +44,6 @@
 ;; rainbow-delimiters
 ;;
 ;; highlights parens, brackets, and braces according to their depth
-(add-site-lisp-load-path "rainbow-delimiters/")
 ;; enable in all programming-related modes (Emacs 24+)
 (use-package rainbow-delimiters
   :commands (rainbow-delimiters-mode)

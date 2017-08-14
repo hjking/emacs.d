@@ -4,7 +4,6 @@
 ;; https://github.com/justbur/emacs-which-key
 
 (use-package which-key
-  :load-path (lambda () (concat my-site-lisp-dir "which-key/"))
   :diminish which-key-mode
   :init (progn
     ;; Popup Type Options

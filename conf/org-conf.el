@@ -990,7 +990,6 @@
     ;; Org bullets makes things look pretty
     (use-package org-bullets
       :disabled t
-      :load-path (lambda () (concat my-site-lisp-dir "org-bullets/"))
       :init
        (setq org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇"))
       :config
