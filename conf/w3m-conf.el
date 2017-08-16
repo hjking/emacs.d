@@ -1,7 +1,6 @@
 ;;; w3m-conf.el ---
 ;;
 (use-package w3m
-  :load-path (lambda () (concat my-site-lisp-dir "emacs-w3m/"))
   ; :bind (("C-c w m"  .  browse-url-at-point)
   ;        ("C-c w p"  .  w3m-browse-current-buffer)
   ;        ("C-c w b"  .  browse-url))

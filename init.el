@@ -93,7 +93,6 @@
 (defvar section-cygwin t)
 (defvar section-tramp nil)
 (defvar section-cedet nil)
-(defvar section-cedet-1.1 nil)
 (defvar section-slime t)
 (defvar section-cscope nil)
 (defvar section-color-theme t)
@@ -432,30 +431,6 @@
 
 
 ;; [ cedet ]--------------------------------------------------------------------
-(when section-cedet-1.1
-  (setq byte-compile-warnings nil)
-  (setq my-cedet-path (concat my-site-lisp-dir "cedet-1.1/"))
-  (setq my-cedet-comm-path (concat my-cedet-path "common/"))
-  (setq my-cedet-contrib-path (concat my-cedet-path "contrib/"))
-  (add-site-lisp-load-path "cedet-1.1/")
-  (add-site-lisp-load-path "cedet-1.1/common/")
-  (add-site-lisp-load-path "cedet-1.1/contrib/")
-  (add-site-lisp-load-path "cedet-1.1/ede")
-  (add-site-lisp-load-path "cedet-1.1/eieio")
-  (add-site-lisp-load-path "cedet-1.1/semantic")
-  (add-site-lisp-load-path "cedet-1.1/speedbar")
-  (add-site-lisp-load-path "cedet-1.1/srecode")
-
-  (load-file (concat my-cedet-comm-path "cedet.el"))
-
-  ;; (add-to-list 'load-path my-cedet-path)
-  ;; (add-to-list 'load-path my-cedet-comm-path)
-  ;; (add-to-list 'load-path my-cedet-contrib-path)
-
-  ;; (load-file "cedet.el")
-  (load "cedet-1.1-conf")
-  ;; (load "cedet-conf")
-)
 ; (when section-cedet
 ;   (load "cedet-conf"))
 ;; --------------------------------------------------------------------[ End ]--
@@ -1823,7 +1798,6 @@
 
   ;; [ show tip ]---------------------------------------------------------------
   (use-package clippy
-    :load-path (lambda () (concat my-site-lisp-dir "clippy/"))
     :commands (clippy-describe-function
                clippy-describe-variable)
     )
@@ -1910,7 +1884,6 @@
 ;; [ session ]-------------------------------------------------------------------
 ;; session
 (when section-session
-    (add-site-lisp-load-path "session/lisp/")
     (load "session-conf"))
 ;; --------------------------------------------------------------------[ End ]--
 
