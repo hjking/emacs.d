@@ -5,15 +5,15 @@
 ;; Author: Marco Wahl <marcowahlsoft>a<gmailcom>
 ;; Keywords: link, eww
 ;; Homepage: http://orgmode.org
-;;
+
 ;; This file is part of GNU Emacs.
-;;
-;; This program is free software: you can redistribute it and/or modify
+
+;; GNU Emacs is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
 
-;; This program is distributed in the hope that it will be useful,
+;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
@@ -138,9 +138,12 @@ the structure of the Org file."
 		     (point)
 		     (org-eww-goto-next-url-property-change)))
               ;; concat `org-mode' style url to `return-content'.
-              (setq return-content (concat return-content
-                                           (org-make-link-string
-                                            link-location link-title))))
+	      (setq return-content
+		    (concat return-content
+			    (if (stringp link-location)
+				;; hint: link-location is different for form-elements.
+				(org-make-link-string link-location link-title)
+			      link-title))))
 	  (goto-char temp-position) ; reset point before jump next anchor
 	  (setq out-bound t)	    ; for break out `while' loop
 	  ))

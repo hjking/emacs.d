@@ -467,7 +467,7 @@ agenda view showing the flagged items."
 	  (make-directory target-dir 'parents))
 	(if org-mobile-use-encryption
 	    (org-mobile-encrypt-and-move file target-path)
-	  (copy-file file target-path 'ok-if-exists))
+	  (copy-file file target-path 'ok-if-already-exists))
 	(setq check (shell-command-to-string
 		     (concat (shell-quote-argument org-mobile-checksum-binary)
 			     " "
@@ -648,7 +648,7 @@ The table of checksums is written to the file mobile-checksums."
   (org-with-point-at pom
     (concat "olp:"
 	    (org-mobile-escape-olp (file-name-nondirectory buffer-file-name))
-	    "/"
+	    ":"
 	    (mapconcat 'org-mobile-escape-olp
 		       (org-get-outline-path)
 		       "/")
@@ -687,13 +687,13 @@ encryption program does not understand them."
   (let ((encfile (concat infile "_enc")))
     (org-mobile-encrypt-file infile encfile)
     (when outfile
-      (copy-file encfile outfile 'ok-if-exists)
+      (copy-file encfile outfile 'ok-if-already-exists)
       (delete-file encfile))))
 
 (defun org-mobile-encrypt-file (infile outfile)
   "Encrypt INFILE to OUTFILE, using `org-mobile-encryption-password'."
   (shell-command
-   (format "openssl enc -aes-256-cbc -salt -pass %s -in %s -out %s"
+   (format "openssl enc -md md5 -aes-256-cbc -salt -pass %s -in %s -out %s"
 	   (shell-quote-argument (concat "pass:"
 					 (org-mobile-encryption-password)))
 	   (shell-quote-argument (expand-file-name infile))
@@ -702,7 +702,7 @@ encryption program does not understand them."
 (defun org-mobile-decrypt-file (infile outfile)
   "Decrypt INFILE to OUTFILE, using `org-mobile-encryption-password'."
   (shell-command
-   (format "openssl enc -d -aes-256-cbc -salt -pass %s -in %s -out %s"
+   (format "openssl enc -md md5 -d -aes-256-cbc -salt -pass %s -in %s -out %s"
 	   (shell-quote-argument (concat "pass:"
 					 (org-mobile-encryption-password)))
 	   (shell-quote-argument (expand-file-name infile))

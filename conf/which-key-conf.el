@@ -9,9 +9,11 @@
     ;; Popup Type Options
     ;;; side window
     (setq which-key-popup-type 'side-window) ; default
-    (setq which-key-side-window-max-width 0.33)
     ;;; minibuffer
     ;; (setq which-key-popup-type 'minibuffer)
+
+    ;; side window options
+    (setq which-key-side-window-max-width 0.33)
 
     ;; Replacements for how KEY is replaced when which-key displays
     ;;   KEY → FUNCTION
@@ -22,22 +24,27 @@
             ("right"               . "▶")
             ("up"                  . "▲")
             ("down"                . "▼")
-            ("delete"              . "DLT") ; delete key
-            ("\\`DEL\\'"             . "BS") ; backspace key
+            ; ("delete"              . "DLT") ; delete key
+            ; ("\\`DEL\\'"           . "BS") ; backspace key
             ("next"                . "PgDn")
             ("prior"               . "PgUp")))
+
+    (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil))
+    (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil))
+    (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil))
+    (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil))
 
     ;; Replacements for how part or whole of FUNCTION is replaced when
     ;; which-key displays
     ;;   KEY → FUNCTION
     ;; Eg: After "d" in `calc', display "6 → calc-hex-radix" as "6 → 🖩hex-radix"
     (setq which-key-description-replacement-alist
-          '(("Prefix Command" . "prefix")
+          '(("Prefix Command"           . "prefix")
             ("which-key-show-next-page" . "wk next pg")
-            ("\\`calc-" . "") ; Hide "calc-" prefixes when listing M-x calc keys
-            ("/body\\'" . "") ; Remove display the "/body" portion of hydra fn names
-            ("\\`hydra-" . "+h/")
-            ("\\`org-babel-" . "ob/")))
+            ("\\`calc-"                 . "") ; Hide "calc-" prefixes when listing M-x calc keys
+            ("/body\\'"                 . "") ; Remove display the "/body" portion of hydra fn names
+            ("\\`hydra-"                . "+h/")
+            ("\\`org-babel-"            . "ob/")))
 
     ;; List of "special" keys for which a KEY is displayed as just K but with
     ;; "inverted video" face.
@@ -48,8 +55,9 @@
                                    "BS" ; backspace key
                                    "ESC"))
 
-    (setq which-key-sort-order 'which-key-key-order-alpha
-          which-key-idle-delay 0.05)
+    (setq which-key-sort-order 'which-key-key-order-alpha)
+
+    (setq which-key-idle-delay 0.05)
 
     (setq which-key-highlighted-command-list
           '(("\\`hydra-" . which-key-group-description-face)
@@ -81,6 +89,9 @@
       "C-c C-x" "move")
 
     (which-key-setup-side-window-right-bottom)
+
+    ;; Take over minibuffer
+    ;(which-key-setup-minibuffer)
 
     (which-key-mode)
     ))

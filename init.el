@@ -617,13 +617,13 @@
 ;; <pager> provides a better scrolling in Emacs
 
 ;; Keep cursor away from edges when scrolling up/down
-(use-package smooth-scrolling
-  :init
-  (setq smooth-scroll-margin 5
-        scroll-conservatively 101
-        scroll-preserve-screen-position t
-        auto-window-vscroll nil)
-)
+; (use-package smooth-scrolling
+;   :init
+;   (setq smooth-scroll-margin 5
+;         scroll-conservatively 101
+;         scroll-preserve-screen-position t
+;         auto-window-vscroll nil)
+; )
 ;; --[ Scrolling ]-----------------------------------------------------[ End ]--
 
 
@@ -669,11 +669,11 @@
 (use-package spaceline
   :demand t
   :init
-  (setq powerline-default-separator 'arrow-fade)
+   (setq powerline-default-separator 'arrow-fade)
   :config
-  (require 'spaceline-config)
-  (spaceline-spacemacs-theme)
-  (spaceline-helm-mode))
+   (require 'spaceline-config)
+   (spaceline-spacemacs-theme)
+   (spaceline-helm-mode))
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -1282,7 +1282,6 @@
   (add-site-lisp-load-path "org/contrib/lisp/")
   (add-site-lisp-info-path "org/doc/")
   (add-site-lisp-load-path "org-jekyll-mode/")
-  (add-site-lisp-load-path "org-journal/")
 
   (require 'org-conf)
   (require 'org-trello-conf)
@@ -1652,7 +1651,8 @@
 
 
 ;; Graphviz dot mode for emacs
-(use-package graphviz-dot-mode)
+(use-package graphviz-dot-mode
+    :mode ("\\.\\(dot\\|gv\\)$" . org-mode))
 
 ;;;; ================ ProgrammingModes End ================
 
@@ -1771,11 +1771,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ sr-speedbar ]--------------------------------------------------------------
-; (load "sr-speedbar-conf")
-;; [ sr-speedbar ]-----------------------------------------------------[ End ]--
-
-
 ;; [ popwin ]-------------------------------------------------------------------
 (load "popwin-conf")
 ;; [ popwin ]-----------------------------------------------------------[ End ]--
@@ -1837,6 +1832,10 @@
 ;; comment/uncomment with M-;
 (require 'evil-nerd-commenter-conf)
 
+(use-package sublimity
+  :config
+  (sublimity-mode 1)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====

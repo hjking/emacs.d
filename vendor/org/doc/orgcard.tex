@@ -1,7 +1,5 @@
 % Reference Card for Org Mode
-\def\orgversionnumber{9.0.4}
-\def\versionyear{2017}          % latest update
-\def\year{2017}                 % latest copyright year
+\input org-version.tex
 
 %**start of header
 \newcount\columnsperpage
@@ -656,8 +654,11 @@ some other place.
 
 \key{export/publish dispatcher}{C-c C-e}
 
-\key{export visible part only}{C-c C-e v}
-\key{insert template of export options}{C-c C-e t}
+\key{toggle asynchronous export}{C-c C-e C-a}
+\key{toggle body/visible only export}{C-c C-e C-b/v}
+\key{toggle subtree export}{C-c C-e C-s}
+\key{insert template of export options}{C-c C-e \#}
+
 \key{toggle fixed width for entry or region}{C-c :}
 \key{toggle pretty display of scripts, entities}{C-c C-x {\tt\char`\\}}
 

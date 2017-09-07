@@ -12,8 +12,8 @@
 (provide 'emms-auto)
 ;;; Generated autoloads follow (made by autoload.el).
 
-;;;### (autoloads nil "emms-lyrics" "emms-lyrics.el" (22121 63760
-;;;;;;  584913 0))
+;;;### (autoloads nil "emms-lyrics" "emms-lyrics.el" (22701 41222
+;;;;;;  501631 823000))
 ;;; Generated autoloads from emms-lyrics.el
 
 (autoload 'emms-lyrics-enable "emms-lyrics" "\
@@ -54,8 +54,8 @@ Toggle `emms-mode-line'.
 
 ;;;***
 
-;;;### (autoloads nil "emms-player-mpd" "emms-player-mpd.el" (22121
-;;;;;;  63760 588913 0))
+;;;### (autoloads nil "emms-player-mpd" "emms-player-mpd.el" (22707
+;;;;;;  22208 255207 128000))
 ;;; Generated autoloads from emms-player-mpd.el
 
 (autoload 'emms-player-mpd-clear "emms-player-mpd" "\
@@ -94,7 +94,7 @@ rather than EMMS.
 ;;;***
 
 ;;;### (autoloads nil "emms-playing-time" "emms-playing-time.el"
-;;;;;;  (21273 53744 561869 0))
+;;;;;;  (22697 52274 206461 251000))
 ;;; Generated autoloads from emms-playing-time.el
 
 (autoload 'emms-playing-time-enable-display "emms-playing-time" "\
@@ -258,8 +258,8 @@ Search for REGEXP and display the results in a locate buffer
 
 ;;;***
 
-;;;### (autoloads nil "emms-streams" "emms-streams.el" (22561 58284
-;;;;;;  714144 982000))
+;;;### (autoloads nil "emms-streams" "emms-streams.el" (22635 54014
+;;;;;;  825474 309000))
 ;;; Generated autoloads from emms-streams.el
 
 (autoload 'emms-streams "emms-streams" "\
@@ -307,7 +307,7 @@ Change amixer master volume by AMOUNT.
 ;;;***
 
 ;;;### (autoloads nil "emms-volume-pulse" "emms-volume-pulse.el"
-;;;;;;  (22121 63760 592913 0))
+;;;;;;  (22697 52280 558381 841000))
 ;;; Generated autoloads from emms-volume-pulse.el
 
 (autoload 'emms-volume-pulse-change "emms-volume-pulse" "\
@@ -326,8 +326,8 @@ Change amixer master volume by AMOUNT.
 ;;;;;;  "emms-player-mpg321-remote.el" "emms-player-mplayer.el" "emms-player-simple.el"
 ;;;;;;  "emms-player-vlc.el" "emms-player-xine.el" "emms-playlist-sort.el"
 ;;;;;;  "emms-show-all.el" "emms-stream-info.el" "emms-tag-editor.el"
-;;;;;;  "emms-url.el" "emms.el" "jack.el" "later-do.el") (22561 58362
-;;;;;;  913167 359000))
+;;;;;;  "emms-url.el" "emms.el" "jack.el" "later-do.el") (22791 30776
+;;;;;;  817626 35000))
 
 ;;;***
 

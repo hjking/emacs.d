@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Wed Aug 16 10:10:16 2017 (+0800)
+;; Last-Updated: Mon Aug 28 15:58:38 2017 (+0800)
 ;; Version:
-;;     Update #: 85
+;;     Update #: 93
 ;;
 ;;; Change Log:
 ;;
@@ -45,7 +45,8 @@
     ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/gpon.org" "~/org/work/hgu.org" "~/org/work/hgu_sim.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org" "~/org/topics/call.org" "~/org/topics/diary.org" "~/org/topics/habit.org" "~/org/topics/journal.org" "~/org/topics/listen-read-watch.org" "~/org/topics/notes.org")))
  '(package-selected-packages
    (quote
-    (session w3m clippy header2 tabbar molokai-theme dracula-theme drag-stuff flx-ido zenburn-theme color-theme-solarized google-c-style ido-hacks ido-ubiquitous ido-vertical-mode find-file-in-project fiplr markdown-mode mmm-mode anzu rainbow-delimiters magit visual-regexp visual-regexp-steroids org-bullets popwin undo-tree multiple-cursors highlight-symbol volatile-highlights hl-anything which-key yasnippet browse-kill-ring+ mpg123 bongo graphviz-dot-mode ztree wttrin use-package stripe-buffer spaceline smooth-scrolling ranger popup persp-projectile paredit paradox origami org-trello org-toc neotree names monokai-theme miniedit ivy-hydra info+ indent-guide goto-last-change gotham-theme gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-sanityinc-tomorrow calfw beacon async aggressive-indent ace-window)))
+    (sublimity smart-hungry-delete files+ faces+ smart-compile smartparens multi-term buffer-move hideshowvis session w3m clippy header2 tabbar molokai-theme dracula-theme drag-stuff flx-ido zenburn-theme color-theme-solarized google-c-style ido-hacks ido-ubiquitous ido-vertical-mode find-file-in-project fiplr markdown-mode mmm-mode anzu rainbow-delimiters magit visual-regexp visual-regexp-steroids org-bullets popwin undo-tree multiple-cursors highlight-symbol volatile-highlights hl-anything which-key yasnippet browse-kill-ring+ mpg123 bongo graphviz-dot-mode ztree wttrin use-package stripe-buffer spaceline smooth-scrolling ranger popup persp-projectile paredit paradox origami org-trello org-toc neotree names monokai-theme miniedit ivy-hydra info+ indent-guide goto-last-change gotham-theme gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-sanityinc-tomorrow calfw beacon async aggressive-indent ace-window)))
+ '(paradox-github-token t t)
  '(session-use-package t nil (session))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

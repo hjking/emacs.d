@@ -20,7 +20,7 @@ INSTALLINFO = /usr/bin/install-info --info-dir=$(INFODIR)
 CHANGELOG_CMD = git log --pretty=medium --no-merges
 
 # The currently released version of EMMS
-VERSION=4.2
+VERSION=4.3
 
 .PHONY: all install lisp docs deb-install clean
 .PRECIOUS: %.elc
@@ -35,8 +35,8 @@ lisp:
 docs:
 	$(MAKE) -C $(DOCDIR)
 
-emms-print-metadata: $(SRCDIR)/emms-print-metadata.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $(SRCDIR)/$@ $< `taglib-config --cflags --libs` -ltag_c
+emms-print-metadata: $(SRCDIR)/emms-print-metadata.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $(SRCDIR)/$@ $< `taglib-config --cflags --libs`
 
 install:
 	test -d $(SITELISP) || mkdir -p $(SITELISP)

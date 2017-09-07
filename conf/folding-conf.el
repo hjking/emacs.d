@@ -42,36 +42,4 @@
            )
   ))
 
-;;
-;; folding (hiding) parts of the text
-;; autoload when turn on `folding-mode'
-; (message "%d: >>>>> Loading [ Folding ] Customization ...." step_no)
-; (setq step_no (1+ step_no))
-; (autoload 'folding-mode          "folding" "Folding mode" t)
-; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-; (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-; (dolist (hook (list 'emacs-lisp-mode-hook
-;                     'c++-mode-hook
-;                     'lisp-mode-hook
-;                     'ruby-mode-hook
-;                     'perl-mode-hook
-;                     'php-mode-hook
-;                     'python-mode-hook
-;                     'lua-mode-hook
-;                     'c-mode-hook
-;                     'java-mode-hook
-;                     'js-mode-hook
-;                     'verilog-mode-hook
-;                     'css-mode-hook))
-;   (add-hook hook 'turn-on-folding-mode))
-
-; (eval-after-load 'folding
-;   '((folding-add-to-marks-list 'ruby-mode "#{{{" "#}}}" nil t)
-;     (folding-add-to-marks-list 'php-mode    "//{"  "//}"  nil t)
-;     (folding-add-to-marks-list 'html-mode   "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
-;     (folding-add-to-marks-list 'verilog-mode "// {"  "// }"  nil t)
-;     (folding-add-to-marks-list 'sh-mode "#{{{" "#}}}" nil t)
-;     (folding-add-to-marks-list 'emacs-lisp-mode ";;{"  ";;}"  nil t)
-;     (folding-add-to-marks-list 'c-mode "/* {{{ " "/* }}} */" " */" t)))
-
 (provide 'folding-conf)

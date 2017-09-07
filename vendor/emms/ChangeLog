@@ -1,3 +1,97 @@
+commit 4cb3ae341847e8e8586373a95a458a453469812d
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon May 1 14:02:58 2017 -0400
+
+    Bump version to 4.3.
+
+commit 946e954e78013f19fed870b16935aa0865c5cae7
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 17 16:46:54 2017 -0400
+
+    * NEWS:
+
+commit 6acda00f9d428516be4e8d407aefd51838f9395b
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 17 16:44:48 2017 -0400
+
+    * lisp/emms-browser.el: Cover only on info album.
+    
+    Get the cover only when the album info is requested. Small patch by
+    Cedric Chepied <cedric.chepied@gmail.com>.
+
+commit 0cd9ea411391c9049f4fbcd5d9164ba11b73fe56
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 17 10:02:59 2017 -0400
+
+    * doc/developer-release.txt: correct text
+    
+    This would avoid a previous tag being pushed and clobbering HEAD.
+
+commit 6e795ce6117322ae5dd8a4b3e2f4ff073495ba5d
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 17 09:49:39 2017 -0400
+
+    * doc/developer-release.txt: Add tags comment.
+
+commit 6601ba8ef710b8ed260773e18a3baa940a7adc3a
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Mar 1 17:06:42 2017 -0500
+
+    Move to a new emms-print-metadata.
+    
+    The new emms-print-metadata is written in C++ and brings on board new
+    features from TagLib.
+    
+    Patch by Petteri Hintsanen <petterih@iki.fi>.
+
+commit 0b0bdd12eb97797d3c481de70871d64f42672a58
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Sun Feb 26 17:29:51 2017 -0500
+
+    * lisp/emms-player-mpd.el: Remove obsolete
+    
+    Replace the obsolete function with its up-to-date equivalent.
+
+commit c3d98fc234cf7ec751c78a63a467449ccfd74376
+Author: Rasmus <rasmus@gmx.us>
+Date:   Wed Dec 21 14:32:44 2016 +0100
+
+    * lisp/emms-lyrics.el (emms-lyrics-visit-lyric): Fix error from 6bc5
+
+commit dde22abffb7a47adfe2cf98e4505ac0048e0b5fd
+Author: Yoni Rabkin <yrk@gnu.org>
+Date:   Thu Dec 22 17:46:36 2016 -0500
+
+    * lisp/emms-streams.el: replace obsolete function.
+    
+    `toggle-read-only' is obsolete. Use `read-only-mode' instead.
+
+commit 1a2df61904b4d35a1c098fa0d11573b8ca61036e
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Dec 21 07:59:25 2016 -0500
+
+    * doc/emms.texinfo: small typo fix
+    
+    Thank you to Stefan Kangas <stefan@marxist.se>.
+
+commit ea9b8906c773b722d1c06c62bf5883b5a6de5342
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Dec 20 15:09:56 2016 -0500
+
+    * lisp/emms.el: don't use obsolete variable `default-major-mode'
+
+commit cf6903c22b49b2e3efe338a9ccbd0df36b6d0cbf
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Nov 8 10:46:27 2016 -0500
+
+    * doc/developer-release.txt: add online manual update to list.
+
+commit d6b1628238e7b58620af4ad002dd3538a20ddea9
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Nov 8 09:53:56 2016 -0500
+
+    * doc/developer-release.txt: add example
+
 commit 081edb0b426625efce8fd929d1ac4f9206e11010
 Author: Yoni Rabkin <yoni@rabkins.net>
 Date:   Tue Nov 8 09:44:13 2016 -0500

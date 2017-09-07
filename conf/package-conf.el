@@ -3,34 +3,12 @@
 (setq step_no (1+ step_no))
 (require 'package)
 
-(dolist (source '(
-                  ;; marmalade
-                  ; ("marmalade" . "http://marmalade-repo.org/packages/")
-                  ;; tromey
-                  ; ("elpa" . "http://tromey.com/elpa/")
-                  ;; stable melpa
-                  ; ("melpa-stable" . "http://stable.melpa.org/packages/")
-                  ;; development versions of melpa packages
-                  ; ("melpa" . "http://melpa.org/packages/")
+(setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
-                  ;; emacs-china mirror
-                  ; ("melpa" . "http://elpa.zilongshanren.com/melpa/")
-                  ; ("gnu"   . "http://elpa.zilongshanren.com/gnu/")
-
-                  ;; tsinghua mirror
-                  ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                  ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                  ; ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                  ; ("myelpa" . "~/.emacs.d/myelpa")
-                  ; ("myelpa" . "https://raw.githubusercontent.com/redguardtoo/myelpa/master/")
-                  ;; org
-                  ; ("org" . "http://orgmode.org/elpa/")
-                  ))
-(add-to-list 'package-archives source t))
-
-; (when (< emacs-major-version 24)
-;     (add-to-list 'package-archives
-;                  '("gnu" . "http://elpa.gnu.org/packages/")))
+;; org
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; Load and activate emacs packages. Do this first so that the
 ;; packages are loaded before you start trying to modify them.
@@ -40,8 +18,11 @@
 ;; Download the ELPA archive description if needed.
 ;; This informs Emacs about the latest versions of all packages, and
 ;; makes them available for download.
-(when (not package-archive-contents)
-  (package-refresh-contents))
+; (when (not package-archive-contents)
+;   (package-refresh-contents))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; The packages you want installed. You can also install these
 ;; manually with M-x package-install
