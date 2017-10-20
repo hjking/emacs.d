@@ -154,5 +154,24 @@
   :after dired
   )
 
+;;narrow dired to match filter
+(use-package dired-narrow
+  :bind (:map dired-mode-map
+        ("/" . dired-narrow)))
+
+
+(use-package dired-subtree
+  :config
+  (bind-keys :map dired-mode-map
+             ("i" . dired-subtree-insert)
+             (";" . dired-subtree-remove)))
+
+
+(use-package dired-ranger
+  :bind (:map dired-mode-map
+        ("W" . dired-ranger-copy)
+        ("X" . dired-ranger-move)
+        ("Y" . dired-ranger-paste)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'dired-conf)

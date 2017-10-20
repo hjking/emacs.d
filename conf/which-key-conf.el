@@ -29,10 +29,10 @@
             ("next"                . "PgDn")
             ("prior"               . "PgUp")))
 
-    (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil))
-    (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil))
-    (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil))
-    (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil))
+    ; (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
+    ; (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
+    ; (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
+    ; (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
 
     ;; Replacements for how part or whole of FUNCTION is replaced when
     ;; which-key displays

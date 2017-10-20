@@ -157,7 +157,7 @@
          (split-window-right)
          (windmove-right)))
       ("n"          other-window true)
-      ("c"          cider-popup :exit true)
+      ("c"          cider-popup :exit t)
       ("C-S-<up>"   shink-more)
 
       ("C-<down>"   enlarge-window)
@@ -190,7 +190,7 @@
       ("f"          helm-projectile-find-file)
       ("F"          ido-find-file)
       ("SPC"        nil)
-      ("q"          nil   :exit truex))
+      ("q"          nil   :exit t))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; tabbar
@@ -1317,15 +1317,15 @@
       )
 
     (defhydra hjking-hydra-mark-buffer (:exit t
-                                 :idle 1.0)
+                                        :idle 1.0)
       "Mark buffer"
       ("w" mark-whole-buffer "Whole buffer")
       ("a" mark-buffer-after-point "Buffer after point")
       ("b" mark-buffer-before-point "Buffer before point"))
 
     (defhydra hydra-lisp-eval (:exit t
-                                     :columns 2
-                                     :idle 1.0)
+                               :columns 2
+                               :idle 1.0)
       "Lisp eval"
       ("r" eval-region "Region")
       ("b" eval-buffer "Buffer")

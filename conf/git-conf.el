@@ -6,14 +6,6 @@
   (setq step_no (1+ step_no))
 
   ;;
-  ;; git-modes
-  ;;
-  (require 'git-commit-mode)
-  (require 'git-rebase-mode)
-  (require 'gitconfig-mode)
-  (require 'gitignore-mode)
-
-  ;;
   ;; magit
   ;;
   (require 'magit)

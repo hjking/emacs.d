@@ -1151,7 +1151,6 @@
 
 ;; *** --- Git
 (when section-git
-  (add-site-lisp-load-path "git-modes/")
 
   ;; *** --- magit
   (autoload 'magit-status "magit" nil t)
