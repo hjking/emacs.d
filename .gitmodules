@@ -1,7 +1,3 @@
-[submodule "vendor/git-modes"]
-	path = vendor/git-modes
-	url = https://github.com/magit/git-modes.git
-	ignore = dirty
 [submodule "vendor/workgroups2"]
 	path = vendor/workgroups2
 	url = https://github.com/pashinin/workgroups2.git
