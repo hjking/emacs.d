@@ -18,7 +18,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -240,7 +240,7 @@ a communication channel."
 		    (format "<a id=\"%s\"></a>"
 			    (or (org-element-property :CUSTOM_ID headline)
 				(org-export-get-reference headline info))))))
-	  (concat (org-md--headline-title style level title anchor tags)
+	  (concat (org-md--headline-title style level heading anchor tags)
 		  contents)))))))
 
 
@@ -582,16 +582,7 @@ contents according to the current headline."
 	      (format "[%s](#%s)"
 		      (org-export-data-with-backend
 		       (org-export-get-alt-title headline info)
-		       ;; Create an anonymous back-end that will
-		       ;; ignore any footnote-reference, link,
-		       ;; radio-target and target in table of
-		       ;; contents.
-		       (org-export-create-backend
-			:parent 'md
-			:transcoders '((footnote-reference . ignore)
-				       (link . (lambda (object c i) c))
-				       (radio-target . (lambda (object c i) c))
-				       (target . ignore)))
+		       (org-export-toc-entry-backend 'md)
 		       info)
 		      (or (org-element-property :CUSTOM_ID headline)
 			  (org-export-get-reference headline info))))

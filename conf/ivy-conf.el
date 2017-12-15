@@ -21,8 +21,8 @@
           ; (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
         )
   :bind (("C-c C-r"  . ivy-resume)
-         ("C-x b"    . ivy-switch-buffer)
-         (:map ivy-mode-map  ("C-'" . ivy-avy))) ; bind in the ivy buffer C-' to ivy-avy
+         ("C-x b"    . ivy-switch-buffer))
+  ;        (:map ivy-mode-map  ("C-'" . ivy-avy))) ; bind in the ivy buffer C-' to ivy-avy
   :config (progn
            ;; Disable ido
            (with-eval-after-load 'ido

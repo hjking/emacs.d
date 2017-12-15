@@ -18,7 +18,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -353,7 +353,7 @@ called with one argument, the key used for comparison."
   (org-lint--collect-duplicates
    ast
    'target
-   (lambda (target) (org-split-string (org-element-property :value target)))
+   (lambda (target) (split-string (org-element-property :value target)))
    (lambda (target _) (org-element-property :begin target))
    (lambda (key)
      (format "Duplicate target <<%s>>" (mapconcat #'identity key " ")))))
@@ -1000,7 +1000,7 @@ Use \"export %s\" instead"
 	      (unless (memq allowed-values '(:any nil))
 		(let ((values (cdr header))
 		      groups-alist)
-		  (dolist (v (if (stringp values) (org-split-string values)
+		  (dolist (v (if (stringp values) (split-string values)
 			       (list values)))
 		    (let ((valid-value nil))
 		      (catch 'exit

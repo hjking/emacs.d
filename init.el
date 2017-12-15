@@ -1059,10 +1059,14 @@
   (add-site-lisp-load-path "dired/")
   (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
+
   ;; file manager based on dired
-  (require 'ranger-conf)
+  ; (require 'ranger-conf)
+
   ;; emacs tree plugin like NERD tree for Vim
-  (require 'neotree-conf)
+  ; (require 'neotree-conf)
+
+  (require 'treemacs-conf)
   )
 ;; [ Dired ]-----------------------------------------------------------[ End ]--
 
@@ -1813,11 +1817,11 @@
 
 ;; Whenever the window scrolls a light will shine
 ;; on top of your cursor so you know where it is.
-(require 'beacon-conf)
+; (require 'beacon-conf)
 
 ;; Modernizing Emacs' Package Menu
 ;; Use `paradox-list-packages' instead of the regular `list-packages'
-(require 'paradox-conf)
+; (require 'paradox-conf)
 
 ;; A Collection of Ridiculously Useful eXtensions for Emacs
 (require 'crux-conf)
@@ -1826,15 +1830,26 @@
 (require 'wttrin-conf)
 
 ;; deft
-(require 'deft-conf)
+; (require 'deft-conf)
 
 ;; comment/uncomment with M-;
 (require 'evil-nerd-commenter-conf)
 
+
+;; sublimity : smooth-scrolling, minimap and distraction-free mode (inspired by the sublime editor)
 (use-package sublimity
   :config
   (sublimity-mode 1)
 )
+
+
+;; Helpful is an alternative to the built-in Emacs help that provides
+;; much more contextual information.
+(use-package helpful
+  :bind (("C-h f"   . helpful-callable)
+         ("C-h v"   . helpful-variable)
+         ("C-h k"   . helpful-key)
+         ("C-c C-." . helpful-at-point)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====

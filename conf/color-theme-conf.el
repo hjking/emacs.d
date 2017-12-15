@@ -76,8 +76,15 @@
 
 (use-package color-theme-sanityinc-tomorrow
   :after color-theme
+  :disabled t
   :config
   (progn
     (load-theme 'sanityinc-tomorrow-night t)))
+
+(use-package dracula-theme
+  :after color-theme
+  :config
+  (progn
+    (load-theme 'dracula t)))
 
 (provide 'color-theme-conf)

@@ -842,8 +842,9 @@ as a whole, to include whitespace.
   with a colon, this will mean that the (non-regexp) snippets of the
   Boolean search must match as full words.
 
-This command searches the agenda files, and in addition the files listed
-in `org-agenda-text-search-extra-files'.
+This command searches the agenda files, and in addition the files
+listed in `org-agenda-text-search-extra-files' unless a restriction lock
+is active.
 
 \(fn &optional TODO-ONLY STRING EDIT-AT)" t nil)
 
@@ -1342,7 +1343,7 @@ Try very hard to provide sensible version strings.
 Find or create an entry for date D.
 If KEEP-RESTRICTION is non-nil, do not widen the buffer.
 When it is nil, the buffer will be widened to make sure an existing date
-tree can be found.  If it is the sympol `subtree-at-point', then the tree
+tree can be found.  If it is the symbol `subtree-at-point', then the tree
 will be built under the headline at point.
 
 \(fn D &optional KEEP-RESTRICTION)" nil nil)
@@ -1352,7 +1353,7 @@ Find or create an ISO week entry for date D.
 Compared to `org-datetree-find-date-create' this function creates
 entries ordered by week instead of months.
 When it is nil, the buffer will be widened to make sure an existing date
-tree can be found.  If it is the sympol `subtree-at-point', then the tree
+tree can be found.  If it is the symbol `subtree-at-point', then the tree
 will be built under the headline at point.
 
 \(fn D &optional KEEP-RESTRICTION)" nil nil)
@@ -1387,7 +1388,8 @@ Return number of minutes of DURATION string.
 When optional argument CANONICAL is non-nil, ignore
 `org-duration-units' and use standard time units value.
 
-As a special case, a bare number represents minutes.
+A bare number is translated into minutes.  The empty string is
+translated into 0.0.
 
 Return value as a float.  Raise an error if duration format is
 not recognized.
@@ -3667,6 +3669,69 @@ the project.
 
 ;;;### (autoloads nil "ox-texinfo" "ox-texinfo.el" (0 0 0 0))
 ;;; Generated autoloads from ox-texinfo.el
+
+(autoload 'org-texinfo-export-to-texinfo "ox-texinfo" "\
+Export current buffer to a Texinfo file.
+
+If narrowing is active in the current buffer, only export its
+narrowed part.
+
+If a region is active, export that region.
+
+A non-nil optional argument ASYNC means the process should happen
+asynchronously.  The resulting file should be accessible through
+the `org-export-stack' interface.
+
+When optional argument SUBTREEP is non-nil, export the sub-tree
+at point, extracting information from the headline properties
+first.
+
+When optional argument VISIBLE-ONLY is non-nil, don't export
+contents of hidden elements.
+
+When optional argument BODY-ONLY is non-nil, only write code
+between \"\\begin{document}\" and \"\\end{document}\".
+
+EXT-PLIST, when provided, is a property list with external
+parameters overriding Org default settings, but still inferior to
+file-local settings.
+
+Return output file's name.
+
+\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t nil)
+
+(autoload 'org-texinfo-export-to-info "ox-texinfo" "\
+Export current buffer to Texinfo then process through to INFO.
+
+If narrowing is active in the current buffer, only export its
+narrowed part.
+
+If a region is active, export that region.
+
+A non-nil optional argument ASYNC means the process should happen
+asynchronously.  The resulting file should be accessible through
+the `org-export-stack' interface.
+
+When optional argument SUBTREEP is non-nil, export the sub-tree
+at point, extracting information from the headline properties
+first.
+
+When optional argument VISIBLE-ONLY is non-nil, don't export
+contents of hidden elements.
+
+When optional argument BODY-ONLY is non-nil, only write code
+between \"\\begin{document}\" and \"\\end{document}\".
+
+EXT-PLIST, when provided, is a property list with external
+parameters overriding Org default settings, but still inferior to
+file-local settings.
+
+When optional argument PUB-DIR is set, use it as the publishing
+directory.
+
+Return INFO file's name.
+
+\(fn &optional ASYNC SUBTREEP VISIBLE-ONLY BODY-ONLY EXT-PLIST)" t nil)
 
 (autoload 'org-texinfo-publish-to-texinfo "ox-texinfo" "\
 Publish an org file to Texinfo.

@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -127,7 +127,7 @@ SQL Server on Windows and Linux platform."
 	     " "))
 
 (defun org-babel-sql-dbstring-sqsh (host user password database)
-  "Make sqsh commmand line args for database connection.
+  "Make sqsh command line args for database connection.
 \"sqsh\" is one method to access Sybase or MS SQL via Linux platform"
   (mapconcat #'identity
              (delq nil

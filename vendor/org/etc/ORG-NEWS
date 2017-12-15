@@ -50,8 +50,8 @@ You can now find them here :
 - https://github.com/org-mime/org-mime
 
 *** Change ~org-texinfo-classes~ value
-The value cannot support functions to create sectionning commands
-anymore.  Also, the sectionning commands should include commands for
+The value cannot support functions to create sectioning commands
+anymore.  Also, the sectioning commands should include commands for
 appendices.  See the docstring for more information.
 *** Removal of ~:sitemap-sans-extension~
 
@@ -98,6 +98,8 @@ details.
 Use "/!" markup when filtering TODO keywords to get only not-done TODO
 keywords.
 
+*** ~org-split-string~ returns ~("")~ when called on an empty string
+It used to return nil.
 *** Removal of =ob-scala.el=
 
 See [[https://github.com/ensime/emacs-scala-mode/issues/114][this github issue]].
@@ -157,7 +159,7 @@ developers to prepend code to the scheme block being processed.
 Multiple ~:prologue~ headers can be added each of them using a string
 with the content to be added.
 
-The scheme blocks are prepared by surronding the code in the block
+The scheme blocks are prepared by surrounding the code in the block
 with a let form. The content of the ~:prologue~ headers are prepended
 before this let form.
 
@@ -278,7 +280,7 @@ argument for the scope of the clock table.
 Global table of contents are generated using vanilla Markdown syntax
 instead of HTML.  Also #+TOC keyword, including local table of
 contents, are now supported.
-**** Add Slovanian translations
+**** Add Slovenian translations
 **** Implement ~org-export-insert-image-links~
 This new function is meant to be used in back-ends supporting images
 as descriptions of links, a.k.a. image links.  See its docstring for
@@ -465,7 +467,7 @@ far away in the future.
 *** Save point before opening a file with an unknown search option
 
 When following a file link with a search option (e.g., =::#custom-id=)
-that doesn't exist in the target file, save positon before raising an
+that doesn't exist in the target file, save position before raising an
 error.  As a consequence, it is possible to jump back to the original
 document with ~org-mark-ring-goto~ (default binding =C-c &=).
 
@@ -477,7 +479,7 @@ See docstring for details.
 
 This variable is a ~defcustom~ and replaces the variable
 ~org-babel-capitalize-example-region-markers~, which is a ~defvar~ and
-is now obselete.
+is now obsolete.
 *** =INCLUDE= keywords in commented trees are now ignored.
 *** Default value for ~org-texinfo-text-markup-alist~ changed.
 
@@ -1131,7 +1133,7 @@ where local file =emacs.html= is referenced.
 For most folks this file does not exist.
 Thus the new behavior is to generate this HTML link instead:
 
-: <a href="http://www.gnu.org/software/emacs/manual/html_mono/emacs.html#List-Buffers">emacs#List Buffers</a>
+: <a href="https://www.gnu.org/software/emacs/manual/html_mono/emacs.html#List-Buffers">emacs#List Buffers</a>
 
 All emacs related info links are similarly translated plus few other
 =gnu.org= manuals.
@@ -1990,7 +1992,7 @@ This enables SVG generation from latex code blocks.
 
 *** New option: [[doc:org-habit-show-done-always-green][org-habit-show-done-always-green]]
 
-See [[http://lists.gnu.org/archive/html/emacs-orgmode/2013-05/msg00214.html][this message]] from Max Mikhanosha.
+See [[https://lists.gnu.org/archive/html/emacs-orgmode/2013-05/msg00214.html][this message]] from Max Mikhanosha.
 
 *** New option: [[doc:org-babel-inline-result-wrap][org-babel-inline-result-wrap]]
 
@@ -2166,7 +2168,7 @@ manual for details and check [[http://orgmode.org/worg/org-8.0.html][this Worg p
 
 *** ~ox-texinfo.el~ by Jonathan Leech-Pepin
 
-    =ox-texinfo.el= allows you to export Org files to [[http://www.gnu.org/software/texinfo/][Texinfo]] files.
+    =ox-texinfo.el= allows you to export Org files to [[https://www.gnu.org/software/texinfo/][Texinfo]] files.
 
 ** New packages in contrib
 
@@ -2219,7 +2221,7 @@ manual for details and check [[http://orgmode.org/worg/org-8.0.html][this Worg p
 
 *** ~ox-groff.el~ by Luis Anaya and Nicolas Goaziou
 
-    The [[http://www.gnu.org/software/groff/][groff]] (GNU troff) software is a typesetting package which reads
+    The [[https://www.gnu.org/software/groff/][groff]] (GNU troff) software is a typesetting package which reads
     plain text mixed with formatting commands and produces formatted
     output.
 
@@ -2899,7 +2901,7 @@ You can now add the Org ELPA repository like this:
 #+END_SRC
 
 It contains both the =org-*.tar= package (the core Org distribution, also
-available through http://elpa.gnu.org) and the =org-plus*.tar= package (the
+available through https://elpa.gnu.org) and the =org-plus*.tar= package (the
 extended Org distribution, with non-GNU packages from the =contrib/=
 directory.)
 
@@ -2927,7 +2929,7 @@ See http://orgmode.org/elpa/
 
 *** =org-eshell.el= by Konrad Hinsen is now in Org
 
-    =org-eshell.el= allows you to create links from [[http://www.gnu.org/software/emacs/manual/html_node/eshell/index.html][Eshell]].
+    =org-eshell.el= allows you to create links from [[https://www.gnu.org/software/emacs/manual/html_node/eshell/index.html][Eshell]].
 
 *** Support for execution of Scala code blocks (see ob-scala.el)
 *** Support for execution of IO code blocks (see ob-io.el)
@@ -3527,7 +3529,7 @@ that Calc formulas can operate on them.
     =org-export-html-scripts= is now a variable, so that you can adapt
     the code and the license to your needs.
 
-    See http://www.gnu.org/philosophy/javascript-trap.html for
+    See https://www.gnu.org/philosophy/javascript-trap.html for
     explanations on why these changes were necessary.
 
 * Version 7.8.11
@@ -4312,4 +4314,4 @@ that Calc formulas can operate on them.
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+  along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.

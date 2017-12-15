@@ -4,7 +4,7 @@
 (require 'package)
 
 (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
+                         ; ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
 ;; org
@@ -29,79 +29,124 @@
 ;; Add in your own as you wish:
 (defvar my-packages
   '(use-package
-    ace-window
-    aggressive-indent
     ; adaptive-wrap ; indented line wrapping
     ; ag wgrep wgrep-ag s ; ag > ack > grep
-                        ; wgrep+wgrep-ag allow editing files
-                        ; directly in ag buffer
     ; auto-complete-verilog
-    company-c-headers
+    ; evil
+    ; evil-nerd-commenter
+    ; ggtags
+    ; guide-key
+    ; guide-key-tip
+    ; helm
+    ; helm-projectile
+    ; highlight-global
+    ; mode-line-stats
+    ; plantuml-mode
+    ; powerline
+    ; smart-mode-line
+    ; smartparens
+    ; smex
+    ; web-mode
+    ace-window
+    aggressive-indent
+    async
+    beacon ; visual flash to show the cursor position
+    browse-kill-ring+
+    buffer-move
+    calfw
+    clippy
+    color-theme-sanityinc-tomorrow
+    color-theme-solarized
     company
+    company-c-headers
+    counsel
+    crux
+    csv-mode
+    deft ; quick note taking and management
     diminish
     dired+
     dired-details
     dired-details+
     dired-sort-menu
     dired-sort-menu+
+    discover-my-major
+    dracula-theme
+    drag-stuff
     ecb
-    ; evil
-    ; evil-nerd-commenter
+    esup
+    evil-nerd-commenter
     expand-region
-    ; ggtags
+    f
+    faces+
+    find-file-in-project
+    fiplr
+    flx-ido
+    general
     gnuplot-mode
-    ; guide-key
-    ; guide-key-tip
-    ; helm
-    ; helm-projectile
+    google-c-style
+    gotham-theme
+    goto-last-change
+    graphviz-dot-mode
+    header2
+    helpful
+    hideshowvis
+    highlight-symbol
+    hl-anything
+    ido-hacks
+    ido-ubiquitous
+    ido-vertical-mode
     indent-guide
     info+
+    ivy-hydra
+    magit
+    markdown-mode
     miniedit
+    mmm-mode anzu
+    molokai-theme
+    monokai-theme
+    mpg123
+    multi-term
+    multiple-cursors
+    names
+    org-bullets
     org-toc
     org-trello
-    paredit
-    ; plantuml-mode
-    perspective
-    persp-projectile
-    projectile ; Better than fiplr
-    ranger ; Bringing the goodness of ranger to dired
-    counsel
-    swiper
-    ; smartparens
-    ; smex
-    smooth-scrolling
-    stripe-buffer ; different background for even and odd lines
-    ; web-mode
-    ztree
-    beacon ; visual flash to show the cursor position
-    paradox ; package menu improvements
-    evil-nerd-commenter
-    calfw
-    general
     origami
-    color-theme-sanityinc-tomorrow
-    deft ; quick note taking and management
-    wttrin ; weather
-    crux
-    ivy-hydra
-    spaceline
-    ; smart-mode-line
-    ; powerline
-    ; mode-line-stats
-    goto-last-change
-    neotree
-    gotham-theme
-    monokai-theme
+    paradox ; package menu improvements
+    paredit
+    persp-projectile
+    perspective
     popup
-    esup
-    discover-my-major
-    csv-mode
-    graphviz-dot-mode
-    highlight-symbol
-    ; highlight-global
+    popwin
+    projectile ; Better than fiplr
+    rainbow-delimiters
+    ranger ; Bringing the goodness of ranger to dired
+    session
+    smart-compile
+    smart-hungry-delete
+    smooth-scrolling
+    spaceline
+    stripe-buffer ; different background for even and odd lines
+    sublimity
+    swiper
+    tabbar
+    treemacs
+    undo-tree
+    use-package
+    visual-regexp
+    visual-regexp-steroids
     volatile-highlights
+    w3m
+    which-key
+    wttrin ; weather
+    zenburn-theme
+    ztree
   )
 "A list of packages to ensure are installed at launch.")
+
+
+;; avoid write `package-selected-packages' to custom file
+; (defun package--save-selected-packages (&rest opt) nil)
 
 ;; From prelude
 (defun prelude-packages-installed-p ()

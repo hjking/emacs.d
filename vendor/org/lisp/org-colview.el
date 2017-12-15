@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -464,7 +464,8 @@ for the duration of the command.")
       (kill-local-variable 'org-previous-header-line-format)
       (remove-hook 'post-command-hook 'org-columns-hscroll-title 'local))
     (set-marker org-columns-begin-marker nil)
-    (set-marker org-columns-top-level-marker nil)
+    (when (markerp org-columns-top-level-marker)
+      (set-marker org-columns-top-level-marker nil))
     (org-with-silent-modifications
      (mapc #'delete-overlay org-columns-overlays)
      (setq org-columns-overlays nil)

@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -656,7 +656,7 @@ The function should return the string to be exported.
 
 The default value simply returns the value of CONTENTS."
   :group 'org-export-odt
-  :version "24.4"
+  :version "26.1"
   :package-version '(Org . "8.3")
   :type 'function)
 
@@ -1159,12 +1159,8 @@ table of contents as a string, or nil."
   ;; Likewise, links, footnote references and regular targets are also
   ;; suppressed.
   (let* ((headlines (org-export-collect-headlines info depth scope))
-	 (backend (org-export-create-backend
-		   :parent (org-export-backend-name (plist-get info :back-end))
-		   :transcoders '((footnote-reference . ignore)
-				  (link . (lambda (object c i) c))
-				  (radio-target . (lambda (object c i) c))
-				  (target . ignore)))))
+	 (backend (org-export-toc-entry-backend
+		      (org-export-backend-name (plist-get info :back-end)))))
     (when headlines
       (org-odt--format-toc
        (and (not scope) (org-export-translate "Table of Contents" :utf-8 info))

@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -478,7 +478,17 @@ to add an effort property.")
 	  (funcall dichotomy
 		   most-negative-fixnum
 		   0
-		   (lambda (m) (ignore-errors (decode-time (list m 0))))))
+		   (lambda (m)
+                     ;; libc in macOS 10.6 hangs when decoding times
+                     ;; around year -2**31.  Limit `high' not to go
+                     ;; any earlier than that.
+                     (unless (and (eq system-type 'darwin)
+                                  (string-match-p
+                                   "10\\.6\\.[[:digit:]]"
+                                   (shell-command-to-string
+                                    "sw_vers -productVersion"))
+                                  (<= m -1034058203135))
+                       (ignore-errors (decode-time (list m 0)))))))
 	 (low
 	  (funcall dichotomy
 		   most-negative-fixnum
@@ -2715,7 +2725,9 @@ LEVEL is an integer.  Indent by two spaces per level above 1."
       (setq te (float-time (apply #'encode-time (org-parse-time-string te))))))
     (setq tsb
 	  (if (eq step0 'week)
-	      (- ts (* 86400 (- (nth 6 (decode-time (seconds-to-time ts))) ws)))
+	      (let ((dow (nth 6 (decode-time (seconds-to-time ts)))))
+		(if (< dow ws) ts
+		  (- ts (* 86400 (- dow ws)))))
 	    ts))
     (setq p1 (plist-put p1 :header ""))
     (setq p1 (plist-put p1 :step nil))
@@ -2725,9 +2737,14 @@ LEVEL is an integer.  Indent by two spaces per level above 1."
       (setq p1 (plist-put p1 :tstart (format-time-string
 				      (org-time-stamp-format nil t)
 				      (seconds-to-time (max tsb ts)))))
+      (cl-incf tsb (let ((dow (nth 6 (decode-time (seconds-to-time tsb)))))
+		     (if (or (eq step0 'day)
+			     (= dow ws))
+			 step
+		       (* 86400 (- ws dow)))))
       (setq p1 (plist-put p1 :tend (format-time-string
 				    (org-time-stamp-format nil t)
-				    (seconds-to-time (min te (setq tsb (+ tsb step)))))))
+				    (seconds-to-time (min te tsb)))))
       (insert "\n" (if (eq step0 'day) "Daily report: "
 		     "Weekly report starting on: ")
 	      (plist-get p1 :tstart) "\n")
@@ -2974,6 +2991,7 @@ The details of what will be saved are regulated by the variable
 
 ;; Local variables:
 ;; generated-autoload-file: "org-loaddefs.el"
+;; coding: utf-8
 ;; End:
 
 ;;; org-clock.el ends here

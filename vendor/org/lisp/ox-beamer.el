@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 ;;
@@ -935,9 +935,9 @@ value."
 			 org-beamer-environments-default)))
    ((and (equal property "BEAMER_col")
 	 (not (org-entry-get nil (concat property "_ALL") 'inherit)))
-    ;; If no allowed values for BEAMER_col have been defined,
-    ;; supply some
-    (org-split-string org-beamer-column-widths " "))))
+    ;; If no allowed values for BEAMER_col have been defined, supply
+    ;; some.
+    (split-string org-beamer-column-widths " "))))
 
 (add-hook 'org-property-allowed-value-functions
 	  'org-beamer-allowed-property-values)

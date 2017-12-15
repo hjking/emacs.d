@@ -21,7 +21,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -581,14 +581,15 @@ Escaping happens when a line starts with \"*\", \"#+\", \",*\" or
   (interactive "r")
   (save-excursion
     (goto-char end)
-    (while (re-search-backward "^[ \t]*,?\\(\\*\\|#\\+\\)" beg t)
+    (while (re-search-backward "^[ \t]*\\(,*\\(?:\\*\\|#\\+\\)\\)" beg t)
       (save-excursion (replace-match ",\\1" nil nil nil 1)))))
 
 (defun org-escape-code-in-string (s)
   "Escape lines in string S.
 Escaping happens when a line starts with \"*\", \"#+\", \",*\" or
 \",#+\" by appending a comma to it."
-  (replace-regexp-in-string "^[ \t]*,?\\(\\*\\|#\\+\\)" ",\\1" s nil nil 1))
+  (replace-regexp-in-string "^[ \t]*\\(,*\\(?:\\*\\|#\\+\\)\\)" ",\\1"
+			    s nil nil 1))
 
 (defun org-unescape-code-in-region (beg end)
   "Un-escape lines between BEG and END.
@@ -597,7 +598,7 @@ with \",*\", \",#+\", \",,*\" and \",,#+\"."
   (interactive "r")
   (save-excursion
     (goto-char end)
-    (while (re-search-backward "^[ \t]*,?\\(,\\)\\(?:\\*\\|#\\+\\)" beg t)
+    (while (re-search-backward "^[ \t]*,*\\(,\\)\\(?:\\*\\|#\\+\\)" beg t)
       (save-excursion (replace-match "" nil nil nil 1)))))
 
 (defun org-unescape-code-in-string (s)
@@ -605,7 +606,7 @@ with \",*\", \",#+\", \",,*\" and \",,#+\"."
 Un-escaping happens by removing the first comma on lines starting
 with \",*\", \",#+\", \",,*\" and \",,#+\"."
   (replace-regexp-in-string
-   "^[ \t]*,?\\(,\\)\\(?:\\*\\|#\\+\\)" "" s nil nil 1))
+   "^[ \t]*,*\\(,\\)\\(?:\\*\\|#\\+\\)" "" s nil nil 1))
 
 
 
@@ -920,7 +921,10 @@ Throw an error when not at an export block."
     (unless (and (eq (org-element-type element) 'export-block)
 		 (org-src--on-datum-p element))
       (user-error "Not in an export block"))
-    (let* ((type (downcase (org-element-property :type element)))
+    (let* ((type (downcase (or (org-element-property :type element)
+			       ;; Missing export-block type.  Fallback
+			       ;; to default mode.
+			       "fundamental")))
 	   (mode (org-src--get-lang-mode type)))
       (unless (functionp mode) (error "No such language mode: %s" mode))
       (org-src--edit-element

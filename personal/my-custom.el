@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Sat Sep 30 09:18:10 2017 (+0800)
+;; Last-Updated: Wed Dec 13 10:01:26 2017 (+0800)
 ;; Version:
-;;     Update #: 96
+;;     Update #: 99
 ;;
 ;;; Change Log:
 ;;
@@ -40,12 +40,9 @@
    (quote
     ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" default)))
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(org-agenda-files
-   (quote
-    ("~/org/personal.org" "~/org/work/ccs.org" "~/org/work/fabric.org" "~/org/work/fic.org" "~/org/work/fic_uml.org" "~/org/work/gpon.org" "~/org/work/hgu.org" "~/org/work/hgu_sim.org" "~/org/work/ref_pdf.org" "~/org/work/schedule.org" "~/org/work/uml_training.org" "~/org/topics/call.org" "~/org/topics/diary.org" "~/org/topics/habit.org" "~/org/topics/journal.org" "~/org/topics/listen-read-watch.org" "~/org/topics/notes.org")))
  '(package-selected-packages
    (quote
-    (treemacs sublimity smart-hungry-delete files+ faces+ smart-compile smartparens multi-term buffer-move hideshowvis session w3m clippy header2 tabbar molokai-theme dracula-theme drag-stuff flx-ido zenburn-theme color-theme-solarized google-c-style ido-hacks ido-ubiquitous ido-vertical-mode find-file-in-project fiplr markdown-mode mmm-mode anzu rainbow-delimiters magit visual-regexp visual-regexp-steroids org-bullets popwin undo-tree multiple-cursors highlight-symbol volatile-highlights hl-anything which-key browse-kill-ring+ mpg123 bongo graphviz-dot-mode ztree wttrin use-package stripe-buffer spaceline smooth-scrolling ranger popup persp-projectile paredit paradox origami org-trello org-toc neotree names monokai-theme miniedit ivy-hydra info+ indent-guide goto-last-change gotham-theme gnuplot-mode general f expand-region evil-nerd-commenter esup ecb discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-sanityinc-tomorrow calfw beacon async aggressive-indent ace-window)))
+    (helpful ztree zenburn-theme wttrin which-key w3m volatile-highlights visual-regexp-steroids use-package undo-tree treemacs tabbar sublimity stripe-buffer spaceline smooth-scrolling smartparens smart-hungry-delete smart-compile session ranger rainbow-delimiters popwin popup persp-projectile paredit paradox origami org-trello org-toc org-bullets names multiple-cursors multi-term mpg123 monokai-theme molokai-theme mmm-mode miniedit markdown-mode magit ivy-hydra info+ indent-guide ido-vertical-mode ido-ubiquitous ido-hacks hl-anything highlight-symbol hideshowvis header2 graphviz-dot-mode goto-last-change gotham-theme google-c-style gnuplot-mode general flx-ido fiplr find-file-in-project files+ faces+ expand-region evil-nerd-commenter esup ecb drag-stuff dracula-theme discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-solarized color-theme-sanityinc-tomorrow clippy calfw buffer-move browse-kill-ring+ bongo beacon anzu aggressive-indent)))
  '(paradox-github-token t t)
  '(session-use-package t nil (session))
  '(vc-annotate-background nil)

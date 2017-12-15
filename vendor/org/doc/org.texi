@@ -1256,13 +1256,8 @@ Org uses just two commands, bound to @key{TAB} and
 @end example
 
 @vindex org-cycle-emulate-tab
-@vindex org-cycle-global-at-bob
 The cursor must be on a headline for this to work@footnote{see, however,
-the option @code{org-cycle-emulate-tab}.}.  When the cursor is at the
-beginning of the buffer and the first line is not a headline, then
-@key{TAB} actually runs global cycling (see below)@footnote{see the
-option @code{org-cycle-global-at-bob}.}.  Also when called with a prefix
-argument (@kbd{C-u @key{TAB}}), global cycling is invoked.
+the option @code{org-cycle-emulate-tab}.}.
 
 @cindex global visibility states
 @cindex global cycling
@@ -1281,6 +1276,11 @@ argument (@kbd{C-u @key{TAB}}), global cycling is invoked.
 When @kbd{S-@key{TAB}} is called with a numeric prefix argument N, the
 CONTENTS view up to headlines of level N will be shown.  Note that inside
 tables, @kbd{S-@key{TAB}} jumps to the previous field.
+
+@vindex org-cycle-global-at-bob
+You can run global cycling using @key{TAB} only if point is at the very
+beginning of the buffer, but not on a headline, and
+@code{org-cycle-global-at-bob} is set to a non-@code{nil} value.
 
 @cindex set startup visibility, command
 @orgcmd{C-u C-u @key{TAB},org-set-startup-visibility}
@@ -1460,10 +1460,10 @@ Demote current heading by one level.
 Promote the current subtree by one level.
 @orgcmd{M-S-@key{right},org-demote-subtree}
 Demote the current subtree by one level.
-@orgcmd{M-S-@key{up},org-move-subtree-up}
+@orgcmd{M-@key{up},org-move-subtree-up}
 Move subtree up (swap with previous subtree of same
 level).
-@orgcmd{M-S-@key{down},org-move-subtree-down}
+@orgcmd{M-@key{down},org-move-subtree-down}
 Move subtree down (swap with next subtree of same level).
 @orgcmd{M-h,org-mark-element}
 Mark the element at point.  Hitting repeatedly will mark subsequent elements
@@ -1658,11 +1658,9 @@ line.  In particular, if an ordered list reaches number @samp{10.}, then the
 list.  An item ends before the next line that is less or equally indented
 than its bullet/number.
 
-@vindex org-list-empty-line-terminates-plain-lists
 A list ends whenever every item has ended, which means before any line less
 or equally indented than items at top level.  It also ends before two blank
-lines@footnote{See also @code{org-list-empty-line-terminates-plain-lists}.}.
-In that case, all items are closed.  Here is an example:
+lines.  In that case, all items are closed.  Here is an example:
 
 @example
 @group
@@ -3602,7 +3600,7 @@ A link should be enclosed in double brackets and may contain a descriptive
 text to be displayed instead of the URL (@pxref{Link format}), for example:
 
 @example
-[[http://www.gnu.org/software/emacs/][GNU Emacs]]
+[[https://www.gnu.org/software/emacs/][GNU Emacs]]
 @end example
 
 @noindent
@@ -3714,7 +3712,7 @@ current session are part of the history for this prompt, so you can access
 them with @key{up} and @key{down} (or @kbd{M-p/n}).
 
 @b{Completion support}@* Completion with @key{TAB} will help you to insert
-valid link prefixes like @samp{http:} or @samp{ftp:}, including the prefixes
+valid link prefixes like @samp{https:}, including the prefixes
 defined through link abbreviations (@pxref{Link abbreviations}).  If you
 press @key{RET} after inserting only the @var{prefix}, Org will offer
 specific completion support for some link types@footnote{This works if
@@ -7353,6 +7351,7 @@ gnus                             |  %:group, @r{for messages also all email fiel
 eww, w3, w3m                     |  %:url
 info                             |  %:file %:node
 calendar                         |  %:date
+org-protocol                     |  %:link %:description %:annotation
 @end smallexample
 
 @noindent
@@ -7594,22 +7593,15 @@ javascript:location.href='org-protocol://store-link?url='+
 @cindex capture protocol
 @cindex protocol, capture
 
-@cindex capture, %:url placeholder
-@cindex %:url template expansion in capture
-@cindex capture, %:title placeholder
-@cindex %:title template expansion in capture
 Activating @code{capture} handler pops up a @samp{Capture} buffer and fills
-the capture template associated to the @samp{X} key with them.  The template
-refers to the data through @code{%:url} and @code{%:title} placeholders.
-Moreover, any selected text in the browser is appended to the body of the
-entry.
+the capture template associated to the @samp{X} key with them.
 
 @example
 emacsclient org-protocol://capture?template=X?url=URL?title=TITLE?body=BODY
 @end example
 
-To use this feature, add a bookmark with an arbitrary name, e.g.
-@samp{Org: capture} and enter this as @samp{Location}:
+To use this feature, add a bookmark with an arbitrary name, e.g.  @samp{Org:
+capture} and enter this as @samp{Location}:
 
 @example
 javascript:location.href='org-protocol://template=x'+
@@ -7622,6 +7614,21 @@ javascript:location.href='org-protocol://template=x'+
 The result depends on the capture template used, which is set in the bookmark
 itself, as in the example above, or in
 @code{org-protocol-default-template-key}.
+
+@cindex capture, %:link placeholder
+@cindex %:link template expansion in capture
+@cindex capture, %:description placeholder
+@cindex %:description template expansion in capture
+@cindex capture, %:annotation placeholder
+@cindex %:annotation template expansion in capture
+The following template placeholders are available:
+
+@example
+%:link          The URL
+%:description   The webpage title
+%:annotation    Equivalent to [[%:link][%:description]]
+%i              The selected text
+@end example
 
 @node @code{open-source} protocol
 @subsection @code{open-source} protocol
@@ -7648,7 +7655,7 @@ javascript:location.href='org-protocol://open-source?&url='+
 @vindex org-protocol-project-alist
 The variable @code{org-protocol-project-alist} maps URLs to local file names,
 by stripping URL parameters from the end and replacing the @code{:base-url}
-with @code{:working-diretory} and @code{:online-suffix} with
+with @code{:working-directory} and @code{:online-suffix} with
 @code{:working-suffix}.  For example, assuming you own a local copy of
 @url{http://orgmode.org/worg/} contents at @file{/home/user/worg}, you can
 set @code{org-protocol-project-alist} to the following
@@ -14033,7 +14040,7 @@ A somewhat obsessive function.
 @node A Texinfo example
 @subsection A Texinfo example
 
-Here is a more detailed example Org file.  @xref{GNU Sample
+Here is a more detailed example Org file.  See @ref{GNU Sample
 Texts,,,texinfo,GNU Texinfo Manual} for an equivalent example using Texinfo
 code.
 
@@ -14990,6 +14997,7 @@ directory on the local machine.
       '(("org"
          :base-directory "~/org/"
          :publishing-directory "~/public_html"
+         :publishing-function org-html-publish-to-html
          :section-numbers nil
          :with-toc nil
          :html-head "<link rel=\"stylesheet\"
@@ -15500,10 +15508,10 @@ For more examples of header arguments for @code{#+CALL:} lines,
 @cindex code block, library
 
 The ``Library of Babel'' is a collection of code blocks.  Like a function
-library, these code blocks can be called from other Org files.  This
-collection is in a repository file in Org mode format in the @samp{doc}
-directory of Org mode installation.  For remote code block evaluation syntax,
-@pxref{Evaluating code blocks}.
+library, these code blocks can be called from other Org files.  A collection
+of useful code blocks is available on
+@uref{http://orgmode.org/worg/library-of-babel.html,Worg}.  For remote code
+block evaluation syntax, @pxref{Evaluating code blocks}.
 
 @kindex C-c C-v i
 For any user to add code to the library, first save the code in regular

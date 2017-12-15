@@ -18,7 +18,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -144,7 +144,7 @@ When set to `query', ask the user instead."
   "Confirmation preference for automatically getting annex files.
 If \\='ask, prompt using `y-or-n-p'.  If t, always get.  If nil, never get."
   :group 'org-attach
-  :package-version '(Org . "9")
+  :package-version '(Org . "9.0")
   :version "26.1"
   :type '(choice
 	  (const :tag "confirm with `y-or-n-p'" ask)
@@ -507,7 +507,7 @@ This can be used after files have been added externally."
   (let ((attach-dir (org-attach-dir)))
     (when attach-dir
       (let ((files (org-attach-file-list attach-dir)))
-	(and files (org-attach-tag))
+	(org-attach-tag (not files))
 	(when org-attach-file-list-property
 	  (dolist (file files)
 	    (unless (string-match "^\\.\\.?\\'" file)

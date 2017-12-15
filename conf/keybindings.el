@@ -164,7 +164,7 @@
 ;; map Home and End keys to move within current line
 ;; (global-set-key [home]    'beginning-of-line)
 (global-set-key (kbd "<home>") 'hjking/smart-beginning-of-line)
-(global-set-key [end]     'end-of-line)
+(global-set-key [end]          'end-of-line)
 ;; C-Home and C-End keys to move to beginning/end of buffer
 (global-set-key [\C-home]           'beginning-of-buffer)
 (global-set-key [\C-end]            'end-of-buffer)
@@ -208,7 +208,7 @@
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
 ;; go to the right indentation on the next line
-(global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "RET")   'newline-and-indent)
 
 ;; A quick major mode help with discover-my-major
 (define-key 'help-command (kbd "C-m") 'discover-my-major)

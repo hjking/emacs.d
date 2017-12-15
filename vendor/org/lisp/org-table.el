@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -1184,7 +1184,7 @@ to a number.  In the case of a timestamp, increment by days."
 	  (setq txt (calc-eval (concat txt "+" (number-to-string inc)))))
       (insert txt)
       (org-move-to-column col)
-      (if (and org-table-copy-increment (org-at-timestamp-p))
+      (if (and org-table-copy-increment (org-at-timestamp-p 'lax))
 	  (org-timestamp-up-day inc)
 	(org-table-maybe-recalculate-line))
       (org-table-align)
@@ -1646,12 +1646,14 @@ In particular, this does handle wide and invisible characters."
   (if (not (org-at-table-p))
       (user-error "Not at a table"))
   (let ((col (current-column))
-	(dline (org-table-current-dline)))
+	(dline (and (not (org-match-line org-table-hline-regexp))
+		    (org-table-current-dline))))
     (kill-region (point-at-bol) (min (1+ (point-at-eol)) (point-max)))
     (if (not (org-at-table-p)) (beginning-of-line 0))
     (org-move-to-column col)
-    (when (or (not org-table-fix-formulas-confirm)
-	      (funcall org-table-fix-formulas-confirm "Fix formulas? "))
+    (when (and dline
+	       (or (not org-table-fix-formulas-confirm)
+		   (funcall org-table-fix-formulas-confirm "Fix formulas? ")))
       (org-table-fix-formulas "@" (list (cons (number-to-string dline) "INVALID"))
 			      dline -1 dline))))
 
@@ -3240,7 +3242,7 @@ existing formula for column %s"
 	 (goto-char beg)
 	 ;; Mark named fields untouchable.  Also check if several
 	 ;; field/range formulas try to set the same field.
-	 (remove-text-properties beg end '(org-untouchable t))
+	 (remove-text-properties beg end '(:org-untouchable t))
 	 (let ((current-line (count-lines org-table-current-begin-pos
 					  (line-beginning-position)))
 	       seen-fields)
@@ -5131,7 +5133,7 @@ information."
 	     (column
 	      ;; Call costly `org-export-table-cell-address' only if
 	      ;; absolutely necessary, i.e., if one
-	      ;; of :fmt :efmt :hmft has a "plist type" value.
+	      ;; of :fmt :efmt :hfmt has a "plist type" value.
 	      ,(and (cl-some (lambda (v) (integerp (car-safe v)))
 			     (list efmt hfmt fmt))
 		    '(1+ (cdr (org-export-table-cell-address cell info))))))

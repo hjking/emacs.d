@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -1097,7 +1097,7 @@ may have been stored before."
 (defun org-capture-place-entry ()
   "Place the template as a new Org entry."
   (let ((reversed? (org-capture-get :prepend))
-	level)
+	(level 1))
     (when (org-capture-get :exact-position)
       (goto-char (org-capture-get :exact-position)))
     (cond
@@ -1311,8 +1311,8 @@ Of course, if exact position has been required, just put it there."
 
 (defun org-capture-mark-kill-region (beg end)
   "Mark the region that will have to be killed when aborting capture."
-  (let ((m1 (move-marker (make-marker) beg))
-	(m2 (move-marker (make-marker) end)))
+  (let ((m1 (copy-marker beg))
+	(m2 (copy-marker end t)))
     (org-capture-put :begin-marker m1)
     (org-capture-put :end-marker m2)))
 
@@ -1792,11 +1792,10 @@ The template may still contain \"%?\" for cursor positioning."
 		     (let* ((upcase? (equal (upcase key) key))
 			    (org-end-time-was-given nil)
 			    (time (org-read-date upcase? t nil prompt)))
-		       (let ((org-time-was-given upcase?))
-			 (org-insert-time-stamp
-			  time org-time-was-given
-			  (member key '("u" "U"))
-			  nil nil (list org-end-time-was-given)))))
+		       (org-insert-time-stamp
+			time (or org-time-was-given upcase?)
+			(member key '("u" "U"))
+			nil nil (list org-end-time-was-given))))
 		    (`nil
 		     (push (org-completing-read
 			    (concat (or prompt "Enter string")

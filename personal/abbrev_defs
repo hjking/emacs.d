@@ -1,11 +1,19 @@
 ;;-*-coding: utf-8;-*-
 (define-abbrev-table 'Buffer-menu-mode-abbrev-table '())
 
+(define-abbrev-table 'Custom-mode-abbrev-table '())
+
+(define-abbrev-table 'Info-edit-mode-abbrev-table '())
+
 (define-abbrev-table 'awk-mode-abbrev-table
   '(
    ))
 
+(define-abbrev-table 'bibtex-mode-abbrev-table '())
+
 (define-abbrev-table 'bookmark-bmenu-mode-abbrev-table '())
+
+(define-abbrev-table 'bookmark-edit-annotation-mode-abbrev-table '())
 
 (define-abbrev-table 'browse-kill-ring-edit-mode-abbrev-table '())
 
@@ -18,6 +26,8 @@
 (define-abbrev-table 'c-mode-abbrev-table
   '(
    ))
+
+(define-abbrev-table 'calendar-mode-abbrev-table '())
 
 (define-abbrev-table 'change-log-mode-abbrev-table '())
 
@@ -44,38 +54,71 @@ GetOptions();" pde-abbv-no-blank 0)
 
 (define-abbrev-table 'display-time-world-mode-abbrev-table '())
 
+(define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
+
+(define-abbrev-table 'elisp-byte-code-mode-abbrev-table '())
+
 (define-abbrev-table 'emacs-lisp-byte-code-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table
-  '(("sm" "string-match") ("mm" "major-mode")
-      ("rb" "region-beginning") ("ca" "char-after")
-      ("smd" "save-match-data") ("mb" "match-beginning")
-      ("pm" "point-min") ("ir" "indent-region")
-      ("sf" "search-forward") ("ci" "call-interactively")
-      ("sn" "symbol-name") ("se" "save-excursion")
-      ("scb" "skip-chars-backward") ("fc" "forward-char")
-      ("ff" "find-file") ("fs" "forward-sexp")
-      ("pa" "prefix-arg") ("re" "region-end")
-      ("dc" "delete-char") ("ms" "match-string")
-      ("tc" "this-command") ("dd" "default-directory")
-      ("bc" "backward-char") ("rsf" "re-search-forward")
-      ("snp" "substring-no-properties")
-      ("bsnp" "buffer-substring-no-properties")
-      ("lep" "line-end-position") ("bs" "buffer-substring")
-      ("cc" "condition-case") ("ul" "up-list")
-      ("bfn" "buffer-file-name") ("lb" "looking-back")
-      ("tap" "thing-at-point") ("rm" "replace-match")
-      ("fl" "forward-line") ("df" "declare-function")
-      ("ntr" "narrow-to-region") ("dr" "delete-region")
-      ("rsb" "re-search-backward") ("scf" "skip-chars-forward")
-      ("wcb" "with-current-buffer") ("ie" "ignore-errors")
-      ("gc" "goto-char") ("jos" "just-one-space")
-      ("la" "looking-at") ("ow" "other-window")
-      ("dk" "define-key") ("dm" "deactivate-mark")
-      ("bod" "beginning-of-defun") ("sic" "self-insert-command")
-      ("eol" "end-of-line") ("me" "match-end")
-      ("nai" "newline-and-indent") ("cb" "current-buffer")
-      ("atl" "add-to-list") ("rris" "replace-regexp-in-string")))
+  '(
+    ("atl" "add-to-list" nil 0)
+    ("bc" "backward-char" nil 0)
+    ("bfn" "buffer-file-name" nil 0)
+    ("bod" "beginning-of-defun" nil 0)
+    ("bs" "buffer-substring" nil 0)
+    ("bsnp" "buffer-substring-no-properties" nil 0)
+    ("ca" "char-after" nil 0)
+    ("cb" "current-buffer" nil 0)
+    ("cc" "condition-case" nil 0)
+    ("ci" "call-interactively" nil 0)
+    ("dc" "delete-char" nil 0)
+    ("dd" "default-directory" nil 0)
+    ("df" "declare-function" nil 0)
+    ("dk" "define-key" nil 0)
+    ("dm" "deactivate-mark" nil 0)
+    ("dr" "delete-region" nil 0)
+    ("eol" "end-of-line" nil 0)
+    ("fc" "forward-char" nil 0)
+    ("ff" "find-file" nil 0)
+    ("fl" "forward-line" nil 0)
+    ("fs" "forward-sexp" nil 0)
+    ("gc" "goto-char" nil 0)
+    ("ie" "ignore-errors" nil 0)
+    ("ir" "indent-region" nil 0)
+    ("jos" "just-one-space" nil 0)
+    ("la" "looking-at" nil 0)
+    ("lb" "looking-back" nil 0)
+    ("lep" "line-end-position" nil 0)
+    ("mb" "match-beginning" nil 0)
+    ("me" "match-end" nil 0)
+    ("mm" "major-mode" nil 0)
+    ("ms" "match-string" nil 0)
+    ("nai" "newline-and-indent" nil 0)
+    ("ntr" "narrow-to-region" nil 0)
+    ("ow" "other-window" nil 0)
+    ("pa" "prefix-arg" nil 0)
+    ("pm" "point-min" nil 0)
+    ("rb" "region-beginning" nil 0)
+    ("re" "region-end" nil 0)
+    ("rm" "replace-match" nil 0)
+    ("rris" "replace-regexp-in-string" nil 0)
+    ("rsb" "re-search-backward" nil 0)
+    ("rsf" "re-search-forward" nil 0)
+    ("scb" "skip-chars-backward" nil 0)
+    ("scf" "skip-chars-forward" nil 0)
+    ("se" "save-excursion" nil 0)
+    ("sf" "search-forward" nil 0)
+    ("sic" "self-insert-command" nil 0)
+    ("sm" "string-match" nil 0)
+    ("smd" "save-match-data" nil 0)
+    ("sn" "symbol-name" nil 0)
+    ("snp" "substring-no-properties" nil 0)
+    ("tap" "thing-at-point" nil 0)
+    ("tc" "this-command" nil 0)
+    ("ul" "up-list" nil 0)
+    ("wcb" "with-current-buffer" nil 0)
+   ))
 
 (define-abbrev-table 'emms-lyrics-mode-abbrev-table '())
 
@@ -93,13 +136,27 @@ GetOptions();" pde-abbv-no-blank 0)
     ("pov" "point of view" nil 1)
    ))
 
+(define-abbrev-table 'gnus-group-mode-abbrev-table '())
+
 (define-abbrev-table 'grep-mode-abbrev-table '())
 
 (define-abbrev-table 'help-mode-abbrev-table '())
 
+(define-abbrev-table 'html-mode-abbrev-table '())
+
+(define-abbrev-table 'ibuffer-mode-abbrev-table '())
+
 (define-abbrev-table 'idl-mode-abbrev-table '())
 
+(define-abbrev-table 'image-dired-display-image-mode-abbrev-table '())
+
+(define-abbrev-table 'image-dired-thumbnail-mode-abbrev-table '())
+
 (define-abbrev-table 'internal-ange-ftp-mode-abbrev-table '())
+
+(define-abbrev-table 'ivy-occur-grep-mode-abbrev-table '())
+
+(define-abbrev-table 'ivy-occur-mode-abbrev-table '())
 
 (define-abbrev-table 'java-mode-abbrev-table
   '(
@@ -127,6 +184,10 @@ GetOptions();" pde-abbv-no-blank 0)
 
 (define-abbrev-table 'magit-wazzup-mode-abbrev-table '())
 
+(define-abbrev-table 'message-mode-abbrev-table '())
+
+(define-abbrev-table 'messages-buffer-mode-abbrev-table '())
+
 (define-abbrev-table 'objc-mode-abbrev-table
   '(
    ))
@@ -135,7 +196,17 @@ GetOptions();" pde-abbv-no-blank 0)
 
 (define-abbrev-table 'occur-mode-abbrev-table '())
 
+(define-abbrev-table 'org-export-stack-mode-abbrev-table '())
+
+(define-abbrev-table 'org-mode-abbrev-table '())
+
+(define-abbrev-table 'outline-mode-abbrev-table '())
+
 (define-abbrev-table 'package-menu-mode-abbrev-table '())
+
+(define-abbrev-table 'paradox-commit-list-mode-abbrev-table '())
+
+(define-abbrev-table 'paradox-menu-mode-abbrev-table '())
 
 (define-abbrev-table 'pike-mode-abbrev-table
   '(
@@ -144,6 +215,12 @@ GetOptions();" pde-abbv-no-blank 0)
 (define-abbrev-table 'process-menu-mode-abbrev-table '())
 
 (define-abbrev-table 'prog-mode-abbrev-table '())
+
+(define-abbrev-table 'select-tags-table-mode-abbrev-table '())
+
+(define-abbrev-table 'sgml-mode-abbrev-table '())
+
+(define-abbrev-table 'shell-mode-abbrev-table '())
 
 (define-abbrev-table 'sldb-mode-abbrev-table '())
 
@@ -161,7 +238,15 @@ GetOptions();" pde-abbv-no-blank 0)
 
 (define-abbrev-table 'text-mode-abbrev-table '())
 
+(define-abbrev-table 'url-cookie-mode-abbrev-table '())
+
 (define-abbrev-table 'vc-git-log-edit-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-git-log-view-mode-abbrev-table '())
+
+(define-abbrev-table 'vc-git-region-history-mode-abbrev-table '())
+
+(define-abbrev-table 'verilog-mode-abbrev-table '())
+
+(define-abbrev-table 'xref--xref-buffer-mode-abbrev-table '())
 

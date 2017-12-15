@@ -18,7 +18,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -435,8 +435,8 @@ This splices all the components into the list."
   (let* ((base-dir (file-name-as-directory
 		    (org-publish-property :base-directory project)))
 	 (extension (or (org-publish-property :base-extension project) "org"))
-	 (match (and (not (eq extension 'any))
-		     (concat "^[^\\.].*\\.\\(" extension "\\)$")))
+	 (match (if (eq extension 'any) ""
+		  (format "^[^\\.].*\\.\\(%s\\)$" extension)))
 	 (base-files
 	  (cl-remove-if #'file-directory-p
 			(if (org-publish-property :recursive project)

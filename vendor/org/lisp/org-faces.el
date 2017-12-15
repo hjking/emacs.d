@@ -19,7 +19,7 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;; Commentary:
@@ -291,7 +291,7 @@ determines if it is a foreground or a background color."
 (defcustom org-priority-faces nil
   "Faces for specific Priorities.
 This is a list of cons cells, with priority character in the car
-and faces in the cdr.  The face can be a symbol, a color as
+and faces in the cdr.  The face can be a symbol, a color
 as a string, or a property list of attributes, like
     (:foreground \"blue\" :weight bold :underline t).
 If it is a color string, the variable `org-faces-easy-properties'

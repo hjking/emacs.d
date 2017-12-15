@@ -14,7 +14,6 @@
   ;; (require 'org-element)
   :bind (("C-c a"     . org-agenda)
          ("C-c c"     . org-capture))
-  :commands (org-agenda org-iswitchb org-capture org-store-link)
   :mode ("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode)
   :init (progn
     (setq org-directory "~/org")
@@ -150,8 +149,8 @@
     ;; (setq org-agenda-files (directory-files org-directory t "\.org$"))
     (setq org-agenda-files (append
                             (list (concat org-directory "/personal.org"))
-                            (file-expand-wildcards (concat org-directory "/work/*.org"))
-                            (file-expand-wildcards (concat org-directory "/gtd/*.org"))
+                            ; (file-expand-wildcards (concat org-directory "/work/*.org"))
+                            ; (file-expand-wildcards (concat org-directory "/gtd/*.org"))
                             (file-expand-wildcards (concat org-directory "/topics/*.org"))
                             ))
 
@@ -175,15 +174,7 @@
     (setq org-agenda-insert-diary-extract-time t)
     (setq org-agenda-span 2)
     (setq org-agenda-show-log t)
-    ;; (setq org-agenda-time-grid
-    ;;       '((daily today require-timed)
-    ;;        "----------------"
-    ;;        (800 1000 1200 1400 1600 1800)))
-    ;; Enable display of the time grid so we can see the marker for the current time
-    (setq org-agenda-time-grid
-          '((daily today remove-match)
-            #("----------------" 0 16 (org-heading t))
-            (0900 1100 1300 1500 1700)))
+
     ;; Display tags farther right
     (setq org-agenda-tags-column -102)
     (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
