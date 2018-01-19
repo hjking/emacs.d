@@ -8,7 +8,7 @@
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
 ;; org
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; Load and activate emacs packages. Do this first so that the
 ;; packages are loaded before you start trying to modify them.

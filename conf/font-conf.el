@@ -5,14 +5,14 @@
 ;; From https://github.com/lunaryorn/stante-pede/blob/master/init.el
 
 (defconst stante-preferred-monospace-fonts
-  `(("Source Code Pro" . ,(if (eq system-type 'darwin) 130 100))
-    ("WenQuanYi Zen Hei" . 120)
-    ("Inconsolata" . ,(if (eq system-type 'darwin) 140 110))
-    ("Consolas" . 130)
+  `(("Source Code Pro" . ,(if (eq system-type 'darwin) 110 90))
+    ("WenQuanYi Zen Hei" . 100)
+    ("Inconsolata" . ,(if (eq system-type 'darwin) 120 100))
+    ("Consolas" . 100)
     ("DejaVu Sans Mono" 110)
-    ("Anonymous Pro" . ,(if (eq system-type 'darwin) 140 110))
-    ("Anonymous Pro Minus" . ,(if (eq system-type 'darwin) 140 110))
-    ("Courier New" . 130))
+    ("Anonymous Pro" . ,(if (eq system-type 'darwin) 120 100))
+    ("Anonymous Pro Minus" . ,(if (eq system-type 'darwin) 120 100))
+    ("Courier New" . 100))
   "Preferred monospace fonts for Stante.
 
 The `car' of each item is the font family, the `cdr' the preferred font size.")
