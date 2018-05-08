@@ -71,14 +71,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package anzu
   :disabled t
+  :diminish anzu-mode
   :init (progn
           (setq anzu-mode-lighter "")
           (setq anzu-search-threshold 1000)
           (setq anzu-replace-to-string-separator " => ")
+          (add-hook 'after-init-hook #'global-anzu-mode)
        )
-  :config
-   (global-anzu-mode +1)
-  :diminish ""
   )
 ; (global-set-key (kbd "M-%") 'anzu-query-replace)
 ; (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)

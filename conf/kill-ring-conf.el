@@ -12,9 +12,7 @@
     (defface separator-face '((t (:foreground "Blueviolet" :weight bold))) nil)
     (setq browse-kill-ring-separator-face 'separator-face)
     (setq browse-kill-ring-quit-action 'save-and-restore)
-    )
-  :config (progn
-    (browse-kill-ring-default-keybindings) ;; M-y
+    (add-hook 'after-init-hook #'browse-kill-ring-default-keybindings)
     )
   )
 

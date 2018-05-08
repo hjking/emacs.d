@@ -40,7 +40,7 @@
 (setq emacs-load-start-time (current-time))
 
 ;; Increase the garbage collection threshold to 200 MB to ease startup
-(setq gc-cons-threshold (* 200 1024 1024))
+(setq gc-cons-threshold (* 50 1024 1024))
 
 ;; turn on Common Lisp support
 (require 'cl)  ; provides useful things like `loop' and `setf'
@@ -379,6 +379,9 @@
   (dash-enable-font-lock))
 
 ;; use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (eval-when-compile
   (require 'use-package)
   (setq use-package-verbose t))
@@ -835,6 +838,7 @@
 
 ;; do everything in one frame
 (use-package ediff
+  :ensure nil
   :commands (ediff)
   :init (progn
          ;; first we set some sane defaults
@@ -870,6 +874,7 @@
 ;; name at the beginning of the buffer name
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (use-package uniquify
+  :defer 2
   :init
     ;; if open a same name buffer, then forward to same name buffer
     (setq uniquify-buffer-name-style 'post-forward)
@@ -1235,7 +1240,7 @@
 
 
 ;; --[ Abbrevs ]----------------------------------------------------------------
-(require 'abbrevs-conf)
+; (require 'abbrevs-conf)
 ;; "hippie expand" for text autocompletion
 (require 'hippie-exp-conf)
 ;; --[ Abbrevs ]-------------------------------------------------------[ End ]--
@@ -1359,10 +1364,10 @@
 ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
 ; (add-site-lisp-load-path "drag-stuff/")
 (use-package drag-stuff
-  :diminish ""
+  :diminish  drag-stuff-mode
+  :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
   :config
   (progn
-    (drag-stuff-mode t)
     (add-to-list 'drag-stuff-except-modes 'org-mode)))
 ;; --------------------------------------------------------------------[ End ]--
 
@@ -1597,8 +1602,6 @@
 (when section-c-mode
     ;; CC Mode is an Emacs and XEmacs mode for editing C
     ;; and other languages with similar syntax
-    (add-site-lisp-load-path "cc-mode/")
-    (add-site-lisp-info-path "cc-mode/")
     (load "c-mode-conf")
     )
 ;; --------------------------------------------------------------------[ End ]--
@@ -1661,12 +1664,12 @@
 
 ;; [ undo ]---------------------------------------------------------------------
 (use-package undo-tree
-  :diminish ""
+  :diminish undo-tree-mode
   :commands (redo undo)
+  :init (add-hook 'after-init-hook #'global-undo-tree-mode)
   :config (progn
            (setq undo-tree-visualizer-timestamps t)
            (setq undo-tree-visualizer-diff t)
-           (global-undo-tree-mode t)
            (defalias 'redo 'undo-tree-redo)
            (define-key undo-tree-map (kbd "C-x u") 'undo-tree-visualize)
            (define-key undo-tree-map (kbd "C-/") 'undo-tree-undo))
@@ -1766,6 +1769,7 @@
 ;; [ smart-hungry-delete ]------------------------------------------------------
 (use-package smart-hungry-delete
   :ensure t
+  :if (>= emacs-major-version 25)
   :bind (("<backspace>" . smart-hungry-delete-backward-char)
          ("C-d" . smart-hungry-delete-forward-char))
   :defer nil ;; dont defer so we can add our functions to hooks
@@ -1930,8 +1934,8 @@
       debug-on-quit nil
       stack-trace-on-error '(buffer-read-only))
 
-;; Garbage collector - decrease threshold to 5 MB
-(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold (* 5 1024 1024))))
+;; Make gc pauses faster by decreasing the threshold.
+(add-hook 'after-init-hook (lambda () (setq gc-cons-threshold (* 2 1000 1000))))
 
 (message ">>>>> Emacs startup time: %d seconds."
          (time-to-seconds (time-since emacs-load-start-time)))

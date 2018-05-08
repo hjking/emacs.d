@@ -10,6 +10,7 @@
 
 ;; Eshell, the Emacs Shell
 (use-package eshell
+  :ensure nil
   :commands (eshell)
   ; :bind* (("M-m SPC s" . sk/eshell-vertical)
   ;         ("M-m SPC S" . sk/eshell-horizontal))

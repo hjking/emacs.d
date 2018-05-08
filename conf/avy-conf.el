@@ -18,6 +18,7 @@
   :bind (("M-s"   . avy-goto-word-1)
          ("M-g f" . avy-goto-line))
   :init (progn
+         (add-hook 'after-init-hook #'avy-setup-default)
          (setq avy-background t)
          (setq avy-style 'at-full)
          (setq avy-all-windows nil)))

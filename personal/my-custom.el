@@ -6,9 +6,9 @@
 ;; Author: Hong Jin
 ;;           By: Hong Jin
 ;; Created: Mon Feb 13 16:28:43 2012 (+0800)
-;; Last-Updated: Wed Dec 13 10:01:26 2017 (+0800)
+;; Last-Updated: Sat Apr 28 09:16:21 2018 (+0800)
 ;; Version:
-;;     Update #: 99
+;;     Update #: 103
 ;;
 ;;; Change Log:
 ;;
@@ -27,8 +27,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(linum ((((background dark)) :foreground "cyan") (t :foreground "gray")))
- '(org-done ((t (:foreground "PaleGreen" :weight normal :strike-through t)))))
+ )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,13 +35,20 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#d6d6d6" "#c82829" "#718c00" "#eab700" "#4271ae" "#8959a8" "#3e999f" "#4d4d4c"))
+ '(beacon-color "#c82829")
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
  '(custom-safe-themes
    (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" default)))
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" default)))
+ '(fci-rule-color "#d6d6d6")
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(frame-background-mode (quote light))
+ '(org-agenda-files nil)
  '(package-selected-packages
    (quote
-    (helpful ztree zenburn-theme wttrin which-key w3m volatile-highlights visual-regexp-steroids use-package undo-tree treemacs tabbar sublimity stripe-buffer spaceline smooth-scrolling smartparens smart-hungry-delete smart-compile session ranger rainbow-delimiters popwin popup persp-projectile paredit paradox origami org-trello org-toc org-bullets names multiple-cursors multi-term mpg123 monokai-theme molokai-theme mmm-mode miniedit markdown-mode magit ivy-hydra info+ indent-guide ido-vertical-mode ido-ubiquitous ido-hacks hl-anything highlight-symbol hideshowvis header2 graphviz-dot-mode goto-last-change gotham-theme google-c-style gnuplot-mode general flx-ido fiplr find-file-in-project files+ faces+ expand-region evil-nerd-commenter esup ecb drag-stuff dracula-theme discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-solarized color-theme-sanityinc-tomorrow clippy calfw buffer-move browse-kill-ring+ bongo beacon anzu aggressive-indent)))
+    (org-kanban helpful ztree zenburn-theme wttrin which-key w3m volatile-highlights visual-regexp-steroids use-package undo-tree treemacs tabbar sublimity stripe-buffer spaceline smooth-scrolling smartparens smart-hungry-delete smart-compile session ranger rainbow-delimiters popwin popup persp-projectile paredit paradox origami org-trello org-toc org-bullets names multiple-cursors multi-term mpg123 monokai-theme molokai-theme mmm-mode miniedit markdown-mode magit ivy-hydra info+ indent-guide ido-vertical-mode ido-ubiquitous ido-hacks hl-anything highlight-symbol hideshowvis header2 graphviz-dot-mode goto-last-change gotham-theme google-c-style gnuplot-mode general flx-ido fiplr find-file-in-project files+ faces+ expand-region evil-nerd-commenter esup ecb drag-stuff dracula-theme discover-my-major dired-sort-menu+ dired-details+ dired+ deft csv-mode crux counsel company-c-headers color-theme-solarized color-theme-sanityinc-tomorrow clippy calfw buffer-move browse-kill-ring+ bongo beacon anzu aggressive-indent)))
  '(paradox-github-token t t)
  '(session-use-package t nil (session))
  '(vc-annotate-background nil)

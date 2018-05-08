@@ -24,8 +24,16 @@
 
 (use-package company
   :defer t
-  :diminish ""
-  :bind ("\M-]" . company-complete)
+  :diminish company-mode
+  :bind (("\M-]" . company-complete)
+         :map company-active-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)
+         ;; ("<tab>" . company-complete-selection)
+         :map company-search-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)
+        )
   :commands (company-mode
              company-complete
              company-complete-common
@@ -47,11 +55,13 @@
                company-show-numbers t
                company-dabbrev-downcase nil
                company-transformers '(company-sort-by-occurrence)
-               company-tooltip-limit 20
+               company-tooltip-limit 10
                company-minimum-prefix-length 2
                company-echo-delay 0
                company-auto-complete nil
                company-begin-commands '(self-insert-command))
+         ;; aligns annotation to the right hand side
+         (setq company-tooltip-align-annotations t)
          (add-hook 'prog-mode-hook 'company-mode))
   :config (progn
     (add-to-list 'company-backends 'company-dabbrev t)

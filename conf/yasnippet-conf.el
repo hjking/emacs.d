@@ -59,20 +59,28 @@
 ;                  (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand))))
 
 (use-package yasnippet
-  :commands (yas-insert-snippet yas-new-snippet)
-  :config
+  :defer t
+  :commands (yas-insert-snippet
+             yas-new-snippet
+             yas-hippie-try-expand)
+  :diminish yas-minor-mode
+  :init
+   (setq yas-verbosity 1)
    (setq my-snippet-dir (concat my-site-lisp-dir "snippets/"))
-   (if (and  (file-exists-p my-snippet-dir) (not (member my-snippet-dir yas/snippet-dirs)))
-      (add-to-list 'yas/snippet-dirs my-snippet-dir))
-   (setq yas/key-syntaxes '("w_" "w_." "^ "))
-   (setq yas/triggers-in-field t); Enable nested triggering of snippets
+   (if (and  (file-exists-p my-snippet-dir) (not (member my-snippet-dir yas-snippet-dirs)))
+      (add-to-list 'yas-snippet-dirs my-snippet-dir))
+
+   (setq yas-triggers-in-field t); Enable nested triggering of snippets
    (setq yas-prompt-functions '(yas-completing-prompt))
+   (setq yas-wrap-around-region t)
+   (push 'yas-hippie-try-expand hippie-expand-try-functions-list)
+   (add-hook 'after-init-hook #'yas-global-mode)
+  :config
    (add-hook 'snippet-mode-hook '(lambda () (setq-local require-final-newline nil)))
    (defun sk/force-yasnippet-off ()
      (yas-minor-mode -1)
      (setq yas-dont-activate t))
    (add-hook 'term-mode-hook 'sk/force-yasnippet-off)
-   (add-hook 'shell-mode-hook 'sk/force-yasnippet-off)
-   (yas-global-mode))
+   (add-hook 'shell-mode-hook 'sk/force-yasnippet-off))
 
 (provide 'yasnippet-conf)

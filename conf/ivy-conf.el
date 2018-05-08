@@ -6,12 +6,13 @@
 
 ;; Ivy / Counsel replace a lot of ido or helms completion functionality
 (use-package ivy
-  :diminish (ivy-mode . "") ; does not display ivy in the modeline
+  :diminish ivy-mode ; does not display ivy in the modeline
   :init (progn
           (ivy-mode 1)        ; enable ivy globally at startup
           ;; show recently killed buffers when calling `ivy-switch-buffer'
           ;; extend searching to bookmarks and …
           (setq ivy-use-virtual-buffers t)
+          (setq ivy-initial-inputs-alist nil) ; don't need start with ^
           (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
           (setq ivy-count-format "(%d/%d) ") ; count format, from the ivy help page
           ; (setq ivy-display-style 'fancy)
@@ -19,6 +20,10 @@
           ;  '((ivy-switch-buffer . ivy--regex-plus)
           ;    (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
           ; (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
+          ;; Always ignore buffers set in `ivy-ignore-buffers'
+          (setq ivy-use-ignore-default 'always)
+          ;; Ignore some buffers in `ivy-switch-buffer'
+          (setq ivy-ignore-buffers '("company-statistics-cache.el"))
         )
   :bind (("C-c C-r"  . ivy-resume)
          ("C-x b"    . ivy-switch-buffer))
@@ -46,9 +51,10 @@
 
 ;; Replace smex
 (use-package counsel
+  :diminish ivy-mode counsel-mode
   :bind (("M-x"     . counsel-M-x)       ; M-x use counsel
-         ("M-y"                     . counsel-yank-pop)
-         ("C-o"                     . counsel-find-file)
+         ("M-y"     . counsel-yank-pop)
+         ("C-o"     . counsel-find-file)
          ("C-x C-f" . counsel-find-file) ; C-x C-f use counsel-find-file
          ("C-x C-r" . counsel-recentf)   ; search recently edited files
          ("C-c g"   . counsel-git)       ; search for files in git repo

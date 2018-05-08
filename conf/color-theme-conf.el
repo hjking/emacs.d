@@ -58,7 +58,7 @@
 (use-package molokai-theme
     :after color-theme
     :disabled t
-    :config
+    :init
      (load-theme 'molokai t))
 
 (use-package monokai-theme
@@ -71,19 +71,18 @@
           monokai-height-plus-2 1.0
           monokai-height-plus-3 1.0
           monokai-height-plus-4 1.0)
-    :config
     (load-theme 'monokai t))
 
 (use-package color-theme-sanityinc-tomorrow
   :after color-theme
   :disabled t
-  :config
+  :init
   (progn
     (load-theme 'sanityinc-tomorrow-night t)))
 
 (use-package dracula-theme
   :after color-theme
-  :config
+  :init
   (progn
     (load-theme 'dracula t)))
 

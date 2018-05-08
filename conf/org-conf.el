@@ -6,6 +6,7 @@
 ;; Last Updated: 2014-03-12 11:41:41
 
 (use-package org
+  :ensure nil
   ;; (require 'org-install)
   ;; (require 'org-faces)
   ;; (require 'cus-edit)
@@ -42,7 +43,7 @@
     ;; !: record time when state changed
     ;; @: need to leave some comments
     (setq org-todo-keywords
-          '((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "HOLD(h@/!)" "DONE(x!)" "DELEGATED(e)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+          '((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
             (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
             (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
@@ -951,9 +952,9 @@
                       (downcase (format-time-string "%Y-%m.org")))))
     ; (hjking/org-reload)
 
-    (when (featurep 'stripe-buffer)
-      (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
-      (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
+    ; (when (featurep 'stripe-buffer)
+    ;   (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
+    ;   (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
 
     ; (use-package org-checklist)
 
@@ -976,6 +977,7 @@
     ;;;; org-extension
     (use-package org-extension)
 
+    (use-package org-kanban)
 
     ;;;; org-bullets
     ;; Org bullets makes things look pretty

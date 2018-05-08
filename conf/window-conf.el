@@ -4,14 +4,22 @@
 
 ;; [ winner ]----------------------------------------------------------------
 ;; Navigate window layouts with "C-c <left>" and "C-c <right>"
-(winner-mode 1)
-;; copied from http://puntoblogspot.blogspot.com/2011/05/undo-layouts-in-emacs.html
-(global-set-key (kbd "C-x 4 u") 'winner-undo)
-(global-set-key (kbd "C-x 4 r") 'winner-redo)
+(use-package winner
+  :ensure nil
+  :commands (winner-undo winner-redo)
+  :bind ("C-c q" . hjking-winner-hydra/body)
+  :config
+  (progn
+    (defhydra hjking-winner-hydra ()
+      "Winner"
+      ("p" winner-undo "back")
+      ("n" winner-redo "forward" :exit t))
+    (winner-mode 1)))
 
 
 ;; [ windmove ]-------------------------------------------------------------
 (use-package windmove
+  :ensure nil
   :bind
   (("C-<f2> <right>" . windmove-right)
    ("C-<f2> <left>"  . windmove-left)

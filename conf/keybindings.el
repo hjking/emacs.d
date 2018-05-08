@@ -304,3 +304,16 @@ point reaches the beginning or end of the buffer, stop there."
 
 (global-set-key (kbd "M-#")         'sacha/search-word-backward)
 (global-set-key (kbd "M-*")         'sacha/search-word-forward)
+
+
+;; Makes <escape> quit as much as possible.
+(define-key minibuffer-local-map
+  (kbd "<escape>") 'keyboard-escape-quit)
+(define-key minibuffer-local-ns-map
+  (kbd "<escape>") 'keyboard-escape-quit)
+(define-key minibuffer-local-completion-map
+  (kbd "<escape>") 'keyboard-escape-quit)
+(define-key minibuffer-local-must-match-map
+  (kbd "<escape>") 'keyboard-escape-quit)
+(define-key minibuffer-local-isearch-map
+  (kbd "<escape>") 'keyboard-escape-quit)

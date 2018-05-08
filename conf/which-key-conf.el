@@ -6,9 +6,12 @@
 (use-package which-key
   :diminish which-key-mode
   :init (progn
+    (add-hook 'after-init-hook 'which-key-mode)
     ;; Popup Type Options
     ;;; side window
-    (setq which-key-popup-type 'side-window) ; default
+    ; (setq which-key-popup-type 'side-window) ; default
+    ;; Minibuffer feels much faster than using windows.
+    (setq which-key-popup-type 'minibuffer)
     ;;; minibuffer
     ;; (setq which-key-popup-type 'minibuffer)
 
@@ -93,7 +96,7 @@
     ;; Take over minibuffer
     ;(which-key-setup-minibuffer)
 
-    (which-key-mode)
+    (which-key-mode 1)
     ))
 
 

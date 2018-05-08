@@ -9,6 +9,7 @@
 (setq step_no (1+ step_no))
 
 (use-package dired
+  :ensure nil
   :config
   (progn
     (put 'dired-find-alternate-file 'disabled nil)
