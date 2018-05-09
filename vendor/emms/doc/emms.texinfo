@@ -81,6 +81,7 @@ Modules and Extensions
 * Streaming Audio::      Interface to streaming audio.
 * APE / FLAC Commands::  How to play next or previous track in these files.
 * Bookmarks::            Saving a place in a media file.
+* Managing Playlists::   Managing multiple playlists.
 * GNU FM::               Connect to music community websites.
 
 Copying and license
@@ -194,16 +195,18 @@ to your @file{.emacs}.
 The function @code{emms-default-players} in the last line sets up the
 list of default players. The list contains lightweight specialized
 players like ogg123 or mpg321 and we-play-everything-players such as
-mplayer, vlc, etc.. To be sure that emms can play all your music you
-should check that your preferred players are installed on the machine.
+mplayer, mpv, vlc, etc.. To be sure that emms can play all your music
+you should check that your preferred players are installed on the
+machine.
 
 More detail about setting up Emms can be found in the setup chapter,
 @xref{Setup}.
 
 Emms tries to display the tags (the name of the song, as opposed to
 the name of the file) of the music you listen to. Emms can use libtag,
-see @xref{Using TagLib}, or a combination of `mp3info' and `ogginfo'
-(make sure that they are installed if you want Emms to use them.)
+see @xref{Using TagLib}, or a combination of other software such as
+`mp3info', `ogginfo' and `opusinfo' (make sure that they are installed
+if you want Emms to use them.)
 
 The last thing to do is to tell Emms where your music is; the root
 directory of our music collection. Let's say all your music is in
@@ -873,12 +876,14 @@ The current Emms playlist buffer is stored in the variable
 @cindex info tags
 
 Emms is distributed with multiple predefined methods for retrieving
-info, provided by @file{emms-info-mp3info.el},
-@file{emms-info-ogginfo.el}, @file{emms-cue.el} and
-@file{emms-info-libtag.el}. The first two packages are front-ends for
-command-line tools. Ogg track information is retrieved using the
-@uref{http://directory.fsf.org/audio/ogg/vorbistools.html, ogginfo}
-software. Likewise, mp3 track information is available using
+info, provided by modules such as @file{emms-info-mp3info.el},
+@file{emms-info-ogginfo.el}, @file{emms-info-opusinfo.el},
+@file{emms-cue.el} and @file{emms-info-libtag.el}. The first three
+packages are front-ends for command-line tools. Ogg track information is
+retrieved using the
+@uref{http://directory.fsf.org/audio/ogg/vorbistools.html, ogginfo} and
+the @uref{https://www.opus-codec.org/ opusinfo} software. Likewise, mp3
+track information is available using
 @uref{http://www.ibiblio.org/mp3info/, mp3info}. @file{emms-cue.el}
 retrieves tracks information for ape/flac files by parsing a cue sheet
 file, which is plain text. Finally, @file{emms-info-libtag.el} uses a
@@ -904,7 +909,8 @@ annoying for you, set this variable to nil.
 @defopt emms-info-asynchronously
 Non-nil when track information should be loaded asynchronously. This
 requires the feature `later-do' which is provided by the file
-@file{later-do.el}, which should come with Emms.
+@file{later-do.el}, which comes with Emms.  See @var{later-do-batch} for
+performance tweaking.
 @end defopt
 @defopt emms-info-functions
 Functions which add information to tracks.  Each is called with a
@@ -1651,11 +1657,24 @@ Show all files that are not in the pending directory:
 @section Displaying Covers
 
 The browser will attempt to display cover images if they're
-available. By default it looks for images @file{cover_small.jpg},
-@file{cover_med.jpg}, etc. Customize @var{emms-browser-covers} and
-@var{emms-browser-covers-file-extensions} to use your own covers. Note
-that you'll probably want to resize your existing covers to particular
+available.
+
+Customize @var{emms-browser-covers} to configure how EMMS should retrieve the
+covers.
+
+By default it looks for images @file{cover_small.jpg}, @file{cover_med.jpg},
+etc. Note that you'll probably want to resize your existing covers to particular
 sizes. Suggested sizes are 100x100 for small, and 200x200 for medium.
+
+The above behaviour demands manual processing on behalf of the user.  Instead,
+you might prefer to automate the process by setting @var{emms-browser-covers} to
+'emms-browser-cache-thumbnail': covers matching 'emms-browser-thumbnail-filter'
+will be automatically resized if necessary and cached to
+@var{emms-browser-thumbnail-directory}.  The cache gets automatically updated
+upon change in the source folder.
+
+Customize @var{emms-browser-covers-file-extensions} to include or exclude
+specific extensions.
 
 Also, Emacs by default will jump around a lot when scrolling a buffer
 with images. In order to prevent that, you can set
@@ -1706,6 +1725,12 @@ artist->album->track when you switch to the 'singles' filter:
 
 (add-hook 'emms-browser-filter-changed-hook 'toggle-album-display)
 @end lisp
+
+Furthermore, you can customize
+@var{emms-browser-get-track-field-function} to choose which the metadata
+fields used for the different tree nodes (@code{'info-artist},
+@code{info-year}, etc.).  For instance, you can choose whether to
+organize the tree by artist, album artist or performer.
 
 @subheading Changing Display Format
 
@@ -1775,34 +1800,61 @@ initial "info-" part. For example, to change the artist face, type M-x
 
 The `emms-playlist-sort' module, defined in the
 @file{emms-playlist-sort.el} package provides functions for sorting
-Emms playlists. `emms-playlist-sort' can be loaded by invoking:
+Emms playlists, as well as keyboard shortcuts for invoking the
+functions in the playlist buffer. Most of the functions will sort in
+reverse order if the command is preceded by a
+prefix. `emms-playlist-sort' can be loaded by invoking:
 
 @lisp
 (require 'emms-playlist-sort)
 @end lisp
 
-@defun emms-playlist-sort-by-name
-Sort playlist by name in ascending order.
-@end defun
-
 @defun emms-playlist-sort-by-info-artist
-Sort playlist by artist in ascending order.
+Sort by artist name.
 @end defun
 
-@defun emms-playlist-sort-by-info-title
-Sort playlist by title in ascending order.
+@defun emms-playlist-sort-by-play-count
+Sort by number of times the track has been played.
 @end defun
 
 @defun emms-playlist-sort-by-info-album
-Sort playlist by album in ascending order.
+Sort by album name.
+@end defun
+
+@defun emms-playlist-sort-by-last-played
+Sort by time the track was played last.
+@end defun
+
+@defun emms-playlist-sort-by-info-title
+Sort by track title.
+@end defun
+
+@defun emms-playlist-sort-by-file-extension
+Sort by filename extension.
+@end defun
+
+@defun emms-playlist-sort-by-info-performer
+Sort by performer name.
 @end defun
 
 @defun emms-playlist-sort-by-info-year
-Sort playlist by year in ascending order.
+Sort by year.
 @end defun
 
 @defun emms-playlist-sort-by-info-note
-Sort playlist by notes in ascending order.
+Sort by track notes.
+@end defun
+
+@defun emms-playlist-sort-by-info-composer
+Sort by composer.
+@end defun
+
+@defun emms-playlist-sort-by-name
+Sort by track name.
+@end defun
+
+@defun emms-playlist-sort-by-file-mtime
+Sort by file mtime.
 @end defun
 
 
@@ -1858,7 +1910,7 @@ If non-nil emms starts playing the current track after
 
 Using @file{emms-tag-editor.el}, emms can set tag informations of tracks
 and write them back to the file with the help of external programs, such
-as `mp3info', `vorbiscomment'.
+as `mid3v2' and `vorbiscomment'.
 
 Use the keybinding @kbd{E} to edit the tags of track under point in the
 playlist or all marked tracks (@pxref{Markable Playlists} for how to
@@ -1921,9 +1973,6 @@ single charactar is assigned to the tag to make the
 @defvr {Variable} emms-tag-editor-tagfile-functions
 To write tags to track file, an extern program should specified in this
 variable.
-
-If the external program has an interface like `mp3info', you don't have
-to write a function.  Take `mp3' and `ogg' as example.
 @end defvr
 
 @heading Renaming Files
@@ -2301,7 +2350,7 @@ more information about Emms setup levels see @xref{Setup}.
 
 `emms-stream-info' calls a backend program to query the stream for
 information. The preferred program needs to be specified by setting
-the variable @var{emms-stream-info-backend} either `mplayer' or
+the variable @var{emms-stream-info-backend} either `mplayer', `mpv' or
 `vlc'. For instance:
 
 @lisp
@@ -2418,6 +2467,71 @@ respectively.
 
 To clear all of the bookmarks for the current track invoke @kbd{M-x
 emms-bookmarks-clear}.
+
+
+@c -------------------------------------------------------------------
+@node Managing Playlists
+@chapter Managing Playlists
+
+Emms can have multiple playlists, since a playlist is just another
+buffer with a list of tracks. You can manage multiple playlists using
+`emms-metaplaylist-mode', provided by the file
+@file{emms-metaplaylist-mode}.
+
+Start the playlist manager with @kbd{M-x
+emms-metaplaylist-mode-go}. The playlist manager will list the
+playlists and mark the current one. The following commands are
+available:
+
+@table @kbd
+
+@item RET
+@kindex RET
+@findex emms-metaplaylist-mode-goto-current
+Make the buffer at point the Emms playlist buffer and switch to it.
+
+@item SPC
+@kindex SPC
+@findex emms-metaplaylist-mode-set-active
+Make the buffer at point the Emms playlist buffer (but do not switch
+to it).
+
+@item n
+@kindex n
+@findex next-line
+Move point to the next playlist.
+
+@item p
+@kindex p
+@findex previous-line
+Move point to the previous playlist.
+
+@item g
+@kindex g
+@findex emms-metaplaylist-mode-update
+Update the playlist manager buffer.
+
+@item C
+@kindex C
+@findex emms-metaplaylist-mode-new-buffer
+Create a new Emms playlist buffer.
+
+@item C-k
+@kindex C-k
+@findex emms-metaplaylist-mode-kill-buffer
+Kill the Emms playlist buffer at point.
+
+@item c
+@kindex c
+@findex emms-metaplaylist-mode-center-current
+Move point to the current playlist buffer.
+
+@item q
+@kindex q
+@findex kill-this-buffer
+Kill the playlist manager.
+
+@end table
 
 
 @c -------------------------------------------------------------------

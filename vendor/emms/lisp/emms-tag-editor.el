@@ -27,8 +27,6 @@
 
 ;;; Code:
 
-(eval-when-compile
-  (require 'cl))
 (condition-case nil
     (require 'overlay)
   (error nil))
@@ -119,11 +117,11 @@ the 'name directly.
 See also `emms-tag-editor-default-parser'.")
 
 (defvar emms-tag-editor-tagfile-functions
-  '(("mp3" "mp3info"
+  '(("mp3" "mid3v2"
      ((info-artist      . "a")
       (info-title       . "t")
-      (info-album       . "l")
-      (info-tracknumber . "n")
+      (info-album       . "A")
+      (info-tracknumber . "T")
       (info-year        . "y")
       (info-genre       . "g")
       (info-note        . "c")))
@@ -131,7 +129,7 @@ See also `emms-tag-editor-default-parser'.")
     ("flac" . emms-tag-editor-tag-flac))
   "An alist used when committing changes to tags in files.
 If the external program sets tags by command line options
-one-by-one such as mp3info, then the list should like:
+one-by-one, then the list should like:
  (EXTENSION PROGRAM COMMAND_LINE_OPTIONS)
 
 Otherwise, a function that accepts a single parameter, the track,
@@ -627,7 +625,7 @@ With prefix argument, bury the tag edit buffer."
           (dolist (tag emms-tag-editor-tags)
             (when (setq val (emms-track-get track (car tag)))
             (emms-track-set old (car tag) val)))
-          ;; use mp3info to change tag in mp3 file
+          ;; use external program to change tags in the file
           (when (and (eq (emms-track-get track 'type) 'file)
                      (file-writable-p (emms-track-name track))
                      (setq func (assoc (file-name-extension filename)

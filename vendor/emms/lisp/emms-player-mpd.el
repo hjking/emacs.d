@@ -103,6 +103,7 @@
 
 ;; Adam Sjøgren implemented support for changing the volume.
 
+(require 'cl-lib)
 (require 'emms-player-simple)
 (require 'emms-source-playlist)  ; for emms-source-file-parse-playlist
 (require 'tq)
@@ -150,10 +151,10 @@ or nil if we cannot figure it out."
         (let* ((b (match-end 0))
                (e (string-match "Output plugins:$" out))
                (plugs (split-string (substring out b e) "\n" t))
-               (plugs (mapcan (lambda (x)
-                                (and (string-match " +\\[.*\\] +\\(.+\\)$" x)
-                                     (split-string (match-string 1 x) nil t)))
-                              plugs))
+               (plugs (cl-mapcan (lambda (x)
+                                   (and (string-match " +\\[.*\\] +\\(.+\\)$" x)
+                                        (split-string (match-string 1 x) nil t)))
+                                 plugs))
                (b (and (string-match "Protocols:$" out) (match-end 0)))
                (prots (and b (substring out (+ 2 b) -1)))
                (prots (split-string (or prots "") nil t)))
@@ -308,10 +309,14 @@ return at the end of a request.")
                (processp emms-player-mpd-process)
                (memq (process-status emms-player-mpd-process) '(run open)))
     (setq emms-player-mpd-process
-          (funcall emms-player-mpd-connect-function "mpd"
-                   nil
-                   emms-player-mpd-server-name
-                   emms-player-mpd-server-port))
+	  (if emms-player-mpd-server-port
+	      (funcall emms-player-mpd-connect-function "mpd"
+		     nil
+		     emms-player-mpd-server-name
+		     emms-player-mpd-server-port)
+	    (make-network-process :name "emms-mpd"
+				:service emms-player-mpd-server-name
+				:family 'local)))
     (set-process-sentinel emms-player-mpd-process
                           'emms-player-mpd-sentinel)
     (setq emms-player-mpd-queue
@@ -865,6 +870,7 @@ Execute CALLBACK with CLOSURE as its first argument when done."
   "Play whatever is in the current MusicPD playlist.
 If ID is specified, play the song at that position in the MusicPD
 playlist."
+  (interactive)
   (if id
       (progn
         (unless (stringp id)

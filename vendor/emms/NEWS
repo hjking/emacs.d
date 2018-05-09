@@ -1,3 +1,39 @@
+News since version 5.0
+
+
+
+News since version 4.4
+
+  - Add Org-style "TAB" binding to cycle through the different levels of expansions.
+  - Bind emms-browser-move-up-level to "^".
+	- Make "RET" (emms-add-tracks) add all tracks in region or with numeric argument
+    that many tracks.
+  - Supersede emms-browser-delete-files with emms-browser-remove-tracks to
+    remove tracks from browser without deleting files.  Use prefix argument to
+    get the old behaviour.  Regions and numeric argument are supported.
+  - Add emms-cache-reset.
+  - Use the "album artist" instead of the "artist" browser node by default.
+  - Bug fix: emms-volume-pulse multi-digit volume numbers.
+  - Bug fix: emms-smart-browse "cascading" from a browser search.
+  - Bug fix: fix fallback thumbnail filter.
+  - Add mpv backend support.
+  - Speed up info processing.
+  - Add Opus info support via emms-info-opusinfo.el.
+  - Code modernizations thanks to Pierre Neidhardt.
+  - Tagging mp3 files v2.x files now works via mid3v2.
+  - Add dynamic thumbnail caching.
+  - Improve emms-metaplaylist-mode.
+
+News since version 4.3:
+
+  - emms-volume-amixer.el: card id can be customized
+  - Bug fix: set-playlist-buffer listing.
+  - emms-source-file-directory-tree-find now follows symlinks.
+  - Playlists can now be sorted by mtime.
+  - Move to cl-lib.
+  - Improve emms-volume.
+  - Bug fix: fix mpg321 autoplay.
+
 News since version 4.2:
 
   - Limit network lookups in Browser mode.

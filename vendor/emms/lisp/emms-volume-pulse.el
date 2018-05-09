@@ -42,7 +42,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(require 'cl-lib)
 
 ;; TODO: it would be great if custom could have
 ;; choices based on pactl list short sinks | cut -f1-2
@@ -56,13 +56,9 @@ See full list of devices on your system by running
                  (string :tag "Sink symbolic name"))
   :group 'emms-volume)
 
-(defcustom emms-volume-pulse-max-volume 150
-  "The sink to use for volume adjustment.
-
-See full list of devices on your system by running
-    pactl list short sinks"
-  :type '(choice (number :tag "Sink number")
-                 (string :tag "Sink symbolic name"))
+(defcustom emms-volume-pulse-max-volume 100
+  "The maximum volume percentage."
+  :type 'integer
   :group 'emms-volume)
 
 
@@ -73,7 +69,7 @@ See full list of devices on your system by running
         (output
          (shell-command-to-string
           (concat "pactl list sinks" "|"
-                  "grep -E -e 'Sink' -e 'Name' -e  '^[^a-zA-Z]*Volume'"))))
+                  "grep -E -e 'Sink' -e 'Name' -e '^[^a-zA-Z]*Volume'"))))
     (string-to-number
      (car
       (reverse
@@ -81,28 +77,29 @@ See full list of devices on your system by running
         (if sink-number-p 'assq 'assoc)
         emms-volume-pulse-sink
         (mapcar (if sink-number-p 'identity 'cdr)
-                (loop while
-                      (string-match
-                       (mapconcat 'identity
-                                  '(".*Sink[ \t]+\\#\\([0-9]\\)"
-                                    ".*Name:[ \t]\\([^\n]+\\)"
-                                    ".*Volume:.*?\\([0-9]+\\)%.*\n?")
-                                  "\n")
-                       output)
-                      collect (list (string-to-number (match-string 1 output))
-                                    (match-string 2 output)
-                                    (match-string 3 output))
-                      do (setq output (replace-match "" nil nil output))))))))))
+                (cl-loop while
+			 (string-match
+			  (mapconcat 'identity
+				     '(".*Sink[ \t]+\\#\\([0-9]+\\)"
+				       ".*Name:[ \t]\\([^\n]+\\)"
+				       ".*Volume:.*?\\([0-9]+\\)%.*\n?")
+				     "\n")
+			  output)
+			 collect (list (string-to-number (match-string 1 output))
+				       (match-string 2 output)
+				       (match-string 3 output))
+			 do (setq output (replace-match "" nil nil output))))))))))
 
 
 ;;;###autoload
 (defun emms-volume-pulse-change (amount)
-  "Change amixer master volume by AMOUNT."
+  "Change PulseAudio volume by AMOUNT."
   (message "Volume is %s%%"
            (let ((pactl (or (executable-find "pactl")
                             (error "pactl is not in PATH")))
-                 (next-vol (min (+ (emms-volume--pulse-get-volume) amount)
-                                emms-volume-pulse-max-volume)))
+                 (next-vol (max (min (+ (emms-volume--pulse-get-volume) amount)
+                                     emms-volume-pulse-max-volume)
+                                0)))
              (when (zerop (shell-command
                            (format "%s set-sink-volume %s %s%%"
                                    pactl emms-volume-pulse-sink next-vol)))

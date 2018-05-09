@@ -5,6 +5,8 @@
 
 ;; Author: Jorgen Schäfer <forcer@forcix.cx>
 ;; Keywords: emms, mp3, mpeg, multimedia
+;; Package-Requires: ((cl-lib "0.5"))
+;; Homepage: http://www.gnu.org/software/emms/
 
 ;; This file is part of EMMS.
 
@@ -40,7 +42,7 @@
 
 ;;; Code:
 
-(defvar emms-version "4.3"
+(defvar emms-version "5.0"
   "EMMS version string.")
 
 
@@ -283,7 +285,7 @@ The modified track is passed as the argument to this function."
   :group 'emms
   :type 'function)
 
-(defcustom emms-directory "~/.emacs.d/emms"
+(defcustom emms-directory (expand-file-name "emms" user-emacs-directory)
   "*Directory variable from which all other emms file variables are derived."
   :group 'emms
   :type 'string)
@@ -704,6 +706,29 @@ string), a confusing error message would result."
         desc
       (emms-track-simple-description track))))
 
+(defun emms-track-get-year (track)
+  "Get year of TRACK for display.
+There is the separation between the 'release date' and the
+'original date'.  This difference matters e.g. for
+re-releases (anniversaries and such) where the release date is
+more recent than the original release date.  In such cases the
+user probably wants the original release date so this is what we
+show."
+  (or
+   (emms-format-date-to-year (emms-track-get track 'info-date))
+   (emms-format-date-to-year (emms-track-get track 'info-originaldate))
+   (emms-track-get track 'info-year)
+   (emms-track-get track 'info-originalyear)))
+
+(defun emms-format-date-to-year (date)
+  "Try to extract year part from DATE.
+Return nil if the year cannot be extracted."
+  (when date
+    (let ((year (nth 5 (parse-time-string date))))
+      (if year (number-to-string year)
+        (when (string-match "^[ \t]*\\([0-9]\\{4\\}\\)" date)
+          (match-string 1 date))))))
+
 
 ;;; The Playlist
 
@@ -737,17 +762,18 @@ for that purpose.")
    (list (let* ((buf-list (mapcar #'(lambda (buf)
                                       (list (buffer-name buf)))
                                   (emms-playlist-buffer-list)))
+                (sorted-buf-list (sort buf-list
+                                       #'(lambda (lbuf rbuf)
+                                           (< (length (car lbuf))
+                                              (length (car rbuf))))))
                 (default (or (and emms-playlist-buffer-p
                                   ;; default to current buffer
                                   (buffer-name))
                              ;; pick shortest buffer name, since it is
                              ;; likely to be a shared prefix
-                             (car (sort buf-list
-                                        #'(lambda (lbuf rbuf)
-                                            (< (length (car lbuf))
-                                               (length (car rbuf)))))))))
+                             (car sorted-buf-list))))
            (emms-completing-read "Playlist buffer to make current: "
-                                 buf-list nil t default))))
+                                 sorted-buf-list nil t default))))
   (let ((buf (if buffer
                  (get-buffer buffer)
                (current-buffer))))

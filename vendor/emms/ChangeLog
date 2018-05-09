@@ -1,3 +1,476 @@
+commit cffef39bd9297154b3ed91a68f8fc230e0f87fba
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue May 1 14:43:15 2018 -0400
+
+    bump to version 5.0
+
+commit 6740042df600637032dd71794f1b600a85c4099d
+Author: ZHANG Weiyi <dochang@gmail.com>
+Date:   Wed Apr 18 13:18:35 2018 +0800
+
+    * lisp/emms-player-mpv.el: Use `emms-player-base-format-list'
+
+commit 9b7b50a89bc4f9df7f9edd6e939508288f0ffa9b
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Thu Apr 12 09:43:51 2018 -0400
+
+    * NEWS:
+
+commit e69e910843594a09d8e337b7724ae2e67cc73f84
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Thu Apr 12 09:39:55 2018 -0400
+
+    * lisp/emms-volume-pulse.el: bug fix
+    
+    Regexp supported only single digits numbers. Bug fix by Eugene Sharygin.
+
+commit c90a7535ff1e6552274adf3a48b777316ff8d897
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Tue Apr 10 09:51:16 2018 +0530
+
+    * NEWS: update
+
+commit 9ca1984fac4843635d512da20243c1556e194ec6
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Tue Apr 10 09:39:23 2018 +0530
+
+    * lisp/emms-browser.el: Fix emms-browser-get-track-field-function custom values
+
+commit d77202aed79efad2df3b87fc3db3897474da82b7
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 9 13:46:02 2018 -0400
+
+    * lisp/emms-player-mpv.el: don't show albums
+    
+    Add "--no-audio-display" to the mpv backend by default.
+
+commit cbfcaeda1f05292994f1725471cb2799664f078e
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 18:10:52 2018 +0530
+
+    * lisp/emms-browser.el: Make 'emms-browser-move-up-level interactive
+    
+    This is useful for Org-style browsing.
+
+commit 4b7b660acaae68ea1b2945e7a14971bcb37ed0eb
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 18:11:32 2018 +0530
+
+    * lisp/emms-browser.el: Add 'emms-browser-toggle-subitems-recursively
+    
+    It enables Org-style browsing.
+
+commit 5f0194d5f49aa6ae09e35bfd1f5c816787b106db
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 17:26:09 2018 +0530
+
+    * lisp/emms-browser.el: Fix missing result in fallback thumbnail filter
+
+commit ca4a9e559d48bda94311afd17918a92a27c69abd
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 16:13:30 2018 +0530
+
+    * lisp/emms-cache.el: Add the `emms-cache-reset' function for convenience
+    
+    It can be useful sometimes to reset the cache:
+    
+    - Whenever too many undesirable tracks have populated the collection, it's
+    faster to reset and re-add only the desired tracks.
+    
+    - Whenever it gets corrupted (it ideally should not...).
+
+commit d4ba37fcab1ad377319c52a8131de32cf9d306d7
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 16:03:16 2018 +0530
+
+    * lisp/emms-browser.el: Support region and prefix arg from emms-browser-remove-tracks
+
+commit 2bc4236bb1b1cf1605ea155fb8d22c6b2ab06283
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 15:59:19 2018 +0530
+
+    * lisp/emms-browser.el: Use albumartist before artist by default
+    
+    I believe it to be the most common use-case.  For the old behaviour, revert
+    `emms-browser-get-track-field-function' to 'emms-browser-get-track-field-simple.
+
+commit c9a5405f2df81f013b76b507d6fab975cb30a318
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 15:05:56 2018 +0530
+
+    * lisp/emms-browser.el: Add emms-browser-remove-tracks
+    
+    With a prefix argument, remove files and empty folders.
+    This supersedes emms-browser-delete-files.
+
+commit 33f2d96ba142f30b3953c57b9d51fac274544623
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 14:14:56 2018 +0530
+
+    * lisp/emms-browser.el: Add all tracks in region are with numeric prefix arg
+
+commit 71b8198b29b02263acd7126179c1710351787796
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 13:40:07 2018 +0530
+
+    * lisp/emms-browser.el: Move cursor forward when adding tracks
+    
+    It makes it possible to keep pressing <return> to add a sequence of tracks.
+
+commit 26908fa4ec7725027c996d10373a61e00ff1b935
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 13:26:17 2018 +0530
+
+    * lisp/emms-browser.el: Re-use the browser search buffer in emms-smart-browse
+    
+    The browser search now acts as a "browser view" until it is killed (e.g. with
+    "q").  This is probably what the user expects.
+    
+    Previously, successive calls to emms-smart-browse from a browser search would
+    result in cascading window splits of browsers and playlists.
+
+commit a644af54471869338346f51f62f45303ca5901e8
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 9 10:35:27 2018 -0400
+
+    * NEWS: update
+    
+    Update the latest of Pierre's work.
+
+commit a0b351d0572bfe264e23aa3ef8c660be354252e7
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Apr 9 10:33:03 2018 -0400
+
+    * AUTHORS: add authors
+    
+    Add the authors of emms-player-mpv.el.
+
+commit 122a8b375b4f5f90de3b41e766442d23c5b2b524
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Apr 7 18:53:43 2018 +0530
+
+    * lisp/later-do.el: Speed up later-do-list job by batch-processing
+    
+    A `later-do-batch' defcustom was introduced to allow for performance tweaking.
+
+commit 283c04e54c080b55f7d044b7eaa54f29356e97da
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 11:49:26 2018 +0530
+
+    * lisp/emms-player-mpv.el: Add the mpv backend
+
+commit 58c83cf6c640bc241fb933ce743d1876bbcbba8c
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Mon Apr 9 11:37:08 2018 +0530
+
+    * lisp/emms-info-opusinfo.el: Add support for Opus info queries
+
+commit 949f9b9e5f43be7a9b665f8bbaa7082a238d3336
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Thu Apr 5 16:59:06 2018 -0400
+
+    * AUTHORS: minor fix
+
+commit 84ca32a8562162c3e6001ba54acba139f2023435
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Tue Apr 3 10:49:11 2018 -0400
+
+    * NEWS: reword
+
+commit ffd8c0e8a7649d4e3a0d4f9d65e114346145a2de
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Mar 28 10:58:37 2018 -0400
+
+    * NEWS: shout out to Pierre
+
+commit cf361f15912ba27e26cda2796f28aa128cd5a970
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Mar 28 10:56:35 2018 -0400
+
+    * NEWS: update
+
+commit 51fd0927372c63833b998b86174b920def3b172a
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Mar 28 10:53:48 2018 -0400
+
+    * doc/emms.texinfo: mention mid3v2
+
+commit e94ed1cff1513f536c920ed3076319a1021d8842
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Mar 28 10:50:49 2018 -0400
+
+    * lisp/emms-tag-editor.el: depreciate mp3info
+
+commit 7a5da34e1192dd7a32545a7c0edbd9bb69e7922e
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Mar 19 19:09:42 2018 -0400
+
+    * lisp/emms-tag-editor.el: mid3v2 replaces mp3info
+    
+    mp3info only works with 1.x tags.
+
+commit 0459003a1686b5742e660d08e7c936d1b06e8e7c
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Feb 17 21:19:35 2018 +0100
+
+    Set emms-directory according to user-emacs-directory
+
+commit 3a8d16d91edae81ffb2bb9efa12d41712edfd4f8
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Wed Jan 3 14:20:50 2018 +0100
+
+    Obsolete emms-devel and emms-all
+
+commit f586070b598b1a19842212686e88df346f1ebc1f
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Fri Dec 29 22:04:34 2017 +0100
+
+    Define all mode-maps with defvar instead of defconst
+
+commit 1ba1707f398b541baee516a9314b1ae1cc2f5bae
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Fri Dec 29 22:01:32 2017 +0100
+
+    emms-browser: Add mode hook
+
+commit 5650f6bbcd05e9759193342a3004af4de252765c
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Dec 29 11:31:48 2017 -0500
+
+    * lisp/emms-metaplaylist-mode.el: bug fix
+    
+    Stop center-on-current interpreting special regexp characters.
+
+commit f5b2da5876a66b9a7570001feba7dfc06668787b
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Tue Dec 26 10:13:32 2017 +0100
+
+    Add Homepage to the package header
+
+commit de28c9389f1d347e2d6ee7329d6fcb3aac274a28
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Dec 15 18:05:41 2017 -0500
+
+    * NEWS: update
+
+commit 1aa7b6581fa1a99bcd9ee4187a2522033847f64c
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Dec 15 18:02:06 2017 -0500
+
+    * doc/emms.texinfo: metaplaylist-mode
+    
+    Document the changes to metaplaylist-mode.
+
+commit f268773cae680546f74d2f0a2ff5733b182485ba
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Dec 15 18:01:22 2017 -0500
+
+    * lisp/emms-metaplaylist-mode.el: re-write.
+    
+    This is all but a re-write of metaplaylist mode to make it a more
+    usable.
+
+commit 728114cc41bf56fe7f442df48366a66e209e5528
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Dec 13 17:36:07 2017 -0500
+
+    * lisp/emms-source-file.el: fix behavior
+    
+    This never does the right thing, so let it work like add-directory.
+
+commit cd53cecbd5a0036de89a373dc71567a9630b33a4
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Dec 9 16:44:24 2017 +0100
+
+    Fix 'seq' requirement in emms-browser
+
+commit bcad17702f4aea763491efb62551f3f5888cc0b2
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Dec 9 16:30:49 2017 +0100
+
+    AUTHORS: Add Pierre Neidhardt
+
+commit e70461dd1a1ad09c92a4d1753f94e95abc76eeb2
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Dec 9 16:30:01 2017 +0100
+
+    Document dynamic cover thumbnail caching
+
+commit d4a75dda9316dfe8ec9dfe7368b226121ad5e898
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sat Dec 9 16:00:36 2017 +0100
+
+    Add progress reporter to EMMS browser expansion
+    
+    The thumbnail display makes expansion even slower because of cache building and
+    querying.
+
+commit d8a9539576903c8f06eb87a048b4d9ba7b6a6061
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sun Dec 3 20:01:28 2017 +0100
+
+    Add support for dynamic thumbnail caching
+
+commit 0960515e644015c6d85549fa3bef3d67c0ee7116
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sun Nov 26 18:35:44 2017 +0100
+
+    lisp/emms-browser.el: Extract year from info-date or fallback on info-year
+
+commit babc32f7079b1a5925b60fa5c9874c9ccbb5c414
+Author: Pierre Neidhardt <ambrevar@gmail.com>
+Date:   Sun Nov 26 18:33:18 2017 +0100
+
+    lisp/emms-browser.el: Add autoloads to emms-browser and emms-smart-browse
+
+commit 32db2aff20b784a01c07d1138cb50d25526bcfd9
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Nov 22 06:59:58 2017 -0500
+
+    * lisp/emms-player-mpd.el: interactive
+    
+    Make `emms-player-mpd-play interactive.
+
+commit 5e49985e8fcbf5e0c24f0a8690d3d8ba2f0a3838
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Nov 15 14:49:25 2017 -0500
+
+    * lisp/emms-browser.el: Remove pitchfork
+    
+    Pitchfork is not a desirable resource. See the discussion on the
+    emms-help mailing list for references.
+
+commit 11954d51e976a83635971fc000a163b0e7056134
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Sun Nov 5 08:02:16 2017 -0500
+
+    Push version updates.
+
+commit 88fecd0234da595843ce6be4d3f9f2b755ff612d
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Oct 20 16:49:00 2017 -0400
+
+    * lisp/emms-player-mpd.el: allow socket
+    
+    Allow mpd to read directly from a named socket.
+
+commit 175e5af5250503c12a395f5559923d2b9367aae3
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Oct 11 15:02:21 2017 -0400
+
+    * NEWS: update
+
+commit 25b2dc242028076cd1d6c011b509133ae193af7e
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Oct 11 14:58:31 2017 -0400
+
+    * lisp/emms-volume-amixer.el: card choice
+    
+    Add an option to specify the card amixer will control.
+
+commit b1ea89a08da3f5953d55072fffed8f781b461315
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Sep 29 17:27:50 2017 -0400
+
+    * lisp/emms.el: set-playlist-buffer bugfix
+    
+    Take into account destructive sorting. Patch thanks to Ian Dunn.
+
+commit 881bfaef42e58e04822d944a51ccad0efb9ab7be
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Wed Sep 13 16:07:56 2017 -0400
+
+    * lisp/emms-source-file.el: follow symlinks
+    
+    Emms-source-file-directory-tree-find now follows symlinks. Thank you
+    Maxim Cournoyer for the patch.
+
+commit 79793c0bb32620ad5b4db490c6e80ff8e5a20233
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Sep 1 16:30:52 2017 -0400
+
+    update NEWS
+
+commit de1ff3252b3113a1e622cd3d63b65479cc474525
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Sep 1 16:28:14 2017 -0400
+
+    * doc/emms.texinfo: update documentation
+    
+    Update the `emms-playlist-sort' documentation.
+
+commit 93b4340e6fd2b34f50aec2fa129e3d4122f6a5f6
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Sep 1 16:27:37 2017 -0400
+
+    * lisp/emms-playlist-sort.el: new function
+    
+    Sort playlist by file mtime.
+
+commit e790730a4e258440184bc8ce5d3015efe09f8984
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Sat Jul 15 12:07:04 2017 -0400
+
+    * lisp/emms.el: add package-requires
+
+commit 1335277ece54bd0cffd71c36843c228f99b41b30
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Jul 14 16:21:07 2017 -0400
+
+    * NEWS: update
+
+commit 5401b0df9b4a45fb9f01b7f4236f99b34c79595a
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Fri Jul 14 16:16:21 2017 -0400
+
+    Move from cl to cl-lib.
+    
+    Patch by tumashu <tumashu@163.com>.
+
+commit a4ec6697e45a006753bfd79c22f14524748df493
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Jun 19 14:58:56 2017 -0400
+
+    * AUTHORS: add trivial patch author
+
+commit a6aa6ca703336ab3fd26f25f36c45894d8ecea5f
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Jun 19 14:56:40 2017 -0400
+
+    * lisp/emms-volume.el: fix typo
+    
+    trivial patch by David Michael <fedora.dm0@gmail.com>
+
+commit 0ebffc0b7263d261c9de1f117a96d28447889dfd
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon Jun 19 14:55:40 2017 -0400
+
+    * lisp/emms-volume.el: Limits volume percentages
+    
+    Limits volume percentages between 0 and 100 by default.  At least with
+    the Solaris sink, attempting to set a volume outside this range will
+    fail with a "connection terminated" error from pactl.
+    
+    trivial patch by David Michael <fedora.dm0@gmail.com>
+
+commit 0481ca3b8f8d558e545582440dde6dac514818fe
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Thu Jun 1 19:51:38 2017 -0400
+
+    * lisp/emms-player-mpg321-remote.el: fix signal
+    
+    This fixes auto playing not working. Seems @P3 is the new mpg321 signal
+    for song being over, so both P0 and P3 should be checked. SRC:
+    https://www.apt-browse.org/browse/debian/wheezy/main/i386/mpg321/0.3.2-1.1/file/usr/share/doc/mpg321/README.remote
+    
+    Patch (trivial) from <pintolo1234@gmail.com>
+
+commit 179e8e73f501115a9b0c73056846d80809d5a144
+Author: Yoni Rabkin <yoni@rabkins.net>
+Date:   Mon May 1 14:52:04 2017 -0400
+
+    * doc/developer-release.txt: comment
+
 commit 4cb3ae341847e8e8586373a95a458a453469812d
 Author: Yoni Rabkin <yoni@rabkins.net>
 Date:   Mon May 1 14:02:58 2017 -0400

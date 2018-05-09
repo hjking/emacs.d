@@ -22,7 +22,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(require 'cl-lib)
 (require 'emms-last-played)
 (require 'emms-playlist-mode)
 
@@ -118,6 +118,20 @@ With a prefix argument, decreasingly."
        (file-name-extension (emms-track-get a 'name))
        (file-name-extension (emms-track-get b 'name))))))
 
+(defun emms-playlist-sort-by-file-mtime ()
+  "Sort emms playlist by file mtime, newest first.
+With a prefix argument, oldest first."
+  (interactive)
+  (emms-playlist-sort
+   '(lambda (a b)
+      (funcall
+       (if current-prefix-arg
+	   'time-less-p
+	 (lambda (t1 t2) (not (time-less-p t1 t2))))
+       (emms-info-track-file-mtime a)
+       (emms-info-track-file-mtime b)))))
+
+
 (defvar emms-playlist-sort-map nil)
 
 (defun emms-playlist-sort-map-setup ()
@@ -138,6 +152,7 @@ With a prefix argument, decreasingly."
           (define-key map (kbd "C") 'emms-playlist-sort-by-info-composer)
           (define-key map (kbd "L") 'emms-playlist-sort-by-list)
           (define-key map (kbd "N") 'emms-playlist-sort-by-name)
+	  (define-key map (kbd "T") 'emms-playlist-sort-by-file-mtime)
           map))
 
   (define-key emms-playlist-mode-map
@@ -188,10 +203,10 @@ ie. by album name and then by track number."
 (defun emms-playlist-sort-by-list-p (a b)
   (catch 'return
     (dolist (info emms-playlist-sort-list)
-      (case info
+      (cl-case info
         ((name info-artist info-composer info-performer info-title info-album info-genre)
          (when (emms-string< (emms-track-get a info)
-                        (emms-track-get b info))
+                             (emms-track-get b info))
            (throw 'return t)))
         ((info-playing-time)
          (when (< (emms-track-get a info)

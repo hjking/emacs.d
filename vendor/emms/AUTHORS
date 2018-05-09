@@ -2,6 +2,8 @@ This file lists all people who contributed more than a few lines to
 emms.  This is necessary to keep track of people who have copyright
 claims on sources, so please don't be too humble and add yourself.
 
+
+Alex Kost     	         <alezost@gmail.com>
 Bram van der Kroef       <bram@fortfrances.com>
 Daimrod      		 <daimrod@gmail.com>
 Damien Elmes		 <emacs@repose.cx>
@@ -20,6 +22,8 @@ Matthew Kennedy		 <mkennedy@gentoo.org>
 Michael Olson		 <mwolson@gnu.org>
 Nick Alcock 		 <nix@esperi.org.uk>
 Petteri Hintsanen        <petterih@iki.fi>
+Pierre Neidhardt	 <ambrevar@gmail.com>
+stardiviner 		 <numbchild@gmail.com>
 Tassilo Horn		 <tassilo@member.fsf.org>
 Thierry Volpiatto
 Trent Buck		 <trentbuck@gmail.com>
@@ -29,6 +33,19 @@ Ye Wenbin		 <wenbinye@gmail.com>
 Yoni (Johnathan) Rabkin  <yrk@gnu.org>
 mathias.dahl 		 <mathias.dahl>
 Rasmus Pank Roulund      <emacs@pank.eu>
+ZHANG Weiyi 		 <dochang@gmail.com>
+
+
+The following is a list of people who contributed trivial patches,
+which is to say very simple patches and those with total of 12 lines
+or fewer. We started recording trivial patches this way in June of
+2017, so trivial patches before that date would not appear below.
+
+David Michael
+tumashu
+Maxim Cournoyer
+Ian Dunn
+
 
 ;; Local variables:
 ;; coding: utf-8
