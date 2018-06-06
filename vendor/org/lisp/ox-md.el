@@ -1,6 +1,6 @@
 ;;; ox-md.el --- Markdown Back-End for Org Export Engine -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2012-2017 Free Software Foundation, Inc.
+;; Copyright (C) 2012-2018 Free Software Foundation, Inc.
 
 ;; Author: Nicolas Goaziou <n.goaziou@gmail.com>
 ;; Keywords: org, wp, markdown
@@ -500,14 +500,15 @@ TEXT is the string to transcode.  INFO is a plist holding
 contextual information."
   (when (plist-get info :with-smart-quotes)
     (setq text (org-export-activate-smart-quotes text :html info)))
+  ;; The below series of replacements in `text' is order sensitive.
+  ;; Protect `, *, _, and \
+  (setq text (replace-regexp-in-string "[`*_\\]" "\\\\\\&" text))
   ;; Protect ambiguous #.  This will protect # at the beginning of
   ;; a line, but not at the beginning of a paragraph.  See
   ;; `org-md-paragraph'.
   (setq text (replace-regexp-in-string "\n#" "\n\\\\#" text))
   ;; Protect ambiguous !
   (setq text (replace-regexp-in-string "\\(!\\)\\[" "\\\\!" text nil nil 1))
-  ;; Protect `, *, _ and \
-  (setq text (replace-regexp-in-string "[`*_\\]" "\\\\\\&" text))
   ;; Handle special strings, if required.
   (when (plist-get info :with-special-strings)
     (setq text (org-html-convert-special-strings text)))
@@ -574,10 +575,13 @@ contents according to the current headline."
 	      (make-string
 	       (* 4 (1- (org-export-get-relative-level headline info)))
 	       ?\s))
-	     (number (format "%d."
-			     (org-last
-			      (org-export-get-headline-number headline info))))
-	     (bullet (concat number (make-string (- 4 (length number)) ?\s)))
+	     (bullet
+	      (if (not (org-export-numbered-headline-p headline info)) "-   "
+		(let ((prefix
+		       (format "%d." (org-last (org-export-get-headline-number
+						headline info)))))
+		  (concat prefix (make-string (max 1 (- 4 (length prefix)))
+					      ?\s)))))
 	     (title
 	      (format "[%s](#%s)"
 		      (org-export-data-with-backend

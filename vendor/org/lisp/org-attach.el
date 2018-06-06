@@ -1,6 +1,6 @@
 ;;; org-attach.el --- Manage file attachments to Org tasks -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2008-2017 Free Software Foundation, Inc.
+;; Copyright (C) 2008-2018 Free Software Foundation, Inc.
 
 ;; Author: John Wiegley <johnw@newartisans.com>
 ;; Keywords: org data task
@@ -319,7 +319,8 @@ the ATTACH_DIR property) their own attachment directory."
 (defun org-attach-annex-get-maybe (path)
   "Call git annex get PATH (via shell) if using git annex.
 Signals an error if the file content is not available and it was not retrieved."
-  (let ((path-relative (file-relative-name path)))
+  (let* ((default-directory (expand-file-name org-attach-directory))
+	 (path-relative (file-relative-name path)))
     (when (and (org-attach-use-annex)
 	       (not
 		(string-equal
