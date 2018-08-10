@@ -35,7 +35,6 @@
     (setq org-startup-folded nil)  ;; open org in unfolded view
     (setq org-edit-src-content-indentation 0)
     (setq org-edit-timestamp-down-means-later t)
-    (setq org-completion-us-ido t)
 
     ;; TODO Keywords
     ;; sequence: status keywords, can change from one to another
@@ -43,7 +42,8 @@
     ;; !: record time when state changed
     ;; @: need to leave some comments
     (setq org-todo-keywords
-          '((sequence "TODO(t!)" "DOING(i!)" "NEXT(n!)" "WAITING(w@/!)" "MAYBE(y!)" "|" "DONE(x!)" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
+          '((sequence "TODO(t!)" "ONGOING(g!)" "NEXT(n!)" "MAYBE(y!)" "|" "DONE(x!)")
+            (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "POSTPONED(p@/!)")
             (type "ACTION(a)" "BLOG(b)" "ARCHIVED(r)" "PHONE(p)" "MEETING(m)" "MEAL(e)" "|" "COMPLETED(x)")
             (type "REPORT" "BUG" "KNOWNCAUSE" "REVIEWED" "FEEDBACK" "|" "FIXED")
             (sequence "OPEN(O!)" "|" "CLOSED(C@/!)")
@@ -51,7 +51,7 @@
 
     (setq org-todo-keyword-faces
           '(("TODO"      . (:foreground "red"          :weight bold))
-            ("DOING"     . (:foreground "forest green" :weight bold))
+            ("ONGOING"   . (:foreground "forest green" :weight bold))
             ("NEXT"      . (:foreground "orange"       :weight bold))
             ("WAITING"   . (:foreground "sienna"       :weight bold))
             ("HOLD"      . (:foreground "magenta"      :weight bold))
@@ -129,12 +129,22 @@
                           ("errand"   . ?e)
                           ))
 
+    ;; limit tag inheritance to specific tags
+    ; (setq org-tags-exclude-from-inheritance '("PROJECT"))
+
     ; Allow setting single tags without the menu
     (setq org-fast-tag-selection-single-key 'expert)
     ; Ignore hidden tags in Org Agenda tags-todo search
     (setq org-agenda-tags-todo-honor-ignore-options t)
 
     ;; automatically assign tags to tasks based on state changes
+    ;; Moving a task to CANCELLED adds a CANCELLED tag
+    ;; Moving a task to WAITING adds a WAITING tag
+    ;; Moving a task to HOLD adds WAITING and HOLD tags
+    ;; Moving a task to a done state removes WAITING and HOLD tags
+    ;; Moving a task to TODO removes WAITING, CANCELLED, and HOLD tags
+    ;; Moving a task to NEXT removes WAITING, CANCELLED, and HOLD tags
+    ;; Moving a task to DONE removes WAITING, CANCELLED, and HOLD tags
     (setq org-todo-state-tags-triggers
           '(("CANCELLED" ("CANCELLED" . t))
             ("WAITING" ("WAITING" . t))
@@ -144,7 +154,7 @@
             ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
             ("DONE" ("WAITING") ("CANCELLED") ("HOLD"))))
 
-    ;; Org Agenda
+    ;; Agenda
     ;; (setq org-agenda-files '("~/org/personal.org" "~/org/habit.org"))
     ;; (add-to-list 'org-agenda-files "~/org/personal.org")
     ;; (setq org-agenda-files (directory-files org-directory t "\.org$"))
@@ -209,6 +219,8 @@
     (setq org-agenda-text-search-extra-files '(agenda-archives))
     ;; Split up the search string on whitespace
     (setq org-agenda-search-view-always-boolean t)
+    ;; Overwrite the current window with the agenda
+    (setq org-agenda-window-setup 'current-window)
     ;; org agenda custom commands
     (setq org-agenda-custom-commands
           '(
@@ -218,9 +230,9 @@
              ("C" . "Custom View")
              ("Cf" "View Funny Things"
                ((agenda "" ((org-agenda-files (file-expand-wildcards (concat org-directory "/fun/*.org")))))))
-             ("d" "Started Tasks" todo "DOING" ((org-agenda-todo-ignore-scheduled nil)
-                                                (org-agenda-todo-ignore-deadlines nil)
-                                                (org-agenda-todo-ignore-with-date nil)))
+             ("d" "Started Tasks" todo "ONGOING" ((org-agenda-todo-ignore-scheduled nil)
+                                                  (org-agenda-todo-ignore-deadlines nil)
+                                                  (org-agenda-todo-ignore-with-date nil)))
              ;; overview of deadlines due within the next 60 days
              ("l" "Upcoming deadlines" agenda "" ((org-agenda-time-grid nil)
                                                   ;; [1] shows all deadlines that fall due within the upcoming year
@@ -230,7 +242,7 @@
              ("f" occur-tree "\\<FIXME\\>") ; a sparse tree (again: current buffer only) with all entries containing the word FIXME
              ("G" . "GTD contexts")
               ("Gc" "Computer" tags-todo "computer")
-              ("Gd" todo "DOING") ;; a list of all tasks with the todo keyword DOING
+              ("Gd" todo "ONGOING") ;; a list of all tasks with the todo keyword ONGOING
               ("Ge" "Errands" tags-todo "errands")
               ("Gh" "Home" tags-todo "home")
               ("Go" "Office" tags-todo "office")
@@ -303,18 +315,7 @@
     ;; Override the key definition for org-exit
     ; (define-key org-agenda-mode-map "x" 'sacha/org-agenda-done)
 
-    ;; Capture something based on the agenda
-    (defun sacha/org-agenda-new ()
-      "Create a new note or task at the current agenda item.
-    Creates it at the same level as the previous task, so it's better to use
-    this with to-do items than with projects or headings."
-      (interactive)
-      (org-agenda-switch-to)
-      (org-capture 0))
-    ;; New key assignment
-    ; (define-key org-agenda-mode-map "N" 'sacha/org-agenda-new)
-
-    ;; clock
+    ;; Clock
     (org-clock-persistence-insinuate)
     (setq org-clock-persist-file (concat my-cache-dir "org-clock-save.el"))
     (setq org-clock-persist 'history)
@@ -325,7 +326,7 @@
     ;; Removes clocked tasks with 0:00 duration
     (setq org-clock-out-remove-zero-time-clocks t)
     ;; Let org-mode use ido
-    (setq org-completion-use-ido t)
+    ; (setq org-completion-use-ido t)
     (setq org-remember-templates
         '(("Todo" ?t "* TODO %?\n %i\n %a" org-default-notes-file "Tasks")
           ("Idea" ?i "* %^{Title}\n %i\n %a" org-default-notes-file "Ideas")
@@ -334,7 +335,7 @@
 
     (setq org-list-indent-offset 2)
 
-    ;; Refiling means moving entries around
+    ;; Refile
     ;; For example from a capturing location to the correct project
     (setq org-reverse-note-order t)
     ; Use full outline paths for refile targets
@@ -352,14 +353,11 @@
     ;;         ((concat org-directory "/outline.org") . (:maxlevel . 3))))
 
     ; Exclude DONE state tasks from refile targets
-    (defun my/verify-refile-target ()
-      "Exclude todo keywords with a DONE state from refile targets"
-      (or (not (member (nth 2 (org-heading-components)) org-done-keywords)))
-          (save-excursion (org-goto-first-child)))
-    (setq org-refile-target-verify-function 'my/verify-refile-target)
+    (defun bh/verify-refile-target ()
+      "Exclude todo keywords with a done state from refile targets"
+      (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 
-    (setq org-tags-exclude-from-inheritance '("PROJECT"))
-    ;; (setq org-tags-column 80)
+    (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
     ; global Effort estimate values
     ; global STYLE property values for completion
@@ -395,21 +393,22 @@
     ;; Don't allow edits in folded space
     (setq org-catch-invisible-edits 'error)
 
-    ;;; Org Babel - lets the user run code inside an org-mode document
+    ;; Org Babel
+    ;; lets the user run code inside an org-mode document
     ;; active Org-babel languages
-    (org-babel-do-load-languages
-      'org-babel-load-languages
-      '(;; other Babel languages
-        (emacs-lisp . t)
-        (ditaa . t)
-        (dot . t)
-        (sh . t)
-        (perl . t)
-        (python .t)
-        (plantuml . t)))
+    ; (org-babel-do-load-languages
+    ;   'org-babel-load-languages
+    ;   '(;; other Babel languages
+    ;     (emacs-lisp . t)
+    ;     (ditaa . t)
+    ;     (dot . t)
+    ;     (sh . t)
+    ;     (perl . t)
+    ;     (python .t)
+    ;     (plantuml . t)))
 
-    ;; generate pic without confirm
-    (setq org-confirm-babel-evaluate nil)
+    ; ;; generate pic without confirm
+    ; (setq org-confirm-babel-evaluate nil)
 
     ;;; Source code
     ;; Use syntax highlighting ("fontification") in org-mode source blocks
@@ -419,12 +418,11 @@
 
     ;; the whole heading lines fontified
     (setq org-fontify-whole-heading-line t)
-    ;; Overwrite the current window with the agenda
-    (setq org-agenda-window-setup 'current-window)
+
     ; Make babel results blocks lowercase
     (setq org-babel-results-keyword "RESULTS")
 
-;;; Diagrams
+    ;; Diagrams
     (setq org-plantuml-jar-path
           (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
     (setq org-ditaa-jar-path
@@ -443,16 +441,6 @@
 
 
     ;;; Publishing
-
-    ;; export org to markdown
-    ; (use-package ox-md)
-
-    ;; Exporting
-    (setq org-export-with-section-numbers nil
-          org-export-coding-system 'utf-8
-          org-export-with-smart-quotes t
-          org-export-backends '(beamer html latex md))
-
     (setq my-org-publish-dir
           (expand-file-name "public_html" (directory-file-name
                                            (file-name-directory
@@ -580,7 +568,15 @@
         ("gmap" . "http://maps.google.com/maps?q=%s")
         ("blog" . "http://hjking.github.io")))
 
-    ; Log
+
+    ;; Exporting
+    (setq org-export-with-section-numbers nil
+          org-export-coding-system 'utf-8
+          org-export-with-smart-quotes t
+          org-export-backends '(beamer html latex md))
+
+
+    ;; Log
     (setq org-log-done 'time) ;; mark DONE item with time
     ;; (setq org-log-done 'note) ;; leave some notes to DONE item
     (setq org-log-into-drawer t)
@@ -955,55 +951,59 @@
     ; (when (featurep 'stripe-buffer)
     ;   (add-hook 'org-mode-hook 'stripe-listify-buffer) ; turn-on-stripe-buffer-mode
     ;   (add-hook 'org-mode-hook 'turn-on-stripe-table-mode))
-
-    ; (use-package org-checklist)
-
-    ;;; HTML5 Presentation export for Org-mode
-    ;;; org-html5presentation.el
-    ;; (require 'org-html5presentation)
-
-    ;;
-    ; (use-package org-jekyll-mode
-    ;   :commands (org-jekyll/new-post
-    ;              org-jekyll/publish-project)
-    ;   :init (progn
-    ;     (setq org-jekyll/jekyll-project-root "E:/Workspace/hjking.github.com/")
-    ;     (setq org-jekyll/org-mode-project-root "~/org/")
-    ;     (setq org-jekyll/export-with-toc t)   ;; export content
-    ;     )
-    ; )
-
-
-    ;;;; org-extension
-    (use-package org-extension)
-
-    (use-package org-kanban)
-
-    ;;;; org-bullets
-    ;; Org bullets makes things look pretty
-    (use-package org-bullets
-      :disabled t
-      :init
-       (setq org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇"))
-      :config
-       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-      )
-
-    ;;;; calfw-org
-    ;; displays a calendar with org agenda, `cfw:open-org-calendar'
-    (use-package calfw-org
-      ; :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
-      :commands (cfw:open-org-calendar)
-      :init
-       ;; This setting restricts items containing a date stamp
-       ;; or date range matching the selected date
-       (setq cfw:org-agenda-schedule-args '(:timestamp))
-       ;; key binding like org agenda buffer
-       (setq cfw:org-overwrite-default-keybinding t)
-      )
-
     )
 )
+
+
+; (use-package org-checklist)
+
+;;; HTML5 Presentation export for Org-mode
+;;; org-html5presentation.el
+;; (require 'org-html5presentation)
+
+;;
+; (use-package org-jekyll-mode
+;   :commands (org-jekyll/new-post
+;              org-jekyll/publish-project)
+;   :after org
+;   :init (progn
+;     (setq org-jekyll/jekyll-project-root "E:/Workspace/hjking.github.com/")
+;     (setq org-jekyll/org-mode-project-root "~/org/")
+;     (setq org-jekyll/export-with-toc t)   ;; export content
+;     )
+; )
+
+
+;;;; org-extension
+(use-package org-extension
+  :after org)
+
+(use-package org-kanban
+  :after org)
+
+;;;; org-bullets
+;; Org bullets makes things look pretty
+(use-package org-bullets
+  :disabled t
+  :after org
+  :init
+   (setq org-bullets-bullet-list '("◉" "◎" "⚫" "○" "►" "◇"))
+  :config
+   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;;;; calfw-org
+;; displays a calendar with org agenda, `cfw:open-org-calendar'
+(use-package calfw-org
+  ; :load-path (lambda () (concat my-site-lisp-dir "emacs-calfw/"))
+  :commands (cfw:open-org-calendar)
+  :after org
+  :init
+   ;; This setting restricts items containing a date stamp
+   ;; or date range matching the selected date
+   (setq cfw:org-agenda-schedule-args '(:timestamp))
+   ;; key binding like org agenda buffer
+   (setq cfw:org-overwrite-default-keybinding t))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'org-conf)

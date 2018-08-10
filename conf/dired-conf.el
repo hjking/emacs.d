@@ -1,12 +1,11 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: dired-conf.el
 ;; Description: Setting for dired.el, dired-tar.el, dired-single, dired-x.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2014-01-24 10:21:00
 ;;
-(message "%d: >>>>> Loading [ Dired ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 (use-package dired
   :ensure nil

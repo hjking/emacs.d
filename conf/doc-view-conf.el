@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: doc-view-conf.el
 ;; Description: Setting for doc-view.el
@@ -5,8 +6,6 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-16 14:51:28
 ;;
-(message "%d: >>>>> Loading [ doc view ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 (use-package doc-view
     :defer t

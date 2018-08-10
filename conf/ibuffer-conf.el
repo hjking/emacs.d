@@ -9,7 +9,8 @@
 (use-package ibuffer
   :commands ibuffer
   :bind ("C-x C-b"  .  ibuffer)
-  :init (progn
+  :init
+    (progn
       (defalias 'list-buffers 'ibuffer)
       (setq ibuffer-default-sorting-mode 'major-mode)
       (setq ibuffer-elide-long-columns t)
@@ -40,39 +41,39 @@
       ;; grouping
       (setq ibuffer-saved-filter-groups
             '(("default"
-                ("emacs"      (name . "\\*.*\\*"))
-                ("Dirs"       (mode . dired-mode))
-                ("Shell"      (or (mode . term-mode)
-                                  (mode . eshell-mode)
-                                  (mode . shell-mode)))
-                ("HDL"        (or (mode . verilog-mode)
-                                  (mode . vhdl-mode)
-                                  (mode . vlog-mode)))
-                ("C"          (or
-                               (mode . c-mode)
-                               (mode . cc-mode)
-                               (mode . c++-mode)))
-                ("Elisp"      (or
-                               (mode . emacs-lisp-mode)
-                               (mode . lisp-interaction-mode)))
-                ("Perl"       (mode . cperl-mode))
-                ("Python"     (mode . python-mode))
-                ("Org"        (or
-                               (name . "^\\*Calendar\\*$")
-                               (name . "^diary$")
-                               (mode . org-mode)
-                               (mode . org-agenda-mode)))
-                ("Music"      (name . "^EMMS Music Playlist$"))
-                ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
-                ("IRC"        (mode . erc-mode))
-                ("Markdown"
-                             (or
-                              (mode . markdown-mode)))
-                ("Web"          (or
-                               (mode . css-mode)
-                               (mode . web-mode)))
-                )))
-  )
+              ("emacs"      (name . "\\*.*\\*"))
+              ("Dirs"       (mode . dired-mode))
+              ("Shell"      (or (mode . term-mode)
+                                (mode . eshell-mode)
+                                (mode . shell-mode)))
+              ("HDL"        (or (mode . verilog-mode)
+                                (mode . vhdl-mode)
+                                (mode . vlog-mode)))
+              ("C"          (or
+                             (mode . c-mode)
+                             (mode . cc-mode)
+                             (mode . c++-mode)))
+              ("Elisp"      (or
+                             (mode . emacs-lisp-mode)
+                             (mode . lisp-interaction-mode)))
+              ("Perl"       (mode . cperl-mode))
+              ("Python"     (mode . python-mode))
+              ("Org"        (or
+                             (name . "^\\*Calendar\\*$")
+                             (name . "^diary$")
+                             (mode . org-mode)
+                             (mode . org-agenda-mode)))
+              ("Music"      (name . "^EMMS Music Playlist$"))
+              ("Tags"       (name . "^TAGS\\(<[0-9]+>\\)?$"))
+              ("IRC"        (mode . erc-mode))
+              ("Markdown"
+                           (or
+                            (mode . markdown-mode)))
+              ("Web"          (or
+                             (mode . css-mode)
+                             (mode . web-mode)))
+      )))
+    )
   :config (progn
     ;; Use human readable Size column instead of original one
     (define-ibuffer-column size-h

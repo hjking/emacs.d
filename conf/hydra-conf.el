@@ -131,66 +131,66 @@
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; window
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    (defhydra hjking-hydra-window (:color pink :hint nil)
-      "
-        Move Windows         Buffers               ^Move Frames               ^^Resize Frames
-        -------------------------------------------------------------------------------------
-                             _b_uffer Ido            _<up>_    Move up           _C-<up>_    Shrink V.
-              ↑              _f_ind file Ido         _<down>_  Move down         _C-<down>_  Grow V.
-            ←   →            _r_ecent Ido            _<left>_  Move left         _C-<left>_  Shrink H.
-              ↓              _B_uffer Helm           _<right>_ Move right        _C-<right>_ Grow H.
-                             _F_ind file Helm        _o_       Rotate            _=_         Balance
+    ; (defhydra hjking-hydra-window (:color pink :hint nil)
+    ;   "
+    ;     Move Windows         Buffers               ^Move Frames               ^^Resize Frames
+    ;     -------------------------------------------------------------------------------------
+    ;                          _b_uffer Ido            _<up>_    Move up           _C-<up>_    Shrink V.
+    ;           ↑              _f_ind file Ido         _<down>_  Move down         _C-<down>_  Grow V.
+    ;         ←   →            _r_ecent Ido            _<left>_  Move left         _C-<left>_  Shrink H.
+    ;           ↓              _B_uffer Helm           _<right>_ Move right        _C-<right>_ Grow H.
+    ;                          _F_ind file Helm        _o_       Rotate            _=_         Balance
 
-        ^_x_^ Close   _1_ Keep   _2_ Split V   _3_ Split H   _n_ Other Window  _z_ undo _Z_ redo _q_/_SPC_ quit
-      "
-      ("x"          delete-window)
-      ("0"          delete-window)
-      ("1"          delete-other-windows)
-      ("2"          split-window-below)
-      ("_" (lambda ()
-         (interactive)
-         (split-window-below)
-         (windmove-down)))
-      ("3"          split-window-right)
-      ("|" (lambda ()
-         (interactive)
-         (split-window-right)
-         (windmove-right)))
-      ("n"          other-window true)
-      ("c"          cider-popup :exit t)
-      ("C-S-<up>"   shink-more)
+    ;     ^_x_^ Close   _1_ Keep   _2_ Split V   _3_ Split H   _n_ Other Window  _z_ undo _Z_ redo _q_/_SPC_ quit
+    ;   "
+    ;   ("x"          delete-window)
+    ;   ("0"          delete-window)
+    ;   ("1"          delete-other-windows)
+    ;   ("2"          split-window-below)
+    ;   ("_" (lambda ()
+    ;      (interactive)
+    ;      (split-window-below)
+    ;      (windmove-down)))
+    ;   ("3"          split-window-right)
+    ;   ("|" (lambda ()
+    ;      (interactive)
+    ;      (split-window-right)
+    ;      (windmove-right)))
+    ;   ("n"          other-window true)
+    ;   ("c"          cider-popup :exit t)
+    ;   ("C-S-<up>"   shink-more)
 
-      ("C-<down>"   enlarge-window)
-      ("C-<right>"  enlarge-window-horizontally)
-      ("C-<up>"     shrink-window)
-      ("C-<left>"   shrink-window-horizontally)
-      ("+"          enlarge-window)
-      (">"          enlarge-window-horizontally)
-      ("-"          shrink-window)
-      ("<"          shrink-window-horizontally)
-      ("_"          shrink-window-if-larger-than-buffer)
-      ("="          balance-windows)
-      ("o"          rotate-windows)
+    ;   ("C-<down>"   enlarge-window)
+    ;   ("C-<right>"  enlarge-window-horizontally)
+    ;   ("C-<up>"     shrink-window)
+    ;   ("C-<left>"   shrink-window-horizontally)
+    ;   ("+"          enlarge-window)
+    ;   (">"          enlarge-window-horizontally)
+    ;   ("-"          shrink-window)
+    ;   ("<"          shrink-window-horizontally)
+    ;   ("_"          shrink-window-if-larger-than-buffer)
+    ;   ("="          balance-windows)
+    ;   ("o"          rotate-windows)
 
-      ("<up>"       windmove-up)
-      ("<down>"     windmove-down)
-      ("<left>"     windmove-left)
-      ("<right>"    windmove-right)
-      ("C-p"        windmove-up)
-      ("C-n"        windmove-down)
-      ("C-b"        windmove-left)
-      ("C-f"        windmove-right)
+    ;   ("<up>"       windmove-up)
+    ;   ("<down>"     windmove-down)
+    ;   ("<left>"     windmove-left)
+    ;   ("<right>"    windmove-right)
+    ;   ("C-p"        windmove-up)
+    ;   ("C-n"        windmove-down)
+    ;   ("C-b"        windmove-left)
+    ;   ("C-f"        windmove-right)
 
-      ("z"          winner-undo)
-      ("Z"          winner-redo)
-      ("r"          helm-projectile-recentf)
-      ("R"          ido-recentf-open)
-      ("b"          helm-projectile-switch-to-buffer)
-      ("B"          ido-switch-buffer)
-      ("f"          helm-projectile-find-file)
-      ("F"          ido-find-file)
-      ("SPC"        nil)
-      ("q"          nil   :exit t))
+    ;   ("z"          winner-undo)
+    ;   ("Z"          winner-redo)
+    ;   ("r"          helm-projectile-recentf)
+    ;   ("R"          ido-recentf-open)
+    ;   ("b"          helm-projectile-switch-to-buffer)
+    ;   ("B"          ido-switch-buffer)
+    ;   ("f"          helm-projectile-find-file)
+    ;   ("F"          ido-find-file)
+    ;   ("SPC"        nil)
+    ;   ("q"          nil   :exit t))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; tabbar
@@ -442,7 +442,7 @@
       ("?" goto-last-change)
       ("/" goto-last-change-reverse)
 
-      ("i" hjking-hydra-window/body  "Window"  :color blue)
+      ; ("i" hjking-hydra-window/body  "Window"  :color blue)
       ("g" hjking-hydra-avy/body     "Goto"    :color blue)
       ("d" hjking-hydra-delete/body  "Delete"  :color blue)
       ("q" nil                       "Quit"    :color blue)
@@ -474,7 +474,7 @@
       ("x" kill-sexp)
       ("n" hjking-hydra-navigate/body   "navigate"  :color blue)
       ("a" hjking-hydra-avy/body        "Goto"      :color blue)
-      ("i" hjking-hydra-window/body     "Window"    :color blue)
+      ; ("i" hjking-hydra-window/body     "Window"    :color blue)
       ("q" nil "Quit" :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1349,6 +1349,83 @@
       ("q"   nil "quit" :color blue))
 
 
+    ; ;; insert timestamps
+    ; (defhydra hjking-hydra-timestamp (:color blue :hint nil)
+    ;   "
+    ; Timestamps: (_q_uit)
+    ;   Date: _I_SO, _U_S, US With _Y_ear and _D_ashes, US In _W_ords
+    ;   Date/Time: _N_o Colons or _w_ith
+    ;   Org-Mode: _R_ight Now or _c_hoose
+    ; "
+    ;   ("q" nil)
+
+    ;   ("I" help/insert-datestamp)
+    ;   ("U" help/insert-datestamp-us)
+    ;   ("Y" help/insert-datestamp-us-full-year)
+    ;   ("D" help/insert-datestamp-us-full-year-and-dashes)
+    ;   ("W" help/insert-datestamp-us-words)
+
+    ;   ("N" help/insert-timestamp-no-colons)
+    ;   ("w" help/insert-timestamp)
+
+    ;   ("R" help/org-time-stamp-with-seconds-now)
+    ;   ("c" org-time-stamp))
+
+    ; (defun help/insert-datestamp ()
+    ;   "Produces and inserts a partial ISO 8601 format timestamp."
+    ;   (interactive)
+    ;   (insert (format-time-string "%F")))
+    ; (defun help/insert-datestamp-us ()
+    ;   "Produces and inserts a US datestamp."
+    ;   (interactive)
+    ;   (insert (format-time-string "%m/%d/%y")))
+    ; (defun help/insert-datestamp-us-full-year-and-dashes ()
+    ;   "Produces and inserts a US datestamp with full year and dashes."
+    ;   (interactive)
+    ;   (insert (format-time-string "%m-%d-%Y")))
+    ; (defun help/insert-datestamp-us-full-year ()
+    ;   "Produces and inserts a US datestamp with full year."
+    ;   (interactive)
+    ;   (insert (format-time-string "%m/%d/%Y")))
+    ; (defun help/insert-datestamp-us-words ()
+    ;   "Produces and inserts a US datestamp using words."
+    ;   (interactive)
+    ;   (insert (format-time-string "%A %B %d, %Y")))
+    ; (defun help/insert-timestamp-no-colons ()
+    ;   "Inserts a full ISO 8601 format timestamp with colons replaced by hyphens."
+    ;   (interactive)
+    ;   (insert (help/get-timestamp-no-colons)))
+    ; (defun help/insert-datestamp ()
+    ;   "Produces and inserts a partial ISO 8601 format timestamp."
+    ;   (interactive)
+    ;   (insert (format-time-string "%F")))
+    ; (defun help/get-timestamp-no-colons ()
+    ;   "Produces a full ISO 8601 format timestamp with colons replaced by hyphens."
+    ;   (interactive)
+    ;   (let* ((timestamp (help/get-timestamp))
+    ;          (timestamp-no-colons (replace-regexp-in-string ":" "-" timestamp)))
+    ;     timestamp-no-colons))
+    ; (defun help/get-timestamp ()
+    ;   "Produces a full ISO 8601 format timestamp."
+    ;   (interactive)
+    ;   (let* ((timestamp-without-timezone (format-time-string "%Y-%m-%dT%T"))
+    ;          (timezone-name-in-numeric-form (format-time-string "%z"))
+    ;          (timezone-utf-offset
+    ;           (concat (substring timezone-name-in-numeric-form 0 3)
+    ;                   ":"
+    ;                   (substring timezone-name-in-numeric-form 3 5)))
+    ;          (timestamp (concat timestamp-without-timezone
+    ;                             timezone-utf-offset)))
+    ;     timestamp))
+    ; (defun help/insert-timestamp ()
+    ;   "Inserts a full ISO 8601 format timestamp."
+    ;   (interactive)
+    ;   (insert (help/get-timestamp)))
+    ; (defun help/org-time-stamp-with-seconds-now ()
+    ;   (interactive)
+    ;   (let ((current-prefix-arg '(16)))
+    ;     (call-interactively 'org-time-stamp)))
+
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; Key Binding
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1367,14 +1444,14 @@
     (define-key hjking-mode-map "r" 'hjking-hydra-rectangle/body)
     ; (define-key hjking-mode-map "s" 'hjking-hydra-/body)
     (define-key hjking-mode-map "t" 'hjking-hydra-toggle-mode/body)
-    (define-key hjking-mode-map "w" 'hjking-hydra-window/body)
+    ; (define-key hjking-mode-map "w" 'hjking-hydra-window/body)
     (define-key hjking-mode-map "v" 'hjking-hydra-verilog-mode-main/body)
     (define-key hjking-mode-map "y" 'hjking-hydra-yasnippet/body)
     (define-key hjking-mode-map "z" 'hjking-hydra-zoom/body)
     (define-key hjking-mode-map "." 'hjking-hydra-buffer-menu/body)
     (define-key hjking-mode-map "@" 'hjking-hydra-macro/body)
     (define-key hjking-mode-map "\"" 'hjking-hydra-registers/body)
-
+    (define-key hjking-mode-map "T"  'hjking-hydra-timestamp/body)
     )
   )
 

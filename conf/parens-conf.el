@@ -1,15 +1,14 @@
+;; -*- lexical-binding: t -*-
 ;;
-(message "%d: >>>>> Loading [ Parentheses ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; auto-insert/close bracket pairs
-(electric-pair-mode 1)
-(setq electric-pair-pairs '(
-                            (?\" . ?\")
-                            (?\` . ?\`)
-                            (?\( . ?\))
-                            (?\{ . ?\})
-                            ) )
+; (electric-pair-mode 1)
+; (setq electric-pair-pairs '(
+;                             (?\" . ?\")
+;                             (?\` . ?\`)
+;                             (?\( . ?\))
+;                             (?\{ . ?\})
+;                             ) )
 
 ;; show paren
 ; (setq show-paren-style 'parentheses)

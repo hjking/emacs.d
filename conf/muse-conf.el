@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: muse-conf.el
 ;; Description: Setting for muse.el
@@ -6,8 +7,6 @@
 ;; Last Updated: 2012-04-16 21:23:01
 ;;
 ;;
-(message "%d: >>>>> Loading [ muse ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 (require 'muse)
 (require 'muse-mode)

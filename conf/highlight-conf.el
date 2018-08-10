@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Highlight ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 ;; syntax highlight everywhere
 ;; (global-font-lock-mode t)

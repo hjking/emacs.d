@@ -1,6 +1,4 @@
-
-(message "%d: >>>>> Loading [ Calendar ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
 ;; (setq diary-file "~/.emacs.d/diary")
 (setq diary-file (concat my-personal-dir "diary"))
 

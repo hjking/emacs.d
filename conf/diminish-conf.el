@@ -97,12 +97,6 @@
 (with-eval-after-load 'highlight-symbol
   (diminish 'highlight-symbol-mode))
 
-(with-eval-after-load 'aggressive-indent
-  (diminish 'aggressive-indent-mode))
-
-(with-eval-after-load 'company
-  (diminish 'company-mode))
-
 (with-eval-after-load 'indent-guide
   (diminish 'indent-guide-mode))
 

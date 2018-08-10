@@ -1,9 +1,7 @@
+;; -*- lexical-binding: t -*-
+;;
 
 (when (executable-find "git")
-
-  ;; An emacs mode for git
-  (message "%d: >>>>> Loading [ git ] Customizations ...." step_no)
-  (setq step_no (1+ step_no))
 
   ;;
   ;; magit

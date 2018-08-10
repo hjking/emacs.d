@@ -1,9 +1,9 @@
+;; -*- lexical-binding: t -*-
+;;
 
 ;;; Shell Mode
 ;; using shell interactively
 
-(message "%d: >>>>> Loading [ Shell Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 ;; (setq popup-terminal-command '("/bin/bash"))
 
 ;; close shell buffer when "exit"

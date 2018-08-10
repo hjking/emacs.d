@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: desktop-conf.el
 ;; Description: Setting for desktop.el
@@ -6,9 +7,6 @@
 ;; Last Updated: 2014-01-02 12:35:28
 ;; Reference: http://www.emacswiki.org/DeskTop
 ;;
-
-(message "%d: >>>>> Loading [ desktop ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 (require 'desktop)
 (setq history-length 500)

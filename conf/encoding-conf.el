@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Encoding ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 (defun locale-is-utf8-p ()
   "Return t if the \"locale\" command or environment variables prefer UTF-8."

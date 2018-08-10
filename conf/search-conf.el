@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Search and Replace Customization ] ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 ;; highlight during searching
 (setq query-replace-highlight t)
 ;; highlight incremental search

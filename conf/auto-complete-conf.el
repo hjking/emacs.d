@@ -6,10 +6,6 @@
 ;; Last Updated: 2014-02-12 11:10:57
 ;; available for Emacs 22/23
 
-(message "%d: >>>>> Loading [ auto-complete ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
-
-
 ;; start auto-complete
 (require 'auto-complete)
 ;; do default config for auto-complete

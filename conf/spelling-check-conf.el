@@ -1,12 +1,10 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: spelling-check-conf.el
 ;; Description: Setting for flyspell
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-14 14:36:44
-
-(message "%d: >>>>> Loading [ Spell Correction Customization ] ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; on-the-fly spelling checking
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checking" t)

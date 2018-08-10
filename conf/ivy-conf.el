@@ -37,6 +37,7 @@
 
 ;; Swiper gives us a really efficient incremental search with regular expressions
 (use-package swiper
+  :after ivy
   :commands (swiper
              swiper-all
              ivy-mode
@@ -51,6 +52,7 @@
 
 ;; Replace smex
 (use-package counsel
+  :after ivy
   :diminish ivy-mode counsel-mode
   :bind (("M-x"     . counsel-M-x)       ; M-x use counsel
          ("M-y"     . counsel-yank-pop)
@@ -83,6 +85,16 @@
     (with-eval-after-load 'org-agenda
         (bind-key "C-c C-q" #'counsel-org-tag-agenda org-agenda-mode-map)))
   )
+
+(use-package ivy-rich
+  :defer 6
+  :after ivy
+  :config
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                               'ivy-rich-switch-buffer-transformer)
+  (setq ivy-virtual-abbreviate 'full
+        ivy-rich-switch-buffer-align-virtual-buffer t
+        ivy-rich-path-style 'abbrev))
 
 (use-package flx
   :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))

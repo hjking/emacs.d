@@ -1,12 +1,11 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: emms-conf.el
 ;; Description: Setting for emms.el
 ;; Author: Hong Jin
 ;; Created: 2011-12-09 10:00
 ;; Last Updated: 2014-01-02 10:57:12
 ;;
-(message "%d: >>>>> Loading [ EMMS ] Customizations File ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; ,----
 ;; | Dependency

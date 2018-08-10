@@ -1,4 +1,5 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: pcvs-conf.el
 ;; Description: Setting for pcvs.el
 ;; Author: Hong Jin
@@ -11,8 +12,6 @@
   :disabled t
   :init
   (progn
-    (message "%d: >>>>> Loading [ pcvs ] Customizations ...." step_no)
-    (setq step_no (1+ step_no))
     ;; allow commit on whole directories
     (setq cvs-allow-dir-commit t)
     ;; when to reuse an existing cvs buffer

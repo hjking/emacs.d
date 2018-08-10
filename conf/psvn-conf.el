@@ -1,12 +1,11 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: psvn-conf.el
 ;; Description: Setting for psvn.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-14 14:18:35
 ;;
-(message "%d: >>>>> Loading [ psvn ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; `svn-status-property-edit-svn-ignore' (`P TAB') allows user to edit
 ;; list of files ignored by Subversion

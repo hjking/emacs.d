@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Functions ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 ; (defvar user-emacs-directory (or user-emacs-directory "~/.emacs.d/"))
 ; (defvar my-emacs-dir (expand-file-name "~/.emacs.d/")

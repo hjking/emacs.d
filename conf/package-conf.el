@@ -1,6 +1,6 @@
+;; -*- lexical-binding: t -*-
+;;
 
-(message "%d: >>>>> Loading [ Package Manager ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 (require 'package)
 
 (setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")

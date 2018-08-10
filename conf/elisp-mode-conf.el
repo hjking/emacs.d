@@ -1,10 +1,9 @@
-
-(message "%d: >>>>> Loading [ Elisp Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
-
+;; -*- lexical-binding: t -*-
+;;
 
 (use-package pretty-mode
   :commands (turn-on-pretty-mode)
+  :init (add-hook 'emacs-lisp-mode-hook 'turn-on-pretty-mode)
   )
 
 (use-package emacs-lisp-mode

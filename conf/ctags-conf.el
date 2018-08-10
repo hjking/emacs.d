@@ -1,6 +1,5 @@
+;; -*- lexical-binding: t -*-
 
-(message "%d: >>>>> Loading [ TAGS ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;;; ctags -e -R *.cpp *.h
 ;;; M-. : find-tag ;
 ;;; M-* : jump back ;

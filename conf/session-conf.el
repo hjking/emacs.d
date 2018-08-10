@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ session ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 (require 'session)
 (setq session-save-file (concat my-cache-dir "session"))

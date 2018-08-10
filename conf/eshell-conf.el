@@ -1,12 +1,10 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: eshell-conf.el
 ;; Description: Setting for eshell.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-22 09:40:50
-
-(message "%d: >>>>> Loading [ shell-mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; Eshell, the Emacs Shell
 (use-package eshell

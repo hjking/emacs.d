@@ -1,6 +1,6 @@
+;; -*- lexical-binding: t -*-
+;;
 
-(message "%d: >>>>> Loading [ Indentation ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 ;;;;;;;;;;;;;;
 ;; electric.el
 ;;  indent automatically (from 24.4)
@@ -33,6 +33,7 @@
 
 (use-package aggressive-indent
   ; :disabled t
+  :defer 2
   :diminish aggressive-indent-mode
   :init
   ; (global-aggressive-indent-mode 1)

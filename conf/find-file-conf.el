@@ -1,12 +1,10 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: find-file-conf.el
 ;; Description: Setting for find-file
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2010-12-16 14:39:48
-
-(message "%d: >>>>> Loading [ Find File ] Setup ...." step_no)
-(setq step_no (1+ step_no))
 
 ;;
 ;; Find File at Point

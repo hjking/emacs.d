@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: yasnippet-conf.el
 ;; Description: Setting for yasnippet.el
@@ -5,8 +6,6 @@
 ;; Created: 2011-8-31 10:00
 ;; Last Updated: 2014-02-12 10:47:47
 
-(message "%d: >>>>> Loading [ yasnippet ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 ;; (require 'yasnippet) ;; not yasnippet-bundle
 
 ; (with-eval-after-load 'yasnippet

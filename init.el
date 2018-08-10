@@ -53,7 +53,7 @@
 (defvar section-minibuffer t)
 (defvar section-help t) ; no
 (defvar section-mark t)
-(defvar section-killing t)
+(defvar section-killring t)
 (defvar section-yanking t)
 (defvar section-rectangles t)
 (defvar section-cua nil)
@@ -113,8 +113,6 @@
 
 (when section-debugging
   ;; Debugging
-  (message "%d: >>>>> Debugging On...." step_no)
-  (setq step_no (1+ step_no))
   ;; Turn on debugging, it will be turned off at the end.
   (setq
         debug-on-error t
@@ -126,9 +124,6 @@
 
 ;; --[ Load Path ]--------------------------------------------------------------
 (when section-loading-libraries
-  (message "%d: >>>>> Loading [ Path ] ...." step_no)
-  (setq step_no (1+ step_no))
-
   ;; Set up the base configuration directory
   (defconst my-emacs-init-file (or load-file-name buffer-file-name))
   (defconst my-emacs-dir (file-name-directory my-emacs-init-file)
@@ -234,8 +229,6 @@
 
 
 ;; --[ Personal ]---------------------------------------------------------------
-(message "%d: >>>>> Loading [ Personal Profile ] ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; personal variables
 (setq personal-vars (concat my-personal-dir "personal.el"))
@@ -270,8 +263,6 @@
 
 
 ;; --[ Basic ]------------------------------------------------------------------
-(message "%d: >>>>> Loading [ Basic ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 (setq max-lisp-eval-depth 3000)
 (setq max-specpdl-size 10000)
@@ -328,9 +319,6 @@
     (clipboard-yank)))
 (global-set-key (kbd "C-c w") 'clipboard-dwim)
 
-(message "%d: >>>>> Loading [ Misc ] Customization ...." step_no)
-(setq step_no (1+ step_no))
-
 ;; make the help, apropos and completion windows the right height for their contents
 (temp-buffer-resize-mode 1)
 
@@ -365,11 +353,6 @@
 (setq display-time-day-and-date t)
 (setq display-time-format "%R %y-%m-%d")
 (display-time)
-
-(message ">>>>> Loading [ Misc ] Customization Done")
-
-(autoload 'mode-compile "mode-compile"
-  "Command to compile current buffer file based on the major mode" t)
 
 ;;; Library
 
@@ -441,8 +424,6 @@
 
 ;; --[ Minibuffer ]-------------------------------------------------------------
 (when section-minibuffer
-  (message "%d: >>>>> Loading [ Minibuffer ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
   (setq find-file-suppress-same-file-warnings t)
   ;; ignore case when reading a file name completion
   (setq read-file-name-completion-ignore-case t)
@@ -493,8 +474,7 @@
 
 ;; --[ mark and region ]--------------------------------------------------------
 (when section-mark
-  (message "%d: >>>>> Loading [ Mark and Region ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
+
   ;; highlight marked region
   ;; change buffer, or focus, disable the current buffer’s mark
   (transient-mark-mode t)    ; highlight text selection
@@ -532,10 +512,9 @@
 ;; --[ mark and region ]-----------------------------------------------[ End ]--
 
 
-;; --[ killing ]----------------------------------------------------------------
-(when section-killing
-  (message "%d: >>>>> Loading [ Killing ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
+;; --[ killring ]---------------------------------------------------------------
+(when section-killring
+
   ;; use a bigger kill ring
   (setq kill-ring-max (* 20 kill-ring-max))
   ;; C-k delete a whole line
@@ -562,13 +541,12 @@
           (message "Current line is cut.")
           (list (line-beginning-position) (line-end-position))))))
 )
-;; --[ killing ]-------------------------------------------------------[ End ]--
+;; --[ killring ]------------------------------------------------------[ End ]--
 
 
 ;; --[ yanking ]----------------------------------------------------------------
 (when section-yanking
-  (message "%d: >>>>> Loading [ Yanking ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
+
   ;; auto-indent pasted code
   (defadvice yank (after indent-region activate)
     (if (member major-mode
@@ -593,8 +571,7 @@
 
 
 ;; --[ Scrolling ]--------------------------------------------------------------
-(message "%d: >>>>> Loading [ Scrolling ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; scroll when point 2 lines far away from the bottom
 (setq scroll-margin 3)
 ; Scroll just one line when hitting bottom of window
@@ -682,8 +659,7 @@
 
 
 ;; --[ Cursor and Point ]-------------------------------------------------------
-(message "%d: >>>>> Loading [ Cursor and Point ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; move cursor when point is coming
 ;; (mouse-avoidance-mode 'animate)
 ;; keep point at the end of the line
@@ -760,8 +736,7 @@
 
 
 ;; --[ Backup ]-----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Backup ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; default backup folder:~/emacs.d/auto-save/
 ;; set backup file path
 (setq my-backup-dir (concat my-emacs-dir "backup/"))
@@ -822,8 +797,7 @@
 
 
 ;; --[ Compare File ]-----------------------------------------------------------
-(message "%d: >>>>> Loading [ Compare File ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;;;;;;;;;;
 ;; diff.el
 ;; default to unified diffs
@@ -857,8 +831,6 @@
 
 
 ;; --[ Buffer Handling ]--------------------------------------------------------
-(message "%d: >>>>> Loading [ Buffer Handling ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; When multiple buffers are visible (like in a frame with 2 or more windows),
 ;; do not display an already visible buffer when switching to next/previous
@@ -924,14 +896,12 @@
 
 ;; --[ Documentation ]----------------------------------------------------------
 ;; displays information in the minibuffer about the thing at point.
-(message "%d: >>>>> Loading [ Documentation ] Customization ...." step_no)
 (use-package eldoc
   :diminish eldoc-mode
   :commands turn-on-eldoc-mode
-  :init (progn
-    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-    (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
-    (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)))
+  :hook ((abbrev-mode . emacs-lisp-mode-hook)
+         (abbrev-mode . lisp-interaction-mode-hook)
+         (abbrev-mode . ielm-mode-hook)))
 ;; --[ Documentation ]-------------------------------------------------[ End ]--
 
 
@@ -964,8 +934,7 @@
 
 
 ;; --[ Printer ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Printer ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; in case of press "print" of menu bar
 (fset 'print-buffer 'ignore)
 (setq lpr-command "")
@@ -974,8 +943,7 @@
 
 
 ;; --[ Game ]-------------------------------------------------------------------
-(message "%d: >>>>> Loading [ Game ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; get rid of the Games in the Tools menu
 (define-key menu-bar-tools-menu [games] nil)
 ;; --[ Game ]----------------------------------------------------------[ End ]--
@@ -1013,8 +981,7 @@
 
 
 ;; [ Wrap Line ]----------------------------------------------------------------
-(message "%d: >>>>> Loading [ Wrap Line ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+
 
 ;; Do `M-x toggle-truncate-lines` to jump in and out of truncation mode.
 ;; Don't break lines for me, please
@@ -1122,8 +1089,6 @@
 
 
 ;; [ Version Control ]----------------------------------------------------------
-(message "%d: >>>>> Loading [ Version Control ] Customization ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; Don't show whitespace in diff, but show context
 ; (setq vc-diff-switches '("-b" "-B" "-u"))
@@ -1627,7 +1592,7 @@
 
 
 ;; [ Comint Mode ]--------------------------------------------------------------
-(message ">>>>> Loading [ Comint Mode ] Customization ....")
+
 (add-hook 'comint-mode-hook
           '(lambda ()
              ;; Scroll automatically on new output.
@@ -1785,8 +1750,7 @@
 
 ;; --[ Help ]-------------------------------------------------------------------
 (when section-help
-  (message "%d: >>>>> Loading [ Help ] Customization ...." step_no)
-  (setq step_no (1+ step_no))
+
   ;; check all variables and non-interactive functions as well
   ;; Make C-h a act as C-u C-h a
   (setq apropos-do-all t)
@@ -1811,6 +1775,7 @@
 ;;; stripe-buffer
 ;;; Use different background colors for even and odd lines.
 (use-package stripe-buffer
+  :disabled t
   :commands (turn-on-stripe-buffer-mode
              turn-on-stripe-table-mode)
   :init  (progn
@@ -1937,7 +1902,12 @@
 ;; Make gc pauses faster by decreasing the threshold.
 (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold (* 2 1000 1000))))
 
-(message ">>>>> Emacs startup time: %d seconds."
-         (time-to-seconds (time-since emacs-load-start-time)))
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "Emacs ready in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
 
-(message "***** >>>>> [ Loading my Emacs Init File Completed!! ] <<<<< *****")
+(message "***** >>>>> [ Loading Emacs Init File Completed!! ] <<<<< *****")

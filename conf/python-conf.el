@@ -30,5 +30,18 @@
   )
   )
 
+;; anaconda-mode
+;; is a mode for code navigation, documentation lookup and completion for Python
+(use-package anaconda-mode
+  :after python
+  :hook ((python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode)))
+
+;; company-anaconda
+;; Anaconda backend for company-mode
+(use-package company-anaconda
+  :after (anaconda-mode company)
+  :config
+  (add-to-list 'company-backends 'company-anaconda))
 
 (provide 'python-conf)

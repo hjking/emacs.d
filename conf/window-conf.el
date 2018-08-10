@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Windows ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 ;; [ winner ]----------------------------------------------------------------
 ;; Navigate window layouts with "C-c <left>" and "C-c <right>"

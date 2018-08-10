@@ -1,12 +1,11 @@
+;; -*- lexical-binding: t -*-
+;;
 
 ;; Filename: vm-conf.el
 ;; Description: Setting for VM
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2012-04-12 14:32:08
-
-(message "%d: >>>>> Loading [ VM ] Customizations File ...." step_no)
-(setq step_no (1+ step_no))
 
 (autoload 'vm "vm" "Start VM on your primary inbox." t)
 ;;  (require 'vm-autoloads)

@@ -23,16 +23,16 @@
 ; (global-set-key "\M-]" 'company-complete-common)
 
 (use-package company
-  :defer t
+  :defer 2
   :diminish company-mode
   :bind (("\M-]" . company-complete)
          :map company-active-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next)
+          ("C-p" . company-select-previous)
+          ("C-n" . company-select-next)
          ;; ("<tab>" . company-complete-selection)
          :map company-search-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next)
+          ("C-p" . company-select-previous)
+          ("C-n" . company-select-next)
         )
   :commands (company-mode
              company-complete

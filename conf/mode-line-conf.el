@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ Mode Line Customization ] ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 ;; special format parameters
 ;   %b -- print buffer name.      %f -- print visited file name.

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: tramp-conf.el
 ;; Description: Setting for tramp.el
@@ -5,8 +6,6 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2012-11-21 15:25:20
 ;;
-(message "%d: >>>>> Loading [ tramp ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
 
 (require 'tramp "tramp" nil)
 (setq tramp-default-method "ssh")

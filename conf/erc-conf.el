@@ -5,12 +5,11 @@
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2012-04-19 17:23:16
 ;;
-(message "%d: >>>>> Loading [ ERC ] Setup ...." step_no)
-(setq step_no (1+ step_no))
 
 ;; ERC, an Emacs IRC client
 (use-package erc
   :disabled t
+  :defer 10
   ; :commands (erc-select-read-args erc-select erc-select-ssl)
   :init (progn
     (setq erc-kill-buffer-on-part            t

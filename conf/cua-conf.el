@@ -1,13 +1,12 @@
-
+;; -*- lexical-binding: t -*-
+;;
 ;; Filename: cua-conf.el
 ;; Description: Setting for CUA mode
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
 ;; Last Updated: 2012-11-01 09:45:48
 ;;
-;;
-(message "%d: >>>>> Loading [ CUA Mode Customization ] ...." step_no)
-(setq step_no (1+ step_no))
+
 ;; CUA mode sets up key bindings used in many other applications (`C-x',
 ;; `C-c', `C-v' and `C-z').
 ;; The `C-x' and `C-c' keys only do cut and copy when the region is active, so

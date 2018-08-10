@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;;
 ;; Filename: planner-conf.el
 ;; Description: Setting for planner.el
@@ -7,7 +8,6 @@
 ;;
 
 (when (require 'planner nil t)
-  (message ">>>>> Loading [ Planner ] Customizations ....")
   (require 'planner-bbdb)
   (require 'planner-id)
   (require 'planner-multi)

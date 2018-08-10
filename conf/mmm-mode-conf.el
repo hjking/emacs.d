@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ mmm-mode ] Customization ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 (require 'mmm-auto)
 

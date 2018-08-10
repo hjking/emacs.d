@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ htmlize ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 (use-package htmlize
  :defer t

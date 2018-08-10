@@ -5,9 +5,6 @@
 ;; Requirements:
 ;; Reference: http://cc-mode.sourceforge.net
 ;;
-(message "%d: >>>>> Loading [ C Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
-
 ;; (require 'cc-mode)
 
 (defun my-c-mode-hook ()

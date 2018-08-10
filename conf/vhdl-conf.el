@@ -1,6 +1,5 @@
-
-(message "%d: >>>>> Loading [ VHDL Mode ] Customizations ...." step_no)
-(setq step_no (1+ step_no))
+;; -*- lexical-binding: t -*-
+;;
 
 (require 'vhdl-mode)
 (autoload 'vhdl-mode "vhdl-mode" "VHDL Editing Mode" t)
