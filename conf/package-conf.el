@@ -3,9 +3,13 @@
 
 (require 'package)
 
-(setq package-archives '(("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+(setq package-archives '(
+                         ; ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ; ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+                         ; ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("gnu" . "http://elpa.emacs-china.org/gnu/")
+                         ("melpa" . "http://elpa.emacs-china.org/melpa/")
+                         ))
 
 ;; org
 ; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)

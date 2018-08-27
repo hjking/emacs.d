@@ -73,7 +73,7 @@
    (setq yas-prompt-functions '(yas-completing-prompt))
    (setq yas-wrap-around-region t)
    (push 'yas-hippie-try-expand hippie-expand-try-functions-list)
-   (add-hook 'after-init-hook #'yas-global-mode)
+   ; (add-hook 'after-init-hook #'yas-global-mode)
   :config
    (add-hook 'snippet-mode-hook '(lambda () (setq-local require-final-newline nil)))
    (defun sk/force-yasnippet-off ()
