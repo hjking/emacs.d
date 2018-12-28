@@ -898,10 +898,7 @@
 ;; displays information in the minibuffer about the thing at point.
 (use-package eldoc
   :diminish eldoc-mode
-  :commands turn-on-eldoc-mode
-  :hook ((abbrev-mode . emacs-lisp-mode-hook)
-         (abbrev-mode . lisp-interaction-mode-hook)
-         (abbrev-mode . ielm-mode-hook)))
+  :commands turn-on-eldoc-mode)
 ;; --[ Documentation ]-------------------------------------------------[ End ]--
 
 
@@ -1617,8 +1614,8 @@
 
 
 ;; plantuml-mode
-; (require 'plantuml-mode)
-; (setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
+(require 'plantuml-mode)
+(setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
 
 
 ;; Graphviz dot mode for emacs

@@ -90,11 +90,7 @@
   :defer 6
   :after ivy
   :config
-  (ivy-set-display-transformer 'ivy-switch-buffer
-                               'ivy-rich-switch-buffer-transformer)
-  (setq ivy-virtual-abbreviate 'full
-        ivy-rich-switch-buffer-align-virtual-buffer t
-        ivy-rich-path-style 'abbrev))
+  (ivy-rich-mode 1))
 
 (use-package flx
   :load-path (lambda () (concat my-site-lisp-dir "flx-ido/")))

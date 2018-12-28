@@ -28,6 +28,7 @@
           hjking-note-org-file (concat org-directory "/topics/notes.org")
           hjking-refile-org-file (concat org-directory "/refile.org")
           hjking-journal-org-file (concat org-directory "/topics/journal.org")
+          hjking-snippet-org-file (concat org-directory "/topics/snippet.org")
           hjking-reference-org-file (concat org-directory "/ref/reference.org")
           )
 
@@ -396,19 +397,18 @@
     ;; Org Babel
     ;; lets the user run code inside an org-mode document
     ;; active Org-babel languages
-    ; (org-babel-do-load-languages
-    ;   'org-babel-load-languages
-    ;   '(;; other Babel languages
-    ;     (emacs-lisp . t)
-    ;     (ditaa . t)
-    ;     (dot . t)
-    ;     (sh . t)
-    ;     (perl . t)
-    ;     (python .t)
-    ;     (plantuml . t)))
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+      '(;; other Babel languages
+        (emacs-lisp . t)
+        (ditaa . t)
+        (dot . t)
+        (perl . t)
+        (python .t)
+        (plantuml . t)))
 
-    ; ;; generate pic without confirm
-    ; (setq org-confirm-babel-evaluate nil)
+    ;; generate pic without confirm in org babel
+    (setq org-confirm-babel-evaluate nil)
 
     ;;; Source code
     ;; Use syntax highlighting ("fontification") in org-mode source blocks
@@ -448,52 +448,26 @@
     (setq org-html-include-timestamps nil)
     (setq org-publish-project-alist
           '(
-            ("org-note"
-              :base-directory "~/org/"
-              :publishing-directory "~/org/public_html/"
-              :base-extension "org"
-              :recursive t
-              :publishing-function org-html-export-to-html
-              :auto-index nil
-              :auto-sitemap t                  ; Generate sitemap.org automagically
-              :index-filename "index.org"
-              :index-title "index"
-              :link-home "index.html"
-              :headline-levels 4               ; Just the default for this project
-              :section-numbers nil
-              :export-creator-info nil    ; Disable the inclusion of "Created by Org" in the postamble
-              :export-author-info nil     ; Disable the inclusion of "Author: Your Name" in the postamble
-              :auto-postamble nil         ; Disable auto postamble
-              ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
-              :table-of-contents t)       ; Set this to "t" if you want a table of contents, set to "nil" disables TOC
-            ("org-static"                ;Used to publish static files
-             :base-directory "~/org/"
-             :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-             :publishing-directory "~/org/public_html/"
-             :recursive t
-             :publishing-function org-publish-attachment
-            )
-            ("org"
-              :components ("org-notes" "org-static")) ;combine "org-static" and "org-static" into one function call
             ("blog-org"
               :base-directory "~/org/blog/org/"
-              :publishing-directory "~/org/public_html/blog/out/"
+              :publishing-directory "~/org/blog/publish/"
               :base-extension "org"
               :recursive t
+              :htmlized-source t
               :auto-index t
               :publishing-function org-html-export-to-html
               :headline-levels 4
               :html-extension "html"
               :creator-info nil
-              :timestamp t
+              :section-numbers nil
               ;; :auto-sitemap t ; Generate sitemap.org automagically
               :body-only t ;; Only export section between
               ;; :style "<link rel=\"stylesheet\" href=\"./style/emacs.css\" type=\"text/css\"/>"
-              :table-of-contents t ;; export content
+              :table-of-contents nil ;; export content
               )
             ("blog-static"
               :base-directory "~/org/blog/org/"
-              :publishing-directory "~/org/public_html/blog/out/"
+              :publishing-directory "~/org/blog/publish/"
               :recursive t
               :base-extension "css\\|js\\|bmp\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|swf\\|zip\\|gz\\|txt\\|el\\|pl\\|mht\\|log\\|bin_\\|bat\\|tst\\|doc\\|docx\\|gz"
               :publishing-function org-publish-attachment )
@@ -503,13 +477,14 @@
             ("org-ref"
               :base-directory "~/org/ref/"
               :base-extension "org"
-              :publishing-directory "~/public_html/"
+              :publishing-directory "~/org/ref/html/"
               :auto-sitemap t                  ; Generate sitemap.org automagically
               :recursive t
               :publishing-function org-html-export-to-html
               :headline-levels 4             ; Just the default for this project.
-              :auto-preamble t
             )
+            ("ref"
+             :components ("org-ref"))
             ))
 
     ;; export an HTML version every time you save an Org file with keyword "#+PUBLISH"
@@ -550,7 +525,7 @@
             ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
             ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
             ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
-            ("p" "#+BEGIN_SRC python\n?\n#+END_SRC")
+            ("p" "#+begin_src python\n?\n#+end_src")
             ("o" "#+OPTIONS: ?")
             ("k" "#+KEYWORDS: ?")
             ("f" "#+TAGS: @?")
@@ -603,145 +578,193 @@
     ;; %^t: Like %t, but prompt for date. Similarly %^T, %^u, %^U
     ;; %^{prompt}: prompt the user for a string and replace this sequence with it
     ;; %?: After completing the template, position cursor here
-    (setq org-capture-templates
-          '(
-            ("a"                ; key
-             "Appointment"      ; name
-             entry              ; type
-             (file+headline hjking-todo-org-file "Calendar") ; target
-             "** APPT: %^{Description}  Added: %U %^g\n   SCHEDULED: %^t")  ; template
+    (setq org-capture-templates nil)
 
-            ("b"          ; key
-             "Break"      ; name
-             entry        ; type
-             (file hjking-todo-org-file)        ; target
-             "** Break SCHEDULED: %^U :@break:" ; template
-             :clock-in t       ; properties
-             :clock-resume t)  ; properties
+    (add-to-list 'org-capture-templates '("t" "Tasks"))
+    (add-to-list 'org-capture-templates
+                 '("ta"                ; key
+                   "Appointment"      ; name
+                   entry              ; type
+                   (file+headline hjking-todo-org-file "Appointment") ; target
+                   "** Appt: %^{Description}  Added: %U %^g\n   SCHEDULED: %^t")) ; template
+    (add-to-list 'org-capture-templates
+                 '("tb"          ; key
+                   "Break"      ; name
+                   entry        ; type
+                   (file+headline hjking-todo-org-file "Break")        ; target
+                   "** Break: %^U :@break:" ; template
+                   :clock-in t       ; properties
+                   :clock-resume t)) ; properties
+    (add-to-list 'org-capture-templates
+                 '("tm"
+                   "Meeting"
+                   entry
+                   (file+headline hjking-todo-org-file "Meeting")
+                   "** %^{Subject} :@meeting:MEETING:\n   SCHEDULED: %^T\n   With: %^{Guests} @ %^{Location}\n   Minutes of the meeting: %?"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("te"
+                   "Email"
+                   entry
+                   (file+headline hjking-todo-org-file "Email")
+                   "** NEXT Email Reply %? :@email:\n  SCHEDULED: %^t\n"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("tt"
+                   "TODO"
+                   entry
+                   (file+headline hjking-todo-org-file "Inbox")
+                   "** TODO %?\n   %^T\n"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("tc"
+                   "Phone Call"
+                   entry
+                   (file+headline hjking-call-org-file "Phone Call")
+                   "** Call: [[file:./contacts.org::*%i][%i]] %? :@phone:PHONE:\n   SCHEDULED: %^T"
+                   :clock-in t
+                   :clock-resume t))
 
-            ;; For code snippets
-            ("c"               ; key
-             "Code"            ; name
-             entry             ; type
-             (file+headline hjking-note-org-file "Code")  ; target
-             "* %^{TITLE} %(org-set-tags)  :code:\n:PROPERTIES:\n:Created: %U\n:END:\n%i\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"  ; template
-             :prepend t        ; properties
-             :empty-lines 1    ; properties
-             :created t        ; properties
-             :kill-buffer t)   ; properties
+    (add-to-list 'org-capture-templates '("j" "Journal"))
+    (add-to-list 'org-capture-templates
+                 '("jd"
+                   "Diary"
+                   entry
+                   (file+datetree hjking-journal-org-file)
+                   "**** %U - %^{Heading}\n%?"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("jw"
+                   "Week Review"
+                   entry
+                   (file+olp+datetree hjking-journal-org-file)
+                   "**** %U - %^{Heading}\n%?"
+                   :clock-in t
+                   :clock-resume t))
+    ; (add-to-list 'org-capture-templates
+    ;              '("j"
+    ;                "Journal Entry"
+    ;                entry
+    ;                (file+datetree hjking-journal-org-file)
+    ;                "** %^{Heading}\n   Logged on %U\n"
+    ;                :clock-in t
+    ;                :clock-resume t))
+    ; (add-to-list 'org-capture-templates
+    ;              '("g"
+    ;                "Today's Page"
+    ;                entry
+    ;                (file+headline (today-journal-file) "Today's Journal")
+    ;                "** Event: %? %U\n %i\n"
+    ;                :empty-lines 1))
 
-            ("d"
-              "Diary"
-              entry
-              (file+datetree hjking-diary-org-file)
-              "** %U\n%?"
-              :clock-in t
-              :clock-resume t)
-            ("g"
-              "Today's Page"
-              entry
-              (file+headline (today-journal-file) "Today's Journal")
-              "** Event: %? %U\n %i\n"
-              :empty-lines 1)
-            ("h"
-              "Habit"
-              entry
-              (file hjking-habit-org-file)
-              "** TODO %?\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n")
-            ("i"
-              "Idea"
-              entry
-              (file hjking-note-org-file)
-              "** %? :IDEA: \n%t"
-              :clock-in t
-              :clock-resume t)
-            ("j"
-              "Journal Entry"
-              entry
-              (file+datetree hjking-journal-org-file)
-              "** %^{Heading}\n   Logged on %U\n"
-              :clock-in t
-              :clock-resume t)
-            ("l"
-              "Log Time"
-              entry
-              (file+datetree (concat org-directory "/archive/log.org"))
-              "** %U - %a  :TIME:")
+    (add-to-list 'org-capture-templates '("n" "Take Notes"))
+    (add-to-list 'org-capture-templates
+                 '("ni"
+                   "Idea"
+                   entry
+                   (file hjking-note-org-file)
+                   "** %? :IDEA: \n%t"
+                   :clock-in t
+                   :clock-resume t))
+    ;; For taking notes on random things
+    (add-to-list 'org-capture-templates
+                 '("nn"
+                   "Note"
+                   entry
+                   (file hjking-note-org-file)
+                   "** %? :NOTE:\n  %U\n  %a\n"
+                   :clock-in t       ; properties
+                   :clock-resume t   ; properties
+                   :prepend t        ; properties
+                   :empty-lines 1    ; properties
+                   :created t        ; properties
+                   :kill-buffer t))  ; properties
 
-            ;; listen music
-            ("L"
-              "Listening"
-              entry
-              (file+headline hjking-listen-read-watch-org-file "Listen")
-              "** NEXT Listen %? :@music:")   ;; "** NEXT Read: %?\n   %i\n   %a"
+    (add-to-list 'org-capture-templates '("f" "Fun"))
+    ;; To capture movies that I plan to watch
+    (add-to-list 'org-capture-templates
+                 '("fw"
+                   "Watching"
+                   entry
+                   (file+headline hjking-listen-read-watch-org-file "Watch")
+                   "** NEXT Watch %^{MovieName} :@movie:"))
+    ;; reading books
+    (add-to-list 'org-capture-templates
+                 '("fb"
+                   "Reading"
+                   entry
+                   (file+headline hjking-listen-read-watch-org-file "Read")
+                   "** NEXT Read %^{BookName} :@book:"))
+    ;; listen music
+    (add-to-list 'org-capture-templates
+                 '("fm"
+                   "Listening"
+                   entry
+                   (file+headline hjking-listen-read-watch-org-file "Listen")
+                   "** NEXT Listen %^{MusicName} :@music:"))
 
-            ("m"
-              "Meeting"
-              entry
-              (file+headline hjking-todo-org-file "Meeting")
-              "** %^{Subject} :@meeting:MEETING:\n   SCHEDULED: %^T\n   With: %^{Guests} @ %^{Location}\n   Minutes of the meeting: %?"
-              :clock-in t
-              :clock-resume t)
+    (add-to-list 'org-capture-templates
+                 `("b"
+                   "Blog"
+                   plain
+                   (file ,(concat "~/org/blog/org/"
+                                  (format-time-string "%Y-%m-%d.org")))
+                   ,(concat "#+startup: showall\n"
+                            "#+options: toc:nil\n"
+                            "#+begin_export html\n"
+                            "---\n"
+                            "layout     : post\n"
+                            "title      : %^{Title}\n"
+                            "categories : %^{Category}\n"
+                            "tags       : %^{Tags}\n"
+                            "---\n"
+                            "#+end_export\n"
+                            "#+TOC: headlines 2\n")))
 
-            ;; For taking notes on random things
-            ("n"
-             "Note"
-             entry
-             (file hjking-note-org-file)
-             "** %? :NOTE:\n  %U\n  %a\n"
-             :clock-in t       ; properties
-             :clock-resume t   ; properties
-             :prepend t        ; properties
-             :empty-lines 1    ; properties
-             :created t        ; properties
-             :kill-buffer t)   ; properties
-            ("p"
-              "Phone Call"
-              entry
-              (file hjking-call-org-file)
-              "** NEXT Phone Call: [[file:./contacts.org::*%i][%i]] %? :@phone:PHONE:\n   SCHEDULED: %^T"
-              :clock-in t
-              :clock-resume t)
-            ("r"
-              "Email Reply"
-              entry
-              (file hjking-todo-org-file)
-              "** NEXT Email Reply %? :@email:\n  SCHEDULED: %^t\n"
-              :clock-in t
-              :clock-resume t)
+    ;; For code snippets
+    (add-to-list 'org-capture-templates
+                 '("c"               ; key
+                   "Snippet"         ; name
+                   entry             ; type
+                   (file hjking-snippet-org-file)  ; target
+                   "* %^{Title} %^g :code:\n\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"  ; template
+                   :prepend t        ; properties
+                   :empty-lines 1    ; properties
+                   :created t        ; properties
+                   :kill-buffer t))  ; properties
 
-            ;; reading books
-            ("R"
-              "Reading"
-              entry
-              (file+headline hjking-listen-read-watch-org-file "Read")
-              "** NEXT Read %? :@book:")
-            ("s"
-              "Reference"
-              entry
-              (file+headline hjking-reference-org-file "Reference")
-              "** %?\n  %i\n  %a")
-            ("t"
-              "TODO"
-              entry
-              (file hjking-todo-org-file)
-              "** TODO %?\n   %^T\n"
-              :clock-in t
-              :clock-resume t)
-            ("w"
-              "org-protocol"
-              entry
-              (file hjking-refile-org-file)
-              "** TODO Review %c\n   %U\n"
-              :immediate-finish t)
+    (add-to-list 'org-capture-templates
+                 '("h"
+                   "Habit"
+                   entry
+                   (file hjking-habit-org-file)
+                   "** NEXT %?\n   SCHEDULED: %(format-time-string \"<%Y-%m-%d %a .+1d/3d>\")\n   :PROPERTIES:\n   :STYLE: habit\n   :END:\n"))
 
-            ;; To capture movies that I plan to watch
-            ("W"
-              "Watching"
-              entry
-              (file+headline hjking-listen-read-watch-org-file "Watch")
-              "** NEXT Watch %? :@movie:")
-            ))
+    (add-to-list 'org-capture-templates
+                 '("l"
+                   "Log Time"
+                   entry
+                   (file+datetree (concat org-directory "/archive/log.org"))
+                   "** %U - %a  :TIME:"))
+
+    (add-to-list 'org-capture-templates
+                 '("s"
+                   "Reference"
+                   entry
+                   (file+headline hjking-reference-org-file "Reference")
+                   "** %?\n  %i\n  %a"))
+
+    (add-to-list 'org-capture-templates
+                 '("w"
+                   "org-protocol"
+                   entry
+                   (file hjking-refile-org-file)
+                   "** TODO Review %c\n   %U\n"
+                   :immediate-finish t))
 
     ;; Remove empty LOGBOOK drawers on clock out
     (defun bh/remove-empty-drawer-on-clock-out ()
@@ -1004,6 +1027,63 @@
    ;; key binding like org agenda buffer
    (setq cfw:org-overwrite-default-keybinding t))
 
+
+;; Enable abbrev-mode
+(add-hook 'org-mode-hook (lambda () (abbrev-mode 1)))
+
+;; Skeletons
+;;
+;; sblk - Generic block #+begin_FOO .. #+end_FOO
+(define-skeleton skel-org-block
+  "Insert an org block, querying for type."
+  "Type: "
+  "#+begin_" str "\n"
+  _ - \n
+  "#+end_" str "\n")
+
+(define-abbrev org-mode-abbrev-table "sblk" "" 'skel-org-block)
+
+;; splantuml - PlantUML Source block
+(define-skeleton skel-org-block-plantuml
+  "Insert a org plantuml block, querying for filename."
+  "File (no extension): "
+  "#+begin_src plantuml :file " str ".png :cache yes\n"
+  _ - \n
+  "#+end_src\n")
+
+(define-abbrev org-mode-abbrev-table "splantuml" "" 'skel-org-block-plantuml)
+
+;; sdot - Graphviz DOT block
+(define-skeleton skel-org-block-dot
+  "Insert a org graphviz dot block, querying for filename."
+  "File (no extension): "
+  "#+begin_src dot :file " str ".png :cache yes :cmdline -Kdot -Tpng\n"
+  "graph G {\n"
+  _ - \n
+  "}\n"
+  "#+end_src\n")
+
+(define-abbrev org-mode-abbrev-table "sdot" "" 'skel-org-block-dot)
+
+;; sditaa - Ditaa source block
+(define-skeleton skel-org-block-ditaa
+  "Insert a org ditaa block, querying for filename."
+  "File (no extension): "
+  "#+begin_src ditaa :file " str ".png :cache yes\n"
+  _ - \n
+  "#+end_src\n")
+
+(define-abbrev org-mode-abbrev-table "sditaa" "" 'skel-org-block-ditaa)
+
+;; selisp - Emacs Lisp source block
+(define-skeleton skel-org-block-elisp
+  "Insert a org emacs-lisp block"
+  ""
+  "#+begin_src emacs-lisp\n"
+  _ - \n
+  "#+end_src\n")
+
+(define-abbrev org-mode-abbrev-table "selisp" "" 'skel-org-block-elisp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'org-conf)
