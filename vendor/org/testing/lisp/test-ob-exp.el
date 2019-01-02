@@ -90,10 +90,8 @@ Current buffer is a copy of the original buffer."
   (should
    (equal
     '("(message \"expanded1\")" "(message \"expanded2\")" ";; noweb-1-yes-start
-  (message \"expanded1\")
   (message \"expanded1\")" ";; noweb-no-start
   <<noweb-example1>>" ";; noweb-2-yes-start
-  (message \"expanded2\")
   (message \"expanded2\")"
   ";; noweb-tangle-start
 <<noweb-example1>>
@@ -577,7 +575,7 @@ src_emacs-lisp{(+ 1 1)}"
 
 (ert-deftest ob-exp/src-block-with-affiliated-keyword ()
   "Test exporting a code block with affiliated keywords."
-  ;; Pathological case: affiliated keyword matches inline src block
+  ;; Pathological case: affiliated keyword matches inline source block
   ;; syntax.
   (should
    (equal "#+name: call_foo\n#+BEGIN_SRC emacs-lisp\n42\n#+END_SRC"

@@ -54,7 +54,8 @@
 If this is a relative path, it will be interpreted relative to the directory
 where the Org file lives."
   :group 'org-attach
-  :type 'directory)
+  :type 'directory
+  :safe #'stringp)
 
 (defcustom org-attach-commit t
   "If non-nil commit attachments with git.
@@ -192,7 +193,7 @@ D       Delete all of a task's attachments.  A safer way is
 s       Set a specific attachment directory for this entry or reset to default.
 i       Make children of the current entry inherit its attachment directory.")))
 	  (org-fit-window-to-buffer (get-buffer-window "*Org Attach*"))
-	  (message "Select command: [acmlzoOfFdD]")
+	  (message "Select command: [acmlyunzoOfFdD]")
 	  (setq c (read-char-exclusive))
 	  (and (get-buffer "*Org Attach*") (kill-buffer "*Org Attach*"))))
       (cond
@@ -573,10 +574,44 @@ prefix."
   "Maybe delete subtree attachments when archiving.
 This function is called by `org-archive-hook'.  The option
 `org-attach-archive-delete' controls its behavior."
-  (when (if (eq org-attach-archive-delete 'query)
-	    (yes-or-no-p "Delete all attachments? ")
-	  org-attach-archive-delete)
-    (org-attach-delete-all t)))
+  (when org-attach-archive-delete
+    (org-attach-delete-all (not (eq org-attach-archive-delete 'query)))))
+
+
+;; Attach from dired.
+
+;; Add the following lines to the config file to get a binding for
+;; dired-mode.
+
+;; (add-hook
+;;  'dired-mode-hook
+;;  (lambda ()
+;;    (define-key dired-mode-map (kbd "C-c C-x a") #'org-attach-dired-to-subtree))))
+
+(defun org-attach-dired-to-subtree (files)
+  "Attach FILES marked or current file in dired to subtree in other window.
+Takes the method given in `org-attach-method' for the attach action.
+Precondition: Point must be in a dired buffer.
+Idea taken from `gnus-dired-attach'."
+  (interactive
+   (list (dired-get-marked-files)))
+  (unless (eq major-mode 'dired-mode)
+    (user-error "This command must be triggered in a dired buffer."))
+  (let ((start-win (selected-window))
+        (other-win
+         (get-window-with-predicate
+          (lambda (window)
+            (with-current-buffer (window-buffer window)
+              (eq major-mode 'org-mode))))))
+    (unless other-win
+      (user-error
+       "Can't attach to subtree.  No window displaying an Org buffer"))
+    (select-window other-win)
+    (dolist (file files)
+      (org-attach-attach file))
+    (select-window start-win)))
+
+
 
 (add-hook 'org-archive-hook 'org-attach-archive-delete-maybe)
 
