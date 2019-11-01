@@ -50,7 +50,9 @@
     (setq projectile-switch-project-action 'projectile-dired)
     ;; same as projectile-find-file but with more features
     ; (setq projectile-switch-project-action 'helm-projectile-find-file)
-    (setq projectile-switch-project-action 'helm-projectile)
+    ; (setq projectile-switch-project-action 'helm-projectile)
+    ;; use neotree
+    ; (setq projectile-switch-project-action 'neotree-projectile-action)
     ;; projectile-find-dir : remain in Projectile's completion system to select a sub-directory of your project,
     ;; and then that sub-directory is opened for you in a dired buffer
     ;; probably also want to set

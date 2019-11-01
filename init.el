@@ -65,21 +65,15 @@
 (defvar section-dired t)
 (defvar section-document-view nil)
 (defvar section-gnus nil)
-(defvar section-hdl t)
 (defvar section-verilog t)
-(defvar section-vlog nil)
-(defvar section-vhdl nil)
 (defvar section-emacs-server nil)
 (defvar section-org t)
 (defvar section-ecb nil)
 (defvar section-session t)
 (defvar section-desktop nil)
-(defvar section-muse nil)
-(defvar section-cvs nil)
 (defvar section-svn nil)
 (defvar section-git t)
 (defvar section-emms t)
-(defvar section-ac nil)
 (defvar section-helm nil)
 (defvar section-scratch t)
 (defvar section-c-mode t)
@@ -89,12 +83,9 @@
 (defvar section-defuns t)
 (defvar section-alias t)
 (defvar section-vi nil)
-(defvar section-artist nil)
 (defvar section-cygwin t)
 (defvar section-tramp nil)
 (defvar section-cedet nil)
-(defvar section-slime t)
-(defvar section-cscope nil)
 (defvar section-color-theme t)
 
 (random t)
@@ -209,7 +200,6 @@
         (require 'cygwin-conf)
       ))))
 ;; --------------------------------------------------------------------[ End ]--
-
 
 ;; turn on Common Lisp support
 (require 'cl)  ; provides useful things like `loop' and `setf'
@@ -342,10 +332,6 @@
 (auto-image-file-mode 1)
 ;;  (define-key image-mode-map (kbd "'")  'switch-to-other-buffer)
 
-;; handle compressed file
-(require 'jka-compr)
-(auto-compression-mode 1)
-
 ;; use 24-hour format
 (setq display-time-24hr-format t)
 (setq display-time-interval 10)
@@ -366,13 +352,23 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
-  (require 'use-package)
-  (setq use-package-verbose t))
-(require 'diminish)
+  (require 'use-package))
+(setq use-package-verbose t)
+; (setq use-package-always-ensure t)
+
+;; Diminished modes are minor modes with no modeline display
+(use-package diminish
+  :ensure t)
+
 (require 'bind-key)                ;; if you use any :bind variant
 
 ;; hydra
 (require 'hydra-conf)
+
+(use-package key-chord
+  :ensure t
+  :config
+  (key-chord-mode t))
 
 ;; general
 (require 'general-conf)
@@ -486,17 +482,16 @@
   (setq select-active-region t)
   (setq delete-active-region 'kill)
 
-  ;;; rect-mark.el
-  (use-package rect-mark
-    :bind (("C-x r C-/" . rm-set-mark)
-           ("C-x r C-x" . rm-exchange-point-and-mark)
-           ("C-x r C-w" . rm-kill-region)
-           ("C-x r M-w" . rm-kill-ring-save))
-    :commands (rm-set-mark
-               rm-exchange-point-and-mark
-               rm-kill-region
-               rm-kill-ring-save)
-  )
+  ; ;;; rect-mark.el
+  ; (use-package rect-mark
+  ;   :bind (("C-x r C-/" . rm-set-mark)
+  ;          ("C-x r C-x" . rm-exchange-point-and-mark)
+  ;          ("C-x r C-w" . rm-kill-region)
+  ;          ("C-x r M-w" . rm-kill-ring-save))
+  ;   :commands (rm-set-mark
+  ;              rm-exchange-point-and-mark
+  ;              rm-kill-region
+  ;              rm-kill-ring-save))
 
   ;; Expand Region
   ;; https://github.com/magnars/expand-region.el
@@ -609,9 +604,6 @@
 
 ;; --[ search and replace ]-----------------------------------------------------
 (when section-search
-  ; (add-site-lisp-load-path "visual-regexp/")
-  ;; displays current match and total matches.
-  ; (add-site-lisp-load-path "anzu/")
   (require 'search-conf)
   )
 ;; --[ Search and Replace ]--------------------------------------------[ End ]--
@@ -1026,7 +1018,6 @@
 ;; File Manager
 (when section-dired
   (add-site-lisp-load-path "dired/")
-  (add-site-lisp-load-path "dired/dired-hacks/")
   (require 'dired-conf)
 
   ;; file manager based on dired
@@ -1049,11 +1040,6 @@
 ;; [ ido ]----------------------------------------------------------------------
 ;; Replaced with helm
 (when section-ido
-  (add-site-lisp-load-path "ido-hacks/")
-  (add-site-lisp-load-path "ido-ubiquitous/")
-  (add-site-lisp-load-path "flx-ido/")
-  (add-site-lisp-load-path "ido-vertical-mode/")
-  (add-site-lisp-load-path "ido-at-point/")
   (require 'ido-conf)
   )
 ;; [ ido ]-------------------------------------------------------------[ End ]--
@@ -1110,13 +1096,13 @@
 
 
 ;; *** --- PCL-CVS
-(load "pcvs-conf")
+(require 'pcvs-conf)
 
 
 ;; *** --- Subversion
 (when section-svn
   (when (require 'psvn nil t)
-      (load "psvn-conf")
+      (require 'psvn-conf)
 ))
 
 
@@ -1157,6 +1143,7 @@
 ;; [ goto change ]--------------------------------------------------------------
 ;; Move point through buffer-undo-list positions
 (use-package goto-chg
+  :ensure t
   :commands (goto-last-change))
 ;; [ goto change ]-----------------------------------------------------[ End ]--
 
@@ -1165,10 +1152,8 @@
 ;; available for Emacs 22/23
 ; (when section-helm
 ;   ;; helm is new version of anything
-;   ; (add-site-lisp-load-path "emacs-helm/")
-;   ; (add-site-lisp-info-path "emacs-helm/doc/")
+
 ;   ;; helm-swoop
-;   (add-site-lisp-load-path "helm-swoop/")
 ;   (require 'helm-conf)
 ;   )
 ;; [ helm ]-------------------------------------------------------------[ End ]--
@@ -1178,22 +1163,6 @@
 ;; replace a lot of ido or helms
 (require 'ivy-conf)
 ;; [ ivy ]-------------------------------------------------------------[ End ]--
-
-
-;; [ auto-complete ]------------------------------------------------------------
-;; available for Emacs 22/23
-(when section-ac
-  (setq auto-comp-load-path (concat my-site-lisp-dir "auto-complete/"))
-  (add-site-lisp-load-path "auto-complete/")
-  (add-site-lisp-load-path "auto-complete/lib/popup/")
-  (add-site-lisp-load-path "auto-complete/lib/fuzzy/")
-  (add-site-lisp-load-path "auto-complete/lib/ert/lisp/emacs-lisp")
-  (add-site-lisp-info-path "auto-complete/doc/")
-  (setq my-ac-dict-dir (concat auto-comp-load-path "dict/"))
-  (load "auto-complete-conf")
-  (add-to-list 'ac-dictionary-directories my-ac-dict-dir)
-  )
-;; [ auto-complete ]---------------------------------------------------[ End ]--
 
 
 ;; --[ Company ]----------------------------------------------------------------
@@ -1261,12 +1230,10 @@
 
 ;; [ vi ]------------------------------------------------------------------------
 (when section-vi
-    (add-site-lisp-load-path "evil/")
 ;;  (load "evil-conf")
-;;
+
 ;;  (load "viper-conf")
 
-    (add-site-lisp-load-path "vimpulse/")
 ;;  (require 'vimpulse)
 )
 ;; --------------------------------------------------------------------[ End ]--
@@ -1295,13 +1262,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; [ muse ]---------------------------------------------------------------------
-(when section-muse
-    (add-site-lisp-load-path "muse/lisp/")
-    (load "muse-conf"))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; [ ecb ]----------------------------------------------------------------------
 (when section-ecb
   (require 'ecb-conf))
@@ -1324,10 +1284,12 @@
 
 ;; Drag word
 ;; To drag a word. Place the cursor on the word and press <C-S-left> and <C-S-right>.
-; (add-site-lisp-load-path "drag-stuff/")
+
 (use-package drag-stuff
+  :ensure t
   :diminish  drag-stuff-mode
-  :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
+  :init
+  (add-hook 'after-init-hook #'drag-stuff-global-mode)
   :config
   (progn
     (add-to-list 'drag-stuff-except-modes 'org-mode)))
@@ -1337,6 +1299,7 @@
 ;; [ mmm-mode ]-----------------------------------------------------------------
 ;; Multiple Major Modes coexist in one buffer
 (use-package mmm-mode
+  :ensure t
   :disabled t
   :init
    (setq mmm-global-mode 'maybe)
@@ -1439,6 +1402,7 @@
 ;; [ CSV Mode ]-----------------------------------------------------------------
 ;; major mode for editing comma-separated value files
 (use-package csv-mode
+  :ensure t
   :mode ("\\.[Cc][Ss][Vv]\\'")
   :init (progn
          ;; field separators: a list of *single-character* strings
@@ -1484,36 +1448,19 @@
 
 ;;;; ================ ProgrammingModes ================
 ;;;
-;; [ HDL Mode ]-----------------------------------------------------------------
-(when section-hdl
-  (when section-verilog
-    ;; Verilog mode
-      ; (setq my-verilog-load-path (concat my-site-lisp-dir "verilog-mode/"))
-      ; (add-site-lisp-load-path "verilog-mode/")
-      ;; load verilog mode only when needed
-      ; (add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
-      ; (autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
-      (require 'verilog-conf)
-      )
+;; [ Verilog Mode ]-------------------------------------------------------------
+(when section-verilog
+  ;; Verilog mode
+  ; (setq my-verilog-load-path (concat my-site-lisp-dir "verilog-mode/"))
+  ;; load verilog mode only when needed
+  ; (add-to-list 'auto-mode-alist '("\\.[ds]?\\(v\\|vp\\)\\'" . verilog-mode))
+  ; (autoload 'verilog-mode "verilog-mode" "Verilog mode" t)
+  (require 'verilog-conf))
 
-  (when section-vlog
-      ;; Vlog mode: The verilog code maker
-      ; (setq my-vlog-load-path (concat my-site-lisp-dir "vlog-mode/"))
-      ; (add-site-lisp-load-path "vlog-mode/")
-      (require 'vlog-conf))
+;; Systemc mode
+(autoload 'systemc-mode "systemc-mode" "Mode for SystemC files." t)
+;; (add-hook 'systemc-mode-hook 'c++-mode-hook)
 
-  (when section-vhdl
-      ;; VHDL mode
-      (setq my-vhdl-load-path (concat my-site-lisp-dir "vhdl-mode/"))
-      (add-site-lisp-load-path "vhdl-mode/")
-      (add-site-lisp-info-path "vhdl-mode/")
-      (require 'vhdl-conf))
-
-  ;; Systemc mode
-  (autoload 'systemc-mode "systemc-mode" "Mode for SystemC files." t)
-  ;; (add-hook 'systemc-mode-hook 'c++-mode-hook)
-
-)
 ;; --------------------------------------------------------------------[ End ]--
 
 
@@ -1614,18 +1561,22 @@
 
 
 ;; plantuml-mode
-(require 'plantuml-mode)
-(setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
-
+(use-package plantuml-mode
+  :ensure t
+  :init
+  (setq plantuml-jar-path (expand-file-name (concat my-scripts-dir "/plantuml.jar")))
+)
 
 ;; Graphviz dot mode for emacs
 (use-package graphviz-dot-mode
-    :mode ("\\.\\(dot\\|gv\\)$" . org-mode))
+  :ensure t
+  :mode ("\\.\\(dot\\|gv\\)$" . org-mode))
 
 ;;;; ================ ProgrammingModes End ================
 
 ;; [ undo ]---------------------------------------------------------------------
 (use-package undo-tree
+  :ensure t
   :diminish undo-tree-mode
   :commands (redo undo)
   :init (add-hook 'after-init-hook #'global-undo-tree-mode)
@@ -1682,14 +1633,6 @@
 ;; --------------------------------------------------------------------[ End ]--
 
 
-;; --[ xcscope ]----------------------------------------------------------------
-(when linuxp
-  (when section-cscope
-    (add-site-lisp-load-path "xcscope/")
-    (load "xcscope-conf")))
-;; --------------------------------------------------------------------[ End ]--
-
-
 ;; --[ WanderLust ]-------------------------------------------------------------
 ;; Wanderlust is a mail/news management system with IMAP4rev1 support for Emacs.
 (use-package wl
@@ -1721,6 +1664,7 @@
 ; (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 ; (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 (use-package multiple-cursors
+  :ensure t
   :bind (("C->"         . mc/mark-next-like-this)
          ("C-<"         . mc/mark-previous-like-this)
          ("C-c C-<"     . mc/mark-all-like-this)
@@ -1761,6 +1705,7 @@
 
   ;; [ show tip ]---------------------------------------------------------------
   (use-package clippy
+    :ensure t
     :commands (clippy-describe-function
                clippy-describe-variable)
     )
@@ -1804,6 +1749,7 @@
 
 ;; sublimity : smooth-scrolling, minimap and distraction-free mode (inspired by the sublime editor)
 (use-package sublimity
+  :ensure t
   :config
   (sublimity-mode 1)
 )
@@ -1812,6 +1758,7 @@
 ;; Helpful is an alternative to the built-in Emacs help that provides
 ;; much more contextual information.
 (use-package helpful
+  :ensure t
   :bind (("C-h f"   . helpful-callable)
          ("C-h v"   . helpful-variable)
          ("C-h k"   . helpful-key)
@@ -1871,11 +1818,6 @@
 (when section-desktop
     (load "desktop-conf"))
 ;; --------------------------------------------------------------------[ End ]--
-
-
-;; [ workgroups2 ]--------------------------------------------------------------
-(require 'workgroups-conf)
-;; [ workgroups2 ]-----------------------------------------------------[ End ]--
 
 
 ;; [ diminish ]-----------------------------------------------------------------

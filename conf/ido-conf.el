@@ -1,9 +1,11 @@
 ;;
-;; ido
+;; Interactively Do Things
+;; http://emacswiki.org/emacs/InteractivelyDoThings
 ;;
 
 (use-package ido
-  :preface (progn
+  :preface
+  (progn
     ;; `defvar's to prevent compile warnings
     (defvar ido-cur-item               nil)
     (defvar ido-default-item           nil)
@@ -11,7 +13,8 @@
     (defvar inherit-input-method       nil)
     (defvar ido-cur-list               nil)
     (defvar ido-context-switch-command nil))
-  :init (progn
+  :init
+  (progn
     (setq ido-enable-flex-matching  t) ; enable fuzzy search
     (setq ido-everywhere            t)
     (setq ido-create-new-buffer     'always) ; create a new buffer if no buffer matches substring
@@ -54,7 +57,8 @@
     ;; do NOT look into other directories if the entered filename doesn't
     ;; exist in current directory
     (setq ido-auto-merge-work-directories-length nil))
-  :config (progn
+  :config
+  (progn
     ;; Disable ivy
     (with-eval-after-load 'ivy
       (ivy-mode -1))

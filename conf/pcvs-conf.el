@@ -33,4 +33,6 @@
   )
 )
 
+(provide 'pcvs-conf)
+
 ;; EOF

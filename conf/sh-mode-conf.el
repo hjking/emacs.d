@@ -18,7 +18,6 @@
          ("\\.bash\\'"                    . sh-mode)
          ("\\.bashrc.local\\'"            . sh-mode))
   :init
-   (progn
     (setq sh-basic-offset '8)
     (setq sh-indentation '8)
     (setq sh-indent-comment t)
@@ -29,4 +28,4 @@
                                 (tcsh . csh)))
     (setq sh-indent-for-case-label '0)
     (setq sh-indent-for-case-alt '+)
-    ))
+    )

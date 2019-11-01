@@ -131,8 +131,6 @@
 
 ;; (global-set-key "\M-{"              'hjking/insert-braces)
 (global-set-key [M-delete]          'kill-word)
-(global-set-key (kbd "<C-M-up>")    'move-line-up)  ; FIXME M-Up multiply bound!
-(global-set-key (kbd "<C-M-down>")  'move-line-down)
 
 ;;(global-set-key "\M-%"              'query-replace) ;; (default)
 (global-set-key (kbd "M-%")         'query-replace-regexp)

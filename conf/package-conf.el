@@ -4,11 +4,15 @@
 (require 'package)
 
 (setq package-archives '(
-                         ; ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ; ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
-                         ; ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("gnu" . "http://elpa.emacs-china.org/gnu/")
-                         ("melpa" . "http://elpa.emacs-china.org/melpa/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ;; emacs-china
+                         ; ("gnu" . "http://elpa.emacs-china.org/gnu/")
+                         ; ("melpa" . "http://elpa.emacs-china.org/melpa/")
+                         ;; 163
+                         ; ("gnu" . "https://mirrors.163.com/elpa/gnu/")
+                         ; ("melpa" . "https://mirrors.163.com/elpa/melpa/")
                          ))
 
 ;; org
@@ -45,7 +49,7 @@
     ; helm-projectile
     ; highlight-global
     ; mode-line-stats
-    ; plantuml-mode
+    plantuml-mode
     ; powerline
     ; smart-mode-line
     ; smartparens
@@ -63,6 +67,7 @@
     color-theme-solarized
     company
     company-c-headers
+    cool-moves
     counsel
     crux
     csv-mode
@@ -73,6 +78,8 @@
     dired-details+
     dired-sort-menu
     dired-sort-menu+
+    dired-subtree
+    dired-hacks-utils
     discover-my-major
     dracula-theme
     drag-stuff
@@ -99,9 +106,11 @@
     ido-hacks
     ido-ubiquitous
     ido-vertical-mode
+    ido-at-point
     indent-guide
     info+
     ivy-hydra
+    key-chord
     magit
     markdown-mode
     miniedit
@@ -122,6 +131,7 @@
     perspective
     popup
     popwin
+    pretty-mode
     projectile ; Better than fiplr
     rainbow-delimiters
     ranger ; Bringing the goodness of ranger to dired
@@ -137,6 +147,7 @@
     treemacs
     undo-tree
     use-package
+    verilog-mode
     visual-regexp
     visual-regexp-steroids
     volatile-highlights

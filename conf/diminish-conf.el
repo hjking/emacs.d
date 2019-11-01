@@ -101,3 +101,12 @@
   (diminish 'indent-guide-mode))
 
 (diminish 'isearch-mode)
+
+; (use-package diminish
+;   :ensure t
+;   :config
+;   (diminish 'abbrev-mode)
+;   (diminish 'auto-fill-function)
+;   (diminish 'auto-revert-mode)
+;   (diminish 'eldoc-mode)
+;   (diminish 'whitespace-mode))

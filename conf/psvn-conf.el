@@ -42,4 +42,6 @@
 (add-hook 'svn-log-edit-mode-hook 'my-svn-log-edit-mode-setup)
 (add-hook 'svn-log-edit-mode-hook 'my-svn-load-edit-mode-startup)
 
+(provide 'psvn-conf)
+
 ;; EOF

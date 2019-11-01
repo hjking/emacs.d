@@ -1,50 +1,33 @@
 ;; -*- lexical-binding: t -*-
 ;;
 
-;; auto-insert/close bracket pairs
-; (electric-pair-mode 1)
-; (setq electric-pair-pairs '(
-;                             (?\" . ?\")
-;                             (?\` . ?\`)
-;                             (?\( . ?\))
-;                             (?\{ . ?\})
-;                             ) )
-
-;; show paren
-; (setq show-paren-style 'parentheses)
-; (setq show-paren-style 'expression) ; highlight entire bracket expression
 (setq show-paren-delay 0) ; show matching paren immediately
 (show-paren-mode 1) ; turn on paren match highlighting
 
-;; smartparens
+;; Minor mode for Emacs that deals with parens
+;; pairs and tries to be smart about it
+;; https://github.com/Fuco1/smartparens
 (use-package smartparens
-  :disabled t
+  ; :disabled t
+  :ensure t
   :diminish smartparens-mode
   :diminish smartparens-strict-mode
   :config
    (require 'smartparens-config)
-   (smartparens-global-mode)
-   (smartparens-global-strict-mode)
-   (show-smartparens-global-mode)
-
-  ; ;;; markdown-mode
-  ; (sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  ;   (sp-local-pair "*" "*" :bind "C-*")
-  ;   (sp-local-tag "2" "**" "**")
-  ;   (sp-local-tag "s" "```scheme" "```")
-  ;   (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
-
-  ; ;;; lisp modes
-  ; (sp-with-modes sp--lisp-modes
-  ;   (sp-local-pair "(" nil :bind "C-("))
+   ; (smartparens-global-mode)
+   ; (smartparens-global-strict-mode)
+   ; (show-smartparens-global-mode)
+   (add-hook 'prog-mode-hook #'smartparens-strict-mode)
 )
 
 ;;
-;; rainbow-delimiters
+;; Emacs rainbow delimiters mode
+;; https://github.com/Fanael/rainbow-delimiters
 ;;
 ;; highlights parens, brackets, and braces according to their depth
 ;; enable in all programming-related modes (Emacs 24+)
 (use-package rainbow-delimiters
+  :ensure t
   :commands (rainbow-delimiters-mode)
   :init
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -60,22 +43,6 @@
   (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
 (add-hook 'verilog-mode-hook
   (function (lambda () (add-hook 'local-write-file-hooks 'check-parens))))
-
-
-; ;; SkeletonMode
-; (setq skeleton-pair t)
-; (setq skeleton-autowrap nil)
-; ;; (setq skeleton-pair-alist  '(
-; ;;     (?\(? _ ")")
-; ;;     (?\[? _ "]")
-; ;;     (?\{? _ "}")))
-; ;; Auto complete parentheses
-; (global-set-key (kbd "(")   'skeleton-pair-insert-maybe)
-; (global-set-key (kbd "{")   'skeleton-pair-insert-maybe)
-; (global-set-key (kbd "\"")  'skeleton-pair-insert-maybe)
-; (global-set-key (kbd "[")   'skeleton-pair-insert-maybe)
-; (global-set-key (kbd "<")   'skeleton-pair-insert-maybe)
-
 
 ;; [ highlight-parentheses ]----------------------------------------------------
 ;;  (message "%d: >>>>> Loading [ highlight-parentheses ] Customizations ...." step_no)

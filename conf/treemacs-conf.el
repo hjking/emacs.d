@@ -1,12 +1,13 @@
+
 (use-package treemacs
   :defer t
+  :disabled t
   :commands (treemacs
              treemacs-toggle
              treemacs-bookmark
              treemacs-find-file
              treemacs-select-window)
   :config
-  (progn
     (setq treemacs-follow-after-init          t
           treemacs-width                      35
           treemacs-indentation                2
@@ -21,7 +22,7 @@
           treemacs-goto-tag-strategy          'refetch-index)
 
     (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t))
+    (treemacs-filewatch-mode t)
   ; :bind
   ; (:map global-map
   ;       ([f8]         . treemacs-toggle)

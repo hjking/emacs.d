@@ -120,10 +120,13 @@
 (setq compilation-window-height 8)
 
 
-;; C/C++ Mode
+;; CC Mode is a GNU Emacs mode for editing files containing C, C++, Objective-C,
+;; Java, CORBA IDL (and the variants PSDL and CIDL), Pike and AWK code
+;; https://www.gnu.org/software/emacs/manual/html_mono/ccmode.html
 (use-package cc-mode
   :ensure nil
-  :init
+  :defer t
+  :config
   (add-hook 'c-mode-common-hook
             (lambda ()
               (c-set-style "bsd")

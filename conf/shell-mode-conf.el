@@ -57,14 +57,14 @@
 (use-package multi-term
   :commands (multi-term)
   ; :bind ("\M-t" . multi-term)
-  :init
+  :config
     (setq multi-term-switch-after-close nil)
     (defun term-mode-settings ()
       "Settings for term-mode"
       ; (make-local-variable 'scroll-margin)
       (setq-default scroll-margin 0)
     )
-  :config
+
     ;; Don't try to enable autopair in term-mode, it remaps the return key!
     (add-hook 'term-mode-hook
               (lambda ()

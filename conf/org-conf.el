@@ -620,6 +620,22 @@
                    :clock-in t
                    :clock-resume t))
     (add-to-list 'org-capture-templates
+                 '("tn"
+                   "NEXT"
+                   entry
+                   (file+headline hjking-todo-org-file "Inbox")
+                   "** NEXT %?\n   %^T\n"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
+                 '("tw"
+                   "WAITING"
+                   entry
+                   (file+headline hjking-todo-org-file "Inbox")
+                   "** WAITING %?\n   %^T\n"
+                   :clock-in t
+                   :clock-resume t))
+    (add-to-list 'org-capture-templates
                  '("tc"
                    "Phone Call"
                    entry
@@ -731,7 +747,7 @@
                    "Snippet"         ; name
                    entry             ; type
                    (file hjking-snippet-org-file)  ; target
-                   "* %^{Title} %^g :code:\n\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"  ; template
+                   "* %^{Title}\t %^g :code:\n\#+BEGIN_SRC %^{language}\n%?\n\#END_SRC"  ; template
                    :prepend t        ; properties
                    :empty-lines 1    ; properties
                    :created t        ; properties

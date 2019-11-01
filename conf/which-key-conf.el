@@ -5,7 +5,9 @@
 
 (use-package which-key
   :diminish which-key-mode
-  :init (progn
+  :ensure t
+  :defer 2
+  :config
     (add-hook 'after-init-hook 'which-key-mode)
     ;; Popup Type Options
     ;;; side window
@@ -66,8 +68,8 @@
           '(("\\`hydra-" . which-key-group-description-face)
             ;; Highlight using the default `which-key-highlighted-command-face'
             "\\(rectangle-\\)\\|\\(-rectangle\\)"
-            "\\`org-")))
-  :config (progn
+            "\\`org-"))
+
     ;; Change what string to display for a given *complete* key binding
     ;; Eg: After "C-x", display "8 → +unicode" instead of "8 → +prefix"
     (which-key-add-key-based-replacements
@@ -97,7 +99,7 @@
     ;(which-key-setup-minibuffer)
 
     (which-key-mode 1)
-    ))
+    )
 
 
 (provide 'which-key-conf)

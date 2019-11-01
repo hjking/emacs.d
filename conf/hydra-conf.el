@@ -877,10 +877,10 @@
     (defhydra hjking-hydra-verilog-mode-main (:foreign-keys warn :exit t :hint nil)
       "
           Verilog Mode
-      _a_: auto   _h_: Help  _q_: Quit
+      _a_: auto  _s_: skeleton  _h_: Help  _q_: Quit
       "
       ("a" hjking-hydra-verilog-mode-auto/body)
-      ; ("d" hjking-hydra-verilog-mode-diff/body)
+      ("s" hjking-hydra-verilog-mode-sk/body)
       ("h" verilog-faq)
       ("q" nil)
       )
@@ -902,6 +902,51 @@
       ("b" hjking-hydra-verilog-mode-main/body "Back"))
 
     ; (defhydra hjking-hydra-verilog-mode-diff (:foreign-keys warn :exit t :hint nil))
+
+;;; hydra-verilog-template
+    (defhydra hjking-hydra-verilog-mode-sk (:color blue  :hint nil)
+      "
+_i_nitial        _?_ if             _j_ fork           _A_ssign                _uc_ uvm-component
+_b_egin          _:_ else-if        _m_odule           _I_nput                 _uo_ uvm-object
+_a_lways         _f_or              _g_enerate         _O_utput
+^^               _w_hile            _p_rimitive        _=_ inout
+^^               _r_epeat           _s_pecify          _S_tate-machine         _h_eader
+^^               _c_ase             _t_ask             _W_ire                  _/_ comment
+^^               case_x_            _F_unction         _R_eg
+^^               case_z_            ^^                 _D_efine-signal
+"
+      ("a"   verilog-sk-always)
+      ("b"   verilog-sk-begin)
+      ("c"   verilog-sk-case)
+      ("f"   verilog-sk-for)
+      ("g"   verilog-sk-generate)
+      ("h"   verilog-sk-header)
+      ("i"   verilog-sk-initial)
+      ("j"   verilog-sk-fork)
+      ("m"   verilog-sk-module)
+      ("p"   verilog-sk-primitive)
+      ("r"   verilog-sk-repeat)
+      ("s"   verilog-sk-specify)
+      ("t"   verilog-sk-task)
+      ("w"   verilog-sk-while)
+      ("x"   verilog-sk-casex)
+      ("z"   verilog-sk-casez)
+      ("?"   verilog-sk-if)
+      (":"   verilog-sk-else-if)
+      ("/"   verilog-sk-comment)
+      ("A"   verilog-sk-assign)
+      ("F"   verilog-sk-function)
+      ("I"   verilog-sk-input)
+      ("O"   verilog-sk-output)
+      ("S"   verilog-sk-state-machine)
+      ("="   verilog-sk-inout)
+      ("uc"  verilog-sk-uvm-component)
+      ("uo"  verilog-sk-uvm-object)
+      ("W"   verilog-sk-wire)
+      ("R"   verilog-sk-reg)
+      ("D"   verilog-sk-define-signal)
+      ("q"   nil nil :color blue)
+      ("C-g" nil nil :color blue))
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; vhdl
@@ -1454,6 +1499,13 @@
     (define-key hjking-mode-map "T"  'hjking-hydra-timestamp/body)
     )
   )
+
+
+;; this package offers a better way to manage your major mode specific key bindings
+(use-package major-mode-hydra
+  :bind
+  ("C-M-m" . major-mode-hydra))
+
 
 (provide 'hydra-conf)
 
