@@ -16,8 +16,9 @@
   :init
    (setq yas-verbosity 1)
    (setq my-snippet-dir (concat my-site-lisp-dir "snippets/"))
-   (if (and  (file-exists-p my-snippet-dir) (not (member my-snippet-dir yas-snippet-dirs)))
-      (add-to-list 'yas-snippet-dirs my-snippet-dir))
+   ; (if (and  (file-exists-p my-snippet-dir) (not (member my-snippet-dir yas-snippet-dirs)))
+   ;    (add-to-list 'yas-snippet-dirs my-snippet-dir))
+   ; (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
 
    (setq yas-triggers-in-field t); Enable nested triggering of snippets
    (setq yas-prompt-functions '(yas-completing-prompt))

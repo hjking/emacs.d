@@ -30,15 +30,10 @@
 ;; https://github.com/Malabarba/aggressive-indent-mode
 ;; aggressive-indent-mode is a minor mode that keeps your code always indented.
 ;; It reindents after every change, making it more reliable than electric-indent-mode.
-
 (use-package aggressive-indent
   ; :disabled t
   :defer 2
   :diminish aggressive-indent-mode
-  :init
-  ; (global-aggressive-indent-mode 1)
-  ; (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
-  ; (add-hook 'prog-mode-hook #'aggressive-indent-mode)
   :config
     (unbind-key "C-c C-q" aggressive-indent-mode-map)
     (defvar hjking/aggressive-indent-mode-hooks '(emacs-lisp-mode-hook)

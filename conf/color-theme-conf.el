@@ -10,43 +10,41 @@
 (setq step_no (1+ step_no))
 
 (use-package molokai-theme
-    :disabled t
-    :init
-     (load-theme 'molokai t))
+  :disabled t
+  :config
+  (load-theme 'molokai t))
 
 (use-package monokai-theme
-    :disabled t
-    :init
-    (setq monokai-use-variable-pitch nil
-          monokai-height-minus-1 1.0
-          monokai-height-plus-1 1.0
-          monokai-height-plus-2 1.0
-          monokai-height-plus-3 1.0
-          monokai-height-plus-4 1.0)
-    (load-theme 'monokai t))
+  :disabled t
+  :config
+  (setq monokai-use-variable-pitch nil
+        monokai-height-minus-1 1.0
+        monokai-height-plus-1 1.0
+        monokai-height-plus-2 1.0
+        monokai-height-plus-3 1.0
+        monokai-height-plus-4 1.0)
+  (load-theme 'monokai t))
 
 (use-package color-theme-sanityinc-tomorrow
   :disabled t
-  :init
-  (progn
-    (load-theme 'sanityinc-tomorrow-night t)))
+  :config
+  (load-theme 'sanityinc-tomorrow-night t))
 
 (use-package dracula-theme
-  :init
-  (progn
-    (load-theme 'dracula t)))
+  :ensure t
+  :config
+  (load-theme 'dracula t))
 
 (use-package solarized-theme
   :defer t
   :disabled t
-  :init
-  (progn
-    (setq solarized-high-contrast-mode-line t)
-    (load-theme 'solarized-dark t)))
+  :config
+  (setq solarized-high-contrast-mode-line t)
+  (load-theme 'solarized-dark t))
 
 (use-package zenburn
-    :disabled t
-    :init
-     (load-theme 'zenburn t))
+  :disabled t
+  :config
+  (load-theme 'zenburn t))
 
 (provide 'color-theme-conf)

@@ -96,7 +96,6 @@
     gnuplot-mode
     google-c-style
     gotham-theme
-    goto-last-change
     graphviz-dot-mode
     header2
     helpful

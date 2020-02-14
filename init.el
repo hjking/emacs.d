@@ -1024,7 +1024,7 @@
   ; (require 'ranger-conf)
 
   ;; emacs tree plugin like NERD tree for Vim
-  ; (require 'neotree-conf)
+  (require 'neotree-conf)
 
   (require 'treemacs-conf)
   )
