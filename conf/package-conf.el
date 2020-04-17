@@ -4,15 +4,15 @@
 (require 'package)
 
 (setq package-archives '(
-                         ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ; ("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ; ("marmalade" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/marmalade/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ; ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ;; emacs-china
                          ; ("gnu" . "http://elpa.emacs-china.org/gnu/")
                          ; ("melpa" . "http://elpa.emacs-china.org/melpa/")
                          ;; 163
-                         ; ("gnu" . "https://mirrors.163.com/elpa/gnu/")
-                         ; ("melpa" . "https://mirrors.163.com/elpa/melpa/")
+                         ("gnu" . "https://mirrors.163.com/elpa/gnu/")
+                         ("melpa" . "https://mirrors.163.com/elpa/melpa/")
                          ))
 
 ;; org
@@ -96,6 +96,7 @@
     gnuplot-mode
     google-c-style
     gotham-theme
+    goto-last-change
     graphviz-dot-mode
     header2
     helpful
@@ -146,7 +147,6 @@
     treemacs
     undo-tree
     use-package
-    verilog-mode
     visual-regexp
     visual-regexp-steroids
     volatile-highlights

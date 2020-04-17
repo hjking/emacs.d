@@ -1,7 +1,6 @@
 
 (use-package treemacs
   :defer t
-  :disabled t
   :commands (treemacs
              treemacs-toggle
              treemacs-bookmark
