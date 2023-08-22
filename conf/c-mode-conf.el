@@ -137,6 +137,17 @@
               (local-set-key "\C-cc" 'compile))))
 
 
+;; Auto-completion for C/C++ headers using Company
+;; https://github.com/randomphrase/company-c-headers
+(use-package company-c-headers
+  :defer t
+  :init
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode)
+                  (add-to-list 'company-backends 'company-c-headers)))))
+
+
 ;; use google-c-style
 (require 'google-c-style)
 (add-hook 'c-mode-common-hook 'google-set-c-style)
