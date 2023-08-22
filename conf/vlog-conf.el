@@ -3,7 +3,7 @@
 ;; Description: Setting for vlog-mode.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-22 10:00
-;; Last Updated: 2014-02-10 14:15:35
+;; Last Updated: 2023-08-22 08:33:26
 
 (use-package vlog-mode
   :load-path (lambda () (concat my-site-lisp-dir "vlog-mode/"))
@@ -36,7 +36,7 @@
   //
   //  File     : %<filename>
   //  Author   : %<author>
-  //  EMail    : hongjin@fiberhome.com.cn
+  //  EMail    : xxx@xxx.com
   //  Created  : %<time %Y-%m-%d %02H:%02M:%02S>
   //  Last Changed : %<time %Y-%m-%d %02H:%02M:%02S>
   //  Description : %<_>
@@ -48,7 +48,7 @@
   // ----------------------------------------------------------------------\n")
 
   (setq vlog-skel-user-name    "Hong Jin"
-        vlog-skel-company-name "Fiberhome Telecommunication Technology Co., Ltd.")
+        vlog-skel-company-name "XXX Technology Co., Ltd.")
 
   :config
   (setq vlog-mode-keywordset-docs

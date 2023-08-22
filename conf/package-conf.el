@@ -21,7 +21,8 @@
 ;; Load and activate emacs packages. Do this first so that the
 ;; packages are loaded before you start trying to modify them.
 ;; This also sets the load path.
-(package-initialize)
+(when (< emacs-major-version 27)
+  (package-initialize))
 
 ;; Download the ELPA archive description if needed.
 ;; This informs Emacs about the latest versions of all packages, and
@@ -55,6 +56,7 @@
     ; smartparens
     ; smex
     ; web-mode
+    dash
     ace-window
     aggressive-indent
     async
@@ -67,7 +69,6 @@
     color-theme-solarized
     company
     company-c-headers
-    cool-moves
     counsel
     crux
     csv-mode
@@ -155,6 +156,14 @@
     wttrin ; weather
     zenburn-theme
     ztree
+    neotree
+    darktooth-theme
+    major-mode-hydra
+    anaconda-mode
+    company-anaconda
+    ivy-rich
+    solarized-theme
+    org-kanban
   )
 "A list of packages to ensure are installed at launch.")
 
@@ -191,6 +200,6 @@
     (prelude-require-packages my-packages)))
 
 ;; run package installation, install packages in `my-packages automatically
-; (prelude-install-packages)
+(prelude-install-packages)
 
 (provide 'package-conf)
