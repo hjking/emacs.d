@@ -3,7 +3,7 @@
 ;; Description: Setting for header2.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2012-01-11 10:26:45
+;; Last Updated: 2023-08-22 08:42:20
 ;;
 
 (use-package header2
@@ -35,7 +35,7 @@
       (dolist (hook hjking/auto-headers-hooks)
         (remove-hook hook #'auto-make-header)))
 
-    (setq header-copyright-notice "Copyright (c) 2016, Fiberhome Telecommunication Technology Co., Ltd.\nMicroelectronics Dept. All rights reserved.\n")
+    (setq header-copyright-notice "XXX Technology Co., Ltd. All rights reserved.\n")
     (setq header-author 'user-full-name)
     (setq header-file-name 'buffer-file-name)
     (setq header-creation-date 'current-time-string)

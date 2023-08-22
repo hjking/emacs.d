@@ -3,7 +3,7 @@
 ;; Description: Setting for verilog.el
 ;; Author: Hong Jin
 ;; Created: 2010-12-09 10:00
-;; Last Updated: 2014-02-10 14:14:55
+;; Last Updated: 2023-08-22 08:41:23
 
 (use-package verilog-mode
   ; :load-path (lambda () (concat my-site-lisp-dir "verilog-mode/"))
@@ -33,7 +33,7 @@
     (setq verilog-date-scientific-format   t)   ; t
     (setq verilog-auto-wire-type           "wire")
     ;; Personal
-    (setq verilog-company     "Fiberhome Tech (Wuhan) Co.,Ltd")
+    (setq verilog-company     "XXX Co.,Ltd")
     (setq verilog-linter      "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
     (setq verilog-compiler    "vcs +v2k -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
     (setq verilog-simulator   "vcs +v2k  -R -PP -Mupdate -P /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/vcsd.tab /cadtools/novas/Novas-201001/share/PLI/vcsd_latest/LINUX/pli.a +vcsd +vcsd +incdir+.")
