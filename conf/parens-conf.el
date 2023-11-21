@@ -29,8 +29,8 @@
 (use-package rainbow-delimiters
   :ensure t
   :commands (rainbow-delimiters-mode)
-  :init
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
 ;; use Emacs-wide
 ;; (global-rainbow-delimiters-mode)
 

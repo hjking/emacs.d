@@ -75,13 +75,14 @@
 
 ;;--------------- ace-window -----------------------------------------
 (use-package ace-window
+  :ensure t
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   ;; Autoload
   :commands (ace-window)
   :bind (("C-x o" . ace-window))
   :config
-  (ace-window-display-mode 1)
+    (ace-window-display-mode 1)
   )
 
 ;;---------------------------------------------------------------------

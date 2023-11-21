@@ -181,8 +181,8 @@ fringes.")
 
 
 ;; display line number at the left side of each window
-(if is-after-emacs-23
-    (global-linum-mode 1))
+; (if is-after-emacs-23
+;     (global-linum-mode 1))
 (setq display-line-number-format "%3d ")
 (setq line-number-display-limit 100000)
 ;; line-num face setting

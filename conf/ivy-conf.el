@@ -6,37 +6,39 @@
 
 ;; Ivy / Counsel replace a lot of ido or helms completion functionality
 (use-package ivy
+  :ensure t
   :diminish ivy-mode ; does not display ivy in the modeline
-  :init (progn
-          (ivy-mode 1)        ; enable ivy globally at startup
-          ;; show recently killed buffers when calling `ivy-switch-buffer'
-          ;; extend searching to bookmarks and …
-          (setq ivy-use-virtual-buffers t)
-          (setq ivy-initial-inputs-alist nil) ; don't need start with ^
-          (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
-          (setq ivy-count-format "(%d/%d) ") ; count format, from the ivy help page
-          ; (setq ivy-display-style 'fancy)
-          ; (setq ivy-re-builders-alist
-          ;  '((ivy-switch-buffer . ivy--regex-plus)
-          ;    (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
-          ; (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
-          ;; Always ignore buffers set in `ivy-ignore-buffers'
-          (setq ivy-use-ignore-default 'always)
-          ;; Ignore some buffers in `ivy-switch-buffer'
-          (setq ivy-ignore-buffers '("company-statistics-cache.el"))
-        )
+  :init
+    (ivy-mode 1)        ; enable ivy globally at startup
+    (counsel-mode 1)
+  :config
+    ;; show recently killed buffers when calling `ivy-switch-buffer'
+    ;; extend searching to bookmarks and …
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-initial-inputs-alist nil) ; don't need start with ^
+    (setq ivy-virtual-abbreviate 'full) ; Show the full virtual file paths
+    (setq ivy-count-format "(%d/%d) ") ; count format, from the ivy help page
+    ; (setq ivy-display-style 'fancy)
+    ; (setq ivy-re-builders-alist
+    ;  '((ivy-switch-buffer . ivy--regex-plus)
+    ;    (t . ivy--regex-fuzzy))) ; (t . ivy--regex-plus)
+    ; (setq ivy-initial-inputs-alist nil)  ; if fuzzy with flx, no need the initial ^
+    ;; Always ignore buffers set in `ivy-ignore-buffers'
+    (setq ivy-use-ignore-default 'always)
+    ;; Ignore some buffers in `ivy-switch-buffer'
+    (setq ivy-ignore-buffers '("company-statistics-cache.el"))
   :bind (("C-c C-r"  . ivy-resume)
          ("C-x b"    . ivy-switch-buffer))
   ;        (:map ivy-mode-map  ("C-'" . ivy-avy))) ; bind in the ivy buffer C-' to ivy-avy
-  :config (progn
-           ;; Disable ido
-           (with-eval-after-load 'ido
-             (ido-mode -1))
-           (ivy-mode 1))
+    ;; Disable ido
+    ; (with-eval-after-load 'ido
+    ;  (ido-mode -1))
+    ; (ivy-mode 1)
  )
 
 ;; Swiper gives us a really efficient incremental search with regular expressions
 (use-package swiper
+  :ensure t
   :after ivy
   :commands (swiper
              swiper-all
@@ -52,6 +54,7 @@
 
 ;; Replace smex
 (use-package counsel
+  :ensure t
   :after ivy
   :diminish ivy-mode counsel-mode
   :bind (("M-x"     . counsel-M-x)       ; M-x use counsel
@@ -87,6 +90,7 @@
   )
 
 (use-package ivy-rich
+  :ensure t
   :defer 6
   :after ivy
   :config

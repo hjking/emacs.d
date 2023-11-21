@@ -345,7 +345,7 @@
 ;; dash
 (require 'dash)
 (with-eval-after-load 'dash
-  (dash-enable-font-lock))
+                      (dash-enable-font-lock))
 
 ;; use-package
 (unless (package-installed-p 'use-package)
@@ -355,6 +355,7 @@
   (require 'use-package))
 (setq use-package-verbose t)
 ; (setq use-package-always-ensure t)
+
 
 ;; Diminished modes are minor modes with no modeline display
 (use-package diminish
@@ -638,14 +639,14 @@
 ;; set mode-line-format
 ; (require 'mode-line-conf)
 
-(use-package spaceline
-  :demand t
-  :init
-   (setq powerline-default-separator 'arrow-fade)
-  :config
-   (require 'spaceline-config)
-   (spaceline-spacemacs-theme)
-   (spaceline-helm-mode))
+; (use-package spaceline
+;   :demand t
+;   :init
+;    ;(setq powerline-default-separator 'arrow-fade)
+;   :config
+;    (require 'spaceline-config)
+;    (spaceline-spacemacs-theme)
+;    (spaceline-helm-mode))
 
 ;; --[ Mode Line ]-----------------------------------------------------[ End ]--
 
@@ -1763,6 +1764,16 @@
          ("C-h v"   . helpful-variable)
          ("C-h k"   . helpful-key)
          ("C-c C-." . helpful-at-point)))
+
+(use-package amx
+  :ensure t
+  :init (amx-mode))
+
+
+(use-package good-scroll
+  :ensure t
+  :if window-system          ; use in GUI
+  :init (good-scroll-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ==== Define Function ====
